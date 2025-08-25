@@ -779,6 +779,134 @@ functions.gatherData = async function (msg) {
     }
 }
 
+functions.chat = async function (stim, msg, {
+    temperature = 1,
+    instruct = vars.chatInstruct,
+    clear = false,
+    useTools = false,
+    errorMsg = "Error while generating AI21 chat message."
+}) {
+    let poopy = this
+    let {
+        tempdata
+    } = poopy
+    let {
+        userToken,
+        fetchPingPerms
+    } = poopy.functions
+    let {
+        axios,
+        fs,
+        Discord
+    } = poopy.modules
+    let vars = poopy.vars
+    let config = poopy.config
+
+    if (!tempdata[msg.guild.id]) tempdata[msg.guild.id] = {}
+    if (!tempdata[msg.guild.id][msg.channel.id]) tempdata[msg.guild.id][msg.channel.id] = {}
+    if (!tempdata[msg.guild.id][msg.channel.id][msg.author.id]) tempdata[msg.guild.id][msg.channel.id][msg.author.id] = {}
+
+    var contexts = tempdata[msg.guild.id][msg.channel.id][msg.author.id].chatContexts
+    if (!contexts) contexts = tempdata[msg.guild.id][msg.channel.id][msg.author.id].chatContexts = {}
+
+    var ourContext = contexts[instruct]
+    if (!ourContext || (Date.now() - ourContext.lastMessage) > 1000 * 60 * 10 || clear) ourContext = contexts[instruct] = {
+        history: [{
+            role: "system",
+            content: instruct
+        }]
+    }
+
+    ourContext.lastMessage = Date.now()
+
+    var ourHistory = ourContext.history
+
+    ourHistory.push({
+        role: "user",
+        content: stim
+    })
+
+    var resp,
+    data,
+    message
+
+    async function makeChatRequest() {
+        const requestData = {
+            model: "jamba-large-1.7",
+            messages: ourHistory,
+            temperature: temperature,
+            top_p: 1
+        }
+
+        if (useTools) tools = vars.chatToolData
+
+        resp = await axios({
+            url: `https://api.ai21.com/studio/v1/chat/completions`,
+            method: 'POST',
+            data: {
+                model: "jamba-large-1.7",
+                messages: ourHistory,
+                tools: vars.chatToolData,
+                temperature: temperature,
+                top_p: 1
+            },
+            headers: {
+                Authorization: `Bearer ${userToken(msg.author.id, 'AI21_KEY')}`
+            }
+        }).catch((e) => console.log(e))
+
+        data = resp?.data?.choices?.[0]
+        message = data?.message
+
+        if (!message) return
+
+        ourHistory.push(message)
+    }
+
+    await makeChatRequest()
+    if (!message) return errorMsg
+
+    if (message.tool_calls) {
+        for (const toolCall of message.tool_calls) {
+            const functionName = toolCall.function.name
+            const functionArgs = JSON.parse(toolCall.function.arguments)
+
+            const toolFunction = vars.chatTools[functionName].func
+            const functionResult = await toolFunction(poopy, msg, functionArgs)
+
+            ourHistory.push({
+                role: "tool",
+                tool_call_id: toolCall.id,
+                content: JSON.stringify(functionResult)
+            })
+        }
+
+        await makeChatRequest()
+        if (!message) return errorMsg
+    }
+
+    var tokenAmount = resp.data.usage.total_tokens
+
+    if (tokenAmount > 200000) ourHistory.slice(1, 1) // what was this for? limits??
+
+    var first = true
+    var content = (message.content ?? "").replace(
+        /((?:!\[[^\]]*]|\[[^\]]*])\([^)]*\))(?!\s|$)/g,
+        '$1 '
+    )
+
+    content = content.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, text, url) => {
+        if (first) {
+            first = false
+            return match
+        }
+
+        return `[${text}](<${url}>)`
+    })
+    
+    return content
+}
+
 functions.cleverbot = async function (stim, msg, clear) {
     let poopy = this
     let vars = poopy.vars
