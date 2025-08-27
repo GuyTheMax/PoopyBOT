@@ -135,7 +135,7 @@ module.exports = {
     },
     help: {
         name: 'twitterban "{message}" "{nickname}" "{username}" {file}',
-        value: 'banned for hating Pan | They/Them | #BLM | #ACAB | #GAYRIGHTS | #ProudPansexual | #ProudNon-Binary | #LGBTQRIGHTS | Hates Straights'
+        value: 'banned for having an opinion'
     },
     cooldown: 2500,
     type: 'Memes'
