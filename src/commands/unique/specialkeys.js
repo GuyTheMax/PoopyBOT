@@ -1,12 +1,21 @@
 module.exports = {
     name: ['specialkeys', 'keywords', 'functions'],
-    args: [],
+    args: [{
+        "name": "page", "required": false, "specifarg": false, "orig": "[-page]"
+    }],
     execute: async function (msg) {
         let poopy = this
         let config = poopy.config
         let bot = poopy.bot
         let { navigateEmbed } = poopy.functions
         let vars = poopy.vars
+
+        var page = 1
+        var pageindex = args.indexOf('-page')
+        if (pageindex > -1) {
+            page = isNaN(Number(args[pageindex + 1])) ? 1 : Number(args[pageindex + 1]) <= 1 ? 1 : Math.round(Number(args[pageindex + 1])) || 1
+            args.splice(pageindex, 2)
+        }
 
         var dmChannel = await msg.author.createDM().catch(() => { })
 
@@ -44,6 +53,8 @@ module.exports = {
                     return
                 })
 
+                var keyPage = Math.min(page, vars.keyfields.length)
+
                 await navigateEmbed(dmChannel, async (page) => {
                     if (config.textEmbeds) return `${vars.keyfields[page - 1].map(k => `\`${k.name}\`\n> ${k.value}`).join('\n').replace(new RegExp(vars.validUrl, 'g'), (url) => `<${url}>`)}\n\nPage ${page}/${vars.keyfields.length}`
                     else return {
@@ -56,10 +67,12 @@ module.exports = {
                         },
                         "fields": vars.keyfields[page - 1]
                     }
-                }, vars.keyfields.length, msg.author.id, undefined, undefined, undefined, true, undefined, undefined, true).catch(async () => {
+                }, vars.keyfields.length, msg.author.id, undefined, keyPage, undefined, true, undefined, undefined, true).catch(async () => {
                     await msg.reply('Couldn\'t send keywords to you. Do you have me blocked?').catch(() => { })
                     return
                 })
+                
+                var funcPage = Math.min(page, vars.funcfields.length)
 
                 await navigateEmbed(dmChannel, async (page) => {
                     if (config.textEmbeds) return `${vars.funcfields[page - 1].map(k => `\`${k.name}\`\n> ${k.value}`).join('\n').replace(new RegExp(vars.validUrl, 'g'), (url) => `<${url}>`)}\n\nPage ${page}/${vars.keyfields.length}`
@@ -73,7 +86,7 @@ module.exports = {
                         },
                         "fields": vars.funcfields[page - 1]
                     }
-                }, vars.funcfields.length, msg.author.id, undefined, undefined, undefined, true, undefined, undefined, true).catch(async () => {
+                }, vars.funcfields.length, msg.author.id, undefined, funcPage, undefined, true, undefined, undefined, true).catch(async () => {
                     await msg.reply('Couldn\'t send functions to you. Do you have me blocked?').catch(() => { })
                     return
                 })
@@ -87,7 +100,7 @@ module.exports = {
         }
     },
     help: {
-        name: 'specialkeys/keywords/functions',
+        name: 'specialkeys/keywords/functions [-page]',
         value: 'DMs you a list of special keywords that can be used for all commands, and some info about them.'
     },
     cooldown: 2500,
