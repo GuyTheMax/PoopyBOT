@@ -3,11 +3,17 @@ module.exports = {
     args: [{ "name": "message", "required": true, "specifarg": false, "orig": "<message>" }, { "name": "nodelete", "required": false, "specifarg": true, "orig": "[-nodelete]" }, { "name": "tts", "required": false, "specifarg": true, "orig": "[-tts]" }],
     execute: async function (msg, args) {
         let poopy = this
+        let config = poopy.config
         let { Discord, DiscordTypes } = poopy.modules
         let { fetchPingPerms } = poopy.functions
 
         await msg.channel.sendTyping().catch(() => { })
-        var del = true
+        var del = (
+            msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageMessages) ||
+            msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.Administrator) ||
+            msg.author.id === msg.guild.ownerID ||
+            (config.ownerids.find(id => id == msg.author.id))
+        )
         var deleteIndex = args.indexOf('-nodelete')
         if (deleteIndex > -1) {
             args.splice(deleteIndex, 1)
@@ -23,7 +29,7 @@ module.exports = {
         var attachments = msg.attachments.map(attachment => new Discord.AttachmentBuilder(attachment.url, attachment.name))
         if (args[1] === undefined && attachments.length <= 0 && msg.stickers.size <= 0) {
             await msg.reply('What is the message to say?!').catch(() => { })
-            return;
+            return
         };
         var sendObject = {
             allowedMentions: {
@@ -31,7 +37,11 @@ module.exports = {
             },
             files: attachments,
             stickers: msg.stickers,
-            tts: (msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.Administrator) || msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.SendTTSMessages) || msg.author.id === msg.guild.ownerID) && tts
+            tts: (
+                msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.Administrator) ||
+                msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.SendTTSMessages) ||
+                msg.author.id === msg.guild.ownerID
+            ) && tts
         }
         if (saidMessage) {
             sendObject.content = saidMessage
