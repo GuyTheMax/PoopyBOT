@@ -1,5 +1,5 @@
 module.exports = {
-    name: ['shit'],
+    name: ['oil'],
     args: [{
         "name": "type", "required": false, "specifarg": true, "orig": "[-type <extension (image/video/gif)>]", "autocomplete": [
             'image',
@@ -34,8 +34,8 @@ module.exports = {
         return shit
     },
     help: {
-        name: 'shit [-type <extension (image/video/gif)>]',
-        value: 'shit'
+        name: 'oil [-type <extension (image/video/gif)>]',
+        value: 'oil folder'
     },
     cooldown: 2500,
     type: 'Inside Joke'
