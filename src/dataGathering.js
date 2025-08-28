@@ -3,7 +3,6 @@ const schemas = require('./schemas')
 
 let connected = false
 
-// Object to store promises for currently fetching data
 const pendingFetches = {
     botData: new Map(),
     userData: new Map(),
