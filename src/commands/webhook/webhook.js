@@ -27,13 +27,13 @@ module.exports = {
     {
         "name": "text",
         "required": false,
-        "specifarg": true,
+        "specifarg": false,
         "orig": "\"{text}\""
     },
     {
         "name": "image",
         "required": false,
-        "specifarg": true,
+        "specifarg": false,
         "orig": "{image}"
     }],
     execute: async function (msg, args) {
