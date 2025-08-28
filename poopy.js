@@ -337,8 +337,20 @@ class Poopy {
             )
 
             builder.addStringOption(option =>
-                option.setName('extrapayload')
+                option.setName('extraPayload')
                     .setDescription('Extra payload you can specify for the command.')
+                    .setRequired(false)
+            )
+
+            builder.addAttachmentOption(option =>
+                option.setName('extraAttachment1')
+                    .setDescription('Extra attachment you can specify for the command.')
+                    .setRequired(false)
+            )
+
+            builder.addAttachmentOption(option =>
+                option.setName('extraAttachment2')
+                    .setDescription('Extra attachment you can specify for the command.')
                     .setRequired(false)
             )
         }
@@ -1555,18 +1567,18 @@ class Poopy {
                             return
                         } // regular command
 
-                        var cmdargs = findCmd.args
+                        var cmdArgs = findCmd.args
 
                         var prefix = data.guildData[interaction.guild?.id]?.prefix ?? config.globalPrefix
-                        var argcontent = []
+                        var argContent = []
 
-                        var extracontent = interaction.options.getString('extrapayload') ?? ''
+                        var extraContent = interaction.options.getString('extraPayload') ?? ''
 
-                        for (var i in cmdargs) {
-                            var cmdarg = cmdargs[i]
-                            var value = interaction.options.getString(cmdarg.name.toLowerCase())
+                        for (var i in cmdArgs) {
+                            var cmdArg = cmdArgs[i]
+                            var value = interaction.options.getString(cmdArg.name.toLowerCase())
                             if (value != null) {
-                                if (cmdarg.orig.match(/^"([\s\S]*?)"$/)) {
+                                if (cmdArg.orig.match(/^"([\s\S]*?)"$/)) {
                                     vars.symbolreplacements.forEach(symbolReplacement => {
                                         symbolReplacement.target.forEach(target => {
                                             value = value.replace(new RegExp(target, 'ig'), symbolReplacement.replacement)
@@ -1574,26 +1586,35 @@ class Poopy {
                                     })
                                     value = `"${value.replace(/"/g, "''")}"`
                                 }
-                                argcontent[i] = (`${cmdarg.specifarg ? `-${cmdarg.name}` : ''} ${!(cmdarg.specifarg && cmdarg.orig == `[-${cmdarg.name}]`) ? value : ''}`).trim()
+                                argContent[i] = (`${cmdArg.specifarg ? `-${cmdArg.name}` : ''} ${!(cmdarg.specifarg && cmdarg.orig == `[-${cmdarg.name}]`) ? value : ''}`).trim()
                             }
                         }
 
-                        argcontent = argcontent.flat().join(' ')
+                        argContent = argContent.flat().join(' ')
 
                         var content = [cmd]
 
-                        if (argcontent) content.push(argcontent)
-                        if (extracontent) content.push(extracontent)
+                        if (argContent) content.push(argContent)
+                        if (extraContent) content.push(extraContent)
 
                         content = content.join(' ')
+
+                        var extraAttachments = {}
+
+                        for (var i = 1; i <= 2; i++) {
+                            var extraAttachment = interaction.options.getAttachment(`extraAttachment${i}`)
+                            if (extraAttachment) {
+                                extraAttachments[extraAttachment.id] = extraAttachment
+                            }
+                        }
 
                         if (!findCmd.nodefer) await interaction.deferReply().catch(() => { })
 
                         interaction.content = `${prefix}${content}`
                         interaction.author = interaction.user
                         interaction.bot = false
-                        interaction.attachments =
-                            interaction.stickers = new Collection()
+                        interaction.attachments = new Collection(Object.entries(extraAttachments))
+                        interaction.stickers = new Collection()
                         interaction.embeds = []
                         interaction.mentions = {
                             users: new Collection(),
