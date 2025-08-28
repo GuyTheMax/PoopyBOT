@@ -14,6 +14,10 @@ const pendingFetches = {
     globalData: new Map()
 }
 
+function getCacheKey(...args) {
+    return args.join(':')
+}
+
 async function withRaceConditionProtection(type, key, fetchFunction) {
     if (pendingFetches[type].has(key)) {
         return pendingFetches[type].get(key)
