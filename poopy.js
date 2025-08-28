@@ -337,19 +337,19 @@ class Poopy {
             )
 
             builder.addStringOption(option =>
-                option.setName('extraPayload')
+                option.setName('extrapayload')
                     .setDescription('Extra payload you can specify for the command.')
                     .setRequired(false)
             )
 
             builder.addAttachmentOption(option =>
-                option.setName('extraAttachment1')
+                option.setName('extraattachment1')
                     .setDescription('Extra attachment you can specify for the command.')
                     .setRequired(false)
             )
 
             builder.addAttachmentOption(option =>
-                option.setName('extraAttachment2')
+                option.setName('extraattachment2')
                     .setDescription('Extra attachment you can specify for the command.')
                     .setRequired(false)
             )
@@ -1572,7 +1572,7 @@ class Poopy {
                         var prefix = data.guildData[interaction.guild?.id]?.prefix ?? config.globalPrefix
                         var argContent = []
 
-                        var extraContent = interaction.options.getString('extraPayload') ?? ''
+                        var extraContent = interaction.options.getString('extrapayload') ?? ''
 
                         for (var i in cmdArgs) {
                             var cmdArg = cmdArgs[i]
@@ -1602,7 +1602,7 @@ class Poopy {
                         var extraAttachments = {}
 
                         for (var i = 1; i <= 2; i++) {
-                            var extraAttachment = interaction.options.getAttachment(`extraAttachment${i}`)
+                            var extraAttachment = interaction.options.getAttachment(`extraattachment${i}`)
                             if (extraAttachment) {
                                 extraAttachments[extraAttachment.id] = extraAttachment
                             }
