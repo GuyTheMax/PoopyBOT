@@ -292,11 +292,13 @@ vars.dataTemplate = {
 }
 vars.tempdataTemplate = {
     guildId: {
+        messages: [],
+        
         channelId: {
             shutUp: false,
             forceResponse: undefined,
 
-            webhooks: [],
+            webhooks: undefined,
             cleverContext: {},
 
             userId: {
@@ -304,8 +306,7 @@ vars.tempdataTemplate = {
                 chatContexts: {}
             }
         },
-        userId: {},
-        messages: []
+        userId: {}
     },
     userId: {
         mentions: 0,
