@@ -671,7 +671,7 @@ functions.gatherData = async function (msg) {
     let tempdata = poopy.tempdata
     let vars = poopy.vars
 
-    let { dataGather, reconcileDataWithTemplate } = poopy.functions
+    let { dataGather, reconcileDataWithTemplate, decrypt } = poopy.functions
 
     var now = Date.now()
     var webhook = msg.webhookId || (msg.author.bot && !msg.author.flags)
