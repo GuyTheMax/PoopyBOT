@@ -88,14 +88,14 @@ for (var Discord of modules.Discord) {
 
         const channelData = tempdata[channel.guild?.id]?.[channel.id]
 
-        if (channelData?.shut) return
-        if (channelData?.forceres && (typeof payload == 'object' ? (
+        if (channelData?.shutUp) return
+        if (channelData?.forceResponse && (typeof payload == 'object' ? (
             payload.content ||
             payload.files || payload.embeds ||
             payload.stickers
-        ) : payload) && !channelData.forceres.repliesonly) {
-            var forceres = channelData.forceres
-            delete channelData.forceres
+        ) : payload) && !channelData.forceResponse.repliesOnly) {
+            var forceres = channelData.forceResponse
+            delete channelData.forceResponse
 
             var content = typeof payload == 'object' ? (payload.content ?? '') : payload
             var msg = forceres.msg
@@ -110,7 +110,7 @@ for (var Discord of modules.Discord) {
                 }
             }).catch(() => { }) ?? forceres.res
 
-            if (forceres.persist && !channelData.forceres) channelData.forceres = forceres
+            if (forceres.persist && !channelData.forceResponse) channelData.forceResponse = forceres
 
             switch (typeof payload) {
                 case 'string':
@@ -149,14 +149,14 @@ for (var Discord of modules.Discord) {
 
         const channelData = tempdata[message.guild?.id]?.[message.channel.id]
 
-        if (channelData?.shut) return
-        if (channelData?.forceres && (typeof payload == 'object' ? (
+        if (channelData?.shutUp) return
+        if (channelData?.forceResponse && (typeof payload == 'object' ? (
             payload.content ||
             payload.files || payload.embeds ||
             payload.stickers
-        ) : payload) && !channelData.forceres.repliesonly) {
-            var forceres = channelData.forceres
-            delete channelData.forceres
+        ) : payload) && !channelData.forceResponse.repliesOnly) {
+            var forceres = channelData.forceResponse
+            delete channelData.forceResponse
 
             var content = typeof payload == 'object' ? (payload.content ?? '') : payload
             var msg = message
@@ -171,7 +171,7 @@ for (var Discord of modules.Discord) {
                 }
             }).catch(() => { }) ?? forceres.res
 
-            if (forceres.persist && !channelData.forceres) channelData.forceres = forceres
+            if (forceres.persist && !channelData.forceResponse) channelData.forceResponse = forceres
 
             switch (typeof payload) {
                 case 'string':
@@ -219,14 +219,14 @@ for (var Discord of modules.Discord) {
 
             const channelData = tempdata[interaction.guild?.id]?.[interaction.channel.id]
 
-            if (channelData?.shut) return
-            if (channelData?.forceres && (typeof payload == 'object' ? (
+            if (channelData?.shutUp) return
+            if (channelData?.forceResponse && (typeof payload == 'object' ? (
                 payload.content ||
                 payload.files || payload.embeds ||
                 payload.stickers
-            ) : payload) && !channelData.forceres.repliesonly) {
-                var forceres = channelData.forceres
-                delete channelData.forceres
+            ) : payload) && !channelData.forceResponse.repliesOnly) {
+                var forceres = channelData.forceResponse
+                delete channelData.forceResponse
 
                 var content = typeof payload == 'object' ? (payload.content ?? '') : payload
                 var msg = interaction
@@ -241,7 +241,7 @@ for (var Discord of modules.Discord) {
                     }
                 }).catch(() => { }) ?? forceres.res
 
-                if (forceres.persist && !channelData.forceres) channelData.forceres = forceres
+                if (forceres.persist && !channelData.forceResponse) channelData.forceResponse = forceres
 
                 switch (typeof payload) {
                     case 'string':

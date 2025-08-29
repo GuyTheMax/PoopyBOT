@@ -123,8 +123,8 @@ module.exports = {
             tempdata[member.id] = {}
         }
 
-        if (data.userData[member.id].dms === undefined && !tempdata[member.id].dmconsent && member.id != msg.author.id) {
-            tempdata[msg.author.id].dmconsent = true
+        if (data.userData[member.id].dms == undefined && !tempdata[member.id].dmConsent && member.id != msg.author.id) {
+            tempdata[msg.author.id].dmConsent = true
 
             var pending = await msg.reply('This user hasn’t received bot DMs from this command before... A consent request has been sent and is awaiting their approval!').catch(() => { })
             var send = await yesno(member, `${!anon ? msg.author.tag : 'Someone'} is trying to send you a DM using the bot. Will you consent to receiving any unrelated messages from the \`dm\` command?`, member.id).catch(() => { })

@@ -1,14 +1,13 @@
 module.exports = {
     helpf: '(id)',
-    desc: 'Returns a random message from a member in the server. Requires permission for the bot to read messages within a channel.',
+    desc: 'Returns a random message from a member in the server. Requires permission for the bot to read messages within channels.',
     func: function (matches, msg) {
         let poopy = this
-        let data = poopy.data
-        let { decrypt } = poopy.functions
+        let tempdata = poopy.tempdata
 
         var word = matches[1]
 
-        var messages = data.guildData[msg.guild.id].messages.filter(message => message.author == word)
-        return messages.length ? decrypt(messages[Math.floor(Math.random() * messages.length)].content).replace(/\@/g, '@‌') : ''
+        var messages = tempdata[msg.guild.id].messages.filter(message => message.author == word).map(m => m.content)
+        return messages.length ? messages[Math.floor(Math.random() * messages.length)] : ''
     }
 }

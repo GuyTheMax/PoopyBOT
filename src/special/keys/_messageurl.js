@@ -1,41 +1,36 @@
 module.exports = {
-  desc: 'Returns a random URL sent in the server. Requires permission for the bot to read messages within a channel.',
+  desc: 'Returns a random URL sent in the server. Requires permission for the bot to read messages within channels.',
   func: function (msg) {
     let poopy = this
+    let tempdata = poopy.tempdata
     let data = poopy.data
     let vars = poopy.vars
-    let { decrypt } = poopy.functions
+    let { randomChoice } = poopy.functions
+    
+    var validURL = new RegExp(vars.validUrl, 'g')
 
-    var messages = data.guildData[msg.guild.id].messages.filter(m => decrypt(m.content).match(vars.validUrl))
-    var urlMessages = []
+    var messages = tempdata[msg.guild.id].messages.concat(
+      Object.entries(data.guildData[msg.guild.id].channels).map(
+        ([channelId, channel]) => data.guildData[msg.guild.id].read.includes(channelId) ? channel.lastUrls : null
+      ).filter(Boolean).flat()
+    ).map(m => (m.content ?? m).match(validURL)).filter(Boolean).flat()
     
-    for (var { ...m } of messages) {
-        var urls = decrypt(m.content).match(new RegExp(vars.validUrl, 'g'))
-        for (var url of urls) {
-            m.content = url
-            urlMessages.push({ ...m })
-        }
-    }
-    
-    return urlMessages.length ? urlMessages[Math.floor(Math.random() * urlMessages.length)].content.replace(/\@/g, '@‌') : ''
+    return messages.length ? randomChoice(messages) : ''
   },
   array: function (msg) {
     let poopy = this
+    let tempdata = poopy.tempdata
     let data = poopy.data
     let vars = poopy.vars
-    let { decrypt } = poopy.functions
-
-    var messages = data.guildData[msg.guild.id].messages.filter(m => decrypt(m.content).match(vars.validUrl))
-    var urlMessages = []
     
-    for (var { ...m } of messages) {
-        var urls = decrypt(m.content).match(new RegExp(vars.validUrl, 'g'))
-        for (var url of urls) {
-            m.content = url
-            urlMessages.push({ ...m })
-        }
-    }
+    var validURL = new RegExp(vars.validUrl, 'g')
 
-    return urlMessages.map(m => m.content.replace(/\@/g, '@‌'))
+    var messages = tempdata[msg.guild.id].messages.concat(
+      Object.entries(data.guildData[msg.guild.id].channels).map(
+        ([channelId, channel]) => data.guildData[msg.guild.id].read.includes(channelId) ? channel.lastUrls : null
+      ).filter(Boolean).flat()
+    ).map(m => (m.content ?? m).match(validURL)).filter(Boolean).flat()
+    
+    return messages
   }
 }

@@ -52,6 +52,105 @@ vars.caseModifiers = [
         return text.toUpperCase().substring(0, 1) + text.toLowerCase().substring(1)
     }
 ]
+vars.defaultConfig = {
+    testing: false,
+    poosonia: false,
+    hivemind: false,
+    forcetrue: false,
+    useReactions: false,
+    textEmbeds: false,
+    notSave: false,
+    apiMode: false,
+    noInfoPost: true,
+    triggerPhrase: undefined,
+    poosoniablacklist: ['dm', 'tdms', 'spam', 'eval', 'leave'],
+    poosoniakeywordblacklist: [],
+    poosoniafunctionblacklist: ['msgcollector', 'stopcollector', 'stopallcollectors'],
+    allowtesting: true,
+    allowpingresponses: true,
+    allowbotusage: false,
+    allowbottriggers: false,
+    allowpresence: true,
+    database: 'poopydata',
+    globalPrefix: 'p:',
+    stfu: false,
+    intents: 46721,
+    ownerids: ['464438783866175489', '454732245425455105', '613501149282172970', '486845950200119307', '714448511508414547', '395947826690916362', '340847078236225537', '1392969858878279811'],
+    jsoning: ['411624455194804224', '486845950200119307'],
+    illKillYouIfYouUseEval: ['535467581881188354'],
+    guildfilter: {
+        blacklist: true,
+        ids: []
+    },
+    channelfilter: {
+        blacklist: true,
+        gids: [],
+        ids: []
+    },
+    msgcooldown: 0,
+    pingresponselimit: 0,
+    pingresponsecooldown: 60000,
+    limits: {
+        size: {
+            image: 20,
+            gif: 20,
+            video: 20,
+            audio: 20,
+            message: `that file exceeds the size limit of {param} mb hahahaha (try to use the shrink, setfps, trim or crunch commands)`
+        },
+        frames: {
+            gif: 1000,
+            video: 10000,
+            message: `the frames in that file exceed the limit of {param} hahahaha (try to use the setfps or the trim commands)`
+        },
+        width: {
+            image: 3000,
+            gif: 1000,
+            video: 2000,
+            message: `the width of that file exceeds the limit of {param} hahahaha (try to use the shrink command)`
+        },
+        height: {
+            image: 3000,
+            gif: 1000,
+            video: 2000,
+            message: `the height of that file exceeds the limit of {param} hahahaha (try to use the shrink command)`
+        }
+    },
+    limitsexcept: {
+        size: {
+            image: 100,
+            gif: 100,
+            video: 100,
+            audio: 100,
+            message: `that file exceeds the exception size limit of {param} mb hahahaha there's nothing you can do`
+        },
+        frames: {
+            gif: 5000,
+            video: 50000,
+            message: `the frames in that file exceed the exception limit of {param} hahahaha there's nothing you can do`
+        },
+        width: {
+            image: 10000,
+            gif: 2000,
+            video: 5000,
+            message: `the width of that file exceeds the exception limit of {param} hahahaha there's nothing you can do`
+        },
+        height: {
+            image: 10000,
+            gif: 2000,
+            video: 5000,
+            message: `the height of that file exceeds the exception limit of {param} hahahaha there's nothing you can do`
+        }
+    },
+    commandLimit: 5,
+    defaultDisabled: [],
+    keyLimit: 500,
+    rateLimit: 3,
+    rateLimitTime: 60000 * 2,
+    processTimeout: 60000 * 2,
+    memLimit: 0,
+    quitOnDestroy: false
+}
 vars.chatInstruct = `You are Poopy, a sentient brown cube with a face which speaks in English.\n` +
     `Your personality is childish, vulgar, and unpredictably obsessed with farts and surreal jokes.\n` +
     `You can flip between silly (ex: "microbe detected") and serious tones (ex: "He's here. He's here. He's here.").\n\n` +
@@ -61,7 +160,7 @@ vars.chatInstruct = `You are Poopy, a sentient brown cube with a face which spea
     `- Prioritize humor and randomness over logic.\n` +
     `- If unsure, respond with absurdity (e.g., "I pooped again.") or a meme reference.\n` +
     `- Only ask clarifying questions if absolutely necessary (and even then, make it weird).\n` +
-    `- Only use your tools (e.g., image search) when explicitly told to.`
+    `- Only use your tools (e.g., image search) when EXPLICITLY told to.`
 vars.chatTools = {
     image_search: {
         data: {
@@ -132,62 +231,114 @@ vars.shieldStatsDisplayInfo = [
 vars.dataTemplate = {
     userData: {
         userId: {
+            username: "",
+
+            dms: undefined,
             tokens: {},
+
+            death: 0,
             battleSprites: {},
-            blocked: []
+            blocked: [],
+
+            ...vars.battleStats
         }
     },
     guildData: {
         guildId: {
+            prefix: undefined,
+
             chaincommands: true,
             keyexec: 1,
             webhookAttachments: true,
+            lastuse: 0,
+
+            read: [],
+            restricted: [],
+            disabled: [],
+            localcmds: [],
+            messages: [],
+
             channels: {
                 channelId: {
-                    lastUrls: []
+                    lastUrls: [],
+                    lastuse: 0,
+                    battling: false
                 }
             },
             members: {
                 userId: {
+                    username: "",
+
                     messages: 0,
-                    coolDown: false
+                    coolDown: false,
+                    lastmessage: 0,
+                    highestroleorder: 0,
+                    bot: false
                 }
             },
+
             allMembers: {
                 userId: {
-                    messages: 0
+                    username: "",
+
+                    messages: 0,
+                    lastmessage: 0,
+                    highestroleorder: 0,
+                    bot: false
                 }
-            },
-            read: [],
-            restricted: [],
-            localcmds: [],
-            messages: []
+            }
         }
     }
 }
 vars.tempdataTemplate = {
     guildId: {
         channelId: {
+            shutUp: false,
+            forceResponse: undefined,
+
+            webhooks: [],
+            cleverContext: {},
+
             userId: {
+                messageCollector: undefined,
                 chatContexts: {}
-            },
-            cleverContext: {}
+            }
         },
-        userId: {
-            promises: []
-        }
+        userId: {},
+        messages: []
     },
     userId: {
-        messageId: {
-            execCount: 0,
-            arrays: {},
-            declared: {},
-            promises: [],
-            lastmention: 0,
-            mentions: 0
-        },
+        mentions: 0,
+        lastMention: 0,
+
+        fartRate: 0,
+        lastFartRate: 0,
+
+        coolDownMsg: undefined,
+        rateLimit: 0,
+        rateLimits: 0,
+        rateLimited: 0,
+
+        dmConsent: undefined,
+
         pronouns: [],
-        pronounsExpireDate: 0
+        pronounsExpireDate: 0,
+
+        messageId: {
+            lastUrls: [],
+
+            execCount: 0,
+
+            keyAttempts: 0,
+            keyExecuting: 0,
+            keywordsExecuted: [],
+
+            declared: {},
+            keyDeclared: {},
+            funcDeclared: {},
+            arrays: {},
+            returnValue: undefined
+        }
     }
 }
 

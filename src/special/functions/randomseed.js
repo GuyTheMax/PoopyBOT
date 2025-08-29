@@ -39,8 +39,8 @@ module.exports = {
     var seedFn = xmur3(seed)
     var rand = mulberry32(seedFn())
 
-    tempdata[msg.author.id].declared[`[${name}]`] = seed
-    tempdata[msg.author.id].funcdeclared[`[${name}]`] = {
+    tempdata[msg.author.id][msg.id].declared[`[${name}]`] = seed
+    tempdata[msg.author.id][msg.id].funcDeclared[`[${name}]`] = {
       func: async function (matches) {
         var word = matches[1]
         var split = splitKeyFunc(word, { args: 2 })

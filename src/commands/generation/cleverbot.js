@@ -79,7 +79,7 @@ module.exports = {
                 try {
                     dmSupport(m)
 
-                    if (tempdata[msg.guild.id][msg.channel.id].shut) return
+                    if (tempdata[msg.guild.id][msg.channel.id].shutUp) return
 
                     var content = await getKeywordsFor(m.content ?? '', m, false).catch(() => { }) ?? m.content
 
@@ -108,7 +108,7 @@ module.exports = {
 
             collector.on('end', async (_, reason) => {
                 try {
-                    if (tempdata[msg.guild.id][msg.channel.id].shut) return
+                    if (tempdata[msg.guild.id][msg.channel.id].shutUp) return
                     delete tempdata[guildid][channelid][authorid].messageCollector
                     if (reason === 'time') {
                         channel.send({

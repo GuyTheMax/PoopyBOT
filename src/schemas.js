@@ -74,6 +74,16 @@ module.exports = {
             required: false
         },
 
+        deaths: {
+            type: Number,
+            required: false
+        },
+
+        kills: {
+            type: Number,
+            required: false
+        },
+
         heal: {
             type: Number,
             required: false
@@ -106,6 +116,21 @@ module.exports = {
 
         bucks: {
             type: Number,
+            required: false
+        },
+
+        shielded: {
+            type: Boolean,
+            required: false
+        },
+
+        shieldEquipped: {
+            type: String,
+            required: false
+        },
+
+        shieldsOwned: {
+            type: Array,
             required: false
         },
 
@@ -213,16 +238,6 @@ module.exports = {
             required: true
         },
 
-        read: {
-            type: Boolean,
-            required: false
-        },
-
-        nsfw: {
-            type: Boolean,
-            required: false
-        },
-
         lastUrls: {
             type: Array,
             required: false
@@ -230,6 +245,11 @@ module.exports = {
 
         lastuse: {
             type: Number,
+            required: false
+        },
+
+        battling: {
+            type: Boolean,
             required: false
         }
     })),
@@ -267,6 +287,16 @@ module.exports = {
 
         lastmessage: {
             type: Number,
+            required: false
+        },
+
+        highestroleorder: {
+            type: Number,
+            required: false
+        },
+
+        bot: {
+            type: Boolean,
             required: false
         }
     })),

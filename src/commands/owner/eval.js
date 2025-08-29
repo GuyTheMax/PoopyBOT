@@ -38,7 +38,7 @@ module.exports = {
             evalMessage = evalMessage.match(/[\s\S]{1,2000}/g) ?? []
 
             if (!msg.nosend) for (var i in evalMessage){
-                if (tempdata[msg.guild.id][msg.channel.id].shut) break
+                if (tempdata[msg.guild.id][msg.channel.id].shutUp) break
 
                 var ev = evalMessage[i]
                 await msg.reply({

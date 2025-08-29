@@ -1,6 +1,10 @@
 module.exports = {
     name: ['forceresponse'],
-    args: [{"name":"message","required":true,"specifarg":false,"orig":"<message<_msg>>"},{"name":"persist","required":false,"specifarg":true,"orig":"[-persist]"}],
+    args: [
+        { "name": "message", "required": true, "specifarg": false, "orig": "<message<_msg>>" },
+        { "name": "persist", "required": false, "specifarg": true, "orig": "[-persist]" },
+        { "name": "repliesonly", "required": false, "specifarg": true, "orig": "[-repliesonly]" }
+    ],
     execute: async function (msg, args) {
         let poopy = this
         let config = poopy.config
@@ -10,7 +14,7 @@ module.exports = {
 
         if (msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageGuild) || msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageMessages) || msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.Administrator) || msg.author.id === msg.guild.ownerID || config.ownerids.find(id => id == msg.author.id)) {
             var persist = getOption(args, 'persist', { dft: false, splice: true, n: 0 })
-            var repliesonly = getOption(args, 'repliesonly', { dft: false, splice: true, n: 0 })
+            var repliesOnly = getOption(args, 'repliesonly', { dft: false, splice: true, n: 0 })
             if (args[1] === undefined) {
                 await msg.reply('You must specify the response!').catch(() => { })
                 return
@@ -24,25 +28,25 @@ module.exports = {
             var saidMessage = args.slice(1).join(' ')
 
             if (!msg.nosend) await msg.reply({
-                content: `OK, the bot's next ${repliesonly ? `response${persist ? 's' : ''} to ${persist ? 'replies' : 'a reply'}` : `message${persist ? 's' : ''}`} here will be "${saidMessage}"`,
+                content: `OK, the bot's next ${repliesOnly ? `response${persist ? 's' : ''} to ${persist ? 'replies' : 'a reply'}` : `message${persist ? 's' : ''}`} here will be "${saidMessage}"`,
                 allowedMentions: {
                     parse: ['users']
                 }
             }).catch(() => { })
-            tempdata[msg.guild.id][msg.channel.id].forceres = {
+            tempdata[msg.guild.id][msg.channel.id].forceResponse = {
                 persist,
                 msg,
-                repliesonly,
+                repliesOnly,
                 res: saidMessage
             }
-            return `OK, the bot's next ${repliesonly ? `response${persist ? 's' : ''} to ${persist ? 'replies' : 'a reply'}` : `message${persist ? 's' : ''}`} here will be "${saidMessage}"`
+            return `OK, the bot's next ${repliesOnly ? `response${persist ? 's' : ''} to ${persist ? 'replies' : 'a reply'}` : `message${persist ? 's' : ''}`} here will be "${saidMessage}"`
         } else {
             await msg.reply('You need to be a moderator to execute that!').catch(() => { })
             return;
         };
     },
     help: {
-        name: 'forceresponse <message<_msg>> [-persist] (moderator only)',
+        name: 'forceresponse <message<_msg>> [-persist] [-repliesonly] (moderator only)',
         value: "Forces the bot's next response(s) to be the one supplied. Why? It's funny"
     },
     cooldown: 5000,

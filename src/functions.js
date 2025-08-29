@@ -754,12 +754,18 @@ functions.gatherData = async function (msg) {
 
     reconcileDataWithTemplate(data.guildData, vars.dataTemplate.guildData, msg, ["channels", "members", "allMembers"])
 
-    if (data.guildData[msg.guild.id].messages.some(m => now - m.timestamp < 1000 * 60 * 60 * 24 * 30)) {
-        data.guildData[msg.guild.id].messages = data.guildData[msg.guild.id].messages.filter(m => now - m.timestamp < 1000 * 60 * 60 * 24 * 30)
+    var filteredMessages = data.guildData[msg.guild.id].messages.filter(m => now - m.timestamp < 1000 * 60 * 60 * 24 * 30)
+
+    if (data.guildData[msg.guild.id].messages.length != filteredMessages.length) {
+        data.guildData[msg.guild.id].messages = filteredMessages
     }
 
     if (!tempdata[msg.guild.id]) {
         tempdata[msg.guild.id] = {}
+    }
+
+    if (!tempdata[msg.guild.id].messages) {
+        tempdata[msg.guild.id].messages = data.guildData[msg.guild.id].messages.map(m => ({ ...m, content: decrypt(m.content) }))
     }
 
     if (!tempdata[msg.guild.id][msg.channel.id]) {
@@ -773,8 +779,8 @@ functions.gatherData = async function (msg) {
 
         reconcileDataWithTemplate(tempdata, vars.tempdataTemplate, msg)
 
-        if (!tempdata[msg.author.id].cooler) {
-            tempdata[msg.author.id].cooler = msg.id
+        if (!tempdata[msg.author.id].coolDownMsg) {
+            tempdata[msg.author.id].coolDownMsg = msg.id
         }
     }
 }
@@ -791,16 +797,14 @@ functions.chat = async function (stim, msg, {
         tempdata
     } = poopy
     let {
-        userToken,
-        fetchPingPerms
+        userToken
     } = poopy.functions
     let {
-        axios,
-        fs,
-        Discord
+        axios
     } = poopy.modules
     let vars = poopy.vars
-    let config = poopy.config
+
+    if (!stim) stim = "[empty message]"
 
     if (!tempdata[msg.guild.id]) tempdata[msg.guild.id] = {}
     if (!tempdata[msg.guild.id][msg.channel.id]) tempdata[msg.guild.id][msg.channel.id] = {}
@@ -838,18 +842,12 @@ functions.chat = async function (stim, msg, {
             top_p: 1
         }
 
-        if (useTools) tools = vars.chatToolData
+        if (useTools) requestData.tools = vars.chatToolData
 
         resp = await axios({
             url: `https://api.ai21.com/studio/v1/chat/completions`,
             method: 'POST',
-            data: {
-                model: "jamba-large-1.7",
-                messages: ourHistory,
-                tools: vars.chatToolData,
-                temperature: temperature,
-                top_p: 1
-            },
+            data: requestData,
             headers: {
                 Authorization: `Bearer ${userToken(msg.author.id, 'AI21_KEY')}`
             }
@@ -3592,8 +3590,9 @@ functions.lastUrl = function (msg, i, tempdir, global) {
     let { lastUrl } = poopy.functions
 
     var urlsGlobal = !global &&
-        tempdata[msg.author.id][msg.id]?.lastUrls ||
-        data.guildData[msg.guild.id].channels[msg.channel.id].lastUrls
+        tempdata[msg.author.id]?.[msg.id]?.lastUrls ||
+        data.guildData?.[msg.guild.id]?.channels?.[msg.channel.id]?.lastUrls ||
+        []
     var urls = urlsGlobal.slice()
     var url = urls[i]
 
@@ -3669,7 +3668,7 @@ functions.addLastUrl = function (msg, url) {
     let { lastUrls } = poopy.functions
 
     if (!url) return
-
+    
     if (tempdata[msg.author.id][msg.id]) {
         var lasturls = [url].concat(lastUrls(msg))
         lasturls.splice(100)
@@ -3795,18 +3794,18 @@ functions.rateLimit = async function (msg) {
     if (!process.env.CLOUDAMQP_URL) return false
     if (!tempdata[msg.author.id]) tempdata[msg.author.id] = {}
 
-    tempdata[msg.author.id].ratelimit = (tempdata[msg.author.id].ratelimit ?? 0) + 1
-    setTimeout(() => tempdata[msg.author.id].ratelimit -= 1, 90000)
+    tempdata[msg.author.id].rateLimit = (tempdata[msg.author.id].rateLimit ?? 0) + 1
+    setTimeout(() => tempdata[msg.author.id].rateLimit -= 1, 90000)
 
-    if (tempdata[msg.author.id].ratelimit >= config.rateLimit) {
-        tempdata[msg.author.id].ratelimits = (tempdata[msg.author.id].ratelimits ?? 0.5) * 2
-        var rateLimitTime = config.rateLimitTime * tempdata[msg.author.id].ratelimits
-        setTimeout(() => tempdata[msg.author.id].ratelimits -= 1, rateLimitTime * 2)
+    if (tempdata[msg.author.id].rateLimit >= config.rateLimit) {
+        tempdata[msg.author.id].rateLimits = (tempdata[msg.author.id].rateLimits ?? 0.5) * 2
+        var rateLimitTime = config.rateLimitTime * tempdata[msg.author.id].rateLimits
+        setTimeout(() => tempdata[msg.author.id].rateLimits -= 1, rateLimitTime * 2)
 
-        await msg.reply(`you've been banned from using commands for ${rateLimitTime / 60000} minutes for crashing the file processor ${config.rateLimit * tempdata[msg.author.id].ratelimits} times LMAO!!!`).catch(() => { })
+        await msg.reply(`you've been banned from using commands for ${rateLimitTime / 60000} minutes for crashing the file processor ${config.rateLimit * tempdata[msg.author.id].rateLimits} times LMAO!!!`).catch(() => { })
         infoPost(`${msg.author.id} was rate limited for ${rateLimitTime / 60000} minutes`).catch(() => { })
-        tempdata[msg.author.id].ratelimited = Date.now() + rateLimitTime
-        setTimeout(() => delete tempdata[msg.author.id].ratelimited, rateLimitTime)
+        tempdata[msg.author.id].rateLimited = Date.now() + rateLimitTime
+        setTimeout(() => delete tempdata[msg.author.id].rateLimited, rateLimitTime)
         return true
     }
 
@@ -3821,8 +3820,8 @@ functions.deleteMsgData = function (msg) {
         tempdata[msg.author.id] &&
         tempdata[msg.author.id][msg.id] &&
         (
-            !tempdata[msg.author.id][msg.id].keyexecuting ||
-            tempdata[msg.author.id][msg.id].keyexecuting <= 0
+            !tempdata[msg.author.id][msg.id].keyExecuting ||
+            tempdata[msg.author.id][msg.id].keyExecuting <= 0
         )
     ) {
         delete tempdata[msg.author.id][msg.id]
@@ -3935,18 +3934,18 @@ functions.getKeywordsFor = async function (string, msg, isBot, { extrakeys = {},
         tempdata[msg.author.id][msg.id] = {}
     }
 
-    if (!tempdata[msg.author.id][msg.id].keyexecuting) {
-        tempdata[msg.author.id][msg.id].keyexecuting = 0
+    if (!tempdata[msg.author.id][msg.id].keyExecuting) {
+        tempdata[msg.author.id][msg.id].keyExecuting = 0
     }
-    tempdata[msg.author.id][msg.id].keyexecuting++
+    tempdata[msg.author.id][msg.id].keyExecuting++
 
     try {
         var startTime = Date.now()
-        var extradkeys = declaredonly ? { ...tempdata[msg.author.id].keydeclared } : { ...extrakeys, ...tempdata[msg.author.id].keydeclared }
-        var extradfuncs = declaredonly ? { ...tempdata[msg.author.id].funcdeclared } : { ...extrafuncs, ...tempdata[msg.author.id].funcdeclared }
+        var extradkeys = declaredonly ? { ...tempdata[msg.author.id][msg.id].keyDeclared } : { ...extrakeys, ...tempdata[msg.author.id][msg.id].keyDeclared }
+        var extradfuncs = declaredonly ? { ...tempdata[msg.author.id][msg.id].funcDeclared } : { ...extrafuncs, ...tempdata[msg.author.id][msg.id].funcDeclared }
         var started = false
 
-        if (tempdata[msg.author.id].ratelimited || globaldata.shit.find(id => id === msg.author.id)) {
+        if (tempdata[msg.author.id].rateLimited || globaldata.shit.find(id => id === msg.author.id)) {
             return string
         }
 
@@ -3956,48 +3955,48 @@ functions.getKeywordsFor = async function (string, msg, isBot, { extrakeys = {},
             extrakeys: extradkeys,
             extrafuncs: extradfuncs,
             declaredonly: declaredonly
-        })) && tempdata[msg.author.id][msg.id]?.return == undefined) {
+        })) && tempdata[msg.author.id][msg.id]?.returnValue == undefined) {
             if (!started || !tempdata[msg.author.id][msg.id]) {
                 if (!tempdata[msg.author.id][msg.id]) {
                     tempdata[msg.author.id][msg.id] = {}
                 }
 
-                if (!tempdata[msg.author.id][msg.id].keyattempts) {
-                    tempdata[msg.author.id][msg.id].keyattempts = 0
+                if (!tempdata[msg.author.id][msg.id].keyAttempts) {
+                    tempdata[msg.author.id][msg.id].keyAttempts = 0
                 }
 
-                if (!tempdata[msg.author.id][msg.id].keyexecuting) {
-                    tempdata[msg.author.id][msg.id].keyexecuting = 0
+                if (!tempdata[msg.author.id][msg.id].keyExecuting) {
+                    tempdata[msg.author.id][msg.id].keyExecuting = 0
                 }
 
                 if (!tempdata[msg.author.id][msg.id].keywordsExecuted) {
                     tempdata[msg.author.id][msg.id].keywordsExecuted = []
                 }
 
-                if (!tempdata[msg.author.id].arrays) {
-                    tempdata[msg.author.id].arrays = {}
+                if (!tempdata[msg.author.id][msg.id].arrays) {
+                    tempdata[msg.author.id][msg.id].arrays = {}
                 }
 
-                if (!tempdata[msg.author.id].declared) {
-                    tempdata[msg.author.id].declared = {}
+                if (!tempdata[msg.author.id][msg.id].declared) {
+                    tempdata[msg.author.id][msg.id].declared = {}
                 }
 
-                if (!tempdata[msg.author.id].keydeclared) {
-                    tempdata[msg.author.id].keydeclared = {}
+                if (!tempdata[msg.author.id][msg.id].keyDeclared) {
+                    tempdata[msg.author.id][msg.id].keyDeclared = {}
                 }
 
-                if (!tempdata[msg.author.id].funcdeclared) {
-                    tempdata[msg.author.id].funcdeclared = {}
+                if (!tempdata[msg.author.id][msg.id].funcDeclared) {
+                    tempdata[msg.author.id][msg.id].funcDeclared = {}
                 }
 
                 started = true
             }
 
-            if (tempdata[msg.author.id].ratelimited || globaldata.shit.find(id => id === msg.author.id)) {
+            if (tempdata[msg.author.id].rateLimited || globaldata.shit.find(id => id === msg.author.id)) {
                 return string
             }
 
-            if (tempdata[msg.author.id][msg.id].keyattempts >= config.keyLimit && !ownermode) {
+            if (tempdata[msg.author.id][msg.id].keyAttempts >= config.keyLimit && !ownermode) {
                 infoPost(`Keyword attempts value exceeded`)
                 return 'Keyword attempts value exceeded.'
             }
@@ -4036,7 +4035,7 @@ functions.getKeywordsFor = async function (string, msg, isBot, { extrakeys = {},
                     }
 
                     string = typeof (change) === 'object' && change[1] === true ? String(change[0]) : string.replace(keydata.match, String(change).replace(/\$&/g, '$\\&'))
-                    tempdata[msg.author.id][msg.id].keyattempts += !data.guildData[msg.guild.id].chaos ? (key.attemptvalue ?? 1) : 0
+                    tempdata[msg.author.id][msg.id].keyAttempts += !data.guildData[msg.guild.id].chaos ? (key.attemptvalue ?? 1) : 0
                     break
 
                 case 'func':
@@ -4072,12 +4071,12 @@ functions.getKeywordsFor = async function (string, msg, isBot, { extrakeys = {},
                     }
 
                     string = typeof (change) === 'object' && change[1] === true ? String(change[0]) : string.replace(`${funcName}(${match})`, String(change).replace(/\$&/g, '$\\&'))
-                    tempdata[msg.author.id][msg.id].keyattempts += !data.guildData[msg.guild.id].chaos ? (func.attemptvalue ?? 1) : 0
+                    tempdata[msg.author.id][msg.id].keyAttempts += !data.guildData[msg.guild.id].chaos ? (func.attemptvalue ?? 1) : 0
                     break
             }
 
-            extradkeys = declaredonly ? { ...tempdata[msg.author.id].keydeclared } : { ...extrakeys, ...tempdata[msg.author.id].keydeclared }
-            extradfuncs = declaredonly ? { ...tempdata[msg.author.id].funcdeclared } : { ...extrafuncs, ...tempdata[msg.author.id].funcdeclared }
+            extradkeys = declaredonly ? { ...tempdata[msg.author.id][msg.id].keyDeclared } : { ...extrakeys, ...tempdata[msg.author.id][msg.id].keyDeclared }
+            extradfuncs = declaredonly ? { ...tempdata[msg.author.id][msg.id].funcDeclared } : { ...extrafuncs, ...tempdata[msg.author.id][msg.id].funcDeclared }
         }
 
         if (resetattempts) {
@@ -4089,19 +4088,19 @@ functions.getKeywordsFor = async function (string, msg, isBot, { extrakeys = {},
             }
         }
 
-        if (tempdata[msg.author.id][msg.id].return != undefined) {
-            string = tempdata[msg.author.id][msg.id].return
-            delete tempdata[msg.author.id][msg.id].return
+        if (tempdata[msg.author.id][msg.id].returnValue != undefined) {
+            string = tempdata[msg.author.id][msg.id].returnValue
+            delete tempdata[msg.author.id][msg.id].returnValue
         }
 
-        if (tempdata[msg.author.id][msg.id].keyexecuting) {
-            tempdata[msg.author.id][msg.id].keyexecuting--
+        if (tempdata[msg.author.id][msg.id].keyExecuting) {
+            tempdata[msg.author.id][msg.id].keyExecuting--
         }
 
         return string
     } catch (e) {
-        if (tempdata[msg.author.id][msg.id].keyexecuting) {
-            tempdata[msg.author.id][msg.id].keyexecuting--
+        if (tempdata[msg.author.id][msg.id].keyExecuting) {
+            tempdata[msg.author.id][msg.id].keyExecuting--
         }
 
         console.log(e)

@@ -5,115 +5,17 @@ class Poopy {
 
         let poopy = this
 
-        let config = poopy.config = {
-            testing: false,
-            poosonia: false,
-            hivemind: false,
-            forcetrue: false,
-            useReactions: false,
-            textEmbeds: false,
-            notSave: false,
-            apiMode: false,
-            noInfoPost: true,
-            triggerPhrase: undefined,
-            poosoniablacklist: ['dm', 'tdms', 'spam', 'eval', 'leave'],
-            poosoniakeywordblacklist: [],
-            poosoniafunctionblacklist: ['msgcollector', 'stopcollector', 'stopallcollectors'],
-            allowtesting: true,
-            allowpingresponses: true,
-            allowbotusage: false,
-            allowbottriggers: false,
-            allowpresence: true,
-            database: 'poopydata',
-            globalPrefix: 'p:',
-            stfu: false,
-            intents: 46721,
-            ownerids: ['464438783866175489', '454732245425455105', '613501149282172970', '486845950200119307', '714448511508414547', '395947826690916362', '340847078236225537', '1392969858878279811'],
-            jsoning: ['411624455194804224', '486845950200119307'],
-            illKillYouIfYouUseEval: ['535467581881188354'],
-            guildfilter: {
-                blacklist: true,
-                ids: []
-            },
-            channelfilter: {
-                blacklist: true,
-                gids: [],
-                ids: []
-            },
-            msgcooldown: 0,
-            pingresponselimit: 0,
-            pingresponsecooldown: 60000,
-            limits: {
-                size: {
-                    image: 20,
-                    gif: 20,
-                    video: 20,
-                    audio: 20,
-                    message: `that file exceeds the size limit of {param} mb hahahaha (try to use the shrink, setfps, trim or crunch commands)`
-                },
-                frames: {
-                    gif: 1000,
-                    video: 10000,
-                    message: `the frames in that file exceed the limit of {param} hahahaha (try to use the setfps or the trim commands)`
-                },
-                width: {
-                    image: 3000,
-                    gif: 1000,
-                    video: 2000,
-                    message: `the width of that file exceeds the limit of {param} hahahaha (try to use the shrink command)`
-                },
-                height: {
-                    image: 3000,
-                    gif: 1000,
-                    video: 2000,
-                    message: `the height of that file exceeds the limit of {param} hahahaha (try to use the shrink command)`
-                }
-            },
-            limitsexcept: {
-                size: {
-                    image: 100,
-                    gif: 100,
-                    video: 100,
-                    audio: 100,
-                    message: `that file exceeds the exception size limit of {param} mb hahahaha there's nothing you can do`
-                },
-                frames: {
-                    gif: 5000,
-                    video: 50000,
-                    message: `the frames in that file exceed the exception limit of {param} hahahaha there's nothing you can do`
-                },
-                width: {
-                    image: 10000,
-                    gif: 2000,
-                    video: 5000,
-                    message: `the width of that file exceeds the exception limit of {param} hahahaha there's nothing you can do`
-                },
-                height: {
-                    image: 10000,
-                    gif: 2000,
-                    video: 5000,
-                    message: `the height of that file exceeds the exception limit of {param} hahahaha there's nothing you can do`
-                }
-            },
-            commandLimit: 5,
-            defaultDisabled: [],
-            keyLimit: 500,
-            rateLimit: 3,
-            rateLimitTime: 60000 * 2,
-            processTimeout: 60000 * 2,
-            memLimit: 0,
-            quitOnDestroy: false
-        }
-
-        for (var i in cfg) {
-            config[i] = cfg[i]
-        }
-
         // setting values
         let dataValues = require('./src/dataValues')
         let varsList = require('./src/vars')
         let modulesList = require('./src/modules')
         let functionsList = require('./src/functions')
+
+        let config = poopy.config = varsList.defaultConfig
+
+        for (var i in cfg) {
+            config[i] = cfg[i]
+        }
 
         let modules = poopy.modules = {}
         let functions = poopy.functions = {}
@@ -189,7 +91,7 @@ class Poopy {
             chunkArray, chunkObject, requireJSON, findCommand, fetchPingPerms,
             dmSupport, sleep, gatherData, deleteMsgData, infoPost, sendWebhook,
             getKeywordsFor, getUrls, randomChoice, similarity, yesno, chat,
-            cleverbot, regexClean, decrypt, getOption, getTotalHivemindStatus } = functions
+            regexClean, getOption, getTotalHivemindStatus } = functions
 
         let botConfig = {
             partials: [1], // Discord.Partials.Channel
@@ -597,7 +499,7 @@ class Poopy {
             if (
                 !msg.guild ||
                 !msg.channel ||
-                tempdata[msg.guild.id][msg.channel.id].shut ||
+                tempdata[msg.guild.id][msg.channel.id].shutUp ||
                 isFiltered
             ) {
                 deleteMsgData(msg)
@@ -764,7 +666,7 @@ class Poopy {
                         } catch (_) { }
                     })
 
-                    if (tempdata[msg.guild.id][msg.channel.id].shut) break
+                    if (tempdata[msg.guild.id][msg.channel.id].shutUp) break
 
                     if (origcontent.toLowerCase().startsWith(prefix.toLowerCase()) && ((!msg.author.bot && msg.author.id != bot.user.id) || config.allowbotusage)) {
                         data.guildData[msg.guild.id].lastuse = Date.now()
@@ -790,10 +692,10 @@ class Poopy {
                             }
                         }
 
-                        if (tempdata[msg.author.id].ratelimited) {
+                        if (tempdata[msg.author.id].rateLimited) {
                             executed = true
 
-                            var totalSeconds = (tempdata[msg.author.id].ratelimited - Date.now()) / 1000
+                            var totalSeconds = (tempdata[msg.author.id].rateLimited - Date.now()) / 1000
                             var days = Math.floor(totalSeconds / 86400);
                             totalSeconds %= 86400;
                             var hours = Math.floor(totalSeconds / 3600);
@@ -823,18 +725,18 @@ class Poopy {
 
                         if (data.guildData[msg.guild.id].members[msg.author.id].coolDown) {
                             if ((data.guildData[msg.guild.id].members[msg.author.id].coolDown - Date.now()) > 0 &&
-                                tempdata[msg.author.id].cooler !== msg.id) {
+                                tempdata[msg.author.id].coolDownMsg !== msg.id) {
                                 if (hivemindPass) {
                                     await msg.reply(`Calm down! Wait more ${(data.guildData[msg.guild.id].members[msg.author.id].coolDown - Date.now()) / 1000} seconds.`).catch(() => { })
                                 }
                                 return
                             } else {
                                 data.guildData[msg.guild.id].members[msg.author.id].coolDown = false
-                                delete tempdata[msg.author.id].cooler
+                                delete tempdata[msg.author.id].coolDownMsg
                             }
                         }
 
-                        tempdata[msg.author.id].cooler = msg.id
+                        tempdata[msg.author.id].coolDownMsg = msg.id
 
                         var args = origcontent.substring(prefix.toLowerCase().length).split(' ')
                         var findCmd = findCommand(args[0].toLowerCase())
@@ -958,7 +860,7 @@ class Poopy {
                                 if (!data.guildData[msg.guild.id].chaos && tempdata[msg.author.id][msg.id]) tempdata[msg.author.id][msg.id].execCount++
                             }
 
-                            if (tempdata[msg.guild.id][msg.channel.id].shut) break
+                            if (tempdata[msg.guild.id][msg.channel.id].shutUp) break
                             await msg.reply({
                                 content: phrase,
                                 allowedMentions: {
@@ -1064,7 +966,7 @@ class Poopy {
                                         if (!data.guildData[msg.guild.id].chaos && tempdata[msg.author.id][msg.id]) tempdata[msg.author.id][msg.id].execCount++
                                     }
 
-                                    if (tempdata[msg.guild.id][msg.channel.id].shut) return
+                                    if (tempdata[msg.guild.id][msg.channel.id].shutUp) return
 
                                     await msg.reply({
                                         content: phrase,
@@ -1115,7 +1017,7 @@ class Poopy {
 
                 if (
                     !(cleanMessage.match(vars.badFilter) || cleanMessage.match(vars.scamFilter) || cleanMessage.includes(prefix.toLowerCase())) &&
-                    !(data.guildData[msg.guild.id].messages.find(message => decrypt(message.content).toLowerCase() === cleanMessage.toLowerCase()))
+                    !(tempdata[msg.guild.id].messages.find(message => message.content.toLowerCase() === cleanMessage.toLowerCase()))
                 ) {
                     data.guildData[msg.guild.id].messages.unshift({
                         id: msg.id,
@@ -1123,12 +1025,19 @@ class Poopy {
                         content: CryptoJS.AES.encrypt(cleanMessage, process.env.AUTH_TOKEN).toString(),
                         timestamp: Date.now()
                     })
+
+                    tempdata[msg.guild.id].messages.unshift({
+                        id: msg.id,
+                        author: msg.author.id,
+                        content: cleanMessage,
+                        timestamp: Date.now()
+                    })
                 }
             }
 
             deleteMsgData(msg)
 
-            if (!msg.guild || !msg.channel || tempdata[msg.guild.id][msg.channel.id].shut || isRestricted) {
+            if (!msg.guild || !msg.channel || tempdata[msg.guild.id][msg.channel.id].shutUp || isRestricted) {
                 return
             }
 
@@ -1254,10 +1163,10 @@ class Poopy {
                 ]
                 var ourEggPhrases = (process.env.HIVEMIND_ID && config.hivemind) ? eggPhrasesHivemind : eggPhrases
 
-                var lastMention = Date.now() - (tempdata[msg.author.id].lastmention || Date.now())
+                var lastMention = Date.now() - (tempdata[msg.author.id].lastMention || Date.now())
                 if (lastMention > config.pingresponsecooldown) tempdata[msg.author.id].mentions = 0
 
-                tempdata[msg.author.id].lastmention = Date.now()
+                tempdata[msg.author.id].lastMention = Date.now()
 
                 if (isNaN(tempdata[msg.author.id].mentions)) tempdata[msg.author.id].mentions = 0
                 tempdata[msg.author.id].mentions++
@@ -1273,9 +1182,9 @@ class Poopy {
                 if (msg.reference) {
                     const channelData = tempdata[msg.channel.guild?.id]?.[msg.channel.id]
 
-                    var forceres = channelData?.forceres
-                    if (forceres && forceres.repliesonly) {
-                        delete channelData.forceres
+                    var forceres = channelData?.forceResponse
+                    if (forceres && forceres.repliesOnly) {
+                        delete channelData.forceResponse
 
                         var res = await getKeywordsFor(forceres.res, msg, true, {
                             resetattempts: true,
@@ -1288,7 +1197,7 @@ class Poopy {
                             }
                         }).catch(() => { }) ?? forceres.res
 
-                        if (forceres.persist && !channelData.forceres) channelData.forceres = forceres
+                        if (forceres.persist && !channelData.forceResponse) channelData.forceResponse = forceres
 
                         if (res) {
                             await msg.reply({
@@ -1391,35 +1300,42 @@ class Poopy {
 
         callbacks.messageEditCallback = async (msg) => {
             var messages = data.guildData[msg.guild?.id].messages
+            var tmpMessages = tempdata[msg.guild?.id].messages
+
             var prefix = data.guildData[msg.guild?.id]?.prefix ?? config.globalPrefix
 
-            if (!messages) return
+            if (!messages || !tmpMessages) return
 
             var messageIndex = messages.findIndex(m => m.id == msg.id)
             if (messageIndex > -1) {
                 var findMessage = messages[messageIndex]
+                var findTmpMessage = tmpMessages[messageIndex]
 
                 var cleanMessage = Discord.Util.cleanContent(msg.content, msg).replace(/\@/g, '@‌')
 
                 if (
                     !(cleanMessage.match(vars.badFilter) || cleanMessage.match(vars.scamFilter) || cleanMessage.includes(prefix.toLowerCase())) &&
-                    !(messages.find(message => decrypt(message.content).toLowerCase() === cleanMessage.toLowerCase()))
+                    !(tmpMessages.find(message => message.content.toLowerCase() === cleanMessage.toLowerCase()))
                 ) {
                     findMessage.content = CryptoJS.AES.encrypt(cleanMessage, process.env.AUTH_TOKEN).toString()
+                    findTmpMessage.content = cleanMessage
                 } else {
                     messages.splice(messageIndex, 1)
+                    tmpMessages.splice(messageIndex, 1)
                 }
             }
         }
 
         callbacks.messageDeleteCallback = async (msg) => {
             var messages = data.guildData[msg.guild?.id].messages
+            var tmpMessages = tempdata[msg.guild?.id].messages
 
-            if (!messages) return
+            if (!messages || !tmpMessages) return
 
             var messageIndex = messages.findIndex(m => m.id == msg.id)
             if (messageIndex > -1) {
                 messages.splice(messageIndex, 1)
+                tmpMessages.splice(messageIndex, 1)
             }
         }
 

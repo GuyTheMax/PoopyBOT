@@ -20,20 +20,20 @@ module.exports = {
         var localCommand = data.guildData[msg.guild.id].localcmds.find(cmd => cmd.name === commandname)
         var error = ''
 
-        if (tempdata[msg.guild.id][msg.channel.id].shut) return ''
+        if (tempdata[msg.guild.id][msg.channel.id].shutUp) return ''
 
         if (globaldata.shit.find(id => id === msg.author.id)) return 'shit'
 
         if (data.guildData[msg.guild.id].members[msg.author.id].coolDown) {
             if ((data.guildData[msg.guild.id].members[msg.author.id].coolDown - Date.now()) > 0 &&
-                tempdata[msg.author.id].cooler !== msg.id) {
+                tempdata[msg.author.id].coolDownMsg !== msg.id) {
                 return `Calm down! Wait more ${(data.guildData[msg.guild.id].members[msg.author.id].coolDown - Date.now()) / 1000} seconds.`
             } else {
                 data.guildData[msg.guild.id].members[msg.author.id].coolDown = false
             }
         }
 
-        tempdata[msg.author.id].cooler = msg.id
+        tempdata[msg.author.id].coolDownMsg = msg.id
 
         if (command || localCommand) {
             var isDisabled = data.guildData[msg.guild.id].disabled.find(cmd => cmd.find(n => n === commandname)) && !(

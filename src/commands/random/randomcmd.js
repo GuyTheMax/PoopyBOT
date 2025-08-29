@@ -81,7 +81,7 @@ module.exports = {
         }, 3000)
 
         var phrase = await cmd.execute.call(poopy, msg, args).catch(() => { }) ?? 'error'
-        if (tempdata[msg.guild.id][msg.channel.id].shut) return
+        if (tempdata[msg.guild.id][msg.channel.id].shutUp) return
         if (cmd.type == 'Local' && !msg.nosend) {
             await msg.reply({
                 content: phrase,

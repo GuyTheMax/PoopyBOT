@@ -3,14 +3,14 @@ module.exports = {
     desc: 'The markov chain generated AND THE Last Messages. turn on',
     func: function (matches, msg) {
         let poopy = this
-        let data = poopy.data
+        let tempdata = poopy.tempdata
         let json = poopy.json
         let arrays = poopy.arrays
-        let { markovChainGenerator, markovMe, decrypt } = poopy.functions
+        let { markovChainGenerator, markovMe } = poopy.functions
 
         var word = matches[1]
 
-        var messages = data.guildData[msg.guild.id].messages.slice().map(m => decrypt(m.content))
+        var messages = tempdata[msg.guild.id].messages.map(m => m.content)
         if (messages.length <= 0) {
             messages = json.sentenceJSON.data.map(s => s.sentence).concat(arrays.psPasta)
         }

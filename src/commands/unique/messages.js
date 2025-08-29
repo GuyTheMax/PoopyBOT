@@ -71,8 +71,7 @@ module.exports = {
             "orig": "<message>",
             "autocomplete": function (interaction) {
                 let poopy = this
-                let { decrypt } = poopy.functions
-                return poopy.data.guildData[interaction.guild.id].messages.map(msg => decrypt(msg.content))
+                return poopy.tempdata[interaction.guild.id].messages.map(msg => msg.content)
             }
         }],
         "description": "Deletes the message, if it exists."
@@ -112,7 +111,8 @@ module.exports = {
         let config = poopy.config
         let { fs, Discord, DiscordTypes, CryptoJS } = poopy.modules
         let data = poopy.data
-        let { similarity, yesno, decrypt, fetchPingPerms } = poopy.functions
+        let tempdata = poopy.tempdata
+        let { similarity, yesno, fetchPingPerms } = poopy.functions
         let bot = poopy.bot
 
         var options = {
@@ -121,14 +121,14 @@ module.exports = {
                 vars.filecount++
                 var filepath = `temp/${config.database}/file${currentcount}`
                 fs.mkdirSync(`${filepath}`)
-                fs.writeFileSync(`${filepath}/messagelist.txt`, data.guildData[msg.guild.id].messages.map(m => `Author: ${m.author}\n${decrypt(m.content)}`).join('\n\n-----------------------------------------------\n\n') || 'lmao theres nothing')
+                fs.writeFileSync(`${filepath}/messagelist.txt`, tempdata[msg.guild.id].messages.map(m => `Author: ${m.author}\n${m.content}`).join('\n\n-----------------------------------------------\n\n') || 'lmao theres nothing')
                 if (!msg.nosend) await msg.reply({
                     files: [new Discord.AttachmentBuilder(`${filepath}/messagelist.txt`)]
                 }).catch(() => { })
                 fs.rm(`${filepath}`, {
                     force: true, recursive: true
                 })
-                return data.guildData[msg.guild.id].messages.map(m => `Author: ${m.author}\n${decrypt(m.content)}`).join('\n\n-----------------------------------------------\n\n') || 'lmao theres nothing'
+                return tempdata[msg.guild.id].messages.map(m => `Author: ${m.author}\n${m.content}`).join('\n\n-----------------------------------------------\n\n') || 'lmao theres nothing'
             },
 
             search: async (msg, args) => {
@@ -141,39 +141,39 @@ module.exports = {
                 var cleanMessage = Discord.Util.cleanContent(saidMessage, msg).replace(/\@/g, '@‌')
                 var results = []
 
-                data.guildData[msg.guild.id].messages.forEach(message => {
-                    if (decrypt(message.content).toLowerCase().includes(cleanMessage.toLowerCase())) {
+                tempdata[msg.guild.id].messages.forEach(message => {
+                    if (message.content.toLowerCase().includes(cleanMessage.toLowerCase())) {
                         results.push(message)
                     }
                 })
 
                 if (results.length) {
-                    results.sort((a, b) => Math.abs(1 - similarity(decrypt(a.content).toLowerCase(), cleanMessage.toLowerCase())) - Math.abs(1 - similarity(decrypt(b.content).toLowerCase(), cleanMessage.toLowerCase())))
+                    results.sort((a, b) => Math.abs(1 - similarity(a.content.toLowerCase(), cleanMessage.toLowerCase())) - Math.abs(1 - similarity(b.content.toLowerCase(), cleanMessage.toLowerCase())))
                 }
 
                 var currentcount = vars.filecount
                 vars.filecount++
                 var filepath = `temp/${config.database}/file${currentcount}`
                 fs.mkdirSync(`${filepath}`)
-                fs.writeFileSync(`${filepath}/messagelist.txt`, results.map(m => `Author: ${m.author}\n${decrypt(m.content)}`).join('\n\n-----------------------------------------------\n\n') || 'lmao theres nothing')
+                fs.writeFileSync(`${filepath}/messagelist.txt`, results.map(m => `Author: ${m.author}\n${m.content}`).join('\n\n-----------------------------------------------\n\n') || 'lmao theres nothing')
                 if (!msg.nosend) await msg.reply({
                     files: [new Discord.AttachmentBuilder(`${filepath}/messagelist.txt`)]
                 }).catch(() => { })
                 fs.rm(`${filepath}`, {
                     force: true, recursive: true
                 })
-                return results.map(m => `Author: ${m.author}\n${decrypt(m.content)}`).join('\n\n-----------------------------------------------\n\n') || 'lmao theres nothing'
+                return results.map(m => `Author: ${m.author}\n${m.content}`).join('\n\n-----------------------------------------------\n\n') || 'lmao theres nothing'
             },
 
             random: async (msg) => {
-                var messages = data.guildData[msg.guild.id].messages
+                var messages = tempdata[msg.guild.id].messages
 
                 if (!messages.length) {
                     await msg.reply('No messages!').catch(() => { })
                     return
                 }
 
-                var rand = decrypt(messages[Math.floor(Math.random() * messages.length)].content)
+                var rand = messages[Math.floor(Math.random() * messages.length)].content
                 if (!msg.nosend) await msg.reply({
                     content: rand,
                     allowedMentions: {
@@ -198,14 +198,14 @@ module.exports = {
                     return
                 }
 
-                var messages = data.guildData[msg.guild.id].messages.filter(m => m.author == member.id)
+                var messages = tempdata[msg.guild.id].messages.filter(m => m.author == member.id)
 
                 if (!messages.length) {
                     await msg.reply('No messages!').catch(() => { })
                     return
                 }
 
-                var rand = decrypt(messages[Math.floor(Math.random() * messages.length)].content)
+                var rand = messages[Math.floor(Math.random() * messages.length)].content
                 if (!msg.nosend) await msg.reply({
                     content: rand,
                     allowedMentions: {
@@ -223,7 +223,7 @@ module.exports = {
 
                 var saidMessage = args.slice(1).join(' ')
                 var cleanMessage = Discord.Util.cleanContent(saidMessage, msg).replace(/\@/g, '@‌')
-                var findMessage = data.guildData[msg.guild.id].messages.find(message => decrypt(message.content).toLowerCase() === cleanMessage.toLowerCase())
+                var findMessage = tempdata[msg.guild.id].messages.find(message => message.content.toLowerCase() === cleanMessage.toLowerCase())
 
                 if (findMessage) {
                     await msg.reply(`That message already exists.`).catch(() => { })
@@ -241,6 +241,13 @@ module.exports = {
                         id: null,
                         author: msg.author.id,
                         content: CryptoJS.AES.encrypt(cleanMessage, process.env.AUTH_TOKEN).toString(),
+                        timestamp: Number.MAX_SAFE_INTEGER // genius
+                    })
+
+                    tempdata[msg.guild.id].messages.unshift({
+                        id: null,
+                        author: msg.author.id,
+                        content: cleanMessage,
                         timestamp: Number.MAX_SAFE_INTEGER // genius
                     })
 
@@ -262,10 +269,11 @@ module.exports = {
 
                 var saidMessage = args.slice(1).join(' ')
                 var cleanMessage = Discord.Util.cleanContent(saidMessage, msg).replace(/\@/g, '@‌')
-                var findMessage = data.guildData[msg.guild.id].messages.findIndex(message => decrypt(message.content).toLowerCase() === cleanMessage.toLowerCase())
+                var findMessage = tempdata[msg.guild.id].messages.findIndex(message => message.content.toLowerCase() === cleanMessage.toLowerCase())
 
                 if (findMessage > -1) {
                     data.guildData[msg.guild.id].messages.splice(findMessage, 1)
+                    tempdata[msg.guild.id].messages.splice(findMessage, 1)
 
                     if (!msg.nosend) await msg.reply(`✅ Removed.`).catch(() => { })
                     return `✅ Removed.`
@@ -280,6 +288,7 @@ module.exports = {
 
                     if (confirm) {
                         data.guildData[msg.guild.id].messages = []
+                        tempdata[msg.guild.id].messages = []
 
                         if (!msg.nosend) await msg.reply(`✅ All the messages from the database have been cleared.`).catch(() => { })
                         return `✅ All the messages from the database have been cleared.`

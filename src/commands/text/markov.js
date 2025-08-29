@@ -5,9 +5,9 @@ module.exports = {
         let poopy = this
         let {
             getOption, parseNumber, markovChainGenerator,
-            fetchPingPerms, markovMe, decrypt
+            fetchPingPerms, markovMe
         } = poopy.functions
-        let data = poopy.data
+        let tempdata = poopy.tempdata
         let json = poopy.json
         let arrays = poopy.arrays
         let vars = poopy.vars
@@ -21,7 +21,7 @@ module.exports = {
         var randomsentences = getOption(args, 'randomsentences', { dft: false, splice: true, n: 0, join: true })
 
         var saidMessage = args.join(' ').substring((args[0] || '').length + 1)
-        var messages = data.guildData[msg.guild.id].messages.slice().map(m => decrypt(m.content))
+        var messages = tempdata[msg.guild.id].messages
         if (messages.length <= 0 || randomsentences) {
             messages = json.sentenceJSON.data.map(s => s.sentence).concat(arrays.psPasta)
         }

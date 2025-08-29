@@ -59,7 +59,7 @@ module.exports = {
         var repeat = 5
         var languagesindex = args.indexOf('-languages')
         if (languagesindex > -1) {
-            repeat = isNaN(Number(args[languagesindex + 1])) ? 5 : Number(args[languagesindex + 1]) <= 2 ? 2 : Number(args[languagesindex + 1]) >= 250 ? 250 : Math.round(Number(args[languagesindex + 1])) || 5
+            repeat = isNaN(Number(args[languagesindex + 1])) ? 5 : Number(args[languagesindex + 1]) <= 2 ? 2 : Number(args[languagesindex + 1]) >= 50 ? 50 : Math.round(Number(args[languagesindex + 1])) || 5
             args.splice(languagesindex, 2)
         }
 
@@ -123,7 +123,7 @@ module.exports = {
         return output
     },
     help: {
-        name: 'badtranslate/badtr <message> [-source <language>] [-target <language>] [-languages <number (max 250)>] [-details]',
+        name: 'badtranslate/badtr <message> [-source <language>] [-target <language>] [-languages <number (max 50)>] [-details]',
         value: 'Badly translates the specified message. The default source language is auto and the default target language is English.'
     },
     type: 'Text'

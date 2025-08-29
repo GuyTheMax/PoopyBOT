@@ -70,7 +70,7 @@ module.exports = {
             if (msg.type === DiscordTypes.InteractionType.ApplicationCommand && del) await msg.deferReply({ ephemeral: true }).catch(() => { })
 
             for (var i = 0; i < numToRepeat; i++) {
-                if (tempdata[msg.guild.id][msg.channel.id].shut) break
+                if (tempdata[msg.guild.id][msg.channel.id].shutUp) break
 
                 if (reply) {
                     await reply.reply(sendObject).catch(() => { })
