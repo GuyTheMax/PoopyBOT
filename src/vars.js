@@ -326,7 +326,7 @@ vars.tempdataTemplate = {
         pronounsExpireDate: 0,
 
         messageId: {
-            lastUrls: [],
+            lastUrls: undefined,
 
             execCount: 0,
 
