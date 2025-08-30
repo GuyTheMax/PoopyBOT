@@ -5448,10 +5448,13 @@ functions.saveData = async function () {
 
 functions.updateSlashCommands = async function () {
     let poopy = this
+    let config = poopy.config
     let bot = poopy.bot
     let rest = poopy.rest
     let arrays = poopy.arrays
     let { Discord } = poopy.modules
+
+    if (config.self) return
 
     var slashBuilders = Object.values(arrays.slashBuilders)
     await rest.put(Discord.Routes.applicationCommands(bot.user.id), { body: slashBuilders }).catch((e) => console.log(e))
