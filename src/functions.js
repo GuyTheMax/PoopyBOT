@@ -507,7 +507,7 @@ functions.fetchPingPerms = function (msg) {
         msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.Administrator) ||
         msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.MentionEveryone) ||
         msg.author.id == msg.guild.ownerID
-    ) ? ['users', 'everyone', 'roles'] : ['users']
+    ) ? ['users', 'everyone', 'roles'] : []
 }
 
 functions.execPromise = function (code) {
