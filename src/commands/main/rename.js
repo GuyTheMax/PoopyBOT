@@ -36,20 +36,11 @@ module.exports = {
         let { DiscordTypes } = poopy.modules
         let { fetchPingPerms } = poopy.functions
 
-        if (
-            !msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ChangeNickname) &&
-            !msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageNicknames) &&
-            !msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.Administrator)
-        ) {
-            await msg.reply(`I don't have the permission to change your nickname.`).catch(() => { })
-            return
-        }
-
         args[1] = args[1] ?? ' '
 
-        var member = await msg.guild.members.fetch((args[1].match(/[0-9]+/) ?? [args[1]])[0]).catch(() => { }) ?? msg.member
+        var member = await msg.guild.members.fetch((args[1].match(/[0-9]+/) ?? [args[1]])[0]).catch(() => { })
 
-        if (args[1].match(/[0-9]+/)) {
+        if (member) {
             if (
                 !msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageNicknames) &&
                 !msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.Administrator)
@@ -60,6 +51,8 @@ module.exports = {
 
             args.splice(1, 1)
         }
+
+        member = member ?? msg.member
 
         var name = args.slice(1).join(' ').trim().substring(0, 32)
         if (!name) {
