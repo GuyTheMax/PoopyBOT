@@ -38,7 +38,7 @@ module.exports = {
         var chatResponse = await chat(saidMessage, msg, {
             temperature, instruct, clear,
             useTools: true
-        }).catch(() => { }) ?? "what"
+        }).catch((e) => console.log(e)) ?? "what"
 
         if (!msg.nosend) await msg.reply({
             content: chatResponse,

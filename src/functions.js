@@ -525,7 +525,7 @@ functions.execPromise = function (code) {
                 return arg
             }
         })
-        
+
         var command = args.splice(0, 1)[0]
 
         async function execTask() {
@@ -813,12 +813,17 @@ functions.chat = async function (stim, msg, {
     var contexts = tempdata[msg.guild.id][msg.channel.id][msg.author.id].chatContexts
     if (!contexts) contexts = tempdata[msg.guild.id][msg.channel.id][msg.author.id].chatContexts = {}
 
-    var ourContext = contexts[instruct]
-    if (!ourContext || (Date.now() - ourContext.lastMessage) > 1000 * 60 * 10 || clear) ourContext = contexts[instruct] = {
-        history: [{
+    var instructMsg = Array.isArray(instruct) ? instruct[0].content : instruct
+    var startHistory = Array.isArray(instruct) ? instruct : [
+        {
             role: "system",
-            content: instruct
-        }]
+            content: instructMsg
+        }
+    ]
+
+    var ourContext = contexts[instructMsg]
+    if (!ourContext || (Date.now() - ourContext.lastMessage) > 1000 * 60 * 10 || clear) ourContext = contexts[instructMsg] = {
+        history: startHistory
     }
 
     ourContext.lastMessage = Date.now()
@@ -831,8 +836,8 @@ functions.chat = async function (stim, msg, {
     })
 
     var resp,
-    data,
-    message
+        data,
+        message
 
     async function makeChatRequest() {
         const requestData = {
@@ -844,17 +849,19 @@ functions.chat = async function (stim, msg, {
 
         if (useTools) requestData.tools = vars.chatToolData
 
-        resp = await axios({
-            url: `https://api.ai21.com/studio/v1/chat/completions`,
-            method: 'POST',
-            data: requestData,
-            headers: {
-                Authorization: `Bearer ${userToken(msg.author.id, 'AI21_KEY')}`
-            }
-        }).catch((e) => console.log(e))
+        do {
+            resp = await axios({
+                url: `https://api.ai21.com/studio/v1/chat/completions`,
+                method: 'POST',
+                data: requestData,
+                headers: {
+                    Authorization: `Bearer ${userToken(msg.author.id, 'AI21_KEY')}`
+                }
+            }).catch((e) => console.log(e))
 
-        data = resp?.data?.choices?.[0]
-        message = data?.message
+            data = resp?.data?.choices?.[0]
+            message = data?.message
+        } while (message?.content && message?.content.includes("tool_calls"))
 
         if (!message) return
 
@@ -887,21 +894,11 @@ functions.chat = async function (stim, msg, {
 
     if (tokenAmount > 200000) ourHistory.slice(1, 1) // what was this for? limits??
 
-    var first = true
     var content = (message.content ?? "").replace(
         /((?:!\[[^\]]*]|\[[^\]]*])\([^)]*\))(?!\s|$)/g,
         '$1 '
     )
 
-    content = content.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, text, url) => {
-        if (first) {
-            first = false
-            return match
-        }
-
-        return `[${text}](<${url}>)`
-    })
-    
     return content
 }
 
@@ -2939,7 +2936,7 @@ functions.correctUrl = async function (url) {
 
         var mp4url = gyazourl + '.mp4'
         var pngurl = gyazourl + '.png'
-        
+
         var gyazourls = [mp4url, pngurl]
         var gyazourl = undefined
         for (var i in gyazourls) {
@@ -3668,7 +3665,7 @@ functions.addLastUrl = function (msg, url) {
     let { lastUrls } = poopy.functions
 
     if (!url) return
-    
+
     if (tempdata[msg.author.id][msg.id]) {
         var lasturls = [url].concat(lastUrls(msg))
         lasturls.splice(1000)
@@ -3756,13 +3753,13 @@ functions.createCronJob = async function (cronData) {
                 ?? await bot.guilds.fetch(guildId).catch(() => { })
 
             var channel = guild && guild.channels ? (
-                    guild.channels.cache.get(channelId)
-                    ?? await guild.channels.fetch(channelId).catch(() => { })
-                ) : (
-                    bot.channels.cache.get(channelId)
-                    ?? await bot.channels.fetch(channelId).catch(() => { })
-                )
-            
+                guild.channels.cache.get(channelId)
+                ?? await guild.channels.fetch(channelId).catch(() => { })
+            ) : (
+                bot.channels.cache.get(channelId)
+                ?? await bot.channels.fetch(channelId).catch(() => { })
+            )
+
             if (!channel) break
 
             cronMessage = await channel.send(phrase).catch((err) => {
@@ -4345,15 +4342,15 @@ functions.battle = async function (msg, subject, action, damage, chance) {
                     case 'they':
                         pronoun = "they're"
                         break
-                    
+
                     case 'he':
                         pronoun = "he's"
                         break
-                    
+
                     case 'she':
                         pronoun = "she's"
                         break
-                    
+
                     case 'it':
                         pronoun = "it's"
                         break
@@ -4748,7 +4745,7 @@ functions.fetchImages = async function (query, unsafe) {
                 reject("Error fetching images.")
                 return
             }
-            
+
             var images = results.map(
                 result => result.url.replace(/\\u([a-z0-9]){4}/g, (match) => {
                     return String.fromCharCode(Number('0x' + match.substring(2, match.length)))
@@ -5772,7 +5769,7 @@ functions.resolveUser = async function (identifier, guild) {
     }
 
     var identifierLowercase = identifier.toLowerCase()
-    
+
     var cachedUserFromUsernameOrGlobalName = bot.users.cache.find(
         user => user.username.toLowerCase() == identifierLowercase
             || user.globalName?.toLowerCase() == identifierLowercase
@@ -5845,7 +5842,7 @@ functions.quotationMarksInput = function (text) {
     }
 
     var matchedStrings = Array.from(match).splice(1)
-    
+
     return matchedStrings, match
 }
 
@@ -5872,7 +5869,7 @@ functions.fetchPronounFields = async function (user, guild) {
     if (response.status < 200 || response.status >= 300)
         // Request failed
         return
-    
+
     var serverPronouns = ''
     var userPronouns = ''
 
@@ -5908,8 +5905,8 @@ functions.pronouns = async function (user, guild) {
     var pronounFields = await fetchPronounFields(user, guildMember && guild).catch((e) => console.log(e))
     if (!pronounFields)
         return defaultPronouns
-    
-    var [ userProfilePronouns, serverProfilePronouns ] = pronounFields
+
+    var [userProfilePronouns, serverProfilePronouns] = pronounFields
 
     function findPronouns(pronounsString) {
         var pileOfPronouns = new Set()
@@ -5940,7 +5937,7 @@ functions.pronouns = async function (user, guild) {
                 case 'themself':
                     pileOfPronouns.add('they')
                     break
-                
+
                 case 'it':
                 case 'its':
                 case 'itself':
@@ -5961,8 +5958,8 @@ functions.pronouns = async function (user, guild) {
 
         return pileOfPronouns
     }
-    
-    var pilesOfPronouns = [ findPronouns(serverProfilePronouns), findPronouns(userProfilePronouns) ]
+
+    var pilesOfPronouns = [findPronouns(serverProfilePronouns), findPronouns(userProfilePronouns)]
     pilesOfPronouns = pilesOfPronouns.filter(
         pileOfPronouns => pileOfPronouns.size > 0
     )
