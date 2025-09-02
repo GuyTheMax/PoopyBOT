@@ -32,7 +32,7 @@ module.exports = {
 
         var userQuery = args.slice(1).join(' ')
 
-        var member = await resolveUser(userQuery).catch(() => { }) ?? msg.author
+        var member = userQuery ? await resolveUser(userQuery, msg.guild, "user").catch(() => { }) : msg.author
 
         if (!member) {
             await msg.reply({

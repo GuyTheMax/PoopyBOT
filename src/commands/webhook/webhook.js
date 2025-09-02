@@ -42,19 +42,48 @@ module.exports = {
         let vars = poopy.vars
         let data = poopy.data
         let { DiscordTypes } = poopy.modules
-        let { dataGather, fetchPingPerms } = poopy.functions
+        let { dataGather, fetchPingPerms, resolveUser } = poopy.functions
 
-        args[1] = args[1] ?? ' '
+        var saidMessage = args.slice(1).join(' ')
+        var symbolReplacedMessage
+        vars.symbolreplacements.forEach(symbolReplacement => {
+            symbolReplacement.target.forEach(target => {
+                symbolReplacedMessage = saidMessage.replace(new RegExp(target, 'ig'), symbolReplacement.replacement)
+            })
+        })
+        var name = (symbolReplacedMessage.match(/"([\s\S]*?)"/) ?? [])[1]
+        if (name) {
+            var allBlank = true
 
-        var member = await msg.guild.members.fetch((args[1].match(/[0-9]+/) ?? [args[1]])[0]).catch(() => { }) ?? msg.member
+            for (var i = 0; i < name.length; i++) {
+                var letter = name[i]
+                if (letter !== ' ') {
+                    allBlank = false
+                }
+            }
+
+            if (allBlank) {
+                await msg.reply('Invalid name.').catch(() => { })
+                return
+            }
+        }
+        var avatar = vars.validUrl.test(args[args.length - 1]) && args[args.length - 1]
+
+        var userQuery = symbolReplacedMessage
+        if (name) userQuery = userQuery.replace(`"${name}"`, "").trim()
+        if (avatar) userQuery = userQuery.replace(avatar, "").trim()
+
+        var member = userQuery ? await resolveUser(userQuery, msg.guild, "member").catch(() => { }) : msg.author
 
         if (!member) {
             await msg.reply({
-                content: `Invalid user ID: **${args[1]}**`,
+                content: `Invalid member: **${userQuery}**`,
                 allowedMentions: fetchPingPerms(msg)
             }).catch(() => { })
             return
         }
+
+        member = member.user ?? member
 
         if (!data.guildData[msg.guild.id].members[member.id]) {
             data.guildData[msg.guild.id].members[member.id] = !config.testing && process.env.MONGODB_URL && await dataGather.memberData(config.database, msg.guild.id, msg.author.id).catch(() => { }) || {}
@@ -66,42 +95,20 @@ module.exports = {
 
         if (data.guildData[msg.guild.id].members[member.id].custom === false) {
             if (msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageWebhooks) || msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.Administrator) || msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageGuild) || msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageMessages) || msg.author.id === msg.guild.ownerID || config.ownerids.find(id => id == msg.author.id)) {
-                var saidMessage = args.slice(1).join(' ')
-                var symbolReplacedMessage
-                vars.symbolreplacements.forEach(symbolReplacement => {
-                    symbolReplacement.target.forEach(target => {
-                        symbolReplacedMessage = saidMessage.replace(new RegExp(target, 'ig'), symbolReplacement.replacement)
-                    })
-                })
-                var matchedTextes = symbolReplacedMessage.match(/"([\s\S]*?)"/)
-                if (!matchedTextes) {
+                if (!name) {
                     await msg.reply('Where\'s the name?!').catch(() => { })
                     return
                 }
-                if (!vars.validUrl.test(args[args.length - 1])) {
+                if (!avatar) {
                     await msg.reply('Where\'s the avatar?!').catch(() => { })
                     return
                 }
-                var name = matchedTextes[1]
-                var allBlank = true
-
-                for (var i = 0; i < name.length; i++) {
-                    var letter = name[i]
-                    if (letter !== ' ') {
-                        allBlank = false
-                    }
-                }
-
-                if (allBlank) {
-                    await msg.reply('Invalid name.').catch(() => { })
-                    return
-                }
-                var avatar = args[args.length - 1]
 
                 data.guildData[msg.guild.id].members[member.id].custom = {
-                    name: allBlank ? '⠀' : name,
+                    name: name,
                     avatar: avatar
                 }
+
                 if (!msg.nosend) await msg.reply({
                     content: member.displayName.replace(/\@/g, '@‌') + ` is now ${name}.`,
                     allowedMentions: fetchPingPerms(msg)

@@ -28,20 +28,22 @@ module.exports = {
         let poopy = this
         let data = poopy.data
         let config = poopy.config
-        let { dataGather, fetchPingPerms } = poopy.functions
+        let { dataGather, fetchPingPerms, resolveUser } = poopy.functions
         let { DiscordTypes } = poopy.modules
 
-        args[1] = args[1] ?? ' '
+        var userQuery = args.slice(1).join(' ')
 
-        var member = await msg.guild.members.fetch((args[1].match(/[0-9]+/) ?? [args[1]])[0]).catch(() => {}) ?? msg.member
+        var member = userQuery ? await resolveUser(userQuery, msg.guild, "member").catch(() => {}) : msg.author
 
         if (!member) {
             await msg.reply({
-                content: `Invalid user ID: **${args[1]}**`,
+                content: `Invalid member: **${userQuery}**`,
                 allowedMentions: fetchPingPerms(msg)
             }).catch(() => {})
             return
         }
+
+        member = member.user ?? member
 
         if (!data.guildData[msg.guild.id].members[member.id]) {
             data.guildData[msg.guild.id].members[member.id] = !config.testing && process.env.MONGODB_URL && await dataGather.memberData(config.database, msg.guild.id, msg.author.id).catch(() => { }) || {}

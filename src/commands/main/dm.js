@@ -1,42 +1,44 @@
 module.exports = {
     name: ['dm'],
-    args: [{
-        "name": "user",
-        "required": true,
-        "specifarg": false,
-        "orig": "<user>",
-        "autocomplete": async function (interaction) {
-            let poopy = this
-            let { data, config } = poopy
-            let { dataGather } = poopy.functions
+    args: [
+        {
+            "name": "user",
+            "required": true,
+            "specifarg": false,
+            "orig": "<user>",
+            "autocomplete": async function (interaction) {
+                let poopy = this
+                let { data, config } = poopy
+                let { dataGather } = poopy.functions
 
-            if (!data.guildData[interaction.guild.id]) {
-                data.guildData[interaction.guild.id] = !config.testing && process.env.MONGODB_URL && await dataGather.guildData(config.database, interaction.guild.id).catch((e) => console.log(e)) || {}
+                if (!data.guildData[interaction.guild.id]) {
+                    data.guildData[interaction.guild.id] = !config.testing && process.env.MONGODB_URL && await dataGather.guildData(config.database, interaction.guild.id).catch((e) => console.log(e)) || {}
+                }
+
+                var memberData = data.guildData[interaction.guild.id].allMembers ?? {}
+                var memberKeys = Object.keys(memberData).sort((a, b) => memberData[b].messages - memberData[a].messages)
+
+                return memberKeys.map(id => {
+                    return { name: memberData[id].username, value: id }
+                })
             }
-
-            var memberData = data.guildData[interaction.guild.id].allMembers ?? {}
-            var memberKeys = Object.keys(memberData).sort((a, b) => memberData[b].messages - memberData[a].messages)
-
-            return memberKeys.map(id => {
-                return { name: memberData[id].username, value: id }
-            })
-        }
-    },
-    {
-        "name": "message",
-        "required": true,
-        "specifarg": false,
-        "orig": "<message>"
-    },
-    {
-        "name": "anonymous",
-        "required": false,
-        "specifarg": true,
-        "orig": "[-anonymous]"
-    }],
+        },
+        {
+            "name": "message",
+            "required": true,
+            "specifarg": false,
+            "orig": "<message>"
+        },
+        //{
+        //    "name": "anonymous",
+        //    "required": false,
+        //    "specifarg": true,
+        //    "orig": "[-anonymous]"
+        //}
+    ],
     execute: async function (msg, args, opts) {
         let poopy = this
-        let { shuffle, randomChoice, yesno, dataGather, fetchPingPerms } = poopy.functions
+        let { shuffle, randomChoice, yesno, dataGather, fetchPingPerms, resolveUser } = poopy.functions
         let { Discord, DiscordTypes } = poopy.modules
         let json = poopy.json
         let data = poopy.data
@@ -69,7 +71,7 @@ module.exports = {
         if (args[1].match(/^@(here|everyone)$/) && (Math.random() < 0.2 || msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.Administrator) || msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageMessages) || msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.MentionEveryone) || msg.author.id == msg.guild.ownerID || ownerid || opts.ownermode)) {
             var len = config.useReactions ? 20 : 25
             var ha = shuffle(
-                msg.guild.emojis.cache.filter(emoji => 
+                msg.guild.emojis.cache.filter(emoji =>
                     !(config.self && config.useReactions) ? emoji.available : emoji.available && !emoji.animated
                 ).map(e => e.toString())
             ).slice(0, len)
@@ -104,11 +106,11 @@ module.exports = {
 
         args[1] = args[1] ?? ''
 
-        var member = await bot.users.fetch((args[1].match(/[0-9]+/) ?? [args[1]])[0]).catch(() => { })
+        var member = await resolveUser(args[1], msg.guild, "user").catch(() => { })
 
         if (!member) {
             await msg.reply({
-                content: `Invalid user ID: **${args[1]}**`,
+                content: `Invalid user: **${args[1]}**`,
                 allowedMentions: fetchPingPerms(msg)
             }).catch(() => { })
             return
@@ -171,7 +173,7 @@ module.exports = {
         }
     },
     help: {
-        name: 'dm <user> <message> [-anonymous]',
+        name: 'dm <user> <message>',
         value: 'Allows Poopy to DM an user the message inside the command.'
     },
     nodefer: true,

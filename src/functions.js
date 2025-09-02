@@ -824,6 +824,8 @@ functions.chat = async function (stim, msg, {
     if (!contexts) contexts = tempdata[msg.guild.id][msg.channel.id][msg.author.id].chatContexts = {}
 
     var instructMsg = Array.isArray(instruct) ? instruct[0].content : instruct
+    if (useTools) instructMsg += `\n- Only use your tools (e.g., image search) when EXPLICITLY told to.`
+
     var startHistory = Array.isArray(instruct) ? [...instruct] : [
         {
             role: "system",
@@ -851,7 +853,7 @@ functions.chat = async function (stim, msg, {
 
     async function makeChatRequest() {
         const requestData = {
-            model: "jamba-large-1.7",
+            model: useTools ? "jamba-large" : "jamba-mini",
             messages: ourHistory,
             temperature: temperature,
             top_p: 1
@@ -3483,7 +3485,7 @@ functions.getUrls = async function (msg, options = {}) {
         {
             regexp: /[0-9]{10,}/g,
             func: async function (id) {
-                var user = await bot.users.fetch(id).catch(() => { })
+                var user = await msg.guild.members.fetch(id).catch(() => { }) ?? await bot.users.fetch(id).catch(() => { })
                 if (user) {
                     infoPost(`Discord avatar URL detected`)
                     return user.displayAvatarURL({ dynamic: true, size: 1024, extension: 'png' })
@@ -4592,7 +4594,7 @@ functions.battle = async function (msg, subject, action, damage, chance) {
     payload.files = []
 
     if ((subjUser && subjData) || (vars.validUrl.test(subject) && (await validateFile(subject).catch(() => { })))) {
-        var filepath = await battleGif(subject, subjData, subjUser, attacked, subjDied, critical, subjShieldUp, subjShield)
+        var filepath = await battleGif(subject, subjData, subjGuildMember ?? subjUser, attacked, subjDied, critical, subjShieldUp, subjShield)
 
         if (fs.existsSync(`${filepath}/attack.gif`)) {
             payload.files.push(new Discord.AttachmentBuilder(`${filepath}/attack.gif`))
@@ -4601,7 +4603,7 @@ functions.battle = async function (msg, subject, action, damage, chance) {
     }
 
     if (youGotHit && !subjIsYou) {
-        var filepath2 = await battleGif(subject, yourData, yourUser, true, youDied, false, yourShieldUp, yourShield, 'attack2.gif')
+        var filepath2 = await battleGif(subject, yourData, yourGuildMember ?? yourUser, true, youDied, false, yourShieldUp, yourShield, 'attack2.gif')
 
         if (fs.existsSync(`${filepath2}/attack2.gif`)) {
             payload.files.push(new Discord.AttachmentBuilder(`${filepath2}/attack2.gif`))
@@ -5780,77 +5782,81 @@ functions.queryPage = function (channel, who, page, lastPage, interaction) {
     })
 }
 
-functions.resolveUser = async function (identifier, guild) {
+functions.resolveUser = async function (identifier, guild, mode = "memberOrUser") {
     let poopy = this
     let bot = poopy.bot
     let data = poopy.data
     let { similarity } = poopy.functions
 
-    if (identifier === undefined)
-        return undefined
+    if (!identifier) return undefined
 
     identifier = String(identifier).trim()
+    let strippedMentionIdentifier = identifier.replace(/^<@/, '').replace(/>$/, '')
+    let identifierIsId = strippedMentionIdentifier.match(/^\d+$/)?.[0] === strippedMentionIdentifier
 
-    var strippedMentionIdentifier = identifier.replace(/^<@/, '').replace(/>$/, '')
-
-    var identifierIsId = strippedMentionIdentifier.match(/[0-9]+/)?.[0] == strippedMentionIdentifier
-    if (identifierIsId) {
-        var userResolvedById = await bot.users.fetch(strippedMentionIdentifier).catch(() => { })
-        if (userResolvedById)
-            return userResolvedById
+    function formatResult(memberOrUser) {
+        if (!memberOrUser) return undefined
+        if (mode === "user") return memberOrUser.user ?? memberOrUser
+        if (mode === "member") return memberOrUser.user ? memberOrUser : undefined
+        if (mode === "memberOrUser") return memberOrUser.user ? memberOrUser : memberOrUser
     }
 
-    var identifierLowercase = identifier.toLowerCase()
+    if (identifierIsId) {
+        let resolved =
+            (guild && await guild.members.fetch(strippedMentionIdentifier).catch(() => { })) ||
+            (await bot.users.fetch(strippedMentionIdentifier).catch(() => { }))
+        return formatResult(resolved)
+    }
 
-    var cachedUserFromUsernameOrGlobalName = bot.users.cache.find(
-        user => user.username.toLowerCase() == identifierLowercase
-            || user.globalName?.toLowerCase() == identifierLowercase
-    )
-    if (cachedUserFromUsernameOrGlobalName)
-        return cachedUserFromUsernameOrGlobalName
+    let identifierLower = identifier.toLowerCase()
 
-    var idFromLeaderboardTag = Object.keys(data.botData.leaderboard).find(
-        id => data.botData.leaderboard[id]?.tag.toLowerCase() == identifierLowercase
-    )
-    if (idFromLeaderboardTag) {
-        var userResolvedByLeaderboardId = await bot.users.fetch(idFromLeaderboardTag).catch(() => { })
-        if (userResolvedByLeaderboardId)
-            return userResolvedByLeaderboardId
+    let cached =
+        (guild && guild.members.cache.find(
+            m => m.displayName.toLowerCase() === identifierLower ||
+                m.user.displayName?.toLowerCase() === identifierLower ||
+                m.user.tag?.toLowerCase() === identifierLower
+        )) ||
+        bot.users.cache.find(
+            u => u.displayName.toLowerCase() === identifierLower ||
+                u.tag?.toLowerCase() === identifierLower
+        )
+    if (cached) return formatResult(cached)
+
+    let leaderboardId = Object.keys(data.botData.leaderboard)
+        .find(id => data.botData.leaderboard[id]?.tag.toLowerCase() === identifierLower)
+    if (leaderboardId) {
+        let resolved =
+            (guild && await guild.members.fetch(leaderboardId).catch(() => { })) ||
+            (await bot.users.fetch(leaderboardId).catch(() => { }))
+        if (resolved) return formatResult(resolved)
     }
 
     if (guild) {
-        var memberFromUsernameOrNicknameOrGlobalNameInGuild = guild.members.cache.find(
-            member => member.user.username.toLowerCase() == identifierLowercase
-                || member.nickname?.toLowerCase() == identifierLowercase
-                || member.user.globalName?.toLowerCase() == identifierLowercase
-        )
-
-        if (memberFromUsernameOrNicknameOrGlobalNameInGuild)
-            return memberFromUsernameOrNicknameOrGlobalNameInGuild.user
-
-        var searchResults = await guild.members.search({
-            query: identifier
-        })
-
-        var highestSimilarityMapped = searchResults.mapValues(
-            member => Math.max(
-                similarity(member.user.username, identifier),
-                member.nickname ? similarity(member.nickname, identifier) : 0,
-                member.user.globalName ? similarity(member.user.globalName, identifier) : 0
-            )
-        )
-
-        var thresholded = highestSimilarityMapped.filter(
-            (score) => score > 0.7
-        ).sorted((scoreA, scoreB) => scoreB - scoreA)
-
-        var memberFromSearchQuery = searchResults.get(thresholded.firstKey())
-
-        if (memberFromSearchQuery)
-            return memberFromSearchQuery.user
+        let member =
+            guild.members.cache.find(
+                m => m.displayName?.toLowerCase() === identifierLower ||
+                    m.user.displayName?.toLowerCase() === identifierLower ||
+                    m.user.tag?.toLowerCase() === identifierLower
+            ) ||
+            await (async () => {
+                let searchResults = await guild.members.search({ query: identifier })
+                let highestSimilarity = searchResults.mapValues(m =>
+                    Math.max(
+                        similarity(m.user.username, identifier),
+                        m.displayName ? similarity(m.displayName, identifier) : 0,
+                        m.user.displayName ? similarity(m.user.displayName, identifier) : 0,
+                        m.user.tag ? similarity(m.user.tag, identifier) : 0
+                    )
+                )
+                let thresholded = highestSimilarity
+                    .filter(score => score > 0.7)
+                    .sorted((a, b) => b - a)
+                return searchResults.get(thresholded.firstKey())
+            })()
+        if (member) return formatResult(member)
     }
 
-    return null
+    return undefined
 }
 
 functions.quotationMarksInput = function (text) {

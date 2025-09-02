@@ -23,10 +23,10 @@ module.exports = {
         }
     },
     {
-        "name": "text",
+        "name": "name",
         "required": true,
         "specifarg": false,
-        "orig": "<name>"
+        "orig": "\"<name>\""
     }],
     execute: async function (msg, args) {
         let poopy = this
@@ -34,41 +34,56 @@ module.exports = {
         let vars = poopy.vars
         let data = poopy.data
         let { DiscordTypes } = poopy.modules
-        let { fetchPingPerms } = poopy.functions
+        let { fetchPingPerms, resolveUser } = poopy.functions
 
-        args[1] = args[1] ?? ' '
+        var saidMessage = args.slice(1).join(' ')
+        var symbolReplacedMessage
+        vars.symbolreplacements.forEach(symbolReplacement => {
+            symbolReplacement.target.forEach(target => {
+                symbolReplacedMessage = saidMessage.replace(new RegExp(target, 'ig'), symbolReplacement.replacement)
+            })
+        })
+        var name = (symbolReplacedMessage.match(/"([\s\S]*?)"/) ?? [])[1]
+        if (name) {
+            var allBlank = true
 
-        var member = await msg.guild.members.fetch((args[1].match(/[0-9]+/) ?? [args[1]])[0]).catch(() => { })
-
-        if (member) {
-            if (
-                !msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageNicknames) &&
-                !msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.Administrator)
-            ) {
-                await msg.reply(`I don't have the permission to change the nicknames of other users.`).catch(() => { })
-                return
+            for (var i = 0; i < name.length; i++) {
+                var letter = name[i]
+                if (letter !== ' ') {
+                    allBlank = false
+                }
             }
 
-            args.splice(1, 1)
+            if (allBlank) {
+                await msg.reply('Invalid name.').catch(() => { })
+                return
+            }
         }
 
-        member = member ?? msg.member
+        var userQuery = symbolReplacedMessage
+        if (name) userQuery = userQuery.replace(`"${name}"`, "").trim()
+        else {
+            name = symbolReplacedMessage.trim()
+            userQuery = ""
+        }
 
-        var name = args.slice(1).join(' ').trim().substring(0, 32)
-        if (!name) {
-            await msg.reply('Where\'s the name?!').catch(() => { })
+        var member = userQuery ? await resolveUser(userQuery, msg.guild, "member").catch(() => { }) : msg.member
+
+        console.log(userQuery, member)
+
+        if (!member || (
+            !msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageNicknames) &&
+            !msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.Administrator)
+        )) {
+            await msg.reply({
+                content: !member ? `Invalid member: **${userQuery}**` : `I don't have the permission to change the nicknames of other users.`,
+                allowedMentions: fetchPingPerms(msg)
+            }).catch(() => { })
             return
         }
 
-        for (var i = 0; i < name.length; i++) {
-            var letter = name[i]
-            if (letter !== ' ') {
-                allBlank = false
-            }
-        }
-
-        if (allBlank) {
-            await msg.reply('Invalid name.').catch(() => { })
+        if (!name) {
+            await msg.reply('Where\'s the name?! If you wanna rename a different user, you gotta put the new name between quotes.').catch(() => { })
             return
         }
 
@@ -89,7 +104,7 @@ module.exports = {
         return `${oldName.replace(/\@/g, '@‌')}'s nickname was set to **${name}**.`
     },
     help: {
-        name: 'rename/nickname [user (manage nicknames permission only)] <text> (change nickname permission only)',
+        name: 'rename/nickname [user (manage nicknames permission only)] "<name>" (change nickname permission only)',
         value: 'Allows you to set a nickname on yourself or other users.'
     },
     cooldown: 2500,

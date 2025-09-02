@@ -24,7 +24,7 @@ module.exports = {
         let data = poopy.data
         let bot = poopy.bot
         let config = poopy.config
-        let { fetchPingPerms } = poopy.functions
+        let { fetchPingPerms, resolveUser } = poopy.functions
 
         var options = {
             list: async (msg) => {
@@ -63,18 +63,17 @@ module.exports = {
             },
 
             toggle: async (msg, args) => {
-                var userId = args[2] && (args[2].match(/[0-9]+/) ?? [])[0]
+                var userQuery = args.slice(2).join(' ')
 
-                if (!userId) {
+                if (!userQuery) {
                     await msg.reply('You need to specify a user!').catch(() => { })
                     return
                 }
 
-                var findUser = bot.users.fetch(userId)
-                if (findUser?.catch) findUser = await findUser.catch(() => { })
+                var findUser = await resolveUser(userQuery, msg.guild, "user").catch(() => { })
 
                 if (findUser) {
-                    var findUserIndex = data.userData[msg.author.id].blocked.findIndex(u => u.id == userId)
+                    var findUserIndex = data.userData[msg.author.id].blocked.findIndex(u => u.id == findUser.id)
 
                     if (findUserIndex > -1) {
                         data.userData[msg.author.id].blocked.splice(findUserIndex, 1)

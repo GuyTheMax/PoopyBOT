@@ -112,7 +112,7 @@ module.exports = {
         let { fs, Discord, DiscordTypes, CryptoJS } = poopy.modules
         let data = poopy.data
         let tempdata = poopy.tempdata
-        let { similarity, yesno, fetchPingPerms } = poopy.functions
+        let { similarity, yesno, fetchPingPerms, resolveUser } = poopy.functions
         let bot = poopy.bot
 
         var options = {
@@ -182,19 +182,20 @@ module.exports = {
             },
 
             member: async (msg, args) => {
-                if (args[1] === undefined) {
+                var userQuery = args.slice(1).join(' ')
+                if (!userQuery) {
                     await msg.reply('Who is the member?!').catch(() => { })
                     return
                 }
 
-                args[1] = args[1] ?? ''
-
-                var member = await bot.users.fetch((args[1].match(/[0-9]+/) ?? [args[1]])[0]).catch(() => { })
+                var member = await resolveUser(userQuery, msg.guild, "member").catch(() => { })
 
                 if (!member) {
                     await msg.reply('This member does not exist.').catch(() => { })
                     return
                 }
+
+                member = member.user ?? member
 
                 var messages = tempdata[msg.guild.id].messages.filter(m => m.author == member.id)
 

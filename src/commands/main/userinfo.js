@@ -23,18 +23,17 @@ module.exports = {
         let poopy = this
         let bot = poopy.bot
         let { DiscordTypes } = poopy.modules
+        let { resolveUser } = poopy.functions
         let config = poopy.config
 
-        args[1] = args[1] ?? ' '
+        var userQuery = args.slice(1).join(' ')
 
-        var member = await msg.guild.members.fetch((args[1].match(/[0-9]+/) ?? [args[1]])[0]).catch(() => { }) ??
-            await bot.users.fetch((args[1].match(/[0-9]+/) ?? [args[1]])[0]).catch(() => { }) ??
-            msg.member
+        var member = userQuery ? await resolveUser(userQuery, msg.guild) : msg.member
 
-        var user = await (member.user ?? member).fetch(true)
+        var user = await (member.user ?? member).fetch(true).catch(() => { })
 
-        var avatar = member.displayAvatarURL({ dynamic: true, size: 1024, extension: 'png' }) ?? user.displayAvatarURL({ dynamic: true, size: 1024, extension: 'png' })
-        var banner = user.bannerURL({ dynamic: true, size: 1024, extension: 'png' })
+        var avatar = member.displayAvatarURL({ dynamic: true, size: 1024, extension: 'png' })
+        var banner = member.bannerURL({ dynamic: true, size: 1024, extension: 'png' })
 
         var urls = [`[Avatar URL](${avatar})`]
         if (banner) urls.push(`[Banner URL](${banner})`)

@@ -35,15 +35,15 @@ module.exports = {
         let bot = poopy.bot
         let config = poopy.config
         let { Discord, whatwg } = poopy.modules
-        let { fetchPingPerms } = poopy.functions
+        let { fetchPingPerms, getOption, resolveUser } = poopy.functions
 
         await msg.channel.sendTyping().catch(() => {})
 
-        args[1] = args[1] ?? ' '
+        var global = getOption(args, 'global', { n: 0, splice: true, dft: false })
 
-        var member = await msg.guild.members.fetch((args[1].match(/[0-9]+/) ?? [args[1]])[0]).catch(() => {}) ??
-            await bot.users.fetch((args[1].match(/[0-9]+/) ?? [args[1]])[0]).catch(() => {}) ??
-            msg.member
+        var userQuery = args.slice(1).join(' ')
+
+        var member = userQuery ? await resolveUser(userQuery, msg.guild) : msg.member
 
         if (!member) {
             await msg.reply({
@@ -54,10 +54,12 @@ module.exports = {
         }
 
         var username = member.displayName ?? member.user.displayName
-        if (args.includes('-global') && member.user) member = member.user
+        if (global) member = member.user ?? member
+
         var avatar = new Discord.AttachmentBuilder(member.displayAvatarURL({
             dynamic: true, size: 1024, extension: 'png'
-        }));
+        }))
+        
         var parsedAvatar = whatwg.parseURL(avatar.attachment)
 
         var avObject = {
