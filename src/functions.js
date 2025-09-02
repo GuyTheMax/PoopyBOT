@@ -5822,12 +5822,12 @@ functions.resolveUser = async function (identifier, guild, mode = "memberOrUser"
         )
     if (cached) return formatResult(cached)
 
-    let leaderboardId = Object.keys(data.botData.leaderboard)
-        .find(id => data.botData.leaderboard[id]?.tag.toLowerCase() === identifierLower)
-    if (leaderboardId) {
+    let leaderboardEntry = Object.entries(data.botData.leaderboard)
+        .find(([_, user]) => user.tag && user.tag.toLowerCase() === identifierLower)
+    if (leaderboardEntry) {
         let resolved =
-            (guild && await guild.members.fetch(leaderboardId).catch(() => { })) ||
-            (await bot.users.fetch(leaderboardId).catch(() => { }))
+            (guild && await guild.members.fetch(leaderboardEntry[0]).catch(() => { })) ||
+            (await bot.users.fetch(leaderboardEntry[0]).catch(() => { }))
         if (resolved) return formatResult(resolved)
     }
 

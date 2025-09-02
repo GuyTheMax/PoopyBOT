@@ -29,6 +29,14 @@ module.exports = {
         var userQuery = args.slice(1).join(' ')
 
         var member = userQuery ? await resolveUser(userQuery, msg.guild) : msg.member
+        
+        if (!member) {
+            await msg.reply({
+                content: `Invalid user: **${userQuery}**`,
+                allowedMentions: fetchPingPerms(msg)
+            }).catch(() => {})
+            return
+        }
 
         var user = await (member.user ?? member).fetch(true).catch(() => { })
 

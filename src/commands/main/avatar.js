@@ -47,7 +47,7 @@ module.exports = {
 
         if (!member) {
             await msg.reply({
-                content: `Invalid user ID: **${args[1]}**`,
+                content: `Invalid user: **${userQuery}**`,
                 allowedMentions: fetchPingPerms(msg)
             }).catch(() => {})
             return
