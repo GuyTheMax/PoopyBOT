@@ -662,8 +662,9 @@ functions.reconcileDataWithTemplate = function (data, template, msg, ignoreList 
         if (data[dataProperty] === undefined) {
             if (typeof template[property] == "object" && !Array.isArray(template[property])) {
                 data[dataProperty] = {}
-            }
-            else {
+            } else if (Array.isArray(template[property])) {
+                data[dataProperty] = [...template[property]]
+            } else {
                 data[dataProperty] = template[property]
             }
         }
@@ -4765,6 +4766,11 @@ functions.fetchImages = async function (query, unsafe) {
     let tempdata = poopy.tempdata
     let { gis } = poopy.modules
 
+    const urlBlacklist = [
+        "https://www.tiktok.com/api",
+        "https://lookaside.instagram.com/seo"
+    ]
+
     if (tempdata.images[query.toLowerCase()]) return tempdata.images[query.toLowerCase()]
 
     return new Promise(async (resolve, reject) => {
@@ -4781,7 +4787,7 @@ functions.fetchImages = async function (query, unsafe) {
                 result => result.url.replace(/\\u([a-z0-9]){4}/g, (match) => {
                     return String.fromCharCode(Number('0x' + match.substring(2, match.length)))
                 })
-            )
+            ).filter(result => !urlBlacklist.some(url => result.startsWith(url)))
 
             tempdata.images[query.toLowerCase()] = images
 
