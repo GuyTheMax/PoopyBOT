@@ -330,7 +330,10 @@ vars.tempdataTemplate = {
             forceResponse: undefined,
 
             webhooks: undefined,
-            cleverContext: {},
+            cleverContext: {
+                history: [],
+                processing: false
+            },
 
             userId: {
                 messageCollector: undefined,

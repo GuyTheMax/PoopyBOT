@@ -240,6 +240,7 @@ var dataGetters = {
             cahJSON: 'cah',
             battlerJSON: 'tbb',
             shieldJSON: 'shields',
+            doopleyJSON: 'doopley',
             emojiJSON: require('@jimp/plugin-print/emojis')
         }
 
