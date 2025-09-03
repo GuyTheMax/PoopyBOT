@@ -4770,7 +4770,8 @@ functions.fetchImages = async function (query, unsafe) {
 
     const urlBlacklist = [
         "https://www.tiktok.com/api",
-        "https://lookaside.instagram.com/seo"
+        "https://lookaside.instagram.com/seo",
+        ".svg"
     ]
 
     if (tempdata.images[query.toLowerCase()]) return tempdata.images[query.toLowerCase()]
@@ -4789,7 +4790,7 @@ functions.fetchImages = async function (query, unsafe) {
                 result => result.url.replace(/\\u([a-z0-9]){4}/g, (match) => {
                     return String.fromCharCode(Number('0x' + match.substring(2, match.length)))
                 })
-            ).filter(result => !urlBlacklist.some(url => result.startsWith(url)))
+            ).filter(result => !urlBlacklist.some(url => result.includes(url)))
 
             tempdata.images[query.toLowerCase()] = images
 
