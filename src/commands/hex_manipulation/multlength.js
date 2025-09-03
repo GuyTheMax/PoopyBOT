@@ -1,6 +1,6 @@
 module.exports = {
     name: ['multlength', 'multduration'],
-    args: [{"name":"multiplier","required":false,"specifarg":false,"orig":"[multiplier (from 1 to 6)]"},{"name":"file","required":false,"specifarg":false,"orig":"{file}"}],
+    args: [{ "name": "multiplier", "required": false, "specifarg": false, "orig": "[multiplier (from 1 to 6)]" }, { "name": "file", "required": false, "specifarg": false, "orig": "{file}" }],
     execute: async function (msg, args) {
         let poopy = this
         let { lastUrl, validateFile, downloadFile, sendFile, fetchPingPerms } = poopy.functions
@@ -27,16 +27,24 @@ module.exports = {
         var type = fileinfo.type
 
         if (type.mime.startsWith('video')) {
-            var filepath = await downloadFile(currenturl, `input.mp4`, {
-                fileinfo            })
+            var filepath = await downloadFile(currenturl, `input.mp4`, { fileinfo })
             var filename = `input.mp4`
             var videohex = fs.readFileSync(`${filepath}/${filename}`)
+
             var mvhdindex = videohex.indexOf('mvhd')
-            var subarray1 = videohex.subarray(0, mvhdindex + 20)
-            var doublehex = (Number('0x' + videohex.toString('hex').substring((mvhdindex + 20) * speed, (mvhdindex + 24) * speed)) * speed).toString(16).padStart(8, '0')
-            var doublelength = Buffer.from(doublehex.substring(doublehex.length - 8, doublehex.length), 'hex')
-            var subarray2 = videohex.subarray(subarray1.length + doublelength.length, videohex.length)
-            var newvideohex = Buffer.concat([subarray1, doublelength, subarray2])
+
+            var durationStart = mvhdindex + 20
+            var durationEnd = mvhdindex + 24
+            var oldDuration = videohex.readUInt32BE(durationStart)
+
+            var newDuration = Math.min(oldDuration * speed, 0xFFFFFFFF)
+            var newDurationBuffer = Buffer.alloc(4)
+            newDurationBuffer.writeUInt32BE(newDuration)
+
+            var subarray1 = videohex.subarray(0, durationStart)
+            var subarray2 = videohex.subarray(durationEnd)
+            var newvideohex = Buffer.concat([subarray1, newDurationBuffer, subarray2])
+
             fs.writeFileSync(`${filepath}/output.mp4`, newvideohex)
             return await sendFile(msg, filepath, `output.mp4`)
         } else {
