@@ -76,7 +76,7 @@ module.exports = {
             !msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.Administrator)
         )) {
             await msg.reply({
-                content: !member ? `Invalid member: **${userQuery}**` : `I don't have the permission to change the nicknames of other users.`,
+                content: !member ? `Invalid member: **${userQuery}**` : `You don't have the permission to change the nicknames of other users.`,
                 allowedMentions: fetchPingPerms(msg)
             }).catch(() => { })
             return
@@ -93,8 +93,11 @@ module.exports = {
         await member.setNickname(name).catch(() => failed = true)
 
         if (failed) {
-            if (!msg.nosend) await msg.reply(`I don’t have permission to change the user’s nickname. Make sure my highest role is above theirs!`).catch(() => { })
-            return `I don’t have permission to change the user’s nickname. Make sure my highest role is above theirs!`
+            if (!msg.nosend) await msg.reply({
+                content: `I don’t have permission to change ${oldName}'s nickname. Make sure my highest role is above theirs!`,
+                allowedMentions: fetchPingPerms(msg)
+            }).catch(() => { })
+            return `I don’t have permission to change ${oldName}'s nickname. Make sure my highest role is above theirs!`
         }
 
         if (!msg.nosend) await msg.reply({
@@ -104,7 +107,7 @@ module.exports = {
         return `${oldName.replace(/\@/g, '@‌')}'s nickname was set to **${name}**.`
     },
     help: {
-        name: 'rename/nickname [user (manage nicknames permission only)] "<name>" (change nickname permission only)',
+        name: 'rename/nickname [user (manage nicknames permission only)] "<name>"',
         value: 'Allows you to set a nickname on yourself or other users.'
     },
     cooldown: 2500,
