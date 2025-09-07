@@ -18,7 +18,12 @@ async function main() {
     fileButton.className = 'top'
     document.body.appendChild(fileButton)
 
-    var psFiles = await $.getJSON('/api/psfiles')
+    var psFiles = await fetch('/api/psfiles').then(res => res.json()).catch(() => { })
+    if (!psFiles) {
+        fileButton.innerHTML = `oh crap there was an error`
+        return
+    }
+    
     var randomPs = sortArrayRandomly(psFiles)
 
     var count = 0

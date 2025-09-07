@@ -18,7 +18,12 @@ async function main() {
     fileButton.className = 'top'
     document.body.appendChild(fileButton)
 
-    var oil = await $.getJSON('/api/oil')
+    var oil = await fetch('/api/oil').then(res => res.json()).catch(() => { })
+    if (!oil) {
+        fileButton.innerHTML = `oh crap there was an error`
+        return
+    }
+
     var randomOil = sortArrayRandomly(oil)
 
     var count = 0
