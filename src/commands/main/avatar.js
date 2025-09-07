@@ -34,7 +34,7 @@ module.exports = {
         let poopy = this
         let bot = poopy.bot
         let config = poopy.config
-        let { Discord, whatwg } = poopy.modules
+        let { Discord } = poopy.modules
         let { fetchPingPerms, getOption, resolveUser } = poopy.functions
 
         await msg.channel.sendTyping().catch(() => {})
@@ -60,7 +60,7 @@ module.exports = {
             dynamic: true, size: 1024, extension: 'png'
         }))
         
-        var parsedAvatar = whatwg.parseURL(avatar.attachment)
+        var parsedAvatar = new URL(avatar.attachment)
 
         var avObject = {
             allowedMentions: fetchPingPerms(msg),
@@ -76,7 +76,7 @@ module.exports = {
                 text: bot.user.displayName
             },
             image: {
-                url: `attachment://${parsedAvatar.path[parsedAvatar.path.length - 1]}`
+                url: `attachment://${parsedAvatar.pathname.split('/').pop()}`
             }
         }]
 

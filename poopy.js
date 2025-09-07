@@ -1798,6 +1798,10 @@ class Poopy {
             tempdata.images = []
         }
 
+        if (!tempdata.discordUrls) {
+            tempdata.discordUrls = {}
+        }
+
         console.log(`${bot.user.displayName}: main data gathered!!!`)
         infoPost(`Main data gathered, gathering extra data...`)
 

@@ -196,6 +196,11 @@ module.exports = {
             required: false
         },
 
+        messages: {
+            type: Array,
+            required: false
+        },
+
         restricted: {
             type: Array,
             required: false

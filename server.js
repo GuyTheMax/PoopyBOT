@@ -15,26 +15,15 @@ async function start() {
         const express = require('express')
         const cors = require('cors')
         const bp = require('body-parser')
-        const axios = require('axios')
+        const fs = require('fs-extra')
 
         const PORT = process.env.PORT || 8080
+        const redirects = fs.readJSONSync("html/redirects.json")
         const app = express()
 
         app.use(cors())
         app.use(bp.json())
         app.use(bp.urlencoded({ extended: true }))
-        /* ok so railway already uses ssl encryption
-        app.use(function (req, res, next) {
-            const isNotSecure = (!req.get('x-forwarded-port') && req.protocol !== 'https') ||
-                parseInt(req.get('x-forwarded-port'), 10) !== 443 &&
-                (parseInt(req.get('x-forwarded-port'), 10) === parseInt(req.get('x-forwarded-port'), 10))
-
-            if (isNotSecure && !req.hostname.includes('localhost')) {
-                return res.redirect(301, `https://${req.get('host')}${req.url}`)
-            }
-
-            next()
-        }) */
 
         app.get('/api/waitPoopyStart', async function (_, res) {
             while (!poopyStarted) await sleep(1000)
@@ -61,20 +50,24 @@ async function start() {
             res.type('json').send(poopy.globaldata.pspasta)
         })
 
-        /* app.get('/ubervoices', async function (_, res) {
-            while (!poopyStarted) await sleep(1000)
-            let vars = poopy.vars
-            var listings = [[], [], []]
-            var li = 0
-
-            for (var i in vars.ubercategories) {
-                var category = vars.ubercategories[i]
-                listings[li % listings.length].push(category)
-                li++
+        app.get('/api/oil', async function (req, res) {
+            if (req.query.nowait && !poopyStarted) {
+                res.end()
+                return
             }
 
-            res.type('html').send(`<!DOCTYPE html><html><head><title>uberduck voices</title><link rel="icon" href="https://uberduck.ai/favicon.ico"><meta property="og:image" content="https://uberduck.ai/uberduck-circle.png"><meta property="og:title" content="uberudcucking"><meta property="og:description" content="make sure to copy the name after the &quot;--->&quot; arrow"></head><body style="font-family: monospace; display: grid; grid-template-columns: ${listings.map(() => 'auto').join(' ')};">${listings.map(listing => `<div>${listing.map(category => `<div style="background-color: #efefef; border: 1px solid #ccc; border-radius: 10px; padding: 10px; margin: 10px 5px;"><h2 style="margin: 0;">${escapeHTML(category.name)}</h2><br>${category.voices.map(vc => `${escapeHTML(vc.display_name)} ---&gt; <b>${escapeHTML(vc.name)}</b>`).join('<br>')}</div>`).join('')}</div>`).join('')}</body></html>`)
-        }) */
+            while (!poopyStarted) await sleep(1000)
+
+            var { refreshDiscordURLs } = poopy.functions
+
+            var shitted
+
+            while (!(shitted = await refreshDiscordURLs(poopy.globaldata.shitting).catch(() => { }))) {
+                await sleep(5000)
+            }
+
+            res.type('json').send(shitted)
+        })
 
         app.post('/api/command', async function (req, res) {
             while (!poopyStarted) await sleep(1000)
@@ -101,13 +94,26 @@ async function start() {
                 case 'json':
                     res.type('json').send(messages)
                     break;
-            
+
                 case 'raw':
                     res.type('text').send(messages.join('\n'))
                     break;
-            
+
                 default:
-                    const doc = `<!DOCTYPE html><html><head><title>your command sir</title><link rel="icon" href="https://cdn.discordapp.com/attachments/760223418968047629/973329887433736233/94b2caa2c814b2a08f880d0ea57df45e.png"><link rel="stylesheet" href="/assets/discord.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script><script src="/assets/discord.js"></script></head><body class="theme-dark">${messages.join('\n')}</body></html>`
+                    const doc = `<!DOCTYPE html>
+                    <html>
+
+                    <head>
+                        <title>your command sir</title>
+                        <link rel="icon" href="/assets/poopy.png">
+                        <link rel="stylesheet" href="/assets/discord.css">
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
+                        <script src="/assets/discord.js"></script>
+                    </head>
+                    
+                    <body class="theme-dark">${messages.join('\n')}</body>
+                    
+                    </html>`
                     res.type('html').send(doc)
                     break;
             }
@@ -120,13 +126,10 @@ async function start() {
             res.redirect(psfiles[Math.floor(Math.random() * psfiles.length)])
         })
 
-        app.get('/invite', async function (_, res) {
-            while (!poopy) await sleep(1000)
-            res.redirect(`https://discord.com/oauth2/authorize?client_id=${poopy.bot.user.id}&scope=bot%20applications.commands&permissions=275415166152`)
-        })
-
-        app.get('/discord', function (_, res) {
-            res.redirect(`https://discord.gg/R4nEBP5Ymf`)
+        redirects.forEach(({ source, destination, permanent }) => {
+            app.get(source, (_, res) => {
+                res.redirect(permanent ? 301 : 302, destination)
+            })
         })
 
         app.use(express.static('html/public'))
@@ -136,10 +139,6 @@ async function start() {
         })
 
         app.listen(PORT, () => console.log(`Web is up: ${process.env.BOT_WEBSITE}`))
-
-        setInterval(function () {
-            axios.get(process.env.BOT_WEBSITE).catch(() => { })
-        }, 300000)
     }
 
     const Poopy = require('./poopy')

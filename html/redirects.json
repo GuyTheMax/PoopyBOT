@@ -1,0 +1,22 @@
+[
+    {
+        "source": "/invite",
+        "destination": "https://discord.com/oauth2/authorize?client_id=789189158639501312&scope=bot%20applications.commands&permissions=275415166152",
+        "permanent": true
+    },
+    {
+        "source": "/discord",
+        "destination": "https://discord.gg/kGY3BDedFp",
+        "permanent": true
+    },
+    {
+        "source": "/github",
+        "destination": "https://github.com/raleighed/poopy",
+        "permanent": true
+    },
+    {
+        "source": "/donate",
+        "destination": "https://ko-fi.com/raleighed",
+        "permanent": true
+    }
+]

@@ -758,9 +758,9 @@ functions.gatherData = async function (msg) {
         data.guildData[msg.guild.id].allMembers[msg.author.id].bot = msg.author.bot
     }
 
-    if (!data.guildData[msg.guild.id].messages) {
-        data.guildData[msg.guild.id].messages = !config.testing && process.env.MONGODB_URL && await dataGather.messageData(config.database, msg.guild.id).catch((e) => console.log(e)) || []
-    }
+    //if (!data.guildData[msg.guild.id].messages) {
+    //    data.guildData[msg.guild.id].messages = !config.testing && process.env.MONGODB_URL && await dataGather.messageData(config.database, msg.guild.id).catch((e) => console.log(e)) || []
+    //}
 
     if (!data.guildData[msg.guild.id].disabled) {
         data.guildData[msg.guild.id].disabled = config.defaultDisabled
@@ -2942,27 +2942,108 @@ functions.displayShieldsShop = async function (channel, who, reply, shopObject, 
     return instruction
 }
 
+functions.refreshDiscordURLs = async function (urls) {
+    let poopy = this
+    let tempdata = poopy.tempdata
+    let { axios } = poopy.modules
+    let { chunkArray, sleep } = poopy.functions
+
+    if (!process.env.DISCORD_REFRESHER_TOKEN) return urls
+
+    try {
+        const parsedUrls = urls.map(url => {
+            try {
+                return new URL(url)
+            } catch {
+                return null
+            }
+        }).filter(Boolean)
+
+        const urlsToRefresh = []
+        const results = []
+
+        for (const parsed of parsedUrls) {
+            const params = new URLSearchParams(parsed.search)
+
+            if (params.get('ex') && params.get('is') && params.get('hm')) {
+                const expires = new Date(parseInt(params.get('ex'), 16) * 1000)
+                if (expires.getTime() > Date.now()) {
+                    results.push(parsed.href)
+                    continue
+                }
+            }
+
+            const cacheKey = parsed.pathname
+            const cached = tempdata.discordUrls[cacheKey]
+            if (cached && cached.expires.getTime() > Date.now()) {
+                results.push(cached.href)
+                continue
+            }
+
+            urlsToRefresh.push(parsed.href)
+        }
+
+        if (urlsToRefresh.length) {
+            const urlChunks = chunkArray(urlsToRefresh, 50)
+
+            for (const urlChunk of urlChunks) {
+                let success = false
+                let attempts = 0
+
+                while (!success) {
+                    if (attempts >= 10) return null
+                    attempts++
+                    
+                    const response = await axios({
+                        method: 'POST',
+                        url: `https://discord.com/api/v9/attachments/refresh-urls`,
+                        data: {
+                            attachment_urls: urlChunk
+                        },
+                        headers: {
+                            "Authorization": process.env.DISCORD_REFRESHER_TOKEN,
+                            "Accept": "application/json"
+                        }
+                    }).catch(() => { })
+
+                    success = response && response.status === 200 && response.data.refreshed_urls?.length
+
+                    if (success) {
+                        for (const refreshed of response.data.refreshed_urls) {
+                            const refreshedUrl = new URL(refreshed.refreshed)
+                            const refreshedParams = new URLSearchParams(refreshedUrl.search)
+                            const expires = new Date(parseInt(refreshedParams.get('ex'), 16) * 1000)
+
+                            const cacheKey = refreshedUrl.pathname
+
+                            const cachedUrl = { href: refreshedUrl.href, expires }
+                            tempdata.discordUrls[cacheKey] = cachedUrl
+
+                            results.push(refreshedUrl.href)
+                        }
+                    } else await sleep(1000)
+                }
+            }
+        }
+
+        return results
+    } catch (err) {
+        console.error("refreshDiscordURLs error:", err)
+        return null
+    }
+}
+
 functions.correctUrl = async function (url) {
     let poopy = this
-    let { infoPost, execPromise } = poopy.functions
+    let { infoPost, execPromise, refreshDiscordURLs } = poopy.functions
     let { axios, cheerio } = poopy.modules
 
     if (url.match(/^https\:\/\/((cdn|media)\.)?discordapp\.(com|net)\/attachments/) && url.match(/[0-9]+/g) && process.env.DISCORD_REFRESHER_TOKEN) {
-        var response = await axios({
-            method: 'POST',
-            url: `https://discord.com/api/v9/attachments/refresh-urls`,
-            data: {
-                attachment_urls: [url]
-            },
-            headers: {
-                "Authorization": process.env.DISCORD_REFRESHER_TOKEN,
-                "Accept": "application/json"
-            }
-        }).catch((e) => console.log(e))
+        var [refreshedDiscordURL] = await refreshDiscordURLs([url]).catch(() => { })
 
-        if (response && response.status >= 200 && response.status < 300 && response.data.refreshed_urls.length) {
+        if (refreshedDiscordURL) {
             infoPost(`Discord URL detected`)
-            return response.data.refreshed_urls[0].refreshed
+            return refreshedDiscordURL
         }
     } else if (url.match(/^https\:\/\/(www\.)?tenor\.com\/view/) && url.match(/[0-9]+/g) && process.env.TENOR_KEY) {
         var ids = url.match(/[0-9]+/g)
@@ -5224,7 +5305,7 @@ functions.validateFile = async function (url, exception, rejectMessages) {
     let vars = poopy.vars
     let tempfiles = poopy.tempfiles
     let { infoPost, execPromise, validateFileFromPath } = poopy.functions
-    let { fileType, axios, whatwg } = poopy.modules
+    let { fileType, axios } = poopy.modules
 
     return new Promise(async (resolve, reject) => {
         url = url || ' '
@@ -5334,8 +5415,8 @@ functions.validateFile = async function (url, exception, rejectMessages) {
             shortpixfmt = 'unk'
         }
 
-        var parsedurl = whatwg.parseURL(url)
-        name = parsedurl.path[parsedurl.path.length - 1]
+        var parsedurl = new URL(url)
+        name = parsedurl.pathname.split('/').pop()
         var contentdisposition = headers['content-disposition']
         if (contentdisposition) {
             var filenameMatch = contentdisposition.match(/filename=".+"/)
@@ -5495,7 +5576,17 @@ functions.updateSlashCommands = async function () {
     if (config.self) return
 
     var slashBuilders = Object.values(arrays.slashBuilders)
-    await rest.put(Discord.Routes.applicationCommands(bot.user.id), { body: slashBuilders }).catch((e) => console.log(e))
+
+    var existingCommands = await rest.get(Discord.Routes.applicationCommands(bot.user.id))
+
+    var entryPoint = existingCommands.find(cmd => cmd.type == 4 && cmd.name == "launch")
+
+    if (entryPoint) slashBuilders.push(entryPoint)
+
+    await rest.put(
+        Discord.Routes.applicationCommands(bot.user.id),
+        { body: slashBuilders }
+    ).catch((e) => console.log(e))
 }
 
 functions.findCommand = function (name) {

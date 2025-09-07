@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Poopy - Privacy Policy</title>
+    <link rel="icon" href="/assets/poopy.png">
+
+    <meta property="og:image" content="/assets/poopy.png">
+    <meta property="og:title" content="Poopy - Privacy Policy">
+    <meta property="og:description" content="Not an IP grabber.">
+    <meta name="theme-color" content="#472504">
+
+    <link rel="stylesheet" href="/assets/style.css">
+</head>
+
+<body>
+    <h1>Poopy Privacy Policy</h1>
+    <p><em>Last updated: August 18, 2025</em></p>
+
+    <h2>General Terms</h2>
+    <p>Poopy only stores the minimum data required for features to function.
+        We do not sell, share, or trade your information. What you do on Discord stays your business.</p>
+    <p>Poopy processes media and commands on demand but does not log content permanently unless server staff enable
+        saving features.
+        These terms apply only to the official Poopy instance. If you are using a self-hosted copy, please contact the
+        instance’s hoster for details on their policies.</p>
+
+    <h2>Local &amp; Temporary Processing</h2>
+    <p>Most of Poopy’s processing happens live in Discord’s memory. Data such as command execution, cooldowns, or
+        temporary arrays is deleted once no longer needed.</p>
+    <p>When using certain features, the following may be stored briefly in memory:</p>
+    <ul>
+        <li>User IDs, server IDs, and channel IDs (to know who ran what command).</li>
+        <li>Internal execution info such as cooldowns, promises, and arrays.</li>
+        <li>Temporary command states, which are cleared automatically.</li>
+        <li>Uploaded media (images, videos, GIFs) is cached while transformations are applied, then automatically
+            discarded.</li>
+        <li>Generated media (such as processed images or GIFs) may be cached briefly to deliver results but is not
+            permanently stored.</li>
+    </ul>
+    <p>This data is not permanent and is automatically removed after use.</p>
+
+    <h2>Saving</h2>
+    <p>If a server’s staff enables saving features, Poopy may store:</p>
+    <ul>
+        <li>Saved messages, for optional functionalities like Markov chains or random retrieval.</li>
+        <li>Custom commands, templates, or server settings.</li>
+        <li>Keyword and function settings that allow customized command behavior.</li>
+        <li>Minimal metadata (like counters for messages sent).</li>
+    </ul>
+    <p>By default, message and command storage is <strong>disabled</strong>. It must be enabled by server staff.</p>
+    <p>Stored messages are automatically cleared after <strong>30 days</strong> unless specifically preserved by server
+        settings.
+        Stored commands, templates, and server settings remain until deleted by administrators.</p>
+
+    <h2>Encryption</h2>
+    <p>All saved text-based data (messages, commands, templates, and settings) is encrypted with a key stored in
+        environment variables.
+        Temporary runtime data (like cooldowns, exec counts, or media files) is never written to disk and is not
+        encrypted, since it is automatically discarded after processing.</p>
+
+    <h2>Analytics</h2>
+    <p>Poopy does <strong>not</strong> use analytics, tracking, or cookies. No identifiable information is collected for
+        statistics.</p>
+
+    <h2>Web &amp; Hosting</h2>
+    <p>When using Poopy’s media features, files are processed using tools such as FFmpeg and ImageMagick. These files
+        are temporarily cached for processing and delivery, then discarded.
+        Discord’s own servers handle hosting for attachments and webhooks.</p>
+
+    <h2>User Rights</h2>
+    <ul>
+        <li>Server owners control whether saving features are enabled.</li>
+        <li>Users may request the removal of their saved messages from server staff.</li>
+        <li>Users may request removal of their custom commands or templates at any time.</li>
+        <li>Generated content is not stored permanently by Poopy. If a server stores generated outputs, removal is the
+            responsibility of that server’s administrators.</li>
+    </ul>
+
+    <h2>Contact</h2>
+    <p>If you have questions or concerns, contact the developer via Discord or the official support server.</p>
+</body>
+
+</html>

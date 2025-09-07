@@ -322,6 +322,12 @@ vars.dataTemplate = {
     }
 }
 vars.tempdataTemplate = {
+    discordUrls: {},
+    images: [],
+    channelvideos: [],
+    playlistvideos: [],
+    crons: [],
+
     guildId: {
         automodRules: undefined,
         messages: [],
