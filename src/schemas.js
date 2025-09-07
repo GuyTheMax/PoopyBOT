@@ -181,11 +181,6 @@ module.exports = {
             required: false
         },
 
-        messages: {
-            type: Array,
-            required: false
-        },
-
         disabled: {
             type: Array,
             required: false
@@ -259,7 +254,7 @@ module.exports = {
         },
 
         battling: {
-            type: Boolean,
+            type: Number,
             required: false
         }
     })),
@@ -307,6 +302,38 @@ module.exports = {
 
         bot: {
             type: Boolean,
+            required: false
+        }
+    })),
+
+    messageData: mongoose.model('messagedata', mongoose.Schema({
+        dataid: {
+            type: String,
+            required: true
+        },
+
+        gid: {
+            type: String,
+            required: true
+        },
+
+        id: {
+            type: String,
+            required: false
+        },
+
+        author: {
+            type: String,
+            required: false
+        },
+
+        content: {
+            type: String,
+            required: false
+        },
+
+        timestamp: {
+            type: Number,
             required: false
         }
     })),

@@ -292,7 +292,7 @@ vars.dataTemplate = {
                 channelId: {
                     lastUrls: [],
                     lastuse: 0,
-                    battling: false
+                    battling: 0
                 }
             },
 
@@ -323,6 +323,7 @@ vars.dataTemplate = {
 }
 vars.tempdataTemplate = {
     guildId: {
+        automodRules: undefined,
         messages: [],
 
         channelId: {

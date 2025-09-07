@@ -11,6 +11,7 @@ const pendingFetches = {
     allChannelData: new Map(),
     memberData: new Map(),
     allMemberData: new Map(),
+    messageData: new Map(),
     globalData: new Map()
 }
 
@@ -37,7 +38,7 @@ async function withRaceConditionProtection(type, key, fetchFunction) {
 module.exports = {
     botData: async (dataid) => {
         const key = dataid
-        
+
         return withRaceConditionProtection('botData', key, async () => {
             var botData = {}
 
@@ -63,7 +64,7 @@ module.exports = {
 
     userData: async (dataid, uid) => {
         const key = getCacheKey(dataid, uid)
-        
+
         return withRaceConditionProtection('userData', key, async () => {
             var userData = {}
 
@@ -89,7 +90,7 @@ module.exports = {
 
     guildData: async (dataid, gid) => {
         const key = getCacheKey(dataid, gid)
-        
+
         return withRaceConditionProtection('guildData', key, async () => {
             var guildData = {}
 
@@ -115,7 +116,7 @@ module.exports = {
 
     channelData: async (dataid, gid, cid) => {
         const key = getCacheKey(dataid, gid, cid)
-        
+
         return withRaceConditionProtection('channelData', key, async () => {
             var channelData = {}
 
@@ -141,7 +142,7 @@ module.exports = {
 
     allChannelData: async (dataid, gid) => {
         const key = getCacheKey(dataid, gid)
-        
+
         return withRaceConditionProtection('allChannelData', key, async () => {
             var channelData = {}
 
@@ -171,7 +172,7 @@ module.exports = {
 
     memberData: async (dataid, gid, uid) => {
         const key = getCacheKey(dataid, gid, uid)
-        
+
         return withRaceConditionProtection('memberData', key, async () => {
             var memberData = {}
 
@@ -197,7 +198,7 @@ module.exports = {
 
     allMemberData: async (dataid, gid) => {
         const key = getCacheKey(dataid, gid)
-        
+
         return withRaceConditionProtection('allMemberData', key, async () => {
             var memberData = {}
 
@@ -225,9 +226,41 @@ module.exports = {
         })
     },
 
+    messageData: async (dataid, gid) => {
+        const key = getCacheKey(dataid, gid)
+
+        return withRaceConditionProtection('messageData', key, async () => {
+            var messages = []
+
+            var url = process.env.MONGODB_URL
+            if (!connected) {
+                connected = true
+                await mongoose.connect(url)
+            }
+
+            var dataobjects = await schemas.messageData.find({ dataid, gid }).then(arr => arr.map(d => d.toJSON())).catch(() => { })
+
+            if (dataobjects) {
+                for (var dataobject of dataobjects) {
+                    var message = {}
+
+                    for (var k in dataobject) {
+                        var value = dataobject[k]
+                        if ((schemas.messageData.schema.obj[k] ?? { required: true }).required) continue
+                        message[k] = value
+                    }
+
+                    messages.push(message)
+                }
+            }
+
+            return messages
+        })
+    },
+
     globalData: async () => {
         const key = 'global'
-        
+
         return withRaceConditionProtection('globalData', key, async () => {
             var globalData = {}
 
@@ -281,6 +314,7 @@ module.exports = {
                 upsert: true
             }
         }))
+        
         if (userOps.length > 0) {
             try {
                 await schemas.userData.bulkWrite(userOps)
@@ -315,11 +349,20 @@ module.exports = {
                 }
             }))
 
+            const messageOps = guild.messages.map(msg => ({
+                updateOne: {
+                    filter: { dataid, gid, id: msg.id },
+                    update: msg,
+                    upsert: true
+                }
+            }))
+
             try {
                 await Promise.all([
                     guildUpdate,
                     channelOps.length > 0 ? schemas.channelData.bulkWrite(channelOps) : null,
-                    memberOps.length > 0 ? schemas.memberData.bulkWrite(memberOps) : null
+                    memberOps.length > 0 ? schemas.memberData.bulkWrite(memberOps) : null,
+                    messageOps.length > 0 ? schemas.messageData.bulkWrite(messageOps) : null
                 ])
             } catch (err) {
                 console.error(`Failed to update guild ${gid}:`, err)

@@ -63,7 +63,9 @@ module.exports = {
 
             if (msg.nosend) return new Array(numToRepeat).map(() => saidMessage).join('\n')
 
-            if (msg.type === DiscordTypes.InteractionType.ApplicationCommand && del) await msg.deferReply({ ephemeral: true }).catch(() => { })
+            if (msg.type === DiscordTypes.InteractionType.ApplicationCommand && del) await msg.deferReply({
+                flags: DiscordTypes.MessageFlags.Ephemeral
+            }).catch(() => { })
 
             for (var i = 0; i < numToRepeat; i++) {
                 if (tempdata[msg.guild.id][msg.channel.id].shutUp) break

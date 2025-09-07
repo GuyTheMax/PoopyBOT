@@ -47,7 +47,7 @@ module.exports = {
                 return;
             };
         } else {
-            data.guildData[msg.guild.id].channels[msg.channel.id].battling = false
+            data.guildData[msg.guild.id].channels[msg.channel.id].battling = 0
 
             if (!msg.nosend) await msg.reply("The Battle Bricks have died.").catch(() => { })
             return "The Battle Bricks have died."

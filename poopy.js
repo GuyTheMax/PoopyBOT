@@ -994,7 +994,7 @@ class Poopy {
 
             if (!webhooked) await webhookify().catch((e) => console.log(e))
 
-            if (origcontent && ((!(msg.author.bot) && msg.author.id != bot.user.id) || config.allowbotusage) && data.guildData[msg.guild?.id].read.includes(msg.channel?.id)) {
+            if (origcontent && ((!(msg.author.bot) && msg.author.id != bot.user.id) || config.allowbotusage) && data.guildData[msg.guild?.id].read?.includes(msg.channel?.id)) {
                 var cleanMessage = Discord.Util.cleanContent(origcontent, msg).replace(/\@/g, '@‌')
 
                 if (
@@ -1481,7 +1481,7 @@ class Poopy {
                         if (argContent) content.push(argContent)
                         if (extraContent) content.push(extraContent)
 
-                        content = content.join(' ')
+                        content = `${prefix}${content.join(' ')}`
 
                         var extraAttachments = {}
 
@@ -1492,9 +1492,116 @@ class Poopy {
                             }
                         }
 
+                        if (interaction.guild?.autoModerationRules && interaction.member && !(
+                            interaction.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageGuild) ||
+                            interaction.member.permissions.has(DiscordTypes.PermissionFlagsBits.Administrator) ||
+                            interaction.user.id === interaction.guild.ownerID ||
+                            (config.ownerids.find(id => id == interaction.user.id))
+                        )) {
+                            let automodRules = tempdata[interaction.guild.id].automodRules
+                            if (!automodRules)
+                                automodRules = tempdata[interaction.guild.id].automodRules
+                                    = await interaction.guild.autoModerationRules.fetch().then(r => [...r.values()]).catch(() => { }) ?? []
+
+                            const brokenRules = []
+
+                            let timeoutDuration = 0
+                            let blockMessage
+
+                            for (const automodRule of automodRules) {
+                                const isDisabled = !automodRule.enabled ||
+                                    automodRule.exemptRoles.some(role => interaction.member.roles.cache.has(role.id)) ||
+                                    automodRule.exemptChannels.has(interaction.channel.id)
+                                if (isDisabled) continue
+
+                                const triggerMetadata = automodRule.triggerMetadata
+                                const actions = automodRule.actions
+
+                                if (automodRule.triggerType == DiscordTypes.AutoModerationRuleTriggerType.Keyword) {
+                                    const keywordFilter = triggerMetadata.keywordFilter.map(keyword => {
+                                        const pattern = keyword
+                                            .replace(/[-/\\^$+?.()|[\]{}]/g, '\\$&')
+                                            .replace(/\*/g, '.*')
+
+                                        return new RegExp(`\\b${pattern}\\b`, 'i')
+                                    })
+
+                                    const regexPatterns = triggerMetadata.regexPatterns.map(pattern => {
+                                        const flags = new Set(['i', 'u'])
+
+                                        const inlineFlagRegex = /^\(\?(-?)([a-z])\)/
+
+                                        let match
+                                        while ((match = pattern.match(inlineFlagRegex)) !== null) {
+                                            const [flag, sign, mods] = match
+
+                                            for (const char of mods) {
+                                                if (sign === '-') {
+                                                    flags.delete(char)
+                                                } else {
+                                                    flags.add(char)
+                                                }
+                                            }
+
+                                            pattern = pattern.replace(flag, '')
+                                        }
+
+                                        if (flags.has('x')) {
+                                            flags.delete('x')
+                                            pattern = pattern
+                                                .replace(/#.*$/gm, "")
+                                                .replace(/\s+/g, "")
+                                        }
+
+                                        return new RegExp(pattern, Array.from(flags).join(''))
+                                    })
+
+                                    let filteredContent = content
+
+                                    triggerMetadata.allowList.forEach(keyword => {
+                                        const pattern = keyword
+                                            .replace(/[-/\\^$+?.()|[\]{}]/g, '\\$&')
+                                            .replace(/\*/g, '.*')
+
+                                        const regexp = new RegExp(`\\b${pattern}\\b`, 'ig')
+
+                                        filteredContent = filteredContent.replace(regexp, "")
+                                    })
+
+                                    if (
+                                        keywordFilter.some(keyword => keyword.test(filteredContent)) ||
+                                        regexPatterns.some(pattern => pattern.test(filteredContent))
+                                    ) {
+                                        brokenRules.push(automodRule.name)
+
+                                        for (const action of actions) {
+                                            if (action.type == DiscordTypes.AutoModerationActionType.BlockMessage)
+                                                blockMessage = blockMessage || (action.metadata.customMessage ?? "")
+
+                                            if (action.type == DiscordTypes.AutoModerationActionType.Timeout)
+                                                timeoutDuration = Math.max(action.metadata.durationSeconds * 1000, timeoutDuration)
+                                        }
+                                    }
+                                }
+                            }
+
+                            const blockReason = `AutoMod Rule${brokenRules.length > 1 ? "s" : ""}: ${brokenRules.join(", ") || "what"}`
+
+                            //if (timeoutDuration > 0) interaction.member.timeout(timeoutDuration, blockReason).catch(() => { })
+
+                            if (blockMessage != undefined) {
+                                await interaction.reply({
+                                    content: "This content is blocked by this server."
+                                        + (blockMessage ? ` From server moderators:\n"${blockMessage}"` : ""),
+                                    flags: DiscordTypes.MessageFlags.Ephemeral
+                                }).catch(() => { })
+                                return
+                            }
+                        }
+
                         if (!findCmd.nodefer) await interaction.deferReply().catch(() => { })
 
-                        interaction.content = `${prefix}${content}`
+                        interaction.content = content
                         interaction.author = interaction.user
                         interaction.bot = false
                         interaction.attachments = new Collection(Object.entries(extraAttachments))
@@ -1756,7 +1863,7 @@ class Poopy {
         infoPost(`Reboot ${data.botData.reboots} succeeded, it's up now`)
 
         for (var cronData of data.botData.crons) {
-            createCronJob(cronData)
+            createCronJob(cronData).catch(() => { })
         }
 
         saveData()
@@ -1778,25 +1885,25 @@ class Poopy {
 
         if (!config.apiMode) {
             bot.on('messageCreate', (msg) => {
-                callbacks.messageCallback(msg).catch(() => { })
+                callbacks.messageCallback(msg).catch((e) => console.log(e))
             })
             bot.on('messageUpdate', (_, msg) => {
-                callbacks.messageEditCallback(msg).catch(() => { })
+                callbacks.messageEditCallback(msg).catch((e) => console.log(e))
             })
             bot.on('messageDelete', (msg) => {
-                callbacks.messageDeleteCallback(msg).catch(() => { })
+                callbacks.messageDeleteCallback(msg).catch((e) => console.log(e))
             })
             bot.on('messageDeleteBulk', (messages) => {
-                messages.forEach((msg) => callbacks.messageDeleteCallback(msg).catch(() => { }))
+                messages.forEach((msg) => callbacks.messageDeleteCallback(msg).catch((e) => console.log(e)))
             })
             bot.on('guildCreate', (guild) => {
-                callbacks.guildCallback(guild).catch(() => { })
+                callbacks.guildCallback(guild).catch((e) => console.log(e))
             })
             bot.on('guildDelete', (guild) => {
-                callbacks.guildDeleteCallback(guild).catch(() => { })
+                callbacks.guildDeleteCallback(guild).catch((e) => console.log(e))
             })
             bot.on('interactionCreate', (interaction) => {
-                callbacks.interactionCallback(interaction).catch(() => { })
+                callbacks.interactionCallback(interaction).catch((e) => console.log(e))
             })
             bot.on('error', (err) => console.log(err))
         }

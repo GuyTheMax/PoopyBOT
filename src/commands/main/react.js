@@ -21,12 +21,12 @@ module.exports = {
             var emojisArray = saidEmojis.split(',')
             var messageToReact = msg.channel.messages.fetch(saidMessage)
             if (messageToReact.catch) messageToReact = await messageToReact.catch(async () => {
-                    await msg.reply({
-                        content: 'Invalid message ID: **' + saidMessage + '**',
-                        allowedMentions: fetchPingPerms(msg)
-                    }).catch(() => { })
-                    return
-                })
+                await msg.reply({
+                    content: 'Invalid message ID: **' + saidMessage + '**',
+                    allowedMentions: fetchPingPerms(msg)
+                }).catch(() => { })
+                return
+            })
 
             if (!messageToReact) return
 
@@ -43,7 +43,10 @@ module.exports = {
             }
 
             if (msg.type === DiscordTypes.InteractionType.ApplicationCommand && !msg.replied) {
-                await msg.reply({ content: 'Successfully reacted.', ephemeral: true }).catch(() => { })
+                await msg.reply({
+                    content: 'Successfully reacted.',
+                    flags: DiscordTypes.MessageFlags.Ephemeral
+                }).catch(() => { })
             }
         };
     },

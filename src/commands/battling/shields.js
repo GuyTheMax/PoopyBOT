@@ -243,7 +243,7 @@ module.exports = {
             switch (customid) {
                 case 'equip':
                     if (currentShieldIsEquipped) {
-                        replyGeneric(alreadyEquippedText, Discord.MessageFlags.Ephemeral)
+                        replyGeneric(alreadyEquippedText, DiscordTypes.MessageFlags.Ephemeral)
                         return
                     }
 

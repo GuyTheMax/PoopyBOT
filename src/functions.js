@@ -758,6 +758,10 @@ functions.gatherData = async function (msg) {
         data.guildData[msg.guild.id].allMembers[msg.author.id].bot = msg.author.bot
     }
 
+    if (!data.guildData[msg.guild.id].messages) {
+        data.guildData[msg.guild.id].messages = !config.testing && process.env.MONGODB_URL && await dataGather.messageData(config.database, msg.guild.id).catch((e) => console.log(e)) || []
+    }
+
     if (!data.guildData[msg.guild.id].disabled) {
         data.guildData[msg.guild.id].disabled = config.defaultDisabled
     }
@@ -1598,7 +1602,7 @@ functions.selectMenu = async function (channel, content, placeholder, options, e
         }
 
         var menuRow = new Discord.ActionRowBuilder()
-        var menu = new Discord.SelectMenuBuilder()
+        var menu = new Discord.StringSelectMenuBuilder()
             .setCustomId('selectMenu')
             .setPlaceholder(placeholder)
             .addOptions(options)
@@ -1722,7 +1726,7 @@ functions.navigateEmbed = async function (channel, pageFunc, results, who, extra
 
     if (selectMenu) {
         var menuRow = new Discord.ActionRowBuilder()
-        var menu = new Discord.SelectMenuBuilder()
+        var menu = new Discord.StringSelectMenuBuilder()
             .setCustomId(selectMenu.customid)
             .setPlaceholder(selectMenu.text)
             .addOptions(selectMenu.options)
@@ -1869,7 +1873,7 @@ functions.navigateEmbed = async function (channel, pageFunc, results, who, extra
 
                     if (selectMenu) {
                         var menuRow = new Discord.ActionRowBuilder()
-                        var menu = new Discord.SelectMenuBuilder()
+                        var menu = new Discord.StringSelectMenuBuilder()
                             .setCustomId(selectMenu.customid)
                             .setPlaceholder(resultEmbed.menuText || selectMenu.text)
                             .addOptions(selectMenu.options)
@@ -2162,7 +2166,7 @@ functions.displayShops = async function (msg, shopType, shopMsg) {
     let bot = poopy.bot
     let { displayShop, fetchPingPerms, chunkArray,
         dmSupport } = poopy.functions
-    let { Discord } = poopy.modules
+    let { Discord, DiscordTypes } = poopy.modules
 
     let types = ['upgrades', 'buffs', 'items', 'shields']
 
@@ -2355,7 +2359,7 @@ functions.displayUpgradesShop = async function (channel, who, reply, shopObject,
     let config = poopy.config
     let { chunkArray, dmSupport, getLevel,
         displayShops } = poopy.functions
-    let { Discord } = poopy.modules
+    let { Discord, DiscordTypes } = poopy.modules
 
     let shopType = 'upgrades'
 
@@ -2575,7 +2579,7 @@ functions.displayUpgradesShop = async function (channel, who, reply, shopObject,
             if (usingComponents)
                 await button.reply({
                     content: reachedMaxText,
-                    flags: Discord.MessageFlags.Ephemeral
+                    flags: DiscordTypes.MessageFlags.Ephemeral
                 }).catch(() => { })
             else
                 await channel.send(reachedMaxText).catch(() => { })
@@ -2599,7 +2603,7 @@ functions.displayUpgradesShop = async function (channel, who, reply, shopObject,
             if (usingComponents)
                 await button.reply({
                     content: cantAffordText,
-                    flags: Discord.MessageFlags.Ephemeral
+                    flags: DiscordTypes.MessageFlags.Ephemeral
                 }).catch((e) => console.log(e))
             else
                 await channel.send(cantAffordText).catch(() => { })
@@ -2629,7 +2633,7 @@ functions.displayShieldsShop = async function (channel, who, reply, shopObject, 
     let json = poopy.json
     let { chunkArray, dmSupport, queryPage,
         displayShops, getShieldStatsAsEmbedFields } = poopy.functions
-    let { Discord } = poopy.modules
+    let { Discord, DiscordTypes } = poopy.modules
 
     let shopType = 'shields'
 
@@ -2864,12 +2868,12 @@ functions.displayShieldsShop = async function (channel, who, reply, shopObject, 
         switch (customid) {
             case 'buy':
                 if (currentShieldIsOwned) {
-                    replyGeneric(alreadyBoughtText, Discord.MessageFlags.Ephemeral)
+                    replyGeneric(alreadyBoughtText, DiscordTypes.MessageFlags.Ephemeral)
                     return
                 }
 
                 if (currentShield.cost > userData.bucks) {
-                    replyGeneric(cantAffordText, Discord.MessageFlags.Ephemeral)
+                    replyGeneric(cantAffordText, DiscordTypes.MessageFlags.Ephemeral)
                     return
                 }
 
@@ -3815,7 +3819,10 @@ functions.createCronJob = async function (cronData) {
         timeZone: "Etc/UTC"
     })
 
+    if (tempdata.crons[timerId]) tempdata.crons[timerId].stop()
     tempdata.crons[timerId] = job
+
+    return job
 }
 
 functions.rateLimit = async function (msg) {

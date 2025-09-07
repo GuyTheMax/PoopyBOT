@@ -259,8 +259,13 @@ module.exports = {
                         phrase
                     }
 
+                    var job = await createCronJob(newTimer).catch(() => { })
+                    if (!job) {
+                        await msg.reply('Invalid cron.').catch(() => { })
+                        return
+                    }
+
                     data.botData.crons.push(newTimer)
-                    createCronJob(newTimer)
 
                     var nextTime = tempdata.crons[timerId].nextDate()
                     var timestamp = Math.floor(nextTime.ts / 1000)
@@ -331,9 +336,11 @@ module.exports = {
                         return
                     }
 
-                    if (tempdata.crons[timerId]) tempdata.crons[timerId].stop()
-
-                    createCronJob(timer)
+                    var job = await createCronJob(timer).catch(() => { })
+                    if (!job) {
+                        await msg.reply('Invalid cron.').catch(() => { })
+                        return
+                    }
 
                     var nextTime = tempdata.crons[timerId].nextDate()
                     var timestamp = Math.floor(nextTime.ts / 1000)

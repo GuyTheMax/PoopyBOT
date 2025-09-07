@@ -303,7 +303,7 @@ module.exports = {
                                         if (config.useReactions) msg.reply(`The name of that command was already taken!`).catch(() => { })
                                         else button.reply({
                                             content: `The name of that command was already taken!`,
-                                            ephemeral: true
+                                            flags: DiscordTypes.MessageFlags.Ephemeral
                                         }).catch(() => { })
                                         return
                                     }
@@ -323,14 +323,14 @@ module.exports = {
                                     if (config.useReactions) msg.reply('Error fetching command.').catch(() => { })
                                     else button.reply({
                                         content: 'Error fetching command.',
-                                        ephemeral: true
+                                        flags: DiscordTypes.MessageFlags.Ephemeral
                                     }).catch(() => { })
                                 }
                             } else {
                                 if (config.useReactions) msg.reply('You need to be a moderator to execute that!').catch(() => { })
                                 else button.reply({
                                     content: 'You need to be a moderator to execute that!',
-                                    ephemeral: true
+                                    flags: DiscordTypes.MessageFlags.Ephemeral
                                 }).catch(() => { })
                             }
                         },
@@ -463,7 +463,7 @@ module.exports = {
                                         if (config.useReactions) msg.reply(`The name of that command was already taken!`).catch(() => { })
                                         else button.reply({
                                             content: `The name of that command was already taken!`,
-                                            ephemeral: true
+                                            flags: DiscordTypes.MessageFlags.Ephemeral
                                         }).catch(() => { })
                                         return
                                     }
@@ -483,14 +483,14 @@ module.exports = {
                                     if (config.useReactions) msg.reply('Error fetching command.').catch(() => { })
                                     else button.reply({
                                         content: 'Error fetching command.',
-                                        ephemeral: true
+                                        flags: DiscordTypes.MessageFlags.Ephemeral
                                     }).catch(() => { })
                                 }
                             } else {
                                 if (config.useReactions) msg.reply('You need to be a moderator to execute that!').catch(() => { })
                                 else button.reply({
                                     content: 'You need to be a moderator to execute that!',
-                                    ephemeral: true
+                                    flags: DiscordTypes.MessageFlags.Ephemeral
                                 }).catch(() => { })
                             }
                         },

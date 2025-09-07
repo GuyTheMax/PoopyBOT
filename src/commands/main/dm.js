@@ -163,7 +163,10 @@ module.exports = {
 
             if (dmMessage) {
                 if (!msg.nosend) {
-                    if (msg.type === DiscordTypes.InteractionType.ApplicationCommand && !msg.replied) await msg.reply({ content: 'Successfully sent.', ephemeral: true }).catch(() => { })
+                    if (msg.type === DiscordTypes.InteractionType.ApplicationCommand && !msg.replied) await msg.reply({
+                        content: 'Successfully sent.',
+                        flags: DiscordTypes.MessageFlags.Ephemeral
+                    }).catch(() => { })
                     else msg.react('✅').catch(() => { })
                 }
                 return `${infoMessage}${saidMessage}`
