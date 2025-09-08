@@ -4871,8 +4871,8 @@ functions.fetchImages = async function (query, unsafe) {
             searchTerm: query,
             queryStringAddition: `&safe=${unsafe ? 'images' : 'active'}`
         }, async function (_, results) {
-            if (!results?.length) {
-                resolve(["https://i.imgur.com/tpThidl.png"])
+            if (!results) {
+                resolve(["https://i.imgur.com/K5kyI8P.png"])
                 return
             }
 
