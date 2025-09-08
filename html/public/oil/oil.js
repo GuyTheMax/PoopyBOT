@@ -74,9 +74,8 @@ async function main() {
             }
             var parsedUrl = new URL(url)
             if (/\.(mov|mp4|wmv|avi|webm)$/.test(parsedUrl.pathname)) {
-                var res = await fetch(`/api/media?url=${encodeURIComponent(url)}`)
-                var blob = await res.blob()
-                url = URL.createObjectURL(blob)
+                url = `/api/media?url=${encodeURIComponent(url)}`
+                
                 var video = document.createElement('video')
                 video.id = 'file'
                 video.style.transition = '0.1s'

@@ -138,7 +138,7 @@ async function start() {
                 console.error(err)
                 res.status(500).send("Error fetching media")
             }
-        });
+        })
 
         redirects.forEach(({ source, destination, permanent }) => {
             app.get(source, (_, res) => {
