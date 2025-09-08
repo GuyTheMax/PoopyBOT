@@ -120,10 +120,29 @@ async function start() {
             res.end()
         })
 
-        app.get('/psfile', async function (_, res) {
+        app.get('/discordActivity', async function (_, res) {
             while (!poopyStarted) await sleep(1000)
-            const psfiles = poopy.globaldata.psfiles
-            res.redirect(psfiles[Math.floor(Math.random() * psfiles.length)])
+
+            const doc = `<!DOCTYPE html>
+            <html>
+
+            <head>
+                <title>poopy activity</title>
+                <link rel="icon" href="/assets/poopy.png">
+                <style>
+                    body, iframe {
+                        margin: 0;
+                        border: 0;
+                    }
+                </style>
+            </head>
+            
+            <body>
+                <iframe src="${process.env.BOT_WEBSITE}/oil" title="poopy activity"></iframe>
+            </body>
+            
+            </html>`
+            res.type('html').send(doc)
         })
 
         redirects.forEach(({ source, destination, permanent }) => {
