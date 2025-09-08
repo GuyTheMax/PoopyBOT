@@ -4866,13 +4866,13 @@ functions.fetchImages = async function (query, unsafe) {
 
     if (tempdata.images[query.toLowerCase()]) return tempdata.images[query.toLowerCase()]
 
-    return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve) => {
         gis({
             searchTerm: query,
             queryStringAddition: `&safe=${unsafe ? 'images' : 'active'}`
         }, async function (_, results) {
-            if (!results) {
-                reject("Error fetching images.")
+            if (!results?.length) {
+                resolve(["https://i.imgur.com/tpThidl.png"])
                 return
             }
 
