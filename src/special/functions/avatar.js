@@ -6,9 +6,12 @@ module.exports = {
     let bot = poopy.bot
 
     var word = matches[1]
+    var [id, global] = splitKeyFunc(word, { args: 2 })
 
-    var user = await msg.guild.members.fetch(word).catch(() => { }) ??
-      await bot.users.fetch(word).catch(() => { })
+    var user = await msg.guild.members.fetch(id).catch(() => { }) ??
+      await bot.users.fetch(id).catch(() => { })
+
+    if (global && user.user) user = user.user
 
     return user ? user.displayAvatarURL({ dynamic: true, size: 1024, extension: 'png' }) : ''
   }
