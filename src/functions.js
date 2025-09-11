@@ -5526,7 +5526,7 @@ functions.changeStatus = function () {
                 {
                     name: choosenStatus.name + ` | ${config.globalPrefix}help`,
                     type: DiscordTypes.ActivityType[choosenStatus.type],
-                    url: 'https://www.youtube.com/watch?v=MURAALuH_TE',
+                    url: choosenStatus.url ?? 'https://www.youtube.com/watch?v=MURAALuH_TE'
                 }
             ],
         })

@@ -92,14 +92,14 @@ async function main() {
             var container = document.createElement('div')
             container.className = 'file-container'
 
-            var copyBtn = document.createElement('button')
-            copyBtn.className = 'copy-btn'
-            copyBtn.innerText = 'Copy'
-            copyBtn.addEventListener('click', () => {
-                copyBtn.innerText = 'Copied!'
-                navigator.clipboard.writeText(`${parsedUrl.protocol}//${parsedUrl.host}${parsedUrl.pathname}`)
-                setTimeout(() => copyBtn.innerText = 'Copy', 1000)
-            })
+            //var copyBtn = document.createElement('button')
+            //copyBtn.className = 'copy-btn'
+            //copyBtn.innerText = 'Copy'
+            //copyBtn.addEventListener('click', () => {
+            //    copyBtn.innerText = 'Copied!'
+            //    navigator.clipboard.writeText(`${parsedUrl.protocol}//${parsedUrl.host}${parsedUrl.pathname}`)
+            //    setTimeout(() => copyBtn.innerText = 'Copy', 1000)
+            //})
 
             if (/\.(mov|mp4|wmv|avi|webm)$/.test(parsedUrl.pathname)) {
                 var video = document.createElement('video')
@@ -117,7 +117,7 @@ async function main() {
                 container.appendChild(img)
             }
 
-            container.appendChild(copyBtn)
+            //container.appendChild(copyBtn)
             document.getElementById('files').appendChild(container)
 
             container.scrollIntoView({ behavior: "smooth", block: "end" })

@@ -108,8 +108,7 @@ class Poopy {
                 activities: [
                     {
                         name: 'gathering data...',
-                        type: DiscordTypes.ActivityType.Competing,
-                        url: 'https://www.youtube.com/watch?v=MURAALuH_TE'
+                        type: DiscordTypes.ActivityType.Competing
                     }
                 ]
             }
