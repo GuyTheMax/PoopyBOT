@@ -16,6 +16,6 @@ module.exports = {
 
         var findBattler = battlers.find(b => b.name.toLowerCase() == battler.toLowerCase().trim()) || ''
 
-        return findBattler
+        return findBattler.image
     }
 }
