@@ -375,36 +375,49 @@ functions.filterAsync = async function (arr, asyncCallback) {
     return arr.filter((val, i) => results[i])
 }
 
-functions.markovChainGenerator = function (text) {
-    var textArr = text.split(' ')
-    var markovChain = []
+functions.markovChainGenerator = function (texts) {
+    if (!Array.isArray(texts)) texts = [texts]
+
+    const markovMap = new Map()
+
+    for (const text of texts) {
+        const words = text.split(/\s+/)
+        for (let i = 0; i < words.length; i++) {
+            const rawWord = words[i]
+            if (!rawWord) continue
+
+            const word = rawWord.toLowerCase()
+            let node = markovMap.get(word)
+
+            if (!node) {
+                node = {
+                    word,
+                    forms: [],
+                    next: [],
+                    repeated: 0
+                }
+                markovMap.set(word, node)
+            }
+
+            node.forms.push(rawWord)
+            node.repeated++
+
+            if (i + 1 < words.length) {
+                node.next.push(words[i + 1])
+            }
+        }
+    }
+
+    const markovChain = Array.from(markovMap.values())
+        .sort((a, b) => b.repeated - a.repeated)
+
     markovChain.findChain = function (w) {
-        return this.find(chain => chain.word === w)
+        return markovMap.get(w.toLowerCase()) || null
     }
     markovChain.random = function () {
         return this[Math.floor(Math.random() * this.length)]
     }
-    for (var i = 0; i < textArr.length; i++) {
-        var word = textArr[i]
-        if (word) {
-            if (!markovChain.findChain(word.toLowerCase())) {
-                markovChain.push({
-                    word: word.toLowerCase(),
-                    forms: [],
-                    next: [],
-                    repeated: 0
-                })
-            }
-            markovChain.findChain(word.toLowerCase()).forms.push(word)
-            markovChain.findChain(word.toLowerCase()).repeated++
-            if (textArr[i + 1]) {
-                markovChain.findChain(word.toLowerCase()).next.push(textArr[i + 1]);
-            }
-        }
-    }
-    markovChain.sort((a, b) => {
-        return b.repeated - a.repeated
-    })
+
     return markovChain
 }
 
