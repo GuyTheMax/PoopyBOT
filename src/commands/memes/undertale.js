@@ -22,7 +22,7 @@ module.exports = {
             'earthbound',
             'wingdings'
         ]
-    }, { "name": "boxcolor", "required": false, "specifarg": true, "orig": "[-(box/asterisk)color <r> <g> <b>]" }, { "name": "asteriskcolor", "required": false, "specifarg": true, "orig": "[-(box/asterisk)color <r> <g> <b>]" }, { "name": "nofile", "required": false, "specifarg": true, "orig": "[-no(file/asterisk)]" }, { "name": "noasterisk", "required": false, "specifarg": true, "orig": "[-no(file/asterisk)]" }, { "name": "small", "required": false, "specifarg": true, "orig": "[-small]" }, { "name": "file", "required": false, "specifarg": false, "orig": "{file}" }],
+    }, { "name": "boxcolor", "required": false, "specifarg": true, "orig": "[-(box/asterisk)color <r> <g> <b>]" }, { "name": "asteriskcolor", "required": false, "specifarg": true, "orig": "[-(box/asterisk)color <r> <g> <b>]" }, { "name": "nofile", "required": false, "specifarg": true, "orig": "[-no(file/asterisk)]" }, { "name": "noasterisk", "required": false, "specifarg": true, "orig": "[-no(file/asterisk/animate)]" }, { "name": "noanimate", "required": false, "specifarg": true, "orig": "[-no(file/asterisk/animate)]" }, { "name": "small", "required": false, "specifarg": true, "orig": "[-small]" }, { "name": "file", "required": false, "specifarg": false, "orig": "{file}" }],
     execute: async function (msg, args) {
         let poopy = this
         let vars = poopy.vars
@@ -58,6 +58,8 @@ module.exports = {
         if (args.find(arg => arg === '-noasterisk')) {
             asteriskrgb = 'null'
         }
+
+        var animated = !args.includes('-noanimate')
 
         var boxrgb = 'ffffff'
         var boxindex = args.indexOf('-boxcolor')
@@ -107,12 +109,11 @@ module.exports = {
         if (!currenturl) nopic = true
 
         if (nopic) {
-            var filepath = await downloadFile(`https://www.demirramon.com/gen/undertale_text_box.png?text=${encodeURIComponent(text)}&box=${style}&boxcolor=${boxrgb}&font=${font}&asterisk=${asteriskrgb}&mode=${mode}&small=${!!args.find(arg => arg === '-small')}`, `output.png`, {
+            var filepath = await downloadFile(`https://www.demirramon.com/gen/undertale_text_box.${animated ? "gif" : "png"}?text=${encodeURIComponent(text)}&box=${style}&boxcolor=${boxrgb}&font=${font}&asterisk=${asteriskrgb}&mode=${mode}&small=${!!args.find(arg => arg === '-small')}`, `output.${animated ? "gif" : "png"}`, {
                 http: true
             })
 
-            return await sendFile(msg, filepath, `output.png`)
-            return
+            return await sendFile(msg, filepath, `output.${animated ? "gif" : "png"}`)
         }
 
         var fileinfo = await validateFile(currenturl).catch(async error => {
@@ -131,7 +132,7 @@ module.exports = {
             var filepath = await downloadFile(currenturl, `input.png`, {
                 fileinfo            })
             var filename = `input.png`
-            await downloadFile(`https://www.demirramon.com/gen/undertale_text_box.png?text=${encodeURIComponent(text)}&box=${style}&boxcolor=${boxrgb}&character=blank&font=${font}&asterisk=${asteriskrgb}&mode=${mode}&small=true`, 'box.png', {
+            await downloadFile(`https://www.demirramon.com/gen/undertale_text_box.${animated ? "gif" : "png"}?text=${encodeURIComponent(text)}&box=${style}&boxcolor=${boxrgb}&character=blank&font=${font}&asterisk=${asteriskrgb}&mode=${mode}&small=true`, `box.${animated ? "gif" : "png"}`, {
                 http: true,
                 filepath: filepath
             })
@@ -141,39 +142,41 @@ module.exports = {
 
             var squareS = { value: ((height === width) && width) || ((height > width) && height) || width, constraint: ((height === width) && 'both') || ((height > width) && 'height') || 'width' }
 
-            await execPromise(`ffmpeg -i ${filepath}/${filename} -i ${filepath}/box.png -filter_complex "[0:v]scale=${squareS.constraint === 'width' || squareS.constraint === 'both' ? 58 : -1}:${squareS.constraint === 'height' || squareS.constraint === 'both' ? 58 : -1}[frame];[1:v][frame]overlay=x=${xpoint}+(58/2-w/2):y=${ypoint}+(60/2-h/2):format=auto${!(args.find(arg => arg === '-small')) ? `,scale=iw*2:ih*2:flags=neighbor` : ''}[out]" -map "[out]" -preset ${findpreset(args)} ${filepath}/output.png`)
-            return await sendFile(msg, filepath, `output.png`)
+            await execPromise(`ffmpeg -i ${filepath}/${filename} -i ${filepath}/box.${animated ? "gif" : "png"} -filter_complex "[0:v]scale=${squareS.constraint === 'width' || squareS.constraint === 'both' ? 58 : -1}:${squareS.constraint === 'height' || squareS.constraint === 'both' ? 58 : -1}[frame];[1:v][frame]overlay=x=${xpoint}+(58/2-w/2):y=${ypoint}+(60/2-h/2):format=auto${!(args.find(arg => arg === '-small')) ? `,scale=iw*2:ih*2:flags=neighbor` : ''}${animated ? `,split[pout][ppout];[ppout]palettegen=reserve_transparent=1[palette];[pout][palette]paletteuse=alpha_threshold=128` : ""}[out]" -map "[out]" -preset ${findpreset(args)} ${filepath}/output.${animated ? "gif" : "png"}`)
+            return await sendFile(msg, filepath, `output.${animated ? "gif" : "png"}`)
         } else if (type.mime.startsWith('video')) {
             var filepath = await downloadFile(currenturl, `input.mp4`, {
                 fileinfo            })
             var filename = `input.mp4`
-            await downloadFile(`https://www.demirramon.com/gen/undertale_text_box.png?text=${encodeURIComponent(text)}&box=${style}&boxcolor=${boxrgb}&character=blank&font=${font}&asterisk=${asteriskrgb}&mode=${mode}&small=true`, 'box.png', {
+            await downloadFile(`https://www.demirramon.com/gen/undertale_text_box.${animated ? "gif" : "png"}?text=${encodeURIComponent(text)}&box=${style}&boxcolor=${boxrgb}&character=blank&font=${font}&asterisk=${asteriskrgb}&mode=${mode}&small=true`, `box.${animated ? "gif" : "png"}`, {
                 http: true,
                 filepath: filepath
             })
 
             var width = fileinfo.info.width
             var height = fileinfo.info.height
+            var duration = fileinfo.info.duration
 
             var squareS = { value: ((height === width) && width) || ((height > width) && height) || width, constraint: ((height === width) && 'both') || ((height > width) && 'height') || 'width' }
 
-            await execPromise(`ffmpeg -i ${filepath}/${filename} -i ${filepath}/box.png -map 0:a? -filter_complex "[0:v]scale=${squareS.constraint === 'width' || squareS.constraint === 'both' ? 58 : -1}:${squareS.constraint === 'height' || squareS.constraint === 'both' ? 58 : -1}[frame];[1:v][frame]overlay=x=${xpoint}+(58/2-w/2):y=${ypoint}+(60/2-h/2):format=auto${!(args.find(arg => arg === '-small')) ? `,scale=iw*2:ih*2:flags=neighbor` : ''},scale=ceil(iw/2)*2:ceil(ih/2)*2:flags=neighbor[out]" -map "[out]" -preset ${findpreset(args)} -c:v libx264 -pix_fmt yuv420p ${filepath}/output.mp4`)
+            await execPromise(`ffmpeg -i ${filepath}/${filename} -i ${filepath}/box.${animated ? "gif" : "png"} -map 0:a? -filter_complex "[0:v]scale=${squareS.constraint === 'width' || squareS.constraint === 'both' ? 58 : -1}:${squareS.constraint === 'height' || squareS.constraint === 'both' ? 58 : -1}[frame];[1:v][frame]overlay=x=${xpoint}+(58/2-w/2):y=${ypoint}+(60/2-h/2):format=auto${!(args.find(arg => arg === '-small')) ? `,scale=iw*2:ih*2:flags=neighbor` : ''},scale=ceil(iw/2)*2:ceil(ih/2)*2:flags=neighbor[out]" -map "[out]" -t ${duration} -preset ${findpreset(args)} -c:v libx264 -pix_fmt yuv420p ${filepath}/output.mp4`)
             return await sendFile(msg, filepath, `output.mp4`)
         } else if (type.mime.startsWith('image') && vars.gifFormats.find(f => f === type.ext)) {
             var filepath = await downloadFile(currenturl, `input.gif`, {
                 fileinfo            })
             var filename = `input.gif`
-            await downloadFile(`https://www.demirramon.com/gen/undertale_text_box.png?text=${encodeURIComponent(text)}&box=${style}&boxcolor=${boxrgb}&character=blank&font=${font}&asterisk=${asteriskrgb}&mode=${mode}&small=true`, 'box.png', {
+            await downloadFile(`https://www.demirramon.com/gen/undertale_text_box.${animated ? "gif" : "png"}?text=${encodeURIComponent(text)}&box=${style}&boxcolor=${boxrgb}&character=blank&font=${font}&asterisk=${asteriskrgb}&mode=${mode}&small=true`, `box.${animated ? "gif" : "png"}`, {
                 http: true,
                 filepath: filepath
             })
 
             var width = fileinfo.info.width
             var height = fileinfo.info.height
+            var duration = fileinfo.info.duration
 
             var squareS = { value: ((height === width) && width) || ((height > width) && height) || width, constraint: ((height === width) && 'both') || ((height > width) && 'height') || 'width' }
 
-            await execPromise(`ffmpeg -i ${filepath}/${filename} -i ${filepath}/box.png -filter_complex "[0:v]scale=${squareS.constraint === 'width' || squareS.constraint === 'both' ? 58 : -1}:${squareS.constraint === 'height' || squareS.constraint === 'both' ? 58 : -1}[frame];[1:v][frame]overlay=x=${xpoint}+(58/2-w/2):y=${ypoint}+(60/2-h/2):format=auto${!(args.find(arg => arg === '-small')) ? `,scale=iw*2:ih*2:flags=neighbor` : ''},split[pout][ppout];[ppout]palettegen=reserve_transparent=1[palette];[pout][palette]paletteuse=alpha_threshold=128[out]" -map "[out]" -preset ${findpreset(args)} -gifflags -offsetting ${filepath}/output.gif`)
+            await execPromise(`ffmpeg ${animated ? "-stream_loop -1 " : ""}-i ${filepath}/${filename} ${animated ? "-stream_loop -1 " : ""}-i ${filepath}/box.${animated ? "gif" : "png"} -filter_complex "[0:v]scale=${squareS.constraint === 'width' || squareS.constraint === 'both' ? 58 : -1}:${squareS.constraint === 'height' || squareS.constraint === 'both' ? 58 : -1}[frame];[1:v][frame]overlay=${animated ? `shortest=1:` : ""}x=${xpoint}+(58/2-w/2):y=${ypoint}+(60/2-h/2):format=auto${!(args.find(arg => arg === '-small')) ? `,scale=iw*2:ih*2:flags=neighbor` : ''},split[pout][ppout];[ppout]palettegen=reserve_transparent=1[palette];[pout][palette]paletteuse=alpha_threshold=128[out]" -map "[out]" -preset ${findpreset(args)} -gifflags -offsetting ${filepath}/output.gif`)
             return await sendFile(msg, filepath, `output.gif`)
         } else {
             await msg.reply({
@@ -185,7 +188,7 @@ module.exports = {
         }
     },
     help: {
-        name: 'undertale/deltarune "{text}" [-mode <mode (regular or darkworld)>] [-boxstyle <style (read description)>] [-font <font (read description)>] [-(box/asterisk)color <r> <g> <b>] [-no(file/asterisk)] [-small] {file}',
+        name: 'undertale/deltarune "{text}" [-mode <mode (regular or darkworld)>] [-boxstyle <style (read description)>] [-font <font (read description)>] [-(box/asterisk)color <r> <g> <b>] [-no(file/asterisk/animate)] [-small] {file}',
         value: 'story of undertale!!! A list of available box styles are undertale, deltarune, earthbound, underswap, underfell, octagonal, shadedground, tubertale, stubertale, fnastale and derp. Fonts are determination, sans, papyrus, earthbound and wingdings. More info on https://www.demirramon.com/help/undertale_text_box_generator. Try it yourself at https://www.demirramon.com/generators/undertale_text_box_generator'
     },
     cooldown: 2500,
