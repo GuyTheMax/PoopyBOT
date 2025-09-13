@@ -11,7 +11,7 @@ module.exports = {
                 data.guildData[interaction.guild.id] = !config.testing && process.env.MONGODB_URL && await dataGather.guildData(config.database, interaction.guild.id).catch((e) => console.log(e)) || {}
             }
 
-            var memberData = data.guildData[interaction.guild.id].allMembers ?? {} ?? {}
+            var memberData = data.guildData[interaction.guild.id].allMembers ?? {}
             var memberKeys = Object.keys(memberData).sort((a, b) => memberData[b].messages - memberData[a].messages)
 
             return memberKeys.map(id => {

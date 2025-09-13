@@ -1066,7 +1066,6 @@ functions.processTask = async function (data) {
                 await ch.deleteQueue(q.queue).catch(() => { })
                 await ch.deleteQueue(qrash.queue).catch(() => { })
                 await ch.close().catch(() => { })
-                delete ch
             }
 
             var chunkdata = []
@@ -1083,7 +1082,6 @@ functions.processTask = async function (data) {
                     var chunkjoin = chunkdata.map(c => c.chunk).join('')
                     var data = tryJSONparse(chunkjoin)
                     if (data) {
-                        delete chunkdata
                         closeAll()
                         resolve(data)
                     }
@@ -1107,8 +1105,6 @@ functions.processTask = async function (data) {
                     replyTo: q.queue
                 })
             }
-
-            delete reqdata
         } catch (err) {
             reject(err)
         }
@@ -3654,7 +3650,7 @@ functions.getUrls = async function (msg, options = {}) {
         var stickersR = []
         msg.stickers.forEach(sticker => {
             if (options.update && sticker.fetched) return
-            stickersR.push(`https://cdn.discordapp.com/stickers/${sticker.id}.png`)
+            stickersR.push(`https://cdn.discordapp.com/stickers/${sticker.id}.${sticker.format == 4 ? "gif" : "png"}?size=160`)
             if (options.update && !sticker.fetched) sticker.fetched = true
         })
         stickersR.reverse()
@@ -4352,14 +4348,14 @@ functions.dealDamage = function (damage, subjUser, subjData, subjShield, subjShi
         if (!data.botData.leaderboard[otherSubjId]) data.botData.leaderboard[otherSubjId] = {}
 
         data.botData.leaderboard[otherSubjId].tag ??= otherSubjUser.tag ?? otherSubjUser.user?.tag ?? otherSubjUser.id
-        data.botData.leaderboard[otherSubjId].bucks = otherSubjData.bucks
+        data.botData.leaderboard[otherSubjId].bucks = otherSubjData.bucks ?? 20
     }
 
     if (subjId) {
         if (!data.botData.leaderboard[subjId]) data.botData.leaderboard[subjId] = {}
 
         data.botData.leaderboard[subjId].tag ??= subjUser.tag ?? subjUser.user?.tag ?? subjUser.id
-        data.botData.leaderboard[subjId].bucks = subjUser.bucks
+        data.botData.leaderboard[subjId].bucks = subjData.bucks ?? 20
     }
 
     return [subjDamageDealt, otherSubjDamageDealt, subjDeathArray, otherSubjDeathArray]
@@ -4381,7 +4377,7 @@ functions.battle = async function (msg, subject, action, damage, chance) {
 
     await msg.channel.sendTyping().catch(() => { })
     var attachment = msg.attachments.first()?.url
-    var sticker = msg.stickers[0] && `https://cdn.discordapp.com/stickers/${msg.stickers[0].id}.png`
+    var sticker = msg.stickers[0] && `https://cdn.discordapp.com/stickers/${msg.stickers[0].id}.${msg.stickers[0].format == 4 ? "gif" : "png"}`
 
     if (!subject && !attachment && !sticker) {
         await msg.reply('What/who is the subject?!').catch(() => { })
@@ -4415,9 +4411,11 @@ functions.battle = async function (msg, subject, action, damage, chance) {
     var subjData = subjUser && (
         data.userData[subjId] ||
         (
-            data.userData[subjId] = !config.testing && process.env.MONGODB_URL && await dataGather.userData(config.database, subjId).catch(() => { }) || {}
+            data.userData[subjId] = !config.testing && process.env.MONGODB_URL && await dataGather.userData(config.database, subjId).catch(() => { }) || vars.dataTemplate.userData.userId
         )
     )
+
+    if (subjUser) data.userData[subjId].username = subjUser.displayName
 
     var yourShield = yourData && getShieldById(yourData.shieldEquipped)
     var subjShield = subjData && getShieldById(subjData.shieldEquipped)
@@ -4563,8 +4561,8 @@ functions.battle = async function (msg, subject, action, damage, chance) {
 
     if (youGotHit) actions.push(`**${subjName}** hit you back for **${gotDamaged}** damage!`)
 
-    if (youDied || (youDied && isPoopy)) actions.push('You have died.')
-    if (subjDied && !isPoopy) actions.push(subjIsYou ? 'Congratulations.' : `${subjPronounCapperCase} ${subjHave} died.`)
+    if ((youDied && !isPoopy) || (subjDied && isPoopy)) actions.push('You have died.')
+    if ((subjDied && !isPoopy) || (youDied && isPoopy)) actions.push(subjIsYou ? 'Congratulations.' : `${subjPronounCapperCase} ${subjHave} died.`)
     if (yourLevel > yourLastLevel) actions.push(`You leveled UP!`)
     if (subjLevel > subjLastLevel) actions.push(`${subjPronounCapperCase} leveled UP!`)
 
@@ -6001,7 +5999,7 @@ functions.fetchPronounFields = async function (user, guild) {
             "Authorization": process.env.DISCORD_REFRESHER_TOKEN,
             "Accept": "application/json"
         }
-    }).catch((e) => console.log(e))
+    }).catch(() => { })
 
     if (!response)
         // No response?

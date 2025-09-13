@@ -384,8 +384,4 @@ vars.tempdataTemplate = {
     }
 }
 
-for (var stat in vars.battleStats) {
-    vars.dataTemplate.userData.userId[stat] = vars.battleStats[stat]
-}
-
 module.exports = vars

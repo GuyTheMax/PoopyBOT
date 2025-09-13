@@ -43,8 +43,10 @@ module.exports = {
         }
 
         if (!data.userData[member.id]) {
-            data.userData[member.id] = !config.testing && process.env.MONGODB_URL && await dataGather.userData(config.database, member.id).catch(() => { }) || {}
+            data.userData[member.id] = !config.testing && process.env.MONGODB_URL && await dataGather.userData(config.database, member.id).catch(() => { }) || vars.dataTemplate.userData.userId
         }
+
+        data.userData[member.id].username = member.displayName
 
         var userData = data.userData[member.id]
 

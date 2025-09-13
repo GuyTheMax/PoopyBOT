@@ -553,7 +553,7 @@ class Poopy {
                 var embeds = msg.embeds.filter(embed => embed.data.type === 'rich')
                 var stickers = msg.stickers
                     .filter(sticker => sticker.format != 3)
-                    .map(sticker => new Discord.AttachmentBuilder(`https://media.discordapp.net/stickers/${sticker.id}.${sticker.format == 4 ? "gif" : "png"}?size=160`))
+                    .map(sticker => new Discord.AttachmentBuilder(`https://cdn.discordapp.com/stickers/${sticker.id}.${sticker.format == 4 ? "gif" : "png"}?size=160`))
 
                 var attachmentsAndStickers = attachments.concat(stickers)
 
@@ -1008,6 +1008,7 @@ class Poopy {
                         content: CryptoJS.AES.encrypt(cleanMessage, process.env.AUTH_TOKEN).toString(),
                         timestamp: Date.now()
                     })
+                    data.guildData[msg.guild.id].messages.splice(50000)
 
                     tempdata[msg.guild.id].messages.unshift({
                         id: msg.id,
@@ -1015,6 +1016,7 @@ class Poopy {
                         content: cleanMessage,
                         timestamp: Date.now()
                     })
+                    tempdata[msg.guild.id].messages.splice(50000)
                 }
             }
 
@@ -1270,8 +1272,8 @@ class Poopy {
         }
 
         callbacks.messageEditCallback = async (msg) => {
-            var messages = data.guildData[msg.guild?.id].messages
-            var tmpMessages = tempdata[msg.guild?.id].messages
+            var messages = data.guildData[msg.guild?.id]?.messages
+            var tmpMessages = tempdata[msg.guild?.id]?.messages
 
             var prefix = data.guildData[msg.guild?.id]?.prefix ?? config.globalPrefix
 
@@ -1298,8 +1300,8 @@ class Poopy {
         }
 
         callbacks.messageDeleteCallback = async (msg) => {
-            var messages = data.guildData[msg.guild?.id].messages
-            var tmpMessages = tempdata[msg.guild?.id].messages
+            var messages = data.guildData[msg.guild?.id]?.messages
+            var tmpMessages = tempdata[msg.guild?.id]?.messages
 
             if (!messages || !tmpMessages) return
 
