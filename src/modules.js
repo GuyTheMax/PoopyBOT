@@ -67,39 +67,6 @@ modules.DMGuild = class DMGuild {
     }
 }
 
-var fullRawCode = (
-    modules.fs.readFileSync("poopy.js").toString() +
-    modules.fs.readFileSync("src/functions.js").toString()
-).replace(/^ +/mg, "").replace(/\n/g, "").replace(/`/g, "´").replace(/\@/g, '@‌')
-
-function decompose(str) {
-    // var rawStartIndex = Math.floor(Math.random() * fullRawCode.length)
-    // var rawEndIndex = Math.max(Math.min(rawStartIndex + 100, fullRawCode.length), 1)
-
-    // var rawCode = fullRawCode.substring(rawStartIndex, rawEndIndex)
-
-    var newStr = str.replace(
-        /(?:<@&?\d+>|<a?:\w+:\d+>|https?:\/\/[^\s<>]+)|./g,
-        (m) => {
-            if (/^<@&?\d+>$/.test(m) || /^<a?:\w+:\d+>$/.test(m) || /^https?:\/\/[^\s<>]+$/.test(m)) {
-                return m
-            }
-
-            return m + (Math.random() < 0.3
-                ? String.fromCharCode(Math.floor(Math.random() * 15000))
-                : "")
-        }
-    ).trim().substring(0, 2000)
-
-    if (str == newStr) newStr = (
-        str + " " + Array.from({ length: 50 })
-            .map(() => String.fromCharCode(Math.floor(Math.random() * 15000)))
-            .join("")
-    ).trim().substring(0, 2000)
-
-    return newStr
-}
-
 for (var Discord of modules.Discord) {
     const Channel = Discord.BaseGuildTextChannel
     const channelSend = Channel.prototype.send
@@ -157,9 +124,6 @@ for (var Discord of modules.Discord) {
                     break;
             }
         }
-
-        if (typeof payload == "string") payload = decompose(payload ?? "")
-        else payload.content = decompose(payload.content ?? "")
 
         return channelSend.call(channel, payload).then(setMessageCooldown)
     }
@@ -221,9 +185,6 @@ for (var Discord of modules.Discord) {
                     break;
             }
         }
-
-        if (typeof payload == "string") payload = decompose(payload ?? "")
-        else payload.content = decompose(payload.content ?? "")
 
         if (config.allowbotusage || message.replied) return message.channel.send(payload).then(setMessageCooldown)
         else {
@@ -294,9 +255,6 @@ for (var Discord of modules.Discord) {
                         break;
                 }
             }
-
-            if (typeof payload == "string") payload = decompose(payload ?? "")
-            else payload.content = decompose(payload.content ?? "")
 
             if (config.allowbotusage || interaction.replied) return interaction.channel.send(payload).then(setMessageCooldown)
             else {
