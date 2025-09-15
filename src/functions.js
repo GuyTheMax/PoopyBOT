@@ -1411,12 +1411,12 @@ functions.splitKeyFunc = function (string, { extrafuncs = {}, args = Infinity, s
     return split.map(val => isDefaultSeparator ? val.replace(/\\\|/, '|') : val)
 }
 
-functions.yesno = async function (channel, content, who, btdata, reply) {
+functions.yesno = async function (channel, content, who, btdata, reply, keepContent) {
     let poopy = this
     let bot = poopy.bot
     let config = poopy.config
     let { chunkArray, dmSupport } = poopy.functions
-    let { Discord } = poopy.modules
+    let { Discord, DiscordTypes } = poopy.modules
 
     return new Promise(async (resolve) => {
         if (config.forcetrue) {
@@ -1510,7 +1510,7 @@ functions.yesno = async function (channel, content, who, btdata, reply) {
             collector.on('end', (_, reason) => {
                 if (reason == 'time') {
                     yesnoMsg.edit({
-                        content: 'No response.'
+                        content: keepContent ? content : 'No response.'
                     }).catch(() => { })
                     yesnoMsg.reactions.removeAll().catch(() => { })
                     resolve(false)
@@ -1547,7 +1547,7 @@ functions.yesno = async function (channel, content, who, btdata, reply) {
             collector.on('end', (_, reason) => {
                 if (reason == 'time') {
                     yesnoMsg.edit({
-                        content: 'No response.',
+                        content: keepContent ? content : 'No response.',
                         components: []
                     }).catch(() => { })
                     resolve(false)
