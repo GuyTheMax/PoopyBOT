@@ -79,7 +79,7 @@ module.exports = {
                     frame.greyscale()
                 },
                 name: '50\'s {text}',
-                filename: '6.png'
+                filename: '5.png'
             },
 
             {
@@ -87,7 +87,7 @@ module.exports = {
                     frame.resize(frame.bitmap.width / 6, frame.bitmap.height / 6)
                 },
                 name: 'Tiny {text}',
-                filename: '7.png'
+                filename: '6.png'
             },
 
             {
@@ -95,7 +95,7 @@ module.exports = {
                     frame.resize(frame.bitmap.width * 3, frame.bitmap.height * 3)
                 },
                 name: 'Giant {text}',
-                filename: '8.png'
+                filename: '7.png'
             },
 
             {
@@ -104,7 +104,7 @@ module.exports = {
                     frame.resize(frame.bitmap.width * 4, frame.bitmap.height * 4, Jimp.RESIZE_NEAREST_NEIGHBOR)
                 },
                 name: '8-bit {text}',
-                filename: '9.png'
+                filename: '8.png'
             },
 
             {
@@ -113,7 +113,7 @@ module.exports = {
                     frame.resize(frame.bitmap.width * 6, frame.bitmap.height * 6)
                 },
                 name: 'Crunchy {text}',
-                filename: '10.png'
+                filename: '9.png'
             },
 
             {
@@ -137,7 +137,7 @@ module.exports = {
                     ])
                 },
                 name: 'Nightmare {text}',
-                filename: '11.png'
+                filename: '10.png'
             },
 
             {
@@ -161,7 +161,7 @@ module.exports = {
                     ])
                 },
                 name: 'Ghost {text}',
-                filename: '12.png'
+                filename: '11.png'
             },
 
             {
@@ -178,7 +178,7 @@ module.exports = {
                     ])
                 },
                 name: 'what',
-                filename: '13.png'
+                filename: '12.png'
             },
 
             {
@@ -195,7 +195,7 @@ module.exports = {
                     ])
                 },
                 name: 'Distorted {text}',
-                filename: '14.png'
+                filename: '13.png'
             },
 
             {
@@ -204,7 +204,7 @@ module.exports = {
                     frame.contrast(1)
                 },
                 name: 'Silhouette {text}',
-                filename: '15.png'
+                filename: '14.png'
             },
 
             {
@@ -212,7 +212,7 @@ module.exports = {
                     frame.resize(frame.bitmap.width / 40, frame.bitmap.height / 40)
                 },
                 name: '{text} Bacteria',
-                filename: '16.png'
+                filename: '15.png'
             },
 
             {
@@ -220,7 +220,7 @@ module.exports = {
                     frame.invert()
                 },
                 name: 'Inverted {text}',
-                filename: '17.png'
+                filename: '16.png'
             },
 
             {
@@ -228,7 +228,7 @@ module.exports = {
                     frame.resize(frame.bitmap.width, frame.bitmap.height / 4)
                 },
                 name: 'Squashed {text}',
-                filename: '18.png'
+                filename: '17.png'
             },
 
             {
@@ -236,7 +236,7 @@ module.exports = {
                     frame.resize(frame.bitmap.width, frame.bitmap.height * 4)
                 },
                 name: 'hi',
-                filename: '19.png'
+                filename: '18.png'
             },
 
             {
@@ -249,7 +249,7 @@ module.exports = {
                     ])
                 },
                 name: 'Nuclear {text}',
-                filename: '20.png'
+                filename: '19.png'
             },
 
             {
@@ -257,7 +257,7 @@ module.exports = {
                     frame.contrast(0.9)
                 },
                 name: '{text} Fry',
-                filename: '21.png'
+                filename: '20.png'
             },
 
             {
@@ -276,7 +276,7 @@ module.exports = {
                     ])
                 },
                 name: 'Hot {text}',
-                filename: '22.png'
+                filename: '21.png'
             },
 
             {
@@ -295,7 +295,7 @@ module.exports = {
                     ])
                 },
                 name: 'Cold {text}',
-                filename: '23.png'
+                filename: '22.png'
             },
 
             {
@@ -303,7 +303,7 @@ module.exports = {
                     frame.blur(5)
                 },
                 name: 'Blurred {text}',
-                filename: '24.png'
+                filename: '23.png'
             },
 
             {
@@ -311,7 +311,7 @@ module.exports = {
                     frame.resize(frame.bitmap.width * 12, frame.bitmap.height * 12)
                 },
                 name: 'Island-sized {text}',
-                filename: '25.png'
+                filename: '24.png'
             },
 
             {
@@ -320,7 +320,7 @@ module.exports = {
                     frame.resize(frame.bitmap.width, 500, Jimp.RESIZE_NEAREST_NEIGHBOR)
                 },
                 name: '{text}\n{text}\n{text}\n{text}\n{text}\n{text}\n{text}',
-                filename: '26.png'
+                filename: '25.png'
             },
 
             {
@@ -336,7 +336,7 @@ module.exports = {
                     ])
                 },
                 name: 'The Anonymous {text}',
-                filename: '27.png'
+                filename: '26.png'
             },
 
             {
@@ -346,7 +346,7 @@ module.exports = {
                     frame.composite(jail, 0, 0)
                 },
                 name: 'Jailed {text}',
-                filename: '28.png'
+                filename: '27.png'
             },
         ]
         await msg.channel.sendTyping().catch(() => { })
