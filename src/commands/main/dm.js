@@ -163,7 +163,7 @@ module.exports = {
 
             if (dmMessage) {
                 if (!msg.nosend) {
-                    if (msg.type === DiscordTypes.InteractionType.ApplicationCommand && !msg.replied) await msg.reply({
+                    if (msg.type === DiscordTypes.InteractionType.ApplicationCommand && !msg.replied) await msg.editReply({
                         content: 'Successfully sent.',
                         flags: DiscordTypes.MessageFlags.Ephemeral
                     }).catch(() => { })
@@ -179,6 +179,6 @@ module.exports = {
         name: 'dm <user> <message>',
         value: 'Allows Poopy to DM an user the message inside the command.'
     },
-    nodefer: true,
+    ephemeral: true,
     type: 'Main'
 }
