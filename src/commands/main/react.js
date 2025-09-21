@@ -54,5 +54,6 @@ module.exports = {
         name: 'react <emojis> {messageid}',
         value: 'React to a message inside the channel with an emoji. (each emoji should be separated with ",")'
     },
+    ephemeral: true,
     type: 'Main'
 }
