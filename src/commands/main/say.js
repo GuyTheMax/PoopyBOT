@@ -51,9 +51,8 @@ module.exports = {
             if (del || (msg.replied && msg.deferred)) {
                 if (!msg.nosend) await msg.channel.send(sendObject).catch(() => { })
 
-                if (msg.type === DiscordTypes.InteractionType.ApplicationCommand && !msg.replied) await msg.reply({
-                    content: 'Successfully sent.',
-                    flags: DiscordTypes.MessageFlags.Ephemeral
+                if (msg.type === DiscordTypes.InteractionType.ApplicationCommand && !msg.replied) await msg.editReply({
+                    content: 'Successfully sent.'
                 }).catch(() => { })
                 else msg.delete().catch(() => { })
             } else {
