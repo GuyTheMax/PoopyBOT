@@ -1692,7 +1692,7 @@ class Poopy {
 
                 if (Object.keys(globaldata).length <= 0) {
                     if (fs.existsSync(`data/globaldata.json`)) {
-                        data.globaldata = fs.readJSONSync(`data/globaldata.json`).toString()
+                        data.globaldata = fs.readJSONSync(`data/globaldata.json`)
                     } else {
                         data.globaldata = {}
                     }
