@@ -1602,7 +1602,25 @@ class Poopy {
                             }
                         }
 
-                        if (!findCmd.nodefer) await interaction.deferReply().catch(() => { })
+                        var hasEphemeralSayPerm = interaction.member?.permissions && (
+                            interaction.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageGuild) ||
+                            interaction.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageMessages) ||
+                            interaction.member.permissions.has(DiscordTypes.PermissionFlagsBits.Administrator) ||
+                            interaction.user.id === interaction.guild.ownerID ||
+                            (config.ownerids.find(id => id == interaction.user.id))
+                        )
+
+                        var hasNoDeleteArg = findCmd.args.some(a => a.name == "nodelete")
+
+                        var isEphemeral = findCmd.ephemeral ? (
+                            hasNoDeleteArg ?
+                                findCmd.ephemeral && hasEphemeralSayPerm && !interaction.options.getString("nodelete") :
+                                findCmd.ephemeral
+                        ) : false
+
+                        await interaction.deferReply({
+                            flags: isEphemeral ? DiscordTypes.MessageFlags.Ephemeral : null
+                        }).catch(() => { })
 
                         interaction.content = content
                         interaction.author = interaction.user
