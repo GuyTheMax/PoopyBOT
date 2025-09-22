@@ -7,7 +7,7 @@ module.exports = {
 
     var word = matches[1]
 
-    if (tempdata[msg.guild.id][msg.channel.id][msg.author.id].messageCollector && tempdata[msg.guild.id][msg.channel.id][msg.author.id].messageCollector.stop) {
+    if (tempdata[msg.guild.id][msg.channel.id][msg.author.id]?.messageCollector?.stop) {
       tempdata[msg.guild.id][msg.channel.id][msg.author.id].messageCollector.stop(word ? 'time' : 'user')
       delete tempdata[msg.guild.id][msg.channel.id][msg.author.id].messageCollector
     }
