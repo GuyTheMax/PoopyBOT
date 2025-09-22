@@ -1495,12 +1495,26 @@ class Poopy {
                             }
                         }
 
-                        if (interaction.guild?.autoModerationRules && interaction.member && !(
+                        var hasPerms = (
                             interaction.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageGuild) ||
                             interaction.member.permissions.has(DiscordTypes.PermissionFlagsBits.Administrator) ||
                             interaction.user.id === interaction.guild.ownerID ||
                             (config.ownerids.find(id => id == interaction.user.id))
-                        )) {
+                        )
+
+                        var hasMessagePerms = hasPerms || interaction.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageMessages)
+
+                        var isRestricted = data.guildData[interaction.guild.id]?.restricted?.includes(interaction.channel.id) && !hasPerms
+
+                        if (isRestricted) {
+                            await interaction.reply({
+                                content: "Nope!",
+                                flags: DiscordTypes.MessageFlags.Ephemeral
+                            }).catch(() => { })
+                            return
+                        }
+
+                        if (interaction.guild?.autoModerationRules && interaction.member && !hasPerms) {
                             let automodRules = tempdata[interaction.guild.id].automodRules
                             if (!automodRules)
                                 automodRules = tempdata[interaction.guild.id].automodRules
@@ -1602,16 +1616,10 @@ class Poopy {
                             }
                         }
 
-                        var hasEphemeralSayPerm = !(interaction.guild instanceof DMGuild) && (
-                            interaction.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageGuild) ||
-                            interaction.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageMessages) ||
-                            interaction.member.permissions.has(DiscordTypes.PermissionFlagsBits.Administrator) ||
-                            interaction.user.id === interaction.guild.ownerID ||
-                            (config.ownerids.find(id => id == interaction.user.id))
-                        )
+                        var hasEphemeralSayPerm = !(interaction.guild instanceof DMGuild) && hasMessagePerms
 
                         var hasNoDeleteArg = findCmd.args.some(a => a.name == "nodelete")
-
+                        
                         var isEphemeral = findCmd.ephemeral ? (
                             hasNoDeleteArg ?
                                 findCmd.ephemeral && hasEphemeralSayPerm && !interaction.options.getString("nodelete") :
