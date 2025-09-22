@@ -12,7 +12,7 @@ module.exports = {
         if (msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageGuild) || msg.member.roles.cache.find(role => role.name.match(/mod|dev|admin|owner|creator|founder|staff/ig)) || msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageMessages) || msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.Administrator) || msg.author.id === msg.guild.ownerID || config.ownerids.find(id => id == msg.author.id) || isBot) {
             for (var uid in tempdata[msg.guild.id][msg.channel.id]) {
                 var userdata = tempdata[msg.guild.id][msg.channel.id][uid]
-                if (userdata.messageCollector && userdata.messageCollector.stop) {
+                if (userdata?.messageCollector?.stop) {
                     userdata.messageCollector.stop(word ? 'time' : 'user')
                     delete tempdata[msg.guild.id][msg.channel.id][uid].messageCollector
                 }
