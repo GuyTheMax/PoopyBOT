@@ -517,7 +517,7 @@ class Poopy {
                 return
             }
 
-            var cmds = data.guildData[msg.guild.id].chaincommands == true ? origcontent.split(/ ?-\|- ?/) : [origcontent]
+            var cmds = data.guildData[msg.guild.id].chaincommands == true ? origcontent.split(/\s*-\|-\s*/) : [origcontent]
             var allcontents = []
             var webhooked = false
 
@@ -565,7 +565,7 @@ class Poopy {
                     allowedMentions: fetchPingPerms(msg)
                 }
 
-                if (msg.reference) {
+                if (msg.reference && !msg.messageSnapshots?.size) {
                     sendObject.content = `> -# Reply to: https://discord.com/channels/${msg.reference.guildId}/${msg.reference.channelId}/${msg.reference.messageId}\n\n${sendObject.content ?? ""}`
                 }
 
@@ -601,7 +601,7 @@ class Poopy {
                     sendObject.username = data.guildData[msg.guild.id].members[msg.author.id].custom.name.substring(0, 32)
                     sendObject.avatarURL = data.guildData[msg.guild.id].members[msg.author.id].custom.avatar
                 }
-                
+
                 await sendWebhook(msg, sendObject).catch((e) => console.log(e))
                 msg.delete().catch(() => { })
             }
