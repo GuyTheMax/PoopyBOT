@@ -38,7 +38,7 @@ module.exports = {
         let data = poopy.data
         let bot = poopy.bot
         let config = poopy.config
-        let { DiscordTypes } = poopy.modules
+        let { DiscordTypes, Discord } = poopy.modules
         let { fetchPingPerms } = poopy.functions
 
         var options = {
