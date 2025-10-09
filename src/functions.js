@@ -2944,74 +2944,103 @@ functions.refreshDiscordURLs = async function (urls) {
             }
         }).filter(Boolean)
 
-        const urlsToRefresh = []
-        const results = []
+        const urlRefreshData = []
 
-        for (const parsed of parsedUrls) {
+        for (let i = 0; i < parsedUrls.length; i++) {
+            const parsed = parsedUrls[i]
+            const isDiscordUrl = /^(cdn\.discordapp\.com|media\.discordapp\.net)$/.test(parsed.hostname)
             const params = new URLSearchParams(parsed.search)
 
-            if (params.get('ex') && params.get('is') && params.get('hm')) {
+            if (isDiscordUrl && params.get('ex') && params.get('is') && params.get('hm')) {
                 const expires = new Date(parseInt(params.get('ex'), 16) * 1000)
                 if (expires.getTime() > Date.now()) {
-                    results.push(parsed.href)
+                    urlRefreshData.push({
+                        url: parsed.href,
+                        refreshed: true,
+                        index: i
+                    })
                     continue
                 }
             }
 
             const cacheKey = parsed.pathname
             const cached = tempdata.discordUrls[cacheKey]
-            if (cached && cached.expires.getTime() > Date.now()) {
-                results.push(cached.href)
+            if ((cached && cached.expires.getTime() > Date.now()) || !isDiscordUrl) {
+                urlRefreshData.push({
+                    url: cached?.href ?? parsed.href,
+                    refreshed: true,
+                    index: i
+                })
                 continue
             }
 
-            urlsToRefresh.push(parsed.href)
+            urlRefreshData.push({
+                url: parsed.href,
+                refreshed: false,
+                index: i
+            })
         }
 
-        if (urlsToRefresh.length) {
-            const urlChunks = chunkArray(urlsToRefresh, 50)
+        const refreshedUrlData = []
+        
+        urlRefreshData
+            .filter(urlData => urlData.refreshed)
+            .forEach(urlData => refreshedUrlData[urlData.index] = urlData.url)
 
-            for (const urlChunk of urlChunks) {
-                let success = false
-                let attempts = 0
+        const urlDataChunks = chunkArray(urlRefreshData.filter(urlData => !urlData.refreshed), 50)
 
-                while (!success) {
-                    if (attempts >= 10) return null
-                    attempts++
+        let stop = false
 
-                    const response = await axios({
-                        method: 'POST',
-                        url: `https://discord.com/api/v9/attachments/refresh-urls`,
-                        data: {
-                            attachment_urls: urlChunk
-                        },
-                        headers: {
-                            "Authorization": process.env.DISCORD_REFRESHER_TOKEN,
-                            "Accept": "application/json"
-                        }
-                    }).catch(() => { })
+        for (const urlDataChunk of urlDataChunks) {
+            let success = false
+            let attempts = 0
 
-                    success = response && response.status === 200 && response.data.refreshed_urls?.length
-
-                    if (success) {
-                        for (const refreshed of response.data.refreshed_urls) {
-                            const refreshedUrl = new URL(refreshed.refreshed)
-                            const refreshedParams = new URLSearchParams(refreshedUrl.search)
-                            const expires = new Date(parseInt(refreshedParams.get('ex'), 16) * 1000)
-
-                            const cacheKey = refreshedUrl.pathname
-
-                            const cachedUrl = { href: refreshedUrl.href, expires }
-                            tempdata.discordUrls[cacheKey] = cachedUrl
-
-                            results.push(refreshedUrl.href)
-                        }
-                    } else await sleep(1000)
+            while (!success) {
+                if (attempts >= 10 || stop) {
+                    stop = true
+                    for (const urlData of urlDataChunk) {
+                        refreshedUrlData[urlData.index] = urlData.url
+                    }
+                    break
                 }
-            }
-        }
 
-        return results
+                attempts++
+
+                const response = await axios({
+                    method: 'POST',
+                    url: `https://discord.com/api/v9/attachments/refresh-urls`,
+                    data: {
+                        attachment_urls: urlDataChunk.map(urlData => urlData.url)
+                    },
+                    headers: {
+                        "Authorization": process.env.DISCORD_REFRESHER_TOKEN,
+                        "Accept": "application/json"
+                    }
+                }).catch(() => { })
+
+                success = response && response.status === 200 && response.data.refreshed_urls?.length
+
+                if (success) {
+                    for (let i = 0; i < response.data.refreshed_urls.length; i++) {
+                        const refreshed = response.data.refreshed_urls[i]
+                        const urlData = urlDataChunk[i]
+
+                        const refreshedUrl = new URL(refreshed.refreshed)
+                        const refreshedParams = new URLSearchParams(refreshedUrl.search)
+                        const expires = new Date(parseInt(refreshedParams.get('ex'), 16) * 1000)
+
+                        const cacheKey = refreshedUrl.pathname
+
+                        const cachedUrl = { href: refreshedUrl.href, expires }
+                        tempdata.discordUrls[cacheKey] = cachedUrl
+
+                        refreshedUrlData[urlData.index] = refreshedUrl.href
+                    }
+                } else await sleep(500 * attempts)
+            }
+        }      
+
+        return refreshedUrlData
     } catch (err) {
         console.error("refreshDiscordURLs error:", err)
         return null

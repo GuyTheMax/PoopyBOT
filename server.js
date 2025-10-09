@@ -130,12 +130,15 @@ async function start() {
                 let cached = cachedMediaResponses[url]
 
                 if (!cached) {
-                    const response = await axios.get(url, { responseType: "arraybuffer" })
-                    cached = {
-                        data: Buffer.from(response.data),
-                        contentType: response.headers["content-type"]
+                    const response = await axios.get(url, { responseType: "arraybuffer" }).catch(() => { })
+                    if (response) {
+                        cached = {
+                            data: Buffer.from(response.data),
+                            contentType: response.headers["content-type"]
+                        }
+    
+                        cachedMediaResponses[url] = cached
                     }
-                    cachedMediaResponses[url] = cached
                 }
 
                 res.setHeader("Access-Control-Allow-Origin", "*")

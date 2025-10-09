@@ -188,12 +188,13 @@ for (var Discord of modules.Discord) {
 
         if (config.allowbotusage || message.replied) return message.channel.send(payload).then(setMessageCooldown)
         else {
-            var reply = await messageReply.call(message, payload).then(setMessageCooldown)
-            Object.defineProperty(message, 'replied', {
-                value: reply,
-                writable: true
+            return messageReply.call(message, payload).then(reply => {
+                Object.defineProperty(message, 'replied', {
+                    value: reply,
+                    writable: true
+                })
+                return setMessageCooldown(reply)
             })
-            return reply
         }
     }
 
@@ -260,14 +261,16 @@ for (var Discord of modules.Discord) {
                 if (interaction.isUserApp) return interaction.followUp(payload).then(setMessageCooldown)
                 else return interaction.channel.send(payload).then(setMessageCooldown)
             } else {
-                var reply = await (!interaction.replied && interaction.deferred ?
+                return (!interaction.replied && interaction.deferred ?
                     interaction.editReply(payload) :
-                    interactionReply.call(interaction, payload)).then(setMessageCooldown)
-                Object.defineProperty(interaction, 'replied', {
-                    value: reply,
-                    writable: true
+                    interactionReply.call(interaction, payload)
+                ).then(reply => {
+                    Object.defineProperty(interaction, 'replied', {
+                        value: reply,
+                        writable: true
+                    })
+                    return setMessageCooldown(reply)
                 })
-                return reply
             }
         }
     }

@@ -587,7 +587,8 @@ class Poopy {
                         "enemies" : "battlers"
 
                     var battler = poopy.json.battlerJSON[type].reduce((closestBattler, currentBattler) =>
-                        similarity(currentBattler.name ?? "", msg.member.displayName) > similarity(closestBattler.name ?? "", msg.member.displayName)
+                        similarity(currentBattler.name ?? "", msg.member.displayName ?? msg.author.displayName ?? "")
+                            > similarity(closestBattler.name ?? "", msg.member.displayName ?? msg.author.displayName ?? "")
                             ? currentBattler : closestBattler
                     )
 
