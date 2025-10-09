@@ -51,7 +51,7 @@ module.exports = {
                 symbolReplacedMessage = saidMessage.replace(new RegExp(target, 'ig'), symbolReplacement.replacement)
             })
         })
-        var name = (symbolReplacedMessage.match(/^"([\s\S]*?)"/) ?? [])[1]
+        var name = (symbolReplacedMessage.match(/"([\s\S]*?)"/) ?? [])[1]
         if (name) {
             if (name.length > 32) {
                 await msg.reply('That name is TOO LONG!').catch(() => { })
