@@ -16,7 +16,7 @@ module.exports = {
     var array = tempdata[msg.author.id][msg.id].arrays[name]
     if (!array) return ''
 
-    tempdata[msg.author.id][msg.id].arrays[clone] = array || []
+    tempdata[msg.author.id][msg.id].arrays[clone] = [...(array || [])]
 
     return [phrase, true]
   },
