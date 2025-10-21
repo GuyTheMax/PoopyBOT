@@ -343,6 +343,7 @@ vars.tempdataTemplate = {
             },
 
             userId: {
+                lastMessage: 0,
                 messageCollector: undefined,
                 chatContexts: {}
             }

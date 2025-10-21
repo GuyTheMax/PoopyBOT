@@ -400,7 +400,7 @@ functions.markovChainGenerator = function (texts) {
 functions.markovMe = function (markovChain, text = '', options = {}) {
     var words = markovChain.map(chain => chain.word)
 
-    if (words.length <= 0) return 'no markov data for guild, arabotto 2020'
+    if (words.length <= 0) return 'no markov data for guild'
 
     var wordNumber = options.wordNumber
     var nopunctuation = options.nopunctuation
@@ -781,6 +781,8 @@ functions.gatherData = async function (msg) {
         }
 
         reconcileDataWithTemplate(tempdata, vars.tempdataTemplate, msg)
+
+        tempdata[msg.guild.id][msg.channel.id][msg.author.id].lastMessage = Date.now()
 
         if (!tempdata[msg.author.id].coolDownMsg) {
             tempdata[msg.author.id].coolDownMsg = msg.id
@@ -2145,6 +2147,108 @@ functions.rainmaze = async function (channel, who, reply, w = 8, h = 6) {
     return raindraw.description
 }
 
+functions.votekick = async function (member, channel, voteGoal, action = "timeout", duration = 45_000) {
+    const poopy = this
+    const tempdata = poopy.tempdata
+    const { Discord, DiscordTypes } = poopy.modules
+
+    const now = Date.now()
+
+    const voteMembers = Object.fromEntries(
+        Object.entries(tempdata[channel.guild.id][channel.id])
+            .filter(([_, m]) => m?.lastMessage != undefined && now - m.lastMessage < 120_000)
+            .map(([id, m]) => [id, m.lastMessage])
+    )
+
+    let user = member.user
+    let members = Object.keys(voteMembers)
+
+    voteGoal = voteGoal ?? Math.ceil(members.length * (3 / 4))
+
+    const embed = new Discord.EmbedBuilder()
+        .setAuthor({ name: `${member.displayName} (${user.username})`, iconURL: member.displayAvatarURL({ dynamic: true, size: 1024, extension: "png" }) })
+        .setTitle("⚠️ Votekick Initiated")
+        .setDescription(`Should **${member.displayName}** be punished? **0/${voteGoal}**`)
+        .setColor(0xffcc4d)
+        .setTimestamp()
+
+    const buttons = new Discord.ActionRowBuilder().addComponents(
+        new Discord.ButtonBuilder().setCustomId("yes").setEmoji("874406154619469864").setStyle(DiscordTypes.ButtonStyle.Success),
+        new Discord.ButtonBuilder().setCustomId("no").setEmoji("874406183933444156").setStyle(DiscordTypes.ButtonStyle.Danger)
+    )
+
+    const voteMsg = await channel.send({ embeds: [embed], components: [buttons] }).catch(() => { })
+
+    let votes = new Set()
+    let unvotes = new Set()
+    const voteCollector = voteMsg.createMessageComponentCollector({ time: duration })
+
+    async function updateVoteEmbed() {
+        const updatedEmbed = Discord.EmbedBuilder.from(embed)
+            .setDescription(`Should **${member.displayName}** be punished? **${votes.size}/${voteGoal}**`)
+
+        var passedGoal = !(votes.size < voteGoal)
+
+        await voteMsg.edit({ embeds: [updatedEmbed], components: passedGoal ? [] : [buttons] }).catch(() => { })
+
+        if (passedGoal) voteCollector.stop("passed")
+    }
+
+    const voteInterval = setInterval(updateVoteEmbed, 1000)
+
+    voteCollector.on("collect", async (interaction) => {
+        let voter = interaction.user
+        if (voter.id === user.id) {
+            await interaction.reply({ content: "You can't vote on your own votekick!", flags: DiscordTypes.MessageFlags.Ephemeral }).catch(() => { })
+            return
+        }
+
+        if (!voteMembers[voter.id]) voteMembers[voter.id] = Date.now()
+
+        if (interaction.customId === "yes") {
+            votes.add(voter.id)
+            unvotes.delete(voter.id)
+        } else {
+            unvotes.add(voter.id)
+            votes.delete(voter.id)
+        }
+
+        await interaction.reply({ content: `Vote counted: **${interaction.customId.toUpperCase()}**`, flags: DiscordTypes.MessageFlags.Ephemeral }).catch(() => { })
+    })
+
+    voteCollector.on("end", async (_, reason) => {
+        clearInterval(voteInterval)
+
+        await voteMsg.edit({ components: [] }).catch(() => { })
+
+        if (reason === "passed") {
+            const successEmbed = new Discord.EmbedBuilder()
+                .setTitle("✅ Votekick Successful")
+                .setDescription(`${user} has been punished.\n\n✅ **${votes.size}** ❌ **${unvotes.size}**`)
+                .setColor(0x77b255)
+                .setTimestamp()
+
+            await voteMsg.reply({ embeds: [successEmbed] }).catch(() => { })
+
+            switch (action) {
+                case "timeout": return await member.timeout(600_000).catch(() => { })
+                case "kick": return await member.kick().catch(() => { })
+                case "ban": return await member.ban().catch(() => { })
+            }
+        } else {
+            const failEmbed = new Discord.EmbedBuilder()
+                .setTitle("❌ Votekick Failed")
+                .setDescription(`Vote goal not reached in time.\n\n✅ **${votes.size}** ❌ **${unvotes.size}**`)
+                .setColor(0xdd2e44)
+                .setTimestamp()
+
+            await voteMsg.reply({ embeds: [failEmbed] }).catch(() => { })
+        }
+    })
+
+    return "Voting initiated."
+}
+
 functions.displayShops = async function (msg, shopType, shopMsg) {
     let poopy = this
     let config = poopy.config
@@ -2982,7 +3086,7 @@ functions.refreshDiscordURLs = async function (urls) {
         }
 
         const refreshedUrlData = []
-        
+
         urlRefreshData
             .filter(urlData => urlData.refreshed)
             .forEach(urlData => refreshedUrlData[urlData.index] = urlData.url)
@@ -3038,7 +3142,7 @@ functions.refreshDiscordURLs = async function (urls) {
                     }
                 } else await sleep(500 * attempts)
             }
-        }      
+        }
 
         return refreshedUrlData
     } catch (err) {
