@@ -789,7 +789,7 @@ functions.gatherData = async function (msg) {
 }
 
 functions.chat = async function (stim, msg, {
-    temperature = 0.7,
+    temperature = 1,
     instruct = vars.chatInstruct,
     clear = false,
     useTools = false,
@@ -870,6 +870,7 @@ functions.chat = async function (stim, msg, {
 
         if (!message) return
 
+        if (message.tool_calls == null) delete message.tool_calls
         ourHistory.push(message)
     }
 
