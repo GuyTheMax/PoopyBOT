@@ -2149,27 +2149,36 @@ functions.rainmaze = async function (channel, who, reply, w = 8, h = 6) {
 }
 
 functions.votekick = async function (member, channel, voteGoal, action = "timeout", duration = 45_000) {
-    const poopy = this
-    const tempdata = poopy.tempdata
-    const { Discord, DiscordTypes } = poopy.modules
+    let poopy = this
+    let tempdata = poopy.tempdata
+    let { Discord, DiscordTypes } = poopy.modules
+
+    const actionNames = {
+        timeout: "timed out",
+        mute: "muted",
+        kick: "kicked",
+        ban: "banned"
+    }
+
+    const user = member.user
+    const guild = channel.guild
 
     const now = Date.now()
 
     const voteMembers = Object.fromEntries(
-        Object.entries(tempdata[channel.guild.id][channel.id])
+        Object.entries(tempdata[guild.id][channel.id])
             .filter(([_, m]) => m?.lastMessage != undefined && now - m.lastMessage < 120_000)
             .map(([id, m]) => [id, m.lastMessage])
     )
 
-    let user = member.user
-    let members = Object.keys(voteMembers)
+    const members = Object.keys(voteMembers)
 
-    voteGoal = voteGoal ?? Math.ceil(members.length * (3 / 4))
+    voteGoal = voteGoal ?? Math.ceil(members.length * (1 / 2))
 
     const embed = new Discord.EmbedBuilder()
         .setAuthor({ name: `${member.displayName} (${user.username})`, iconURL: member.displayAvatarURL({ dynamic: true, size: 1024, extension: "png" }) })
         .setTitle("⚠️ Votekick Initiated")
-        .setDescription(`Should **${member.displayName}** be punished? **0/${voteGoal}**`)
+        .setDescription(`Should **${member.displayName}** be votekicked? **0/${voteGoal}**`)
         .setColor(0xffcc4d)
         .setTimestamp()
 
@@ -2186,9 +2195,9 @@ functions.votekick = async function (member, channel, voteGoal, action = "timeou
 
     async function updateVoteEmbed() {
         const updatedEmbed = Discord.EmbedBuilder.from(embed)
-            .setDescription(`Should **${member.displayName}** be punished? **${votes.size}/${voteGoal}**`)
+            .setDescription(`Should **${member.displayName}** be votekicked? **${votes.size}/${voteGoal}**`)
 
-        var passedGoal = !(votes.size < voteGoal)
+        const passedGoal = !(votes.size < voteGoal)
 
         await voteMsg.edit({ embeds: [updatedEmbed], components: passedGoal ? [] : [buttons] }).catch(() => { })
 
@@ -2198,13 +2207,11 @@ functions.votekick = async function (member, channel, voteGoal, action = "timeou
     const voteInterval = setInterval(updateVoteEmbed, 1000)
 
     voteCollector.on("collect", async (interaction) => {
-        let voter = interaction.user
+        const voter = interaction.user
         if (voter.id === user.id) {
             await interaction.reply({ content: "You can't vote on your own votekick!", flags: DiscordTypes.MessageFlags.Ephemeral }).catch(() => { })
             return
         }
-
-        if (!voteMembers[voter.id]) voteMembers[voter.id] = Date.now()
 
         if (interaction.customId === "yes") {
             votes.add(voter.id)
@@ -2225,7 +2232,7 @@ functions.votekick = async function (member, channel, voteGoal, action = "timeou
         if (reason === "passed") {
             const successEmbed = new Discord.EmbedBuilder()
                 .setTitle("✅ Votekick Successful")
-                .setDescription(`${user} has been punished.\n\n✅ **${votes.size}** ❌ **${unvotes.size}**`)
+                .setDescription(`${user} has been ${actionNames[action]}.\n\n✅ **${votes.size}** ❌ **${unvotes.size}**`)
                 .setColor(0x77b255)
                 .setTimestamp()
 
@@ -2233,6 +2240,12 @@ functions.votekick = async function (member, channel, voteGoal, action = "timeou
 
             switch (action) {
                 case "timeout": return await member.timeout(600_000).catch(() => { })
+                case "mute": {
+                    const muteRole = guild.roles.cache.find(r => r.name.split(" ").some(n => n.toLowerCase().startsWith("mute")))
+
+                    if (muteRole) return await member.roles.set([muteRole.id]).catch(() => member.roles.add(muteRole.id).catch(() => { }))
+                    else return await member.timeout(600_000).catch(() => { })
+                }
                 case "kick": return await member.kick().catch(() => { })
                 case "ban": return await member.ban().catch(() => { })
             }

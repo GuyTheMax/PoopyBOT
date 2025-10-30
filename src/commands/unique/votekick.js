@@ -23,15 +23,14 @@ module.exports = {
                 })
             }
         },
-        { name: "goal", required: false, specifarg: true, orig: "[-goal <votes (default: active members * (3/4))>]" },
-        { name: "action", required: false, specifarg: true, orig: "[-action <timeout|kick|ban>]", autocomplete: ["timeout", "kick", "ban"] },
+        { name: "goal", required: false, specifarg: true, orig: "[-goal <votes (default: active members * (1/2))>]" },
+        { name: "action", required: false, specifarg: true, orig: "[-action <timeout|mute|kick|ban>]", autocomplete: ["timeout", "mute", "kick", "ban"] },
         { name: "duration", required: false, specifarg: true, orig: "[-duration <seconds (default 45)>]" },
     ],
     execute: async function (msg, args) {
         let poopy = this
-        let tempdata = poopy.tempdata
-        let bot = poopy.bot
-        let { resolveUser, getOption, parseNumber, parseString } = poopy.functions
+        let config = poopy.config
+        let { resolveUser, getOption, parseNumber, parseString, votekick } = poopy.functions
         let { DiscordTypes } = poopy.modules
 
         const goal = getOption(
@@ -55,7 +54,7 @@ module.exports = {
                 n: 1,
                 join: true,
                 func: (opt) => parseString(
-                    opt, ["timeout", "kick", "ban"],
+                    opt, ["timeout", "mute", "kick", "ban"],
                     { dft: "timeout", lower: true }
                 )
             }
@@ -76,40 +75,31 @@ module.exports = {
 
         const permissions = msg.member.permissions
         const isPoopyOwner = config.ownerids.find(id => id == msg.author.id)
+        const canUseAction = (action == "ban" && !permissions.has(DiscordTypes.PermissionFlagsBits.BanMembers))
+            || (action == "kick" && !permissions.has(DiscordTypes.PermissionFlagsBits.KickMembers))
+            || ((action == "timeout" || action == "muted") && !permissions.has(DiscordTypes.PermissionFlagsBits.ModerateMembers))
 
-        if (!isPoopyOwner) {
-            if (action == "ban" && !permissions.has(DiscordTypes.PermissionFlagsBits.BanMembers)) {
-                await msg.reply("You don't have permissions to use the ban action.").catch(() => {})
-                return
-            }
-    
-            if (action == "kick" && !permissions.has(DiscordTypes.PermissionFlagsBits.KickMembers)) {
-                await msg.reply("You don't have permissions to use the kick action.").catch(() => {})
-                return
-            }
-    
-            if (action == "timeout" && !permissions.has(DiscordTypes.PermissionFlagsBits.ModerateMembers)) {
-                await msg.reply("You don't have permissions to use the timeout action.").catch(() => {})
-                return
-            }
+        if (!isPoopyOwner && !canUseAction) {
+            await msg.reply(`You don't have permissions to use the ${action} action.`).catch(() => { })
+            return
         }
 
         var userQuery = args.slice(1).join(' ')
 
-        var member = userQuery ? await resolveUser(userQuery, msg.guild, "member").catch(() => {}) : msg.author
+        var member = userQuery ? await resolveUser(userQuery, msg.guild, "member").catch(() => { }) : msg.author
 
         if (!member) {
             await msg.reply({
                 content: `Invalid member: **${userQuery}**`,
                 allowedMentions: fetchPingPerms(msg)
-            }).catch(() => {})
+            }).catch(() => { })
             return
         }
-        
-        return await votekick(member, channel, goal, action, duration * 1000)
+
+        return await votekick(member, msg.channel, goal, action, duration * 1000)
     },
     help: {
-        name: 'votekick <user> [-goal <votes (default: active members * (3/4))>] [-action <timeout|kick|ban>] [-duration <seconds (default 45)>] (moderator only)',
+        name: 'votekick <user> [-goal <votes (default: active members * (1/2))>] [-action <timeout|mute|kick|ban>] [-duration <seconds (default 45)>] (moderator only)',
         value: 'Starts a votekick on the specified user. When the goal is reached, it executes an action on them, by default a 10 minute timeout.'
     },
     cooldown: 2500,
