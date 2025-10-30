@@ -84,16 +84,19 @@ module.exports = {
             return
         }
 
+        var member
         var userQuery = args.slice(1).join(' ').trim()
 
-        var member = userQuery ? await resolveUser(userQuery, msg.guild, "member").catch(() => { }) : msg.author
-
-        if (!member) {
-            await msg.reply({
-                content: `Invalid member: **${userQuery}**`,
-                allowedMentions: fetchPingPerms(msg)
-            }).catch(() => { })
-            return
+        if (userQuery) {
+            member = userQuery ? await resolveUser(userQuery, msg.guild, "member").catch(() => { }) : msg.author
+    
+            if (!member) {
+                await msg.reply({
+                    content: `Invalid member: **${userQuery}**`,
+                    allowedMentions: fetchPingPerms(msg)
+                }).catch(() => { })
+                return
+            }
         }
 
         return await votekick(member, msg.channel, goal, action, duration * 1000)
