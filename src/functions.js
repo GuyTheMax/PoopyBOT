@@ -2161,6 +2161,8 @@ functions.votekick = async function (member, channel, voteGoal, action = "timeou
         kick: "kicked",
         ban: "banned"
     }
+
+    const now = Date.now()
     
     const guild = channel.guild
 
@@ -2171,9 +2173,6 @@ functions.votekick = async function (member, channel, voteGoal, action = "timeou
     member = member ?? guild.members.cache.get(randomChoice(members))
 
     const user = member.user
-
-    const now = Date.now()
-
     voteGoal = voteGoal ?? Math.ceil(members.length * (1 / 2))
 
     const embed = new Discord.EmbedBuilder()
