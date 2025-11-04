@@ -4023,6 +4023,8 @@ functions.createCronJob = async function (cronData) {
     const phrase = cronData.phrase
 
     const execute = async () => {
+        if (!channel?.send) return
+        
         let cronMessage
         let abort = false
 
