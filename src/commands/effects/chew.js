@@ -14,7 +14,7 @@ module.exports = {
             return;
         };
         var currenturl = lastUrl(msg, 0) || args[1]
-        var chewnumber = Math.floor(Math.random() * 11) + 20
+        var chewnumber = 15 // Math.floor(Math.random() * 11) + 20
 
         var fileinfo = await validateFile(currenturl).catch(async error => {
             await msg.reply({
@@ -40,7 +40,7 @@ module.exports = {
                 var masksize = { x: Math.floor(Math.random() * 9) + 2, y: Math.floor(Math.random() * 9) + 2 }
                 var maskangle = Math.floor(Math.random() * 361) - 180
                 var chewoffset = { x: Math.floor(Math.random() * 61) - 30, y: Math.floor(Math.random() * 61) - 30 }
-                var repetitions = Math.floor(Math.random() * 9) + 1
+                var repetitions = 1 //Math.floor(Math.random() * 9) + 1
 
                 var origoffset = { ...chewoffset }
 
@@ -50,7 +50,7 @@ module.exports = {
                     var lastStream = currentStream
                     var newStream = (i < chewnumber - 1 || j < repetitions - 1) ? `[chewed${chewid}]` : ``
 
-                    var chewFilter = `[1:v]scale=${(width / masksize.x).toFixed(2)}:${(height / masksize.y).toFixed(2)},rotate=${maskangle.toFixed(2)}*PI/180:ow=rotw(${maskangle.toFixed(2)}*PI/180):oh=roth(${maskangle.toFixed(2)}*PI/180)[chewmask${chewid}];` +
+                    var chewFilter = `[1:v]scale=${Math.round(width / masksize.x)}:${Math.round(height / masksize.y)},rotate=${maskangle.toFixed(2)}*PI/180:ow=rotw(${maskangle.toFixed(2)}*PI/180):oh=roth(${maskangle.toFixed(2)}*PI/180)[chewmask${chewid}];` +
                         `[2:v]scale=${width}:${height}[chewbg${chewid}];[chewbg${chewid}][chewmask${chewid}]overlay=x=W*${maskpos.x.toFixed(2)}-w/2:y=H*${maskpos.y.toFixed(2)}-h/2:format=auto[chewbgmask${chewid}];` +
                         `[0:v][chewbgmask${chewid}]alphamerge[chew${chewid}];${lastStream}[chew${chewid}]overlay=x=${chewoffset.x.toFixed(2)}-W/250:y=${chewoffset.y.toFixed(2)}-H/250:format=auto${newStream}`
                     

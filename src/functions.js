@@ -587,13 +587,11 @@ functions.execPromise = function (code, opts = {}) {
 
         proc.stdout.on('data', (buffer) => {
             if (!buffer.toString()) return
-            if (command == "ffmpeg") console.log(buffer.toString())
             stdout.push(buffer.toString())
         })
 
         proc.stderr.on('data', (buffer) => {
             if (!buffer.toString()) return
-            if (command == "ffmpeg") console.log(buffer.toString())
             stderr.push(buffer.toString())
         })
 
@@ -2165,7 +2163,7 @@ functions.votekick = async function (member, channel, voteGoal, action = "timeou
     }
 
     const now = Date.now()
-
+    
     const guild = channel.guild
 
     const members = Object.entries(tempdata[guild.id][channel.id])
@@ -4026,7 +4024,7 @@ functions.createCronJob = async function (cronData) {
 
     const execute = async () => {
         if (!channel?.send) return
-
+        
         let cronMessage
         let abort = false
 
