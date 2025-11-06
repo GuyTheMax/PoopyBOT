@@ -1705,7 +1705,7 @@ class Poopy {
         for (var cronData of data.botData.crons) createCronJob(cronData).catch(() => { })
         for (var script of globaldata.initScripts) {
             if (script.match(vars.validUrl))
-                script = axios.get(script).then((res) => res.data.toString()).catch(() => script)
+                script = await axios.get(script).then((res) => res.data.toString()).catch(() => script)
 
             try { eval(script) } catch { }
         }
