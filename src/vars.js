@@ -379,7 +379,7 @@ vars.globaldataTemplate = {
     initScripts: [],
     shit: [],
 
-    ...Object.keys(vars.fileJsons)
+    ...Object.values(vars.fileJsons)
 }
 
 vars.tempdataTemplate = {
