@@ -75,6 +75,15 @@
         "description": "Beat people up. Yeah."
     },
     {
+        "name": "blud",
+        "cmds": [
+            "fraud",
+            "msgservice",
+            "unfraud"
+        ],
+        "description": "The Blud obby, is too hard."
+    },
+    {
         "name": "caption",
         "cmds": [
             "caption",
