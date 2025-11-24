@@ -1289,8 +1289,13 @@ class Poopy {
             if (starboards.length <= 0) return
 
             for (const starboard of starboards) {
-                if (Object.values(starboard.messages).includes(msg.id)) continue
-                
+                const origMsg = msg.messageSnapshots?.size ? msg.messageSnapshots.first() : msg
+
+                if (
+                    Object.values(starboard.messages).includes(msg.id) ||
+                    Object.values(starboard.messages).includes(origMsg.id)
+                ) continue
+
                 const guildId = starboard.guildId
                 const channelId = starboard.channelId
 
@@ -1312,29 +1317,43 @@ class Poopy {
 
                 if (!meetsThreshold && !cachedStarboardMessage) continue
 
-                const embedContent = `## ${emoji} ${reaction.count}\n\n${msg.content}`
+                const msgContent = msg.messageSnapshots?.size ?
+                    `> -# Forwarded\n\n${origMsg.content ?? ""}` :
+                    msg.reference && !msg.messageSnapshots?.size ?
+                        `> -# Reply to: https://discord.com/channels/${msg.reference.guildId}/${msg.reference.channelId}/${msg.reference.messageId}\n\n${origMsg.content ?? ""}` :
+                        origMsg.content
+
+                const embedContent = `## ${emoji} ${reaction.count}\n\n${msgContent}`
+
+                const isAttachmentEmbed = (e) => !(/^(rich|link)$/.test(e.data.type)) && !e.data.title && !e.data.description
+
                 const starboardEmbed = new Discord.EmbedBuilder()
-                    .setAuthor({ name: `${msg.member.displayName} (${msg.user.username})`, iconURL: msg.member.displayAvatarURL({ dynamic: true, size: 1024, extension: "png" }) })
-                    .setDescription(embedContent)
+                    .setAuthor({ name: `${msg.member.displayName} (${msg.author.username})`, iconURL: msg.member.displayAvatarURL({ dynamic: true, size: 1024, extension: "png" }) })
+                    .setDescription(embedContent.trim())
                     .setColor(0xF5C542)
+                
+                const starboardMsgEmbeds = [...origMsg.embeds.filter(e => !isAttachmentEmbed(e)), starboardEmbed]
 
                 if (!cachedStarboardMessage) {
                     if (Object.keys(starboard.messages).includes(msg.id)) continue
-                    
-                    tempdata.starboards[starboard.id][msg.id] = true
-                    
-                    const attachments = []
-                    if (msg.attachments.size) {
-                        for (const attachment of msg.attachments.values()) {
-                            attachments.push(attachment.url)
-                        }
-                    }
 
-                    if (msg.stickers.size) {
-                        for (const sticker of msg.stickers.values()) {
-                            attachments.push(sticker.url)
-                        }
-                    }
+                    tempdata.starboards[starboard.id][msg.id] = true
+
+                    const attachments = [
+                        ...origMsg.attachments.map(a => new Discord.AttachmentBuilder(a.url)),
+                        ...origMsg.stickers.map(s => new Discord.AttachmentBuilder(s.url)),
+                        ...[...origMsg.embeds.values()]
+                            .filter(e => isAttachmentEmbed(e))
+                            .map(e => {
+                                const embed = e.toJSON()
+                                const data = embed.video ?? embed.thumbnail
+                                const ext = data.content_type && data.content_type.split("/")[1]
+
+                                return new Discord.AttachmentBuilder(
+                                    data.url, ext ? { name: `file.${embed.video ? "mp4" : ext ?? "png"}` } : undefined
+                                )
+                            })
+                    ]
 
                     attachments.splice(10)
 
@@ -1346,7 +1365,7 @@ class Poopy {
                     )
 
                     const starboardMsg = tempdata.starboards[starboard.id][msg.id] = await channel.send({
-                        embeds: [...msg.embeds.filter(e => e.data.type == "rich"), starboardEmbed],
+                        embeds: starboardMsgEmbeds,
                         components: [row],
                         files: attachments,
                         allowedMentions: { parse: [] }
@@ -1354,10 +1373,10 @@ class Poopy {
 
                     starboard.messages[msg.id] = starboardMsg.id
                 }
-                
+
                 if (cachedStarboardMessage && cachedStarboardMessage !== true) {
                     await cachedStarboardMessage.edit({
-                        embeds: [...msg.embeds.filter(e => e.data.type == "rich"), starboardEmbed]
+                        embeds: starboardMsgEmbeds
                     }).catch(() => { })
                 }
             }
@@ -1490,7 +1509,7 @@ class Poopy {
 
                         var guildfilter = config.guildfilter
                         var channelfilter = config.channelfilter
-                        
+
                         var isFiltered = (guildfilter.blacklist && guildfilter.ids.includes(interaction.guild?.id)) ||
                             (
                                 !(guildfilter.blacklist) &&
