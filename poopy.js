@@ -1286,11 +1286,11 @@ class Poopy {
                 s => s.guildId == msg?.guild?.id && s.emoji == emoji
             )
 
-            if (starboards.length < 0) return
+            if (starboards.length <= 0) return
 
             for (const starboard of starboards) {
                 if (channelId == msg.channel?.id) continue
-                
+
                 const guildId = starboard.guildId
                 const guild = bot.guilds.cache.get(guildId)
                     ?? await bot.guilds.fetch(guildId).catch(() => { })
