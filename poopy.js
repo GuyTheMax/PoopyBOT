@@ -1319,6 +1319,8 @@ class Poopy {
                     .setColor(0xF5C542)
 
                 if (!cachedStarboardMessage) {
+                    if (Object.keys(starboard.messages).includes(msg.id)) continue
+                    
                     tempdata.starboards[starboard.id][msg.id] = true
                     
                     const attachments = []
