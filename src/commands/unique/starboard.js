@@ -274,7 +274,8 @@ module.exports = {
                     guildId: msg.guild.id,
                     channelId: channel.id,
                     threshold,
-                    emoji
+                    emoji,
+                    messages: {}
                 };
 
                 data.botData.starboards.push(newStarboard)
