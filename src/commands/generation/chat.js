@@ -11,14 +11,16 @@ module.exports = {
             "name": "instruct", "required": false, "specifarg": true, "orig": "[-instruct <prompt>]"
         },
         {
+            "name": "imagesearch", "required": false, "specifarg": true, "orig": "[-imagesearch]"
+        },
+        {
             "name": "clear", "required": false, "specifarg": true, "orig": "[-clear]"
         }
     ],
     execute: async function (msg, args) {
         let poopy = this
-        let { tempdata } = poopy
         let { getOption, parseNumber, chat, fetchPingPerms } = poopy.functions
-        let { axios, fs, Discord } = poopy.modules
+        let { fs, Discord } = poopy.modules
         let vars = poopy.vars
         let config = poopy.config
 
@@ -26,6 +28,7 @@ module.exports = {
 
         var temperature = getOption(args, 'temperature', { dft: 1, splice: true, n: 1, join: true, func: (opt) => parseNumber(opt, { dft: 1, min: 0, max: 1, round: false }) })
         var instruct = getOption(args, 'instruct', { dft: vars.chatInstruct, splice: true, n: Infinity, join: true, stopMatch: ["-clear", "-temperature"] })
+        var imagesearch = getOption(args, 'imagesearch', { n: 0, splice: true, dft: false })
         var clear = getOption(args, 'clear', { n: 0, splice: true, dft: false })
 
         var saidMessage = args.slice(1).join(' ')
@@ -37,7 +40,7 @@ module.exports = {
 
         var chatResponse = await chat(saidMessage, msg, {
             temperature, instruct, clear,
-            useTools: true
+            useTools: imagesearch
         }).catch((e) => console.log(e)) ?? "what"
 
         if (!msg.nosend) await msg.reply({
@@ -57,7 +60,7 @@ module.exports = {
         return chatResponse
     },
     help: {
-        name: 'chat/ask <message> [-temperature <number (from 0 to 1)>] [-instruct <prompt>] [-clear]',
+        name: 'chat/ask <message> [-temperature <number (from 0 to 1)>] [-instruct <prompt>] [-imagesearch] [-clear]',
         value: 'Generates an answer based on your prompt using AI21. Default temperature is 1.'
     },
     type: 'Generation',
