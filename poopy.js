@@ -1483,6 +1483,9 @@ class Poopy {
 
                         var hasMessagePerms = hasPerms || interaction.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageMessages)
 
+                        var guildfilter = config.guildfilter
+                        var channelfilter = config.channelfilter
+                        
                         var isFiltered = (guildfilter.blacklist && guildfilter.ids.includes(interaction.guild?.id)) ||
                             (
                                 !(guildfilter.blacklist) &&
