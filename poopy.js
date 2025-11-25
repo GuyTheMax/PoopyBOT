@@ -1341,7 +1341,10 @@ class Poopy {
 
                 const embedContent = `${emojiContent ? `## ${emojiContent}` : ""}\n\n${msgContent}`.trim()
 
-                const isAttachmentEmbed = (e) => !(/^(rich|link)$/.test(e.data.type)) && !e.data.title && !e.data.description
+                const isAttachmentEmbed = (e) =>
+                    !(/^(rich|link)$/.test(e.data.type)) &&
+                    (!e.data.title || e.data.title.trim() == ".") &&
+                    !e.data.description
 
                 const starboardEmbed = new Discord.EmbedBuilder()
                     .setAuthor({ name: `${msg.member.displayName} (${msg.author.username})`, iconURL: msg.member.displayAvatarURL({ dynamic: true, size: 1024, extension: "png" }) })
