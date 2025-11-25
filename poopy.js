@@ -1334,7 +1334,7 @@ class Poopy {
                         origMsg.content
 
                 const emojiContent = msg.reactions.cache.filter(
-                    r => data.botData.starboards.filter(
+                    r => data.botData.starboards.some(
                         sb => sb.channelId == starboard.channelId && sb.emoji == r.emoji.toString() && r.count >= sb.threshold
                     )
                 ).map(r => `${r.emoji.toString()} ${r.count}`).join("  ·  ")
