@@ -5059,7 +5059,10 @@ functions.fetchImages = async function (query, unsafe) {
                 result => result.url.replace(/\\u([a-z0-9]){4}/g, (match) => {
                     return String.fromCharCode(Number('0x' + match.substring(2, match.length)))
                 })
-            ).filter(result => !urlBlacklist.some(url => result.includes(url)))
+            ).filter(
+                (result, i, self) => !urlBlacklist.some(url => result.includes(url))
+                    && self.indexOf(result) == i
+            )
 
             tempdata.images[query.toLowerCase()] = images
 
