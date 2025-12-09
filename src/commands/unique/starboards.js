@@ -243,7 +243,7 @@ module.exports = {
 
                 let emoji = "⭐";
                 if (args[1]) {
-                    let inputEmoji = args[1];
+                    let inputEmoji = args[1].trim();
 
                     let discordEmojiRegex = /^<a?:[a-zA-Z0-9_]+:[0-9]+>$/;
 
@@ -330,7 +330,7 @@ module.exports = {
                 }
 
                 if (args[2]) {
-                    let emojiInput = args[2];
+                    let emojiInput = args[2].trim();
                     let discordEmojiRegex = /^<a?:[a-zA-Z0-9_]+:[0-9]+>$/;
 
                     if (vars.emojiRegex.test(emojiInput) || discordEmojiRegex.test(emojiInput)) {
