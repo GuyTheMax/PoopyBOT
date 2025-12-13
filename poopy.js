@@ -94,7 +94,14 @@ class Poopy {
             regexClean, getOption, getTotalHivemindStatus } = functions
 
         let botConfig = {
-            partials: [1], // Discord.Partials.Channel
+            partials: [
+                Discord.Partials.Channel,
+                Discord.Partials.Reaction,
+                Discord.Partials.Message,
+                Discord.Partials.User,
+                Discord.Partials.GuildMember,
+                Discord.Partials.ThreadMember
+            ],
             failIfNotExists: false
         }
 
