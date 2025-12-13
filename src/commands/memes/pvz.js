@@ -1,15 +1,14 @@
 module.exports = {
     name: ['pvz', 'plant'],
-    args: [{"name":"name","required":false,"specifarg":false,"orig":"\"{name}\""},{"name":"description","required":false,"specifarg":false,"orig":"\"{description}\""},{"name":"file","required":false,"specifarg":false,"orig":"{file}"}],
+    args: [{ "name": "name", "required": false, "specifarg": false, "orig": "\"{name}\"" }, { "name": "description", "required": false, "specifarg": false, "orig": "\"{description}\"" }, { "name": "file", "required": false, "specifarg": false, "orig": "{file}" }],
     execute: async function (msg, args) {
         let poopy = this
         let {
             lastUrl, validateFile, downloadFile, execPromise,
-            findpreset, sendFile, fetchPingPerms
+            findpreset, sendFile, fetchPingPerms, cleanContentPreserveEmojis
         } = poopy.functions
-        let { DiscordTypes } = poopy.modules
         let vars = poopy.vars
-        let { Jimp, Discord } = poopy.modules
+        let { Jimp } = poopy.modules
 
         await msg.channel.sendTyping().catch(() => { })
         if (lastUrl(msg, 0) === undefined && vars.validUrl.test(args[args.length - 1]) === false) {
@@ -29,8 +28,8 @@ module.exports = {
         } else if (!matchedTextes[1]) {
             matchedTextes[1] = '""'
         }
-        var plantname = matchedTextes[0].substring(1, matchedTextes[0].length - 1)
-        var plantdescription = matchedTextes[1].substring(1, matchedTextes[1].length - 1)
+        var plantname = cleanContentPreserveEmojis(matchedTextes[0].substring(1, matchedTextes[0].length - 1), msg.channel)
+        var plantdescription = cleanContentPreserveEmojis(matchedTextes[1].substring(1, matchedTextes[1].length - 1), msg.channel)
         var currenturl = lastUrl(msg, 0) || args[1]
         var fileinfo = await validateFile(currenturl).catch(async error => {
             await msg.reply({
@@ -46,14 +45,15 @@ module.exports = {
 
         if (type.mime.startsWith('image') && !(vars.gifFormats.find(f => f === type.ext))) {
             var filepath = await downloadFile(currenturl, `input.png`, {
-                fileinfo            })
+                fileinfo
+            })
             var filename = `input.png`
 
             var pvz = await Jimp.read(`assets/image/pvz.png`)
             var dwarven = await Jimp.loadFont('assets/fonts/Dwarven/Dwarven.fnt')
             var brianne = await Jimp.loadFont('assets/fonts/Brianne/Brianne.fnt')
-            await pvz.print(dwarven, 155, 186, { text: Discord.Util.cleanContent(plantname, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 189, 27)
-            await pvz.print(brianne, 166, 223, { text: Discord.Util.cleanContent(plantdescription, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 166, 66)
+            await pvz.print(dwarven, 155, 186, { text: plantname, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 189, 27)
+            await pvz.print(brianne, 166, 223, { text: plantdescription, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 166, 66)
             await pvz.writeAsync(`${filepath}/pvz.png`)
 
             var width = fileinfo.info.width
@@ -65,14 +65,15 @@ module.exports = {
             return await sendFile(msg, filepath, `output.png`)
         } else if (type.mime.startsWith('video')) {
             var filepath = await downloadFile(currenturl, `input.mp4`, {
-                fileinfo            })
+                fileinfo
+            })
             var filename = `input.mp4`
 
             var pvz = await Jimp.read(`assets/image/pvz.png`)
             var dwarven = await Jimp.loadFont('assets/fonts/Dwarven/Dwarven.fnt')
             var brianne = await Jimp.loadFont('assets/fonts/Brianne/Brianne.fnt')
-            await pvz.print(dwarven, 155, 186, { text: Discord.Util.cleanContent(plantname, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 189, 27)
-            await pvz.print(brianne, 166, 223, { text: Discord.Util.cleanContent(plantdescription, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 166, 66)
+            await pvz.print(dwarven, 155, 186, { text: plantname, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 189, 27)
+            await pvz.print(brianne, 166, 223, { text: plantdescription, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 166, 66)
             await pvz.writeAsync(`${filepath}/pvz.png`)
 
             var width = fileinfo.info.width
@@ -89,8 +90,8 @@ module.exports = {
             var pvz = await Jimp.read(`assets/image/pvz.png`)
             var dwarven = await Jimp.loadFont('assets/fonts/Dwarven/Dwarven.fnt')
             var brianne = await Jimp.loadFont('assets/fonts/Brianne/Brianne.fnt')
-            await pvz.print(dwarven, 155, 186, { text: Discord.Util.cleanContent(plantname, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 189, 27)
-            await pvz.print(brianne, 166, 223, { text: Discord.Util.cleanContent(plantdescription, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 166, 66)
+            await pvz.print(dwarven, 155, 186, { text: plantname, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 189, 27)
+            await pvz.print(brianne, 166, 223, { text: plantdescription, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 166, 66)
             await pvz.writeAsync(`${filepath}/pvz.png`)
 
             var width = fileinfo.info.width

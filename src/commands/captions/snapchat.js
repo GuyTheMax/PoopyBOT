@@ -5,11 +5,10 @@ module.exports = {
         let poopy = this
         let {
             lastUrl, validateFile, downloadFile, execPromise,
-            findpreset, sendFile, fetchPingPerms
+            findpreset, sendFile, fetchPingPerms, cleanContentPreserveEmojis
         } = poopy.functions
-        let { DiscordTypes } = poopy.modules
         let vars = poopy.vars
-        let { Jimp, Discord } = poopy.modules
+        let { Jimp } = poopy.modules
 
         await msg.channel.sendTyping().catch(() => { })
         if (lastUrl(msg, 0) === undefined && vars.validUrl.test(args[args.length - 1]) === false) {
@@ -35,7 +34,7 @@ module.exports = {
         for (let i = 0; i < matchedTextes.length; i++) {
             matchedTextes[i] = matchedTextes[i].replace(/\\(?=")/g, "")
         }
-        var text = matchedTextes[0].substring(1, matchedTextes[0].length - 1)
+        var text = cleanContentPreserveEmojis(matchedTextes[0].substring(1, matchedTextes[0].length - 1), msg.channel)
         var currenturl = lastUrl(msg, 0) || args[1]
         var fileinfo = await validateFile(currenturl).catch(async error => {
             await msg.reply({
@@ -61,7 +60,7 @@ module.exports = {
             snapchat.resize(Jimp.AUTO, Math.round(2000 / size))
             var textheight = Jimp.measureTextHeight(helvetica, text, snapchat.bitmap.width - Math.round(100 / size))
             snapchat.resize(snapchat.bitmap.width, textheight + Math.round(100 / size))
-            await snapchat.print(helvetica, Math.round(50 / size), Math.round(50 / size), { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, snapchat.bitmap.width - Math.round(100 / size), snapchat.bitmap.height - Math.round(100 / size))
+            await snapchat.print(helvetica, Math.round(50 / size), Math.round(50 / size), { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, snapchat.bitmap.width - Math.round(100 / size), snapchat.bitmap.height - Math.round(100 / size))
             snapchat.resize(width, Jimp.AUTO)
             await snapchat.writeAsync(`${filepath}/caption.png`)
 
@@ -79,7 +78,7 @@ module.exports = {
             snapchat.resize(Jimp.AUTO, Math.round(2000 / size))
             var textheight = Jimp.measureTextHeight(helvetica, text, snapchat.bitmap.width - Math.round(100 / size))
             snapchat.resize(snapchat.bitmap.width, textheight + Math.round(100 / size))
-            await snapchat.print(helvetica, Math.round(50 / size), Math.round(50 / size), { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, snapchat.bitmap.width - Math.round(100 / size), snapchat.bitmap.height - Math.round(100 / size))
+            await snapchat.print(helvetica, Math.round(50 / size), Math.round(50 / size), { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, snapchat.bitmap.width - Math.round(100 / size), snapchat.bitmap.height - Math.round(100 / size))
             snapchat.resize(width, Jimp.AUTO)
             await snapchat.writeAsync(`${filepath}/caption.png`)
 
@@ -97,7 +96,7 @@ module.exports = {
             snapchat.resize(Jimp.AUTO, Math.round(2000 / size))
             var textheight = Jimp.measureTextHeight(helvetica, text, snapchat.bitmap.width - Math.round(100 / size))
             snapchat.resize(snapchat.bitmap.width, textheight + Math.round(100 / size))
-            await snapchat.print(helvetica, Math.round(50 / size), Math.round(50 / size), { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, snapchat.bitmap.width - Math.round(100 / size), snapchat.bitmap.height - Math.round(100 / size))
+            await snapchat.print(helvetica, Math.round(50 / size), Math.round(50 / size), { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, snapchat.bitmap.width - Math.round(100 / size), snapchat.bitmap.height - Math.round(100 / size))
             snapchat.resize(width, Jimp.AUTO)
             await snapchat.writeAsync(`${filepath}/caption.png`)
 

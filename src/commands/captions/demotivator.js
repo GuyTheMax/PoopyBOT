@@ -1,21 +1,20 @@
 module.exports = {
     name: ['meme2', 'demotivator', 'motivator'],
-    args: [{"name":"topText","required":false,"specifarg":false,"orig":"\"{topText}\""},{"name":"bottomText","required":false,"specifarg":false,"orig":"\"[bottomText]\""},{"name":"file","required":false,"specifarg":false,"orig":"{file}"}],
+    args: [{ "name": "topText", "required": false, "specifarg": false, "orig": "\"{topText}\"" }, { "name": "bottomText", "required": false, "specifarg": false, "orig": "\"[bottomText]\"" }, { "name": "file", "required": false, "specifarg": false, "orig": "{file}" }],
     execute: async function (msg, args) {
         let poopy = this
         let {
             lastUrl, validateFile, downloadFile, execPromise,
-            findpreset, sendFile, fetchPingPerms
+            findpreset, sendFile, fetchPingPerms, cleanContentPreserveEmojis
         } = poopy.functions
-        let { DiscordTypes } = poopy.modules
         let vars = poopy.vars
-        let { Jimp, Discord } = poopy.modules
-        
-        if (Math.random()*1000 > 998) {
+        let { Jimp } = poopy.modules
+
+        if (Math.random() * 1000 > 998) {
             await msg.reply("No.").catch(() => { })
             return
         }
-        
+
         await msg.channel.sendTyping().catch(() => { })
         if (lastUrl(msg, 0) === undefined && vars.validUrl.test(args[args.length - 1]) === false) {
             await msg.reply('What is the file?!').catch(() => { })
@@ -37,8 +36,8 @@ module.exports = {
         for (let i = 0; i < matchedTextes.length; i++) {
             matchedTextes[i] = matchedTextes[i].replace(/\\(?=")/g, "")
         }
-        var text = matchedTextes[0].substring(1, matchedTextes[0].length - 1)
-        var text2 = matchedTextes[1].substring(1, matchedTextes[1].length - 1)
+        var text = cleanContentPreserveEmojis(matchedTextes[0].substring(1, matchedTextes[0].length - 1), msg.channel)
+        var text2 = cleanContentPreserveEmojis(matchedTextes[1].substring(1, matchedTextes[1].length - 1), msg.channel)
         var currenturl = lastUrl(msg, 0) || args[1]
         var fileinfo = await validateFile(currenturl).catch(async error => {
             await msg.reply({
@@ -54,7 +53,8 @@ module.exports = {
 
         if (type.mime.startsWith('image') && !(vars.gifFormats.find(f => f === type.ext))) {
             var filepath = await downloadFile(currenturl, `input.png`, {
-                fileinfo            })
+                fileinfo
+            })
             var filename = `input.png`
             var width = fileinfo.info.width
             var height = fileinfo.info.height
@@ -78,10 +78,10 @@ module.exports = {
             await black.writeAsync(`${filepath}/border.png`)
             var textheight = Jimp.measureTextHeight(tnr, text, 500 - 40)
             textblack.resize(500, textheight)
-            await textblack.print(tnr, 20, 0, { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, textblack.bitmap.width - 40, textblack.bitmap.height)
+            await textblack.print(tnr, 20, 0, { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, textblack.bitmap.width - 40, textblack.bitmap.height)
             var text2height = Jimp.measureTextHeight(arial, text2, 500 - 40)
             text2black.resize(500, text2height + 10)
-            await text2black.print(arial, 20, 5, { text: Discord.Util.cleanContent(text2, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, text2black.bitmap.width - 40, text2black.bitmap.height - 10)
+            await text2black.print(arial, 20, 5, { text: text2, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, text2black.bitmap.width - 40, text2black.bitmap.height - 10)
             bottomblack.resize(500, 20)
             bgblack.resize(500, textblack.bitmap.height + text2black.bitmap.height + bottomblack.bitmap.height)
             bgblack.composite(textblack, 0, 0)
@@ -94,7 +94,8 @@ module.exports = {
             return await sendFile(msg, filepath, `output.png`)
         } else if (type.mime.startsWith('video')) {
             var filepath = await downloadFile(currenturl, `input.mp4`, {
-                fileinfo            })
+                fileinfo
+            })
             var filename = `input.mp4`
             var width = fileinfo.info.width
             var height = fileinfo.info.height
@@ -118,10 +119,10 @@ module.exports = {
             await black.writeAsync(`${filepath}/border.png`)
             var textheight = Jimp.measureTextHeight(tnr, text, 500 - 40)
             textblack.resize(500, textheight)
-            await textblack.print(tnr, 20, 0, { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, textblack.bitmap.width - 40, textblack.bitmap.height)
+            await textblack.print(tnr, 20, 0, { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, textblack.bitmap.width - 40, textblack.bitmap.height)
             var text2height = Jimp.measureTextHeight(arial, text2, 500 - 40)
             text2black.resize(500, text2height + 10)
-            await text2black.print(arial, 20, 5, { text: Discord.Util.cleanContent(text2, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, text2black.bitmap.width - 40, text2black.bitmap.height - 10)
+            await text2black.print(arial, 20, 5, { text: text2, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, text2black.bitmap.width - 40, text2black.bitmap.height - 10)
             bottomblack.resize(500, 20)
             bgblack.resize(500, textblack.bitmap.height + text2black.bitmap.height + bottomblack.bitmap.height)
             bgblack.composite(textblack, 0, 0)
@@ -134,7 +135,8 @@ module.exports = {
             return await sendFile(msg, filepath, `output.mp4`)
         } else if (type.mime.startsWith('image') && vars.gifFormats.find(f => f === type.ext)) {
             var filepath = await downloadFile(currenturl, `input.gif`, {
-                fileinfo            })
+                fileinfo
+            })
             var filename = `input.gif`
             var width = fileinfo.info.width
             var height = fileinfo.info.height
@@ -158,10 +160,10 @@ module.exports = {
             await black.writeAsync(`${filepath}/border.png`)
             var textheight = Jimp.measureTextHeight(tnr, text, 500 - 40)
             textblack.resize(500, textheight)
-            await textblack.print(tnr, 20, 0, { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, textblack.bitmap.width - 40, textblack.bitmap.height)
+            await textblack.print(tnr, 20, 0, { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, textblack.bitmap.width - 40, textblack.bitmap.height)
             var text2height = Jimp.measureTextHeight(arial, text2, 500 - 40)
             text2black.resize(500, text2height + 10)
-            await text2black.print(arial, 20, 5, { text: Discord.Util.cleanContent(text2, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, text2black.bitmap.width - 40, text2black.bitmap.height - 10)
+            await text2black.print(arial, 20, 5, { text: text2, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, text2black.bitmap.width - 40, text2black.bitmap.height - 10)
             bottomblack.resize(500, 20)
             bgblack.resize(500, textblack.bitmap.height + text2black.bitmap.height + bottomblack.bitmap.height)
             bgblack.composite(textblack, 0, 0)

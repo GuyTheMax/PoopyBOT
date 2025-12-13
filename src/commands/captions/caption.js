@@ -5,11 +5,10 @@ module.exports = {
         let poopy = this
         let {
             lastUrl, validateFile, downloadFile, execPromise,
-            findpreset, sendFile, fetchPingPerms
+            findpreset, sendFile, fetchPingPerms, cleanContentPreserveEmojis
         } = poopy.functions
-        let { DiscordTypes } = poopy.modules
         let vars = poopy.vars
-        let { Jimp, Discord } = poopy.modules
+        let { Jimp } = poopy.modules
         
         if (Math.random()*1000 > 998) {
             await msg.reply("No.").catch(() => { })
@@ -40,7 +39,7 @@ module.exports = {
         for (let i = 0; i < matchedTextes.length; i++) {
             matchedTextes[i] = matchedTextes[i].replace(/\\(?=")/g, "")
         }
-        var text = matchedTextes[0].substring(1, matchedTextes[0].length - 1)
+        var text = cleanContentPreserveEmojis(matchedTextes[0].substring(1, matchedTextes[0].length - 1), msg.channel)
         var currenturl = lastUrl(msg, 0) || args[1]
         var fileinfo = await validateFile(currenturl).catch(async error => {
             await msg.reply({
@@ -68,7 +67,7 @@ module.exports = {
             white.resize(Math.round(2000 / size), Jimp.AUTO)
             var textheight = Jimp.measureTextHeight(futura, text, white.bitmap.width - Math.round(160 / size))
             white.resize(Math.round(2000 / size), textheight + Math.round(160 / size))
-            await white.print(futura, Math.round(80 / size), Math.round(80 / size), { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, white.bitmap.width - Math.round(160 / size), white.bitmap.height - Math.round(160 / size))
+            await white.print(futura, Math.round(80 / size), Math.round(80 / size), { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, white.bitmap.width - Math.round(160 / size), white.bitmap.height - Math.round(160 / size))
             white.resize(width, Jimp.AUTO)
             await white.writeAsync(`${filepath}/caption.png`)
 
@@ -90,7 +89,7 @@ module.exports = {
             white.resize(Math.round(2000 / size), Jimp.AUTO)
             var textheight = Jimp.measureTextHeight(futura, text, white.bitmap.width - Math.round(160 / size))
             white.resize(Math.round(2000 / size), textheight + Math.round(160 / size))
-            await white.print(futura, Math.round(80 / size), Math.round(80 / size), { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, white.bitmap.width - Math.round(160 / size), white.bitmap.height - Math.round(160 / size))
+            await white.print(futura, Math.round(80 / size), Math.round(80 / size), { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, white.bitmap.width - Math.round(160 / size), white.bitmap.height - Math.round(160 / size))
             white.resize(width, Jimp.AUTO)
             await white.writeAsync(`${filepath}/caption.png`)
 
@@ -112,7 +111,7 @@ module.exports = {
             white.resize(Math.round(2000 / size), Jimp.AUTO)
             var textheight = Jimp.measureTextHeight(futura, text, white.bitmap.width - Math.round(160 / size))
             white.resize(Math.round(2000 / size), textheight + Math.round(160 / size))
-            await white.print(futura, Math.round(80 / size), Math.round(80 / size), { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, white.bitmap.width - Math.round(160 / size), white.bitmap.height - Math.round(160 / size))
+            await white.print(futura, Math.round(80 / size), Math.round(80 / size), { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, white.bitmap.width - Math.round(160 / size), white.bitmap.height - Math.round(160 / size))
             white.resize(width, Jimp.AUTO)
             await white.writeAsync(`${filepath}/caption.png`)
 

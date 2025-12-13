@@ -1,15 +1,14 @@
 module.exports = {
     name: ['twitterban'],
-    args: [{"name":"message","required":false,"specifarg":false,"orig":"\"{message}\""},{"name":"nickname","required":false,"specifarg":false,"orig":"\"{nickname}\""},{"name":"username","required":false,"specifarg":false,"orig":"\"{username}\""},{"name":"file","required":false,"specifarg":false,"orig":"{file}"}],
+    args: [{ "name": "message", "required": false, "specifarg": false, "orig": "\"{message}\"" }, { "name": "nickname", "required": false, "specifarg": false, "orig": "\"{nickname}\"" }, { "name": "username", "required": false, "specifarg": false, "orig": "\"{username}\"" }, { "name": "file", "required": false, "specifarg": false, "orig": "{file}" }],
     execute: async function (msg, args) {
         let poopy = this
         let {
             lastUrl, validateFile, downloadFile, execPromise,
-            findpreset, sendFile, fetchPingPerms
+            findpreset, sendFile, fetchPingPerms, cleanContentPreserveEmojis
         } = poopy.functions
-        let { DiscordTypes } = poopy.modules
         let vars = poopy.vars
-        let { Jimp, Discord } = poopy.modules
+        let { Jimp } = poopy.modules
 
         await msg.channel.sendTyping().catch(() => { })
         if (lastUrl(msg, 0) === undefined && vars.validUrl.test(args[args.length - 1]) === false) {
@@ -36,9 +35,9 @@ module.exports = {
                 }
             }
         }
-        var message = matchedTextes[0].substring(1, matchedTextes[0].length - 1)
-        var nickname = matchedTextes[1].substring(1, matchedTextes[1].length - 1)
-        var username = '@' + matchedTextes[2].substring(1, matchedTextes[2].length - 1)
+        var message = cleanContentPreserveEmojis(matchedTextes[0].substring(1, matchedTextes[0].length - 1), msg.channel)
+        var nickname = cleanContentPreserveEmojis(matchedTextes[1].substring(1, matchedTextes[1].length - 1), msg.channel)
+        var username = cleanContentPreserveEmojis('@' + matchedTextes[2].substring(1, matchedTextes[2].length - 1), msg.channel)
         var currenturl = lastUrl(msg, 0) || args[1]
         var fileinfo = await validateFile(currenturl).catch(async error => {
             await msg.reply({
@@ -54,18 +53,19 @@ module.exports = {
 
         if (type.mime.startsWith('image') && !(vars.gifFormats.find(f => f === type.ext))) {
             var filepath = await downloadFile(currenturl, `input.png`, {
-                fileinfo            })
+                fileinfo
+            })
             var filename = `input.png`
 
             var twitter = await Jimp.read(`assets/image/twitter.png`)
             var tnr = await Jimp.loadFont('assets/fonts/TimesNewRoman/TimesNewRoman.fnt')
             var arialbold = await Jimp.loadFont('assets/fonts/ArialBold/ArialBold.fnt')
             var arialblue = await Jimp.loadFont('assets/fonts/ArialBlue/ArialBlue.fnt')
-            await twitter.print(tnr, 85, 437, { text: Discord.Util.cleanContent(message, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 546, 21)
-            await twitter.print(arialbold, 116, 131, { text: Discord.Util.cleanContent(nickname, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 614, 12)
-            await twitter.print(arialbold, 143, 379, { text: Discord.Util.cleanContent(nickname, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 490, 12)
-            await twitter.print(arialblue, 116, 147, { text: Discord.Util.cleanContent(username, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 614, 12)
-            await twitter.print(arialblue, 143, 395, { text: Discord.Util.cleanContent(username, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 490, 12)
+            await twitter.print(tnr, 85, 437, { text: message, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 546, 21)
+            await twitter.print(arialbold, 116, 131, { text: nickname, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 614, 12)
+            await twitter.print(arialbold, 143, 379, { text: nickname, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 490, 12)
+            await twitter.print(arialblue, 116, 147, { text: username, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 614, 12)
+            await twitter.print(arialblue, 143, 395, { text: username, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 490, 12)
             await twitter.writeAsync(`${filepath}/twitter.png`)
 
             var width = fileinfo.info.width
@@ -77,18 +77,19 @@ module.exports = {
             return await sendFile(msg, filepath, `output.png`)
         } else if (type.mime.startsWith('video')) {
             var filepath = await downloadFile(currenturl, `input.mp4`, {
-                fileinfo            })
+                fileinfo
+            })
             var filename = `input.mp4`
 
             var twitter = await Jimp.read(`assets/image/twitter.png`)
             var tnr = await Jimp.loadFont('assets/fonts/TimesNewRoman/TimesNewRoman.fnt')
             var arialbold = await Jimp.loadFont('assets/fonts/ArialBold/ArialBold.fnt')
             var arialblue = await Jimp.loadFont('assets/fonts/ArialBlue/ArialBlue.fnt')
-            await twitter.print(tnr, 85, 437, { text: Discord.Util.cleanContent(message, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 546, 21)
-            await twitter.print(arialbold, 116, 131, { text: Discord.Util.cleanContent(nickname, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 614, 12)
-            await twitter.print(arialbold, 143, 379, { text: Discord.Util.cleanContent(nickname, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 490, 12)
-            await twitter.print(arialblue, 116, 147, { text: Discord.Util.cleanContent(username, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 614, 12)
-            await twitter.print(arialblue, 143, 395, { text: Discord.Util.cleanContent(username, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 490, 12)
+            await twitter.print(tnr, 85, 437, { text: message, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 546, 21)
+            await twitter.print(arialbold, 116, 131, { text: nickname, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 614, 12)
+            await twitter.print(arialbold, 143, 379, { text: nickname, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 490, 12)
+            await twitter.print(arialblue, 116, 147, { text: username, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 614, 12)
+            await twitter.print(arialblue, 143, 395, { text: username, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 490, 12)
             await twitter.writeAsync(`${filepath}/twitter.png`)
 
             var width = fileinfo.info.width
@@ -106,11 +107,11 @@ module.exports = {
             var tnr = await Jimp.loadFont('assets/fonts/TimesNewRoman/TimesNewRoman.fnt')
             var arialbold = await Jimp.loadFont('assets/fonts/ArialBold/ArialBold.fnt')
             var arialblue = await Jimp.loadFont('assets/fonts/ArialBlue/ArialBlue.fnt')
-            await twitter.print(tnr, 85, 437, { text: Discord.Util.cleanContent(message, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 546, 21)
-            await twitter.print(arialbold, 116, 131, { text: Discord.Util.cleanContent(nickname, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 614, 12)
-            await twitter.print(arialbold, 143, 379, { text: Discord.Util.cleanContent(nickname, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 490, 12)
-            await twitter.print(arialblue, 116, 147, { text: Discord.Util.cleanContent(username, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 614, 12)
-            await twitter.print(arialblue, 143, 395, { text: Discord.Util.cleanContent(username, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 490, 12)
+            await twitter.print(tnr, 85, 437, { text: message, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 546, 21)
+            await twitter.print(arialbold, 116, 131, { text: nickname, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 614, 12)
+            await twitter.print(arialbold, 143, 379, { text: nickname, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 490, 12)
+            await twitter.print(arialblue, 116, 147, { text: username, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 614, 12)
+            await twitter.print(arialblue, 143, 395, { text: username, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 490, 12)
             await twitter.writeAsync(`${filepath}/twitter.png`)
 
             var width = fileinfo.info.width

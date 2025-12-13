@@ -1,15 +1,14 @@
 module.exports = {
     name: ['benson'],
-    args: [{"name":"name","required":false,"specifarg":false,"orig":"\"{name}\""},{"name":"file","required":false,"specifarg":false,"orig":"{file}"}],
+    args: [{ "name": "name", "required": false, "specifarg": false, "orig": "\"{name}\"" }, { "name": "file", "required": false, "specifarg": false, "orig": "{file}" }],
     execute: async function (msg, args) {
         let poopy = this
         let {
             lastUrl, validateFile, downloadFile, execPromise,
-            findpreset, sendFile, fetchPingPerms
+            findpreset, sendFile, fetchPingPerms, cleanContentPreserveEmojis
         } = poopy.functions
-        let { DiscordTypes } = poopy.modules
         let vars = poopy.vars
-        let { Jimp, Discord } = poopy.modules
+        let { Jimp } = poopy.modules
 
         await msg.channel.sendTyping().catch(() => { })
         if (lastUrl(msg, 0) === undefined && vars.validUrl.test(args[args.length - 1]) === false) {
@@ -27,7 +26,7 @@ module.exports = {
         if (!matchedTextes) {
             matchedTextes = ['""', '']
         }
-        var text = matchedTextes[1]
+        var text = cleanContentPreserveEmojis(matchedTextes[1], msg.channel)
         var currenturl = lastUrl(msg, 0) || args[1]
         var fileinfo = await validateFile(currenturl).catch(async error => {
             await msg.reply({
@@ -43,12 +42,13 @@ module.exports = {
 
         if (type.mime.startsWith('image') && !(vars.gifFormats.find(f => f === type.ext))) {
             var filepath = await downloadFile(currenturl, `input.png`, {
-                fileinfo            })
+                fileinfo
+            })
             var filename = `input.png`
 
             var benson = await Jimp.read(`assets/image/benson.png`)
             var consolas = await Jimp.loadFont('assets/fonts/Consolas/Consolas.fnt')
-            await benson.print(consolas, 3, 4, { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 94, 33)
+            await benson.print(consolas, 3, 4, { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 94, 33)
             await benson.writeAsync(`${filepath}/benson.png`)
 
             var width = fileinfo.info.width
@@ -60,12 +60,13 @@ module.exports = {
             return await sendFile(msg, filepath, `output.png`)
         } else if (type.mime.startsWith('video')) {
             var filepath = await downloadFile(currenturl, `input.mp4`, {
-                fileinfo            })
+                fileinfo
+            })
             var filename = `input.mp4`
 
             var benson = await Jimp.read(`assets/image/benson.png`)
             var consolas = await Jimp.loadFont('assets/fonts/Consolas/Consolas.fnt')
-            await benson.print(consolas, 3, 4, { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 94, 33)
+            await benson.print(consolas, 3, 4, { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 94, 33)
             await benson.writeAsync(`${filepath}/benson.png`)
 
             var width = fileinfo.info.width
@@ -81,7 +82,7 @@ module.exports = {
 
             var benson = await Jimp.read(`assets/image/benson.png`)
             var consolas = await Jimp.loadFont('assets/fonts/Consolas/Consolas.fnt')
-            await benson.print(consolas, 3, 4, { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 94, 33)
+            await benson.print(consolas, 3, 4, { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 94, 33)
             await benson.writeAsync(`${filepath}/benson.png`)
 
             var width = fileinfo.info.width

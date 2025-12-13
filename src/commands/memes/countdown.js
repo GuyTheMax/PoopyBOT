@@ -1,15 +1,14 @@
 module.exports = {
     name: ['countdown', 'annoyingorange'],
-    args: [{"name":"name","required":false,"specifarg":false,"orig":"\"{name}\""},{"name":"file","required":false,"specifarg":false,"orig":"{file}"}],
+    args: [{ "name": "name", "required": false, "specifarg": false, "orig": "\"{name}\"" }, { "name": "file", "required": false, "specifarg": false, "orig": "{file}" }],
     execute: async function (msg, args) {
         let poopy = this
         let {
             lastUrl, validateFile, downloadFile, execPromise,
-            findpreset, sendFile, fetchPingPerms
+            findpreset, sendFile, fetchPingPerms, cleanContentPreserveEmojis
         } = poopy.functions
-        let { DiscordTypes } = poopy.modules
         let vars = poopy.vars
-        let { Jimp, Discord } = poopy.modules
+        let { Jimp } = poopy.modules
 
         await msg.channel.sendTyping().catch(() => { })
         if (lastUrl(msg, 0) === undefined && args[1] === undefined) {
@@ -27,7 +26,7 @@ module.exports = {
         if (!matchedTextes) {
             matchedTextes = ['""', '']
         }
-        var text = matchedTextes[1]
+        var text = cleanContentPreserveEmojis(matchedTextes[1], msg.channel)
         var currenturl = lastUrl(msg, 0) || args[1]
         var fileinfo = await validateFile(currenturl).catch(async error => {
             await msg.reply({
@@ -43,12 +42,13 @@ module.exports = {
 
         if (type.mime.startsWith('video')) {
             var filepath = await downloadFile(currenturl, `input.mp4`, {
-                fileinfo            })
+                fileinfo
+            })
             var filename = `input.mp4`
             var transparent = await Jimp.read(`assets/image/transparent.png`)
             var novecento = await Jimp.loadFont(`assets/fonts/Novecento/Novecento.fnt`)
             transparent.resize(101, 28)
-            await transparent.print(novecento, 0, 0, { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 101, 28)
+            await transparent.print(novecento, 0, 0, { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 101, 28)
             await transparent.writeAsync(`${filepath}/caption.png`)
 
             await execPromise(`ffmpeg -i ${filepath}/${filename} -vf "scale=66:66" -preset ${findpreset(args)} -c:v libx264 -pix_fmt yuv420p ${filepath}/scaled.mp4`)
@@ -56,12 +56,13 @@ module.exports = {
             return await sendFile(msg, filepath, `output.mp4`)
         } else if (type.mime.startsWith('image') && !(vars.gifFormats.find(f => f === type.ext))) {
             var filepath = await downloadFile(currenturl, `input.png`, {
-                fileinfo            })
+                fileinfo
+            })
             var filename = `input.png`
             var transparent = await Jimp.read(`assets/image/transparent.png`)
             var novecento = await Jimp.loadFont(`assets/fonts/Novecento/Novecento.fnt`)
             transparent.resize(101, 28)
-            await transparent.print(novecento, 0, 0, { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 101, 28)
+            await transparent.print(novecento, 0, 0, { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 101, 28)
             await transparent.writeAsync(`${filepath}/caption.png`)
 
             await execPromise(`ffmpeg -i ${filepath}/${filename} -vf "scale=66:66" -preset ${findpreset(args)} ${filepath}/scaled.png`)
@@ -69,12 +70,13 @@ module.exports = {
             return await sendFile(msg, filepath, `output.mp4`)
         } else if (type.mime.startsWith('image') && vars.gifFormats.find(f => f === type.ext)) {
             var filepath = await downloadFile(currenturl, `input.gif`, {
-                fileinfo            })
+                fileinfo
+            })
             var filename = `input.gif`
             var transparent = await Jimp.read(`assets/image/transparent.png`)
             var novecento = await Jimp.loadFont(`assets/fonts/Novecento/Novecento.fnt`)
             transparent.resize(101, 28)
-            await transparent.print(novecento, 0, 0, { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 101, 28)
+            await transparent.print(novecento, 0, 0, { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 101, 28)
             await transparent.writeAsync(`${filepath}/caption.png`)
 
             await execPromise(`ffmpeg -i ${filepath}/${filename} -filter_complex "[0:v]scale=66:66,split[gnout][gpout];[gpout]palettegen=reserve_transparent=1[palette];[gnout][palette]paletteuse=alpha_threshold=128[out]" -map "[out]" -preset ${findpreset(args)} -gifflags -offsetting ${filepath}/scaled.gif`)

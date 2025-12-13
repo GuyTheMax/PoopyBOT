@@ -1,15 +1,14 @@
 module.exports = {
     name: ['amazon'],
-    args: [{"name":"name","required":false,"specifarg":false,"orig":"\"{name}\""},{"name":"price","required":false,"specifarg":false,"orig":"\"[price]\""},{"name":"rating","required":false,"specifarg":false,"orig":"\"[rating (in stars)]\""},{"name":"file","required":false,"specifarg":false,"orig":"{file}"}],
+    args: [{ "name": "name", "required": false, "specifarg": false, "orig": "\"{name}\"" }, { "name": "price", "required": false, "specifarg": false, "orig": "\"[price]\"" }, { "name": "rating", "required": false, "specifarg": false, "orig": "\"[rating (in stars)]\"" }, { "name": "file", "required": false, "specifarg": false, "orig": "{file}" }],
     execute: async function (msg, args) {
         let poopy = this
         let {
             lastUrl, validateFile, downloadFile, execPromise,
-            findpreset, sendFile, fetchPingPerms
+            findpreset, sendFile, fetchPingPerms, cleanContentPreserveEmojis
         } = poopy.functions
-        let { DiscordTypes } = poopy.modules
         let vars = poopy.vars
-        let { Jimp, Discord } = poopy.modules
+        let { Jimp } = poopy.modules
 
         await msg.channel.sendTyping().catch(() => { })
         if (lastUrl(msg, 0) === undefined && vars.validUrl.test(args[args.length - 1]) === false) {
@@ -36,8 +35,8 @@ module.exports = {
                 }
             }
         }
-        var name = matchedTextes[0].substring(1, matchedTextes[0].length - 1)
-        var price = matchedTextes[1].substring(1, matchedTextes[1].length - 1)
+        var name = cleanContentPreserveEmojis(matchedTextes[0].substring(1, matchedTextes[0].length - 1), msg.channel)
+        var price = cleanContentPreserveEmojis(matchedTextes[1].substring(1, matchedTextes[1].length - 1), msg.channel)
         var price1 = price.split('.')[0]
         var price2 = price.split('.')[1] || '00'
         var rating = matchedTextes[2].substring(1, matchedTextes[2].length - 1)
@@ -57,7 +56,8 @@ module.exports = {
 
         if (type.mime.startsWith('image') && !(vars.gifFormats.find(f => f === type.ext))) {
             var filepath = await downloadFile(currenturl, `input.png`, {
-                fileinfo            })
+                fileinfo
+            })
             var filename = `input.png`
 
             var amazon = await Jimp.read(`assets/image/amazon.png`)
@@ -69,9 +69,9 @@ module.exports = {
             ystars.crop(0, 0, ystars.bitmap.width * (numberrating / 5), ystars.bitmap.height)
             wstars.composite(ystars, 0, 0)
             amazon.composite(wstars, 16, 299)
-            await amazon.print(amazonemlink, 14, 219, { text: Discord.Util.cleanContent(name, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 209, 49)
-            await amazon.print(amazonembig, 22, 275, { text: Discord.Util.cleanContent(price1, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 36, 18)
-            await amazon.print(amazonemsmall, 60, 275, { text: Discord.Util.cleanContent(price2, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 20, 12)
+            await amazon.print(amazonemlink, 14, 219, { text: name, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 209, 49)
+            await amazon.print(amazonembig, 22, 275, { text: price1, alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 36, 18)
+            await amazon.print(amazonemsmall, 60, 275, { text: price2, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 20, 12)
             await amazon.writeAsync(`${filepath}/amazon.png`)
 
             var width = fileinfo.info.width
@@ -83,7 +83,8 @@ module.exports = {
             return await sendFile(msg, filepath, `output.png`)
         } else if (type.mime.startsWith('video')) {
             var filepath = await downloadFile(currenturl, `input.mp4`, {
-                fileinfo            })
+                fileinfo
+            })
             var filename = `input.mp4`
 
             var amazon = await Jimp.read(`assets/image/amazon.png`)
@@ -95,9 +96,9 @@ module.exports = {
             ystars.crop(0, 0, ystars.bitmap.width * (numberrating / 5), ystars.bitmap.height)
             wstars.composite(ystars, 0, 0)
             amazon.composite(wstars, 16, 299)
-            await amazon.print(amazonemlink, 14, 219, { text: Discord.Util.cleanContent(name, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 209, 49)
-            await amazon.print(amazonembig, 22, 275, { text: Discord.Util.cleanContent(price1, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 36, 18)
-            await amazon.print(amazonemsmall, 60, 275, { text: Discord.Util.cleanContent(price2, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 20, 12)
+            await amazon.print(amazonemlink, 14, 219, { text: name, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 209, 49)
+            await amazon.print(amazonembig, 22, 275, { text: price1, alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 36, 18)
+            await amazon.print(amazonemsmall, 60, 275, { text: price2, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 20, 12)
             await amazon.writeAsync(`${filepath}/amazon.png`)
 
             var width = fileinfo.info.width
@@ -120,9 +121,9 @@ module.exports = {
             ystars.crop(0, 0, ystars.bitmap.width * (numberrating / 5), ystars.bitmap.height)
             wstars.composite(ystars, 0, 0)
             amazon.composite(wstars, 16, 299)
-            await amazon.print(amazonemlink, 14, 219, { text: Discord.Util.cleanContent(name, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 209, 49)
-            await amazon.print(amazonembig, 22, 275, { text: Discord.Util.cleanContent(price1, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 36, 18)
-            await amazon.print(amazonemsmall, 60, 275, { text: Discord.Util.cleanContent(price2, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 20, 12)
+            await amazon.print(amazonemlink, 14, 219, { text: name, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 209, 49)
+            await amazon.print(amazonembig, 22, 275, { text: price1, alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 36, 18)
+            await amazon.print(amazonemsmall, 60, 275, { text: price2, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 20, 12)
             await amazon.writeAsync(`${filepath}/amazon.png`)
 
             var width = fileinfo.info.width

@@ -5,11 +5,10 @@ module.exports = {
         let poopy = this
         let {
             lastUrl, validateFile, downloadFile, execPromise,
-            findpreset, sendFile, fetchPingPerms
+            findpreset, sendFile, fetchPingPerms, cleanContentPreserveEmojis
         } = poopy.functions
-        let { DiscordTypes } = poopy.modules
         let vars = poopy.vars
-        let { Jimp, Discord } = poopy.modules
+        let { Jimp } = poopy.modules
 
         await msg.channel.sendTyping().catch(() => { })
         if (lastUrl(msg, 0) === undefined && vars.validUrl.test(args[args.length - 1]) === false) {
@@ -30,7 +29,7 @@ module.exports = {
         for (let i = 0; i < matchedTextes.length; i++) {
             matchedTextes[i] = matchedTextes[i].replace(/\\(?=")/g, "")
         }
-        var text = matchedTextes[1]
+        var text = cleanContentPreserveEmojis(matchedTextes[1], msg.channel)
         var currenturl = lastUrl(msg, 0) || args[1]
         var fileinfo = await validateFile(currenturl).catch(async error => {
             await msg.reply({
@@ -54,7 +53,7 @@ module.exports = {
             var brushscript = await Jimp.loadFont('assets/fonts/BrushScript/BrushScript.fnt')
             transparent.resize(width, height)
             transparent.resize(500, Jimp.AUTO)
-            await transparent.print(brushscript, 50, 50, { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_BOTTOM }, transparent.bitmap.width - 100, transparent.bitmap.height - 100)
+            await transparent.print(brushscript, 50, 50, { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_BOTTOM }, transparent.bitmap.width - 100, transparent.bitmap.height - 100)
             transparent.resize(width, height)
             await transparent.writeAsync(`${filepath}/caption.png`)
 
@@ -70,7 +69,7 @@ module.exports = {
             var brushscript = await Jimp.loadFont('assets/fonts/BrushScript/BrushScript.fnt')
             transparent.resize(width, height)
             transparent.resize(500, Jimp.AUTO)
-            await transparent.print(brushscript, 50, 50, { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_BOTTOM }, transparent.bitmap.width - 100, transparent.bitmap.height - 100)
+            await transparent.print(brushscript, 50, 50, { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_BOTTOM }, transparent.bitmap.width - 100, transparent.bitmap.height - 100)
             transparent.resize(width, height)
             await transparent.writeAsync(`${filepath}/caption.png`)
 
@@ -86,7 +85,7 @@ module.exports = {
             var brushscript = await Jimp.loadFont('assets/fonts/BrushScript/BrushScript.fnt')
             transparent.resize(width, height)
             transparent.resize(500, Jimp.AUTO)
-            await transparent.print(brushscript, 50, 50, { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_BOTTOM }, transparent.bitmap.width - 100, transparent.bitmap.height - 100)
+            await transparent.print(brushscript, 50, 50, { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT, alignmentY: Jimp.VERTICAL_ALIGN_BOTTOM }, transparent.bitmap.width - 100, transparent.bitmap.height - 100)
             transparent.resize(width, height)
             await transparent.writeAsync(`${filepath}/caption.png`)
 

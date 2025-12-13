@@ -1,15 +1,14 @@
 module.exports = {
     name: ['reddit'],
-    args: [{"name":"name","required":false,"specifarg":false,"orig":"{name}"},{"name":"file","required":false,"specifarg":false,"orig":"{file}"}],
+    args: [{ "name": "name", "required": false, "specifarg": false, "orig": "{name}" }, { "name": "file", "required": false, "specifarg": false, "orig": "{file}" }],
     execute: async function (msg, args) {
         let poopy = this
         let {
             lastUrl, validateFile, downloadFile, execPromise,
-            findpreset, sendFile, fetchPingPerms
+            findpreset, sendFile, fetchPingPerms, cleanContentPreserveEmojis
         } = poopy.functions
-        let { DiscordTypes } = poopy.modules
         let vars = poopy.vars
-        let { Jimp, Discord } = poopy.modules
+        let { Jimp } = poopy.modules
 
         await msg.channel.sendTyping().catch(() => { })
         if (lastUrl(msg, 0) === undefined && args[1] === undefined) {
@@ -27,7 +26,7 @@ module.exports = {
         if (!matchedTextes) {
             matchedTextes = ['""', '']
         }
-        var text = matchedTextes[1]
+        var text = cleanContentPreserveEmojis(matchedTextes[1], msg.channel)
         var currenturl = lastUrl(msg, 0) || args[1]
         var fileinfo = await validateFile(currenturl).catch(async error => {
             await msg.reply({
@@ -43,12 +42,13 @@ module.exports = {
 
         if (type.mime.startsWith('image') && !(vars.gifFormats.find(f => f === type.ext))) {
             var filepath = await downloadFile(currenturl, `input.png`, {
-                fileinfo            })
+                fileinfo
+            })
             var filename = `input.png`
 
             var reddittop = await Jimp.read(`assets/image/reddittop.png`)
             var ibm = await Jimp.loadFont(`assets/fonts/IBMPlexSans/IBMPlexSans.fnt`)
-            await reddittop.print(ibm, 18, 315, { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 364, 66)
+            await reddittop.print(ibm, 18, 315, { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 364, 66)
             await reddittop.writeAsync(`${filepath}/top.png`)
 
             await execPromise(`ffmpeg -i ${filepath}/${filename} -filter_complex "[0:v]scale=${reddittop.bitmap.width}:-1[out]" -map "[out]" -preset ${findpreset(args)} ${filepath}/scaled.png`)
@@ -56,13 +56,14 @@ module.exports = {
             return await sendFile(msg, filepath, `output.png`)
         } else if (type.mime.startsWith('video')) {
             var filepath = await downloadFile(currenturl, `input.mp4`, {
-                fileinfo            })
+                fileinfo
+            })
             var filename = `input.mp4`
 
             var reddittop = await Jimp.read(`assets/image/reddittop.png`)
             var redditbottom = await Jimp.read(`assets/image/redditbottom.png`)
             var ibm = await Jimp.loadFont(`assets/fonts/IBMPlexSans/IBMPlexSans.fnt`)
-            await reddittop.print(ibm, 18, 315, { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 364, 66)
+            await reddittop.print(ibm, 18, 315, { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 364, 66)
             await reddittop.writeAsync(`${filepath}/top.png`)
 
             var fps = fileinfo.info.fps
@@ -81,7 +82,7 @@ module.exports = {
 
             var reddittop = await Jimp.read(`assets/image/reddittop.png`)
             var ibm = await Jimp.loadFont(`assets/fonts/IBMPlexSans/IBMPlexSans.fnt`)
-            await reddittop.print(ibm, 18, 315, { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 364, 66)
+            await reddittop.print(ibm, 18, 315, { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 364, 66)
             await reddittop.writeAsync(`${filepath}/top.png`)
 
             var fps = fileinfo.info.fps

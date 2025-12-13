@@ -1,12 +1,13 @@
 module.exports = {
     name: ['choicegif'],
-    args: [{"name":"name","required":false,"specifarg":false,"orig":"\"{name}\""},{"name":"file","required":false,"specifarg":false,"orig":"{file}"}],
+    args: [{ "name": "name", "required": false, "specifarg": false, "orig": "\"{name}\"" }, { "name": "file", "required": false, "specifarg": false, "orig": "{file}" }],
     execute: async function (msg, args) {
         let poopy = this
-        let { Jimp, fs, Discord } = poopy.modules
+        let { Jimp, fs } = poopy.modules
         let {
             lastUrl, validateFile, downloadFile,
-            fetchPingPerms, execPromise, sendFile
+            fetchPingPerms, execPromise, sendFile,
+            cleanContentPreserveEmojis
         } = poopy.functions
         let vars = poopy.vars
         let config = poopy.config
@@ -365,7 +366,7 @@ module.exports = {
         if (!matchedTextes) {
             matchedTextes = ['""', '']
         }
-        var text = matchedTextes[1]
+        var text = cleanContentPreserveEmojis(matchedTextes[1], msg.channel)
         var currenturl = lastUrl(msg, 0) || args[1]
         var fileinfo = await validateFile(currenturl).catch(async error => {
             await msg.reply({
@@ -381,7 +382,8 @@ module.exports = {
 
         if (type.mime.startsWith('image') && !(vars.gifFormats.find(f => f === type.ext))) {
             var filepath = await downloadFile(currenturl, `input.png`, {
-                fileinfo            })
+                fileinfo
+            })
             var filename = `input.png`
             fs.mkdirSync(`${filepath}/frames`)
 
@@ -398,8 +400,8 @@ module.exports = {
                     await framedata.edit(frame)
                 }
                 white.composite(frame, white.bitmap.width / 2 - frame.bitmap.width / 2, white.bitmap.height / 2 - frame.bitmap.height / 2)
-                await white.print(arialbig, 8, 8, { text: Discord.Util.cleanContent('Choose your {text}'.replace(/{text}/g, text), msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 288, 73)
-                await white.print(arialsmall, 8, 280, { text: Discord.Util.cleanContent(framedata.name.replace(/{text}/g, text), msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 288, 73)
+                await white.print(arialbig, 8, 8, { text: 'Choose your {text}'.replace(/{text}/g, text), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 288, 73)
+                await white.print(arialsmall, 8, 280, { text: framedata.name.replace(/{text}/g, text), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 288, 73)
                 await white.writeAsync(`${filepath}/frames/${framedata.filename}`)
             }
 
@@ -427,8 +429,8 @@ module.exports = {
                     await framedata.edit(frame)
                 }
                 white.composite(frame, white.bitmap.width / 2 - frame.bitmap.width / 2, white.bitmap.height / 2 - frame.bitmap.height / 2)
-                await white.print(arialbig, 8, 8, { text: Discord.Util.cleanContent('Choose your {text}'.replace(/{text}/g, text), msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 288, 73)
-                await white.print(arialsmall, 8, 280, { text: Discord.Util.cleanContent(framedata.name.replace(/{text}/g, text), msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 288, 73)
+                await white.print(arialbig, 8, 8, { text: 'Choose your {text}'.replace(/{text}/g, text), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 288, 73)
+                await white.print(arialsmall, 8, 280, { text: framedata.name.replace(/{text}/g, text), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, 288, 73)
                 await white.writeAsync(`${filepath}/frames/${framedata.filename}`)
             }
             await execPromise(`ffmpeg -i ${filepath}/frames/%d.png -vf palettegen=reserve_transparent=1 ${filepath}/palette.png`)

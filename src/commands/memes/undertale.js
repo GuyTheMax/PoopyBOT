@@ -42,7 +42,7 @@ module.exports = {
         if (!matchedTextes) {
             matchedTextes = ['""']
         }
-        var text = matchedTextes[0].substring(1, matchedTextes[0].length - 1)
+        var text = Discord.Util.cleanContent(matchedTextes[0].substring(1, matchedTextes[0].length - 1), msg)
 
         var asteriskrgb = 'ffffff'
         var asteriskindex = args.indexOf('-asteriskcolor')

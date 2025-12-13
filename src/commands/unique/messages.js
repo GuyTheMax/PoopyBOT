@@ -115,7 +115,7 @@ module.exports = {
         let { fs, Discord, DiscordTypes, CryptoJS } = poopy.modules
         let data = poopy.data
         let tempdata = poopy.tempdata
-        let { similarity, yesno, fetchPingPerms, resolveUser } = poopy.functions
+        let { similarity, yesno, fetchPingPerms, resolveUser, cleanContentPreserveEmojis } = poopy.functions
         let bot = poopy.bot
 
         var options = {
@@ -141,7 +141,7 @@ module.exports = {
                 }
 
                 var saidMessage = args.slice(1).join(' ')
-                var cleanMessage = Discord.Util.cleanContent(saidMessage, msg).replace(/\@/g, '@‌')
+                var cleanMessage = cleanContentPreserveEmojis(saidMessage, msg.channel).replace(/\@/g, '@‌')
                 var results = []
 
                 tempdata[msg.guild.id].messages.forEach(message => {
@@ -222,7 +222,7 @@ module.exports = {
                 }
 
                 var saidMessage = args.slice(1).join(' ')
-                var cleanMessage = Discord.Util.cleanContent(saidMessage, msg).replace(/\@/g, '@‌')
+                var cleanMessage = cleanContentPreserveEmojis(saidMessage, msg.channel).replace(/\@/g, '@‌')
                 var findMessage = tempdata[msg.guild.id].messages.find(message => message.content.toLowerCase() === cleanMessage.toLowerCase())
 
                 if (findMessage) {
@@ -268,7 +268,7 @@ module.exports = {
                 }
 
                 var saidMessage = args.slice(1).join(' ')
-                var cleanMessage = Discord.Util.cleanContent(saidMessage, msg).replace(/\@/g, '@‌')
+                var cleanMessage = cleanContentPreserveEmojis(saidMessage, msg.channel).replace(/\@/g, '@‌')
                 var findMessage = tempdata[msg.guild.id].messages.findIndex(message => message.content.toLowerCase() === cleanMessage.toLowerCase())
 
                 if (findMessage > -1) {

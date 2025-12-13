@@ -15,10 +15,10 @@ module.exports = {
     }],
     execute: async function (msg, args) {
         let poopy = this
-        let { fs, Jimp, Discord } = poopy.modules
+        let { fs, Jimp } = poopy.modules
         let vars = poopy.vars
         let config = poopy.config
-        let { execPromise, sendFile } = poopy.functions
+        let { execPromise, sendFile, cleanContentPreserveEmojis } = poopy.functions
 
         await msg.channel.sendTyping().catch(() => { })
         var fonts = fs.readdirSync('assets/fonts')
@@ -127,7 +127,7 @@ module.exports = {
         for (let i = 0; i < matchedTextes.length; i++) {
             matchedTextes[i] = matchedTextes[i].replace(/\\(?=")/g, "")
         }
-        var text = matchedTextes[0].substring(1, matchedTextes[0].length - 1)
+        var text = cleanContentPreserveEmojis(matchedTextes[0].substring(1, matchedTextes[0].length - 1), msg.channel)
 
         var currentcount = vars.filecount
         vars.filecount++
@@ -142,7 +142,7 @@ module.exports = {
         var width = textwidth + padding.left + padding.right
         var height = textheight + padding.top + padding.bottom
         transparent.resize(width, height)
-        await transparent.print(loadedfont, padding.left, padding.top, { text: Discord.Util.cleanContent(text, msg), alignmentX: originx, alignmentY: originy }, textwidth, textheight)
+        await transparent.print(loadedfont, padding.left, padding.top, { text: text, alignmentX: originx, alignmentY: originy }, textwidth, textheight)
         if (args.find(arg => arg === '-resetcolor')) {
             transparent.color([
                 {

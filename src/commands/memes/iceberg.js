@@ -197,7 +197,7 @@ module.exports = {
             var text = wordsS.join('')
             var dimensions = stagewrdsdimensions[i]
 
-            await iceberg.print(arialr, dimensions[0], dimensions[1], { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, dimensions[2], dimensions[3])
+            await iceberg.print(arialr, dimensions[0], dimensions[1], { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, dimensions[2], dimensions[3])
         }
 
         iceberg.crop(0, 0, iceberg.bitmap.width, stagewrdsdimensions['stage' + stages][1] + stagewrdsdimensions['stage' + stages][3])

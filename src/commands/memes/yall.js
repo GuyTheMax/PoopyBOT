@@ -5,11 +5,10 @@ module.exports = {
         let poopy = this
         let {
             lastUrl, validateFile, downloadFile, execPromise,
-            findpreset, sendFile, fetchPingPerms
+            findpreset, sendFile, fetchPingPerms, cleanContentPreserveEmojis
         } = poopy.functions
-        let { DiscordTypes } = poopy.modules
         let vars = poopy.vars
-        let { Jimp, Discord } = poopy.modules
+        let { Jimp } = poopy.modules
 
         await msg.channel.sendTyping().catch(() => { })
         if (lastUrl(msg, 0) === undefined && vars.validUrl.test(args[args.length - 1]) === false) {
@@ -27,7 +26,7 @@ module.exports = {
         if (!matchedTextes) {
             matchedTextes = ['""', '']
         }
-        var text = matchedTextes[1]
+        var text = cleanContentPreserveEmojis(matchedTextes[1], msg.channel)
         var currenturl = lastUrl(msg, 0) || args[1]
         var fileinfo = await validateFile(currenturl).catch(async error => {
             await msg.reply({
@@ -48,7 +47,7 @@ module.exports = {
 
             var yall = await Jimp.read(`assets/image/yall.png`)
             var morton = await Jimp.loadFont('assets/fonts/Morton/Morton.fnt')
-            await yall.print(morton, 274, 8, { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 202, 77)
+            await yall.print(morton, 274, 8, { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 202, 77)
             await yall.writeAsync(`${filepath}/yall.png`)
 
             var width = fileinfo.info.width
@@ -65,7 +64,7 @@ module.exports = {
 
             var yall = await Jimp.read(`assets/image/yall.png`)
             var morton = await Jimp.loadFont('assets/fonts/Morton/Morton.fnt')
-            await yall.print(morton, 274, 8, { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 202, 77)
+            await yall.print(morton, 274, 8, { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 202, 77)
             await yall.writeAsync(`${filepath}/yall.png`)
 
             var width = fileinfo.info.width
@@ -81,7 +80,7 @@ module.exports = {
 
             var yall = await Jimp.read(`assets/image/yall.png`)
             var morton = await Jimp.loadFont('assets/fonts/Morton/Morton.fnt')
-            await yall.print(morton, 274, 8, { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 202, 77)
+            await yall.print(morton, 274, 8, { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 202, 77)
             await yall.writeAsync(`${filepath}/yall.png`)
 
             var width = fileinfo.info.width

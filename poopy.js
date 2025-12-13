@@ -91,7 +91,7 @@ class Poopy {
             chunkArray, chunkObject, requireJSON, findCommand, fetchPingPerms,
             dmSupport, sleep, gatherData, deleteMsgData, infoPost, sendWebhook,
             getKeywordsFor, getUrls, randomChoice, similarity, yesno, chat,
-            regexClean, getOption, getTotalHivemindStatus } = functions
+            regexClean, getOption, getTotalHivemindStatus, cleanContentPreserveEmojis } = functions
 
         let botConfig = {
             partials: [
@@ -988,7 +988,7 @@ class Poopy {
                     id => id == msg.channel?.id || id == msg.channel?.parent?.id || id == msg.channel?.parent?.parent?.id
                 )
             ) {
-                var cleanMessage = Discord.Util.cleanContent(origcontent, msg).replace(/\@/g, '@‌')
+                var cleanMessage = cleanContentPreserveEmojis(origcontent, msg.channel).replace(/\@/g, '@‌')
 
                 if (
                     !(cleanMessage.match(vars.badFilter) || cleanMessage.match(vars.scamFilter) || cleanMessage.includes(prefix.toLowerCase())) &&
@@ -1190,7 +1190,7 @@ class Poopy {
                 var findMessage = messages[messageIndex]
                 var findTmpMessage = tmpMessages[messageIndex]
 
-                var cleanMessage = Discord.Util.cleanContent(msg.content, msg).replace(/\@/g, '@‌')
+                var cleanMessage = cleanContentPreserveEmojis(msg.content, msg.channel).replace(/\@/g, '@‌')
 
                 if (
                     !(cleanMessage.match(vars.badFilter) || cleanMessage.match(vars.scamFilter) || cleanMessage.includes(prefix.toLowerCase())) &&

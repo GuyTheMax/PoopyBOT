@@ -5,11 +5,10 @@ module.exports = {
         let poopy = this
         let {
             lastUrl, validateFile, downloadFile, execPromise,
-            findpreset, sendFile, fetchPingPerms
+            findpreset, sendFile, fetchPingPerms, cleanContentPreserveEmojis
         } = poopy.functions
-        let { DiscordTypes } = poopy.modules
         let vars = poopy.vars
-        let { Jimp, Discord } = poopy.modules
+        let { Jimp } = poopy.modules
 
         await msg.channel.sendTyping().catch(() => { })
         if (lastUrl(msg, 0) === undefined && vars.validUrl.test(args[args.length - 1]) === false) {
@@ -35,7 +34,7 @@ module.exports = {
         for (let i = 0; i < matchedTextes.length; i++) {
             matchedTextes[i] = matchedTextes[i].replace(/\\(?=")/g, "")
         }
-        var text = matchedTextes[0].substring(1, matchedTextes[0].length - 1)
+        var text = cleanContentPreserveEmojis(matchedTextes[0].substring(1, matchedTextes[0].length - 1), msg.channel)
         var currenturl = lastUrl(msg, 0) || args[1]
         var fileinfo = await validateFile(currenturl).catch(async error => {
             await msg.reply({
@@ -59,7 +58,7 @@ module.exports = {
             var coolvetica = await Jimp.loadFont('assets/fonts/CoolveticaCondensed/CoolveticaCondensed.fnt')
             transparent.resize(width, height)
             transparent.resize(Math.round(2000 / size), Jimp.AUTO)
-            await transparent.print(coolvetica, 80, 80, { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, transparent.bitmap.width - 160, transparent.bitmap.height - 160)
+            await transparent.print(coolvetica, 80, 80, { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, transparent.bitmap.width - 160, transparent.bitmap.height - 160)
             transparent.resize(width, height)
             await transparent.writeAsync(`${filepath}/caption.png`)
 
@@ -75,7 +74,7 @@ module.exports = {
             var coolvetica = await Jimp.loadFont('assets/fonts/CoolveticaCondensed/CoolveticaCondensed.fnt')
             transparent.resize(width, height)
             transparent.resize(Math.round(2000 / size), Jimp.AUTO)
-            await transparent.print(coolvetica, 80, 80, { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, transparent.bitmap.width - 160, transparent.bitmap.height - 160)
+            await transparent.print(coolvetica, 80, 80, { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, transparent.bitmap.width - 160, transparent.bitmap.height - 160)
             transparent.resize(width, height)
             await transparent.writeAsync(`${filepath}/caption.png`)
 
@@ -91,7 +90,7 @@ module.exports = {
             var coolvetica = await Jimp.loadFont('assets/fonts/CoolveticaCondensed/CoolveticaCondensed.fnt')
             transparent.resize(width, height)
             transparent.resize(Math.round(2000 / size), Jimp.AUTO)
-            await transparent.print(coolvetica, 80, 80, { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, transparent.bitmap.width - 160, transparent.bitmap.height - 160)
+            await transparent.print(coolvetica, 80, 80, { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE }, transparent.bitmap.width - 160, transparent.bitmap.height - 160)
             transparent.resize(width, height)
             await transparent.writeAsync(`${filepath}/caption.png`)
 

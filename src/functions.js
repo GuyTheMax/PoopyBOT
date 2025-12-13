@@ -3051,6 +3051,45 @@ functions.displayShieldsShop = async function (channel, who, reply, shopObject, 
     return instruction
 }
 
+functions.cleanContentPreserveEmojis = function(str, channel) {
+  return str.replaceAll(
+    /<(?:(?<type>@[!&]?|#)|(?:\/(?<commandName>[-_\p{L}\p{N}\p{sc=Deva}\p{sc=Thai} ]+):))(?<id>\d{17,19})>/gu,
+    (match, type, commandName, emojiName, id) => {
+      if (commandName) return `/${commandName}`
+
+      if (emojiName) return `:${emojiName}:`
+
+      switch (type) {
+        case '@':
+        case '@!': {
+          const member = channel.guild?.members.cache.get(id)
+          if (member) {
+            return `@${member.displayName}`
+          }
+
+          const user = channel.client.users.cache.get(id)
+          return user ? `@${user.displayName}` : match
+        }
+
+        case '@&': {
+          if (channel.type === Discord.ChannelType.DM) return match
+          const role = channel.guild.roles.cache.get(id)
+          return role ? `@${role.name}` : match
+        }
+
+        case '#': {
+          const mentionedChannel = channel.client.channels.cache.get(id)
+          return mentionedChannel ? `#${mentionedChannel.name}` : match
+        }
+
+        default: {
+          return match
+        }
+      }
+    }
+  )
+}
+
 functions.refreshDiscordURLs = async function (urls) {
     let poopy = this
     let tempdata = poopy.tempdata

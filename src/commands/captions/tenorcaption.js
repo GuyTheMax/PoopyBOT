@@ -1,15 +1,14 @@
 module.exports = {
     name: ['meme4', 'tenorcaption'],
-    args: [{"name":"topText","required":false,"specifarg":false,"orig":"\"{topText}\""},{"name":"bottomText","required":false,"specifarg":false,"orig":"\"[bottomText]\""},{"name":"file","required":false,"specifarg":false,"orig":"{file}"},{"name":"color","required":false,"specifarg":true,"orig":"[-color <r> <g> <b>]"},{"name":"size","required":false,"specifarg":true,"orig":"[-size <multiplier (from 0.5 to 5)>]"}],
+    args: [{ "name": "topText", "required": false, "specifarg": false, "orig": "\"{topText}\"" }, { "name": "bottomText", "required": false, "specifarg": false, "orig": "\"[bottomText]\"" }, { "name": "file", "required": false, "specifarg": false, "orig": "{file}" }, { "name": "color", "required": false, "specifarg": true, "orig": "[-color <r> <g> <b>]" }, { "name": "size", "required": false, "specifarg": true, "orig": "[-size <multiplier (from 0.5 to 5)>]" }],
     execute: async function (msg, args) {
         let poopy = this
         let {
             lastUrl, validateFile, downloadFile, execPromise,
-            findpreset, sendFile, fetchPingPerms
+            findpreset, sendFile, fetchPingPerms, cleanContentPreserveEmojis
         } = poopy.functions
-        let { DiscordTypes } = poopy.modules
         let vars = poopy.vars
-        let { Jimp, Discord } = poopy.modules
+        let { Jimp } = poopy.modules
 
         await msg.channel.sendTyping().catch(() => { })
         if (lastUrl(msg, 0) === undefined && vars.validUrl.test(args[args.length - 1]) === false) {
@@ -37,8 +36,8 @@ module.exports = {
         for (let i = 0; i < matchedTextes.length; i++) {
             matchedTextes[i] = matchedTextes[i].replace(/\\(?=")/g, "")
         }
-        var text = matchedTextes[0].substring(1, matchedTextes[0].length - 1)
-        var text2 = matchedTextes[1].substring(1, matchedTextes[1].length - 1)
+        var text = cleanContentPreserveEmojis(matchedTextes[0].substring(1, matchedTextes[0].length - 1), msg.channel)
+        var text2 = cleanContentPreserveEmojis(matchedTextes[1].substring(1, matchedTextes[1].length - 1), msg.channel)
         var rgb = {
             r: 255,
             g: 255,
@@ -68,7 +67,8 @@ module.exports = {
 
         if (type.mime.startsWith('image') && !(vars.gifFormats.find(f => f === type.ext))) {
             var filepath = await downloadFile(currenturl, `input.png`, {
-                fileinfo            })
+                fileinfo
+            })
             var filename = `input.png`
             var width = fileinfo.info.width
             var height = fileinfo.info.height
@@ -77,8 +77,8 @@ module.exports = {
             transparent.resize(width, height)
             transparent.resize(Math.round(2000 / size), Jimp.AUTO)
             var transparent2 = transparent.clone()
-            await transparent.print(ubuntu, 80, 80, { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, transparent.bitmap.width - 160, transparent.bitmap.height - 160)
-            await transparent2.print(ubuntu, 80, 80, { text: Discord.Util.cleanContent(text2, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_BOTTOM }, transparent.bitmap.width - 160, transparent.bitmap.height - 160)
+            await transparent.print(ubuntu, 80, 80, { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, transparent.bitmap.width - 160, transparent.bitmap.height - 160)
+            await transparent2.print(ubuntu, 80, 80, { text: text2, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_BOTTOM }, transparent.bitmap.width - 160, transparent.bitmap.height - 160)
             transparent.resize(width, height)
             transparent2.resize(width, height)
             await transparent.writeAsync(`${filepath}/caption.png`)
@@ -88,7 +88,8 @@ module.exports = {
             return await sendFile(msg, filepath, `output.png`)
         } else if (type.mime.startsWith('video')) {
             var filepath = await downloadFile(currenturl, `input.mp4`, {
-                fileinfo            })
+                fileinfo
+            })
             var filename = `input.mp4`
             var width = fileinfo.info.width
             var height = fileinfo.info.height
@@ -97,8 +98,8 @@ module.exports = {
             transparent.resize(width, height)
             transparent.resize(Math.round(2000 / size), Jimp.AUTO)
             var transparent2 = transparent.clone()
-            await transparent.print(ubuntu, 80, 80, { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, transparent.bitmap.width - 160, transparent.bitmap.height - 160)
-            await transparent2.print(ubuntu, 80, 80, { text: Discord.Util.cleanContent(text2, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_BOTTOM }, transparent.bitmap.width - 160, transparent.bitmap.height - 160)
+            await transparent.print(ubuntu, 80, 80, { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, transparent.bitmap.width - 160, transparent.bitmap.height - 160)
+            await transparent2.print(ubuntu, 80, 80, { text: text2, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_BOTTOM }, transparent.bitmap.width - 160, transparent.bitmap.height - 160)
             transparent.resize(width, height)
             transparent2.resize(width, height)
             await transparent.writeAsync(`${filepath}/caption.png`)
@@ -108,7 +109,8 @@ module.exports = {
             return await sendFile(msg, filepath, `output.mp4`)
         } else if (type.mime.startsWith('image') && vars.gifFormats.find(f => f === type.ext)) {
             var filepath = await downloadFile(currenturl, `input.gif`, {
-                fileinfo            })
+                fileinfo
+            })
             var filename = `input.gif`
             var width = fileinfo.info.width
             var height = fileinfo.info.height
@@ -117,8 +119,8 @@ module.exports = {
             transparent.resize(width, height)
             transparent.resize(Math.round(2000 / size), Jimp.AUTO)
             var transparent2 = transparent.clone()
-            await transparent.print(ubuntu, 80, 80, { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, transparent.bitmap.width - 160, transparent.bitmap.height - 160)
-            await transparent2.print(ubuntu, 80, 80, { text: Discord.Util.cleanContent(text2, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_BOTTOM }, transparent.bitmap.width - 160, transparent.bitmap.height - 160)
+            await transparent.print(ubuntu, 80, 80, { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, transparent.bitmap.width - 160, transparent.bitmap.height - 160)
+            await transparent2.print(ubuntu, 80, 80, { text: text2, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER, alignmentY: Jimp.VERTICAL_ALIGN_BOTTOM }, transparent.bitmap.width - 160, transparent.bitmap.height - 160)
             transparent.resize(width, height)
             transparent2.resize(width, height)
             await transparent.writeAsync(`${filepath}/caption.png`)

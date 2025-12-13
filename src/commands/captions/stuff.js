@@ -5,11 +5,10 @@ module.exports = {
         let poopy = this
         let {
             lastUrl, validateFile, downloadFile, execPromise,
-            findpreset, sendFile, fetchPingPerms
+            findpreset, sendFile, fetchPingPerms, cleanContentPreserveEmojis
         } = poopy.functions
-        let { DiscordTypes } = poopy.modules
         let vars = poopy.vars
-        let { Jimp, Discord } = poopy.modules
+        let { Jimp } = poopy.modules
 
         await msg.channel.sendTyping().catch(() => { })
         if (lastUrl(msg, 0) === undefined && vars.validUrl.test(args[args.length - 1]) === false) {
@@ -30,7 +29,7 @@ module.exports = {
         for (let i = 0; i < matchedTextes.length; i++) {
             matchedTextes[i] = matchedTextes[i].replace(/\\(?=")/g, "")
         }
-        var text = matchedTextes[0].substring(1, matchedTextes[0].length - 1)
+        var text = cleanContentPreserveEmojis(matchedTextes[0].substring(1, matchedTextes[0].length - 1), msg.channel)
         var currenturl = lastUrl(msg, 0) || args[1]
         var fileinfo = await validateFile(currenturl).catch(async error => {
             await msg.reply({
@@ -59,7 +58,7 @@ module.exports = {
                 white.resize(stuff.bitmap.width, textheight + 120)
                 white.composite(stuff, 0, white.bitmap.height - stuff.bitmap.height)
             }
-            await caption.print(tnr, 60, 60, { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 643, caption.bitmap.height - 120)
+            await caption.print(tnr, 60, 60, { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 643, caption.bitmap.height - 120)
             caption.resize(width, Jimp.AUTO)
             await caption.writeAsync(`${filepath}/stuff.png`)
 
@@ -83,7 +82,7 @@ module.exports = {
                 white.resize(stuff.bitmap.width, textheight + 120)
                 white.composite(stuff, 0, white.bitmap.height - stuff.bitmap.height)
             }
-            await caption.print(tnr, 60, 60, { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 643, caption.bitmap.height - 120)
+            await caption.print(tnr, 60, 60, { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 643, caption.bitmap.height - 120)
             caption.resize(width, Jimp.AUTO)
             await caption.writeAsync(`${filepath}/stuff.png`)
 
@@ -107,7 +106,7 @@ module.exports = {
                 white.resize(stuff.bitmap.width, textheight + 120)
                 white.composite(stuff, 0, white.bitmap.height - stuff.bitmap.height)
             }
-            await caption.print(tnr, 60, 60, { text: Discord.Util.cleanContent(text, msg), alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 643, caption.bitmap.height - 120)
+            await caption.print(tnr, 60, 60, { text: text, alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT, alignmentY: Jimp.VERTICAL_ALIGN_TOP }, 643, caption.bitmap.height - 120)
             caption.resize(width, Jimp.AUTO)
             await caption.writeAsync(`${filepath}/stuff.png`)
 
