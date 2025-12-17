@@ -12,7 +12,37 @@ module.exports = {
 
         var word = matches[1]
 
-        if (tempdata[msg.guild.id][msg.channel.id].shutUp) return ''
+        var guildfilter = config.guildfilter
+        var channelfilter = config.channelfilter
+
+        var isFiltered = (guildfilter.blacklist && guildfilter.ids.includes(msg.guild.id)) ||
+            (
+                !(guildfilter.blacklist) &&
+                !(guildfilter.ids.includes(msg.guild.id))
+            ) ||
+            (
+                channelfilter.gids.includes(msg.guild.id) &&
+                (
+                    (channelfilter.blacklist && channelfilter.ids.some(
+                        id => id == msg.channel?.id || id == msg.channel?.parent?.id || id == msg.channel?.parent?.parent?.id
+                    )) ||
+                    (!(channelfilter.blacklist) && !(channelfilter.ids.some(
+                        id => id == msg.channel?.id || id == msg.channel?.parent?.id || id == msg.channel?.parent?.parent?.id
+                    )))
+                )
+            )
+
+        var isRestricted = data.guildData[msg.guild.id].restricted.some(
+            id => id == msg.channel?.id || id == msg.channel?.parent?.id || id == msg.channel?.parent?.parent?.id
+        ) && !(
+            msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageGuild) ||
+            msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageMessages) ||
+            msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.Administrator) ||
+            msg.author.id === msg.guild.ownerId ||
+            (config.ownerids.find(id => id == msg.author.id))
+        )
+
+        if (isFiltered || isRestricted || tempdata[msg.guild.id][msg.channel.id].shutUp) return ''
 
         if (globaldata.shit.find(id => id === msg.author.id)) return 'shit'
 
