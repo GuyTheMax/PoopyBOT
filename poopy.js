@@ -87,7 +87,7 @@ class Poopy {
 
         // we can create thge bot now
         let { Discord, DiscordTypes, Collection, fs, CryptoJS } = modules
-        let { envsExist, configFlagsEnabled,
+        let { envsExist, configFlagsEnabled, refreshDiscordURLs,
             chunkArray, chunkObject, requireJSON, findCommand, fetchPingPerms,
             dmSupport, sleep, gatherData, deleteMsgData, infoPost, sendWebhook,
             getKeywordsFor, getUrls, randomChoice, similarity, yesno, chat,
@@ -1388,6 +1388,13 @@ class Poopy {
                     ]
 
                     attachments.splice(10)
+
+                    const urls = await refreshDiscordURLs(attachments.map(a => a.attachment)).catch(() => { })
+                        ?? attachments.map(a => a.attachment)
+                    
+                    for (let [i, url] of urls.entries()) {
+                        attachments[i].attachment = url
+                    }
 
                     const row = new Discord.ActionRowBuilder().addComponents(
                         new Discord.ButtonBuilder()
