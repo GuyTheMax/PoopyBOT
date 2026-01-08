@@ -797,7 +797,7 @@ functions.chat = async function (stim, msg, {
     clear = false,
     useTools = false,
     errorMsg = "Error while generating AI21 chat message."
-}) {
+} = {}) {
     let poopy = this
     let {
         tempdata

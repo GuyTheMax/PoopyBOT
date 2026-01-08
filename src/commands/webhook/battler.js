@@ -5,9 +5,9 @@ module.exports = {
         "required": false,
         "specifarg": false,
         "orig": "[type]",
-        "autocomplete": function (interaction) {
+        "autocomplete": function () {
             return [
-                { name: "Battlers", value: "battler" },
+                { name: "Friendlies", value: "friendly" },
                 { name: "Enemies", value: "enemy" }
             ]
         }
@@ -34,8 +34,9 @@ module.exports = {
         if (!data.guildData[msg.guild.id].channels[msg.channel.id].battling) {
             var battleValue = args[1] ? args[1].toLowerCase() : "battler"
 
+            if (battleValue == "friendly" || battleValue == "friendlies" || battleValue == "1") battleValue = 1
             if (battleValue == "enemy" || battleValue == "enemies" || battleValue == "2") battleValue = 2
-            else battleValue = 1
+            else battleValue = 3
 
             data.guildData[msg.guild.id].channels[msg.channel.id].battling = battleValue
 
@@ -49,7 +50,7 @@ module.exports = {
         }
     },
     help: {
-        name: 'battler/battlebricks/tbb [type (battler or enemy)] (manage webhooks/messages permission only)',
+        name: 'battler/battlebricks/tbb [type (friendly or enemy)] (manage webhooks/messages permission only)',
         value: "I'm Battler, and I'm always battling!"
     },
     cooldown: 2500,

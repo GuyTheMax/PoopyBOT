@@ -568,10 +568,15 @@ class Poopy {
                 }
 
                 if (data.guildData[msg.guild.id].channels[msg.channel.id].battling) {
-                    var type = data.guildData[msg.guild.id].channels[msg.channel.id].battling == 2 ?
-                        "enemies" : "battlers"
+                    var type = data.guildData[msg.guild.id].channels[msg.channel.id].battling == 1 ? "battlers" :
+                        data.guildData[msg.guild.id].channels[msg.channel.id].battling == 2 ? "enemies" :
+                            "all"
 
-                    var battler = poopy.json.battlerJSON[type].reduce((closestBattler, currentBattler) =>
+                    var battlers = type == "all"
+                        ? poopy.json.battlerJSON.battlers.concat(poopy.json.battlerJSON.enemies)
+                        : poopy.json.battlerJSON[type]
+
+                    var battler = battlers.reduce((closestBattler, currentBattler) =>
                         similarity(currentBattler.name ?? "", msg.member.displayName ?? msg.author.displayName ?? "")
                             > similarity(closestBattler.name ?? "", msg.member.displayName ?? msg.author.displayName ?? "")
                             ? currentBattler : closestBattler
@@ -1391,7 +1396,7 @@ class Poopy {
 
                     const urls = await refreshDiscordURLs(attachments.map(a => a.attachment)).catch(() => { })
                         ?? attachments.map(a => a.attachment)
-                    
+
                     for (let [i, url] of urls.entries()) {
                         attachments[i].attachment = url
                     }
