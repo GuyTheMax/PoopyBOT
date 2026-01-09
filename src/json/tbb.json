@@ -345,6 +345,10 @@
             "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/b/b5/Blood.png"
         },
         {
+            "name": "Bean Battler",
+            "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1452947000512221389/Bean_Battler_FRIENDLY.png"
+        },
+        {
             "name": "Ninja Battler",
             "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/a/af/Ninja_Battler.png"
         },
@@ -1423,6 +1427,90 @@
             "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/a/ae/Teabot.png"
         },
         {
+            "name": "Zombie",
+            "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1452947001481232384/Zombie.png"
+        },
+        {
+            "name": "Venomshank",
+            "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1452946864776417363/Venomshank.png"
+        },
+        {
+            "name": "Chuck",
+            "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1452947001871175720/Chuck.png"
+        },
+        {
+            "name": "Cheez",
+            "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1452947001049354385/Cheez.png"
+        },
+        {
+            "name": "Bean Battler",
+            "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1452947000067883059/Bean_Battler.png"
+        },
+        {
+            "name": "Ghostwalker",
+            "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1452946999669297274/Ghostwalker_NEW.png"
+        },
+        {
+            "name": "Sign Buddy",
+            "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1452946999262318653/Sign_Buddy.png"
+        },
+        {
+            "name": "Pizza Pal",
+            "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1452961152199032912/Pizza_Pal.png"
+        },
+        {
+            "name": "Chef Sarge",
+            "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1452999085060521984/Chef_Sarge.png"
+        },
+        {
+            "name": "Duck Battler",
+            "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1453141608223477951/Duck_Battler.png"
+        },
+        {
+            "name": "Bouncer",
+            "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1453144021387055234/Bouncer.png"
+        },
+        {
+            "name": "Drakocage",
+            "image": "https://cdn.discordapp.com/attachments/1415073653585875004/1451251273146962112/Drakocage.png"
+        },
+        {
+            "name": "Funk1d",
+            "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1452947155550601370/Funk1d.png"
+        },
+        {
+            "name": "Shoot",
+            "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1452971817617592419/GOOD_Target.png"
+        },
+        {
+            "name": "Bad",
+            "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1452971818070839477/BAD_Target.png"
+        },
+        {
+            "name": "Dual Venomshank",
+            "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1453398679431155806/Dual_Venomshank.png"
+        },
+        {
+            "name": "Cartil",
+            "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1453398680122949835/Cartil.png"
+        },
+        {
+            "name": "Dual Ghostwalker",
+            "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1453398680672665680/Dual_Ghostwalker_NEW.png"
+        },
+        {
+            "name": "Fish Buddy",
+            "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1452961151456645211/Protestor.png"
+        },
+        {
+            "name": "Delivery Pal",
+            "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1453398758275682354/Delivery_Pal_2.png"
+        },
+        {
+            "name": "Cyclist",
+            "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1453398682274762772/Cyclist.png"
+        },
+        {
             "name": "Battler (Classic)",
             "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/b/b8/Battler_%28Classic%29.png"
         },
@@ -1949,6 +2037,14 @@
         {
             "name": "Thief King",
             "image": "https://cdn.discordapp.com/attachments/1050863721238515772/1399145121466941471/Render_Enemy_ThiefKing.png"
+        },
+        {
+            "name": "Colossus",
+            "image": "https://cdn.discordapp.com/attachments/853246754791358495/1458987519814270998/Colossus.png"
+        },
+        {
+            "name": "Giant Pigface",
+            "image": "https://cdn.discordapp.com/attachments/1453987001127665789/1454188459173613742/Render_Secret_Enemy_GiantPigface.png"
         }
     ]
 }
