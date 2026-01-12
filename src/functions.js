@@ -4035,7 +4035,7 @@ functions.createLog = async function (type, member, logData) {
 
     switch (type) {
         case "webhooks": {
-            const { msg, webhookMsg } = logData
+            const { msg, webhookMsg, payload } = logData
 
             if (webhookMsg.embeds.some(e => e.data.title == "Webhook message sent")) return
 
@@ -4050,8 +4050,8 @@ functions.createLog = async function (type, member, logData) {
                     `> **Message created:** <t:${Math.floor(Date.now() / 1000)}:R>`
                 )
                 .setFooter({
-                    text: `Webhook: ${webhookMsg.author.username}`,
-                    iconURL: webhookMsg.author.displayAvatarURL({ dynamic: true, size: 1024, extension: "png" })
+                    text: `Webhook: ${payload.username ?? webhookMsg.author.username}`,
+                    iconURL: payload.avatarURL ?? webhookMsg.author.displayAvatarURL({ dynamic: true, size: 1024, extension: "png" })
                 })
 
             if (webhookMsg.content) logEmbed.addFields(
@@ -4087,7 +4087,7 @@ functions.sendWebhook = async function (msg, payload) {
         if (webhook) webhookMsg = await webhook.send(payload).catch(() => { })
     }
 
-    if (webhookMsg) createLog("webhooks", msg.member, { msg, webhookMsg }).catch((e) => console.log(e))
+    if (webhookMsg) createLog("webhooks", msg.member, { payload, msg, webhookMsg }).catch((e) => console.log(e))
 
     return webhookMsg
 }
