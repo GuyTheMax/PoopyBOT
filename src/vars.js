@@ -386,6 +386,10 @@ vars.dataTemplate = {
             funcDisabled: [],
             localcmds: [],
             messages: [],
+            logging: {
+                webhooks: undefined,
+                commands: undefined
+            },
 
             channels: {
                 channelId: {

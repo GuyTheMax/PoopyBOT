@@ -2163,7 +2163,7 @@ functions.votekick = async function (member, channel, voteGoal, action = "timeou
     }
 
     const now = Date.now()
-    
+
     const guild = channel.guild
 
     const members = Object.entries(tempdata[guild.id][channel.id])
@@ -2211,7 +2211,7 @@ functions.votekick = async function (member, channel, voteGoal, action = "timeou
             await interaction.reply({ content: "The vote is done.", flags: DiscordTypes.MessageFlags.Ephemeral }).catch(() => { })
             return
         }
-        
+
         const voter = interaction.user
         if (voter.id === user.id) {
             await interaction.reply({ content: "You can't vote on your own votekick!", flags: DiscordTypes.MessageFlags.Ephemeral }).catch(() => { })
@@ -3051,43 +3051,43 @@ functions.displayShieldsShop = async function (channel, who, reply, shopObject, 
     return instruction
 }
 
-functions.cleanContentPreserveEmojis = function(str, channel) {
-  return str.replaceAll(
-    /<(?:(?<type>@[!&]?|#)|(?:\/(?<commandName>[-_\p{L}\p{N}\p{sc=Deva}\p{sc=Thai} ]+):))(?<id>\d{17,19})>/gu,
-    (match, type, commandName, emojiName, id) => {
-      if (commandName) return `/${commandName}`
+functions.cleanContentPreserveEmojis = function (str, channel) {
+    return str.replaceAll(
+        /<(?:(?<type>@[!&]?|#)|(?:\/(?<commandName>[-_\p{L}\p{N}\p{sc=Deva}\p{sc=Thai} ]+):))(?<id>\d{17,19})>/gu,
+        (match, type, commandName, emojiName, id) => {
+            if (commandName) return `/${commandName}`
 
-      if (emojiName) return `:${emojiName}:`
+            if (emojiName) return `:${emojiName}:`
 
-      switch (type) {
-        case '@':
-        case '@!': {
-          const member = channel.guild?.members.cache.get(id)
-          if (member) {
-            return `@${member.displayName}`
-          }
+            switch (type) {
+                case '@':
+                case '@!': {
+                    const member = channel.guild?.members.cache.get(id)
+                    if (member) {
+                        return `@${member.displayName}`
+                    }
 
-          const user = channel.client.users.cache.get(id)
-          return user ? `@${user.displayName}` : match
+                    const user = channel.client.users.cache.get(id)
+                    return user ? `@${user.displayName}` : match
+                }
+
+                case '@&': {
+                    if (channel.type === Discord.ChannelType.DM) return match
+                    const role = channel.guild.roles.cache.get(id)
+                    return role ? `@${role.name}` : match
+                }
+
+                case '#': {
+                    const mentionedChannel = channel.client.channels.cache.get(id)
+                    return mentionedChannel ? `#${mentionedChannel.name}` : match
+                }
+
+                default: {
+                    return match
+                }
+            }
         }
-
-        case '@&': {
-          if (channel.type === Discord.ChannelType.DM) return match
-          const role = channel.guild.roles.cache.get(id)
-          return role ? `@${role.name}` : match
-        }
-
-        case '#': {
-          const mentionedChannel = channel.client.channels.cache.get(id)
-          return mentionedChannel ? `#${mentionedChannel.name}` : match
-        }
-
-        default: {
-          return match
-        }
-      }
-    }
-  )
+    )
 }
 
 functions.refreshDiscordURLs = async function (urls) {
@@ -4008,10 +4008,71 @@ functions.createWebhook = async function (msg) {
     return findWebhooks[Number(BigInt(msg.author.id) % BigInt(findWebhooks.length))]
 }
 
+functions.createLog = async function (type, member, logData) {
+    let poopy = this
+    let data = poopy.data
+    let { Discord } = poopy.modules
+
+    const guild = member.guild
+
+    const logChannelID = data.guildData[guild.id]?.logging[type]
+    if (!logChannelID) return
+
+    const logChannel = guild.channels.cache.get(logChannelID) ?? await guild.channels.fetch(logChannelID).catch(() => { })
+    if (!logChannel) return
+
+    const payload = {
+        allowedMentions: { parse: [] }
+    }
+
+    const logEmbed = new Discord.EmbedBuilder()
+        .setAuthor({
+            name: `${member.displayName} (${member.user.username})`,
+            iconURL: member.displayAvatarURL({ dynamic: true, size: 1024, extension: "png" })
+        })
+        .setColor(0xffcc4d)
+        .setTimestamp()
+
+    switch (type) {
+        case "webhooks": {
+            const { msg, webhookMsg } = logData
+
+            if (webhookMsg.embeds.some(e => e.data.title == "Webhook message sent")) return
+
+            const attachments = webhookMsg.attachments
+            payload.files = attachments.map(a => new Discord.AttachmentBuilder(a.attachment))
+
+            logEmbed.setTitle("Webhook message sent")
+                .setDescription(
+                    `> **Channel:** ${msg.channel.name} (<#${msg.channel.id}>)\n` +
+                    `> **Message ID:** [${webhookMsg.id}](${webhookMsg.url})\n` +
+                    `> **Message author:** ${member.user.tag} (<@${member.user.id}>)\n` +
+                    `> **Message created:** <t:${Math.floor(Date.now() / 1000)}:R>`
+                )
+                .setFooter({
+                    text: `Webhook: ${webhookMsg.author.username}`,
+                    iconURL: webhookMsg.author.displayAvatarURL({ dynamic: true, size: 1024, extension: "png" })
+                })
+
+            if (webhookMsg.content) logEmbed.addFields(
+                { name: "Message", value: webhookMsg.content }
+            )
+            if (attachments.size) logEmbed.addFields(
+                { name: "Attachments", value: attachments.map(a => a.attachment).join("\n") }
+            )
+            break
+        }
+    }
+
+    payload.embeds = [logEmbed]
+
+    return await logChannel.send(payload).catch((e) => console.log(e))
+}
+
 functions.sendWebhook = async function (msg, payload) {
     let poopy = this
     let tempdata = poopy.tempdata
-    let { createWebhook } = poopy.functions
+    let { createWebhook, createLog } = poopy.functions
 
     var err
 
@@ -4025,6 +4086,8 @@ functions.sendWebhook = async function (msg, payload) {
         webhook = await createWebhook(msg).catch(() => { })
         if (webhook) webhookMsg = await webhook.send(payload).catch(() => { })
     }
+
+    if (webhookMsg) createLog("webhooks", msg.member, { msg, webhookMsg }).catch((e) => console.log(e))
 
     return webhookMsg
 }
@@ -4069,7 +4132,7 @@ functions.createCronJob = async function (cronData) {
 
     const execute = async () => {
         if (!channel?.send) return
-        
+
         let cronMessage
         let abort = false
 
