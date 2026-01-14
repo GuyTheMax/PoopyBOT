@@ -6210,8 +6210,8 @@ functions.resolveUser = async function (identifier, guild, mode = "memberOrUser"
                 m.user.tag?.toLowerCase() === identifierLower
         )) ||
         bot.users.cache.find(
-            u => u.displayName.toLowerCase() === identifierLower ||
-                u.tag?.toLowerCase() === identifierLower
+            u => u.id && (u.displayName.toLowerCase() === identifierLower ||
+                u.tag?.toLowerCase() === identifierLower)
         )
     if (cached) return formatResult(cached)
 
