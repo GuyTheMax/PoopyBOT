@@ -116,8 +116,12 @@ async function start() {
                             data: Buffer.from(response.data),
                             contentType: response.headers["content-type"]
                         }
-    
+
                         cachedMediaResponses[url] = cached
+                    } else {
+                        console.error(err)
+                        res.status(500).send("Error fetching media")
+                        return
                     }
                 }
 
