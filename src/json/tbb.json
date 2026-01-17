@@ -1471,6 +1471,10 @@
             "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1452946999262318653/Sign_Buddy.png"
         },
         {
+            "name": "Protestor",
+            "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1452961151456645211/Protestor.png"
+        },
+        {
             "name": "Pizza Pal",
             "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1452961152199032912/Pizza_Pal.png"
         },
@@ -1516,7 +1520,11 @@
         },
         {
             "name": "Fish Buddy",
-            "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1452961151456645211/Protestor.png"
+            "image": "https://cdn.discordapp.com/attachments/1445846961470312592/1462182455128887328/Fish_Buddy.png"
+        },
+        {
+            "name": "Fishbowl",
+            "image": "https://cdn.discordapp.com/attachments/1445846961470312592/1462182456374464727/Fishbowl.png"
         },
         {
             "name": "Delivery Pal",
@@ -1525,6 +1533,14 @@
         {
             "name": "Cyclist",
             "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1453398682274762772/Cyclist.png"
+        },
+        {
+            "name": "Monfined",
+            "image": "https://cdn.discordapp.com/attachments/1445846961470312592/1462182455778742597/Monfined.png"
+        },
+        {
+            "name": "Monsuer",
+            "image": "https://cdn.discordapp.com/attachments/1445846961470312592/1462182456890495143/Monsue.png"
         },
         {
             "name": "Battler (Classic)",
