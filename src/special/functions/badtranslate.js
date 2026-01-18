@@ -33,14 +33,13 @@ module.exports = {
         for (var i = 0; i < repeat; i++) {
             var options = {
                 method: 'GET',
-                url: "https://translate.googleapis.com/translate_a/single?" + new URLSearchParams({
-                    client: "gtx",
-                    sl: lastlanguage,
-                    tl: currentlanguage,
-                    dt: "t",
-                    dj: "1",
-                    source: "input",
-                    q: output
+                url: "https://translate-pa.googleapis.com/v1/translate?" + new URLSearchParams({,
+                    "params.client": "gtx",
+                    "dataTypes": "TRANSLATION",
+                    "key": "AIzaSyDLEeFI5OtFBwYBIoK_jj5m32rZK5CkCXA", // some google API key
+                    "query.sourceLanguage": lastlanguage,
+                    "query.targetLanguage": currentlanguage,
+                    "query.text": output
                 })
             };
 
@@ -48,10 +47,7 @@ module.exports = {
 
             if (!response) return word
 
-            output = response.data.sentences.
-                map(s => s?.trans).
-                filter(Boolean).
-                join("")
+            output = response.data.translation
             lastlanguage = currentlanguage
             currentlanguage = i == repeat - 2 ? target : randomChoice(Object.keys(vars.languages))
         }
