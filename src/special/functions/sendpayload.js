@@ -25,7 +25,8 @@ module.exports = {
             msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageMessages) ||
             msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.Administrator) ||
             msg.author.id === msg.guild.ownerId ||
-            (config.ownerids.find(id => id == msg.author.id))
+            (config.ownerids.find(id => id == msg.author.id)) ||
+            isBot
         )
 
         var isFiltered = (guildfilter.blacklist && guildfilter.ids.includes(msg.guild.id)) ||
