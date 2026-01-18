@@ -27,24 +27,20 @@ module.exports = {
 
     var options = {
       method: 'GET',
-      url: "https://translate.googleapis.com/translate_a/single?" + new URLSearchParams({
-        client: "gtx",
-        sl: source,
-        tl: target,
-        dt: "t",
-        dj: "1",
-        source: "input",
-        q: phrase
+      url: "https://translate-pa.googleapis.com/v1/translate?" + new URLSearchParams({,
+        "params.client": "gtx",
+        "dataTypes": "TRANSLATION",
+        "key": "AIzaSyDLEeFI5OtFBwYBIoK_jj5m32rZK5CkCXA", // some google API key
+        "query.sourceLanguage": source,
+        "query.targetLanguage": target,
+        "query.text": phrase
       })
     };
 
     var response = await axios(options).catch(() => { })
 
     if (response) {
-      return response.data.sentences.
-        map(s => s?.trans).
-        filter(Boolean).
-        join("")
+      return response.data.translation
     }
 
     return phrase
