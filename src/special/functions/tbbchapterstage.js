@@ -8,7 +8,7 @@ module.exports = {
 
         var chapter = matches[1]
 
-        var chapters = Object.entries({ ...json.stageJSON.main, ...json.stageJSON.sub })
+        var chapters = { ...json.stageJSON.main, ...json.stageJSON.sub }
         if (!chapters[chapter]) return ""
 
         return randomChoice(chapters[chapter]).name

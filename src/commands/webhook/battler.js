@@ -12,7 +12,7 @@ module.exports = {
             ]
         }
     }],
-    execute: async function (msg, args) {
+    execute: async function (msg, args, opts) {
         let poopy = this
         let data = poopy.data
         let config = poopy.config
@@ -25,7 +25,8 @@ module.exports = {
             msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageWebhooks) ||
             msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageMessages) ||
             msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.Administrator) ||
-            msg.author.id === msg.guild.ownerId || config.ownerids.find(id => id == msg.author.id)
+            msg.author.id === msg.guild.ownerId || config.ownerids.find(id => id == msg.author.id) ||
+            opts.isBot
         )) {
             await msg.reply('You need to have the manage webhooks/messages permission to execute that!').catch(() => { })
             return

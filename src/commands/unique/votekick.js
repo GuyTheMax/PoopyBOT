@@ -27,7 +27,7 @@ module.exports = {
         { name: "action", required: false, specifarg: true, orig: "[-action <timeout|mute|kick|ban>]", autocomplete: ["timeout", "mute", "kick", "ban"] },
         { name: "duration", required: false, specifarg: true, orig: "[-duration <seconds (default 45)>]" },
     ],
-    execute: async function (msg, args) {
+    execute: async function (msg, args, opts) {
         let poopy = this
         let config = poopy.config
         let { fetchPingPerms, resolveUser, getOption, parseNumber, parseString, votekick } = poopy.functions
@@ -77,7 +77,7 @@ module.exports = {
         const isPoopyOwner = config.ownerids.find(id => id == msg.author.id)
         const canUseAction = (action == "ban" && permissions.has(DiscordTypes.PermissionFlagsBits.BanMembers))
             || (action == "kick" && permissions.has(DiscordTypes.PermissionFlagsBits.KickMembers))
-            || ((action == "timeout" || action == "mute") && permissions.has(DiscordTypes.PermissionFlagsBits.ModerateMembers))
+            || ((action == "timeout" || action == "mute") && (permissions.has(DiscordTypes.PermissionFlagsBits.ModerateMembers) || opts.isBot))
 
         if (!isPoopyOwner && !canUseAction) {
             await msg.reply(`You don't have permissions to use the ${action} action.`).catch(() => { })

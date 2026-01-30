@@ -44,7 +44,7 @@ module.exports = {
             "orig": "[-channelonly]"
         }
     ],
-    execute: async function (msg, args) {
+    execute: async function (msg, args, opts) {
         let poopy = this
         let config = poopy.config
         let vars = poopy.vars
@@ -110,7 +110,7 @@ module.exports = {
         var channelHook = data.guildData[msg.guild.id].channels[msg.channel.id].custom[member.id]
 
         if (!customHook && !channelHook) {
-            if (msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageWebhooks) || msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.Administrator) || msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageGuild) || msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageMessages) || msg.author.id === msg.guild.ownerId || config.ownerids.find(id => id == msg.author.id)) {
+            if (msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageWebhooks) || msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.Administrator) || msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageGuild) || msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageMessages) || msg.author.id === msg.guild.ownerId || config.ownerids.find(id => id == msg.author.id) || opts.isBot) {
                 if (!name) {
                     await msg.reply('Where\'s the name?!').catch(() => { })
                     return

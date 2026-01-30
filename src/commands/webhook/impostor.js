@@ -24,7 +24,7 @@ module.exports = {
             })
         }
     }],
-    execute: async function (msg, args) {
+    execute: async function (msg, args, opts) {
         let poopy = this
         let data = poopy.data
         let config = poopy.config
@@ -54,7 +54,7 @@ module.exports = {
         }
 
         if (data.guildData[msg.guild.id].members[member.id].impostor === false) {
-            if (msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageGuild) || msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageWebhooks) || msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageMessages) || msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.Administrator) || msg.author.id === msg.guild.ownerId || config.ownerids.find(id => id == msg.author.id)) {
+            if (msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageGuild) || msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageWebhooks) || msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.ManageMessages) || msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.Administrator) || msg.author.id === msg.guild.ownerId || config.ownerids.find(id => id == msg.author.id) || opts.isBot) {
                 data.guildData[msg.guild.id].members[member.id].impostor = true
                 if (!msg.nosend) await msg.reply({
                     content: member.displayName.replace(/\@/g, '@‌') + ' is now the Impostor.',
