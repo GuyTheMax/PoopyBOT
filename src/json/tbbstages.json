@@ -1,0 +1,1838 @@
+{
+    "main": {
+        "Chapter 1": [
+            {
+                "name": "The Battle Begins",
+                "image": "HappyHouse"
+            },
+            {
+                "name": "Building a Wall",
+                "image": "HappyHouse"
+            },
+            {
+                "name": "Sword Fight",
+                "image": "HappyHouse"
+            },
+            {
+                "name": "Slinging Shots",
+                "image": "HappyHouse"
+            },
+            {
+                "name": "Four of a Kind",
+                "image": "HappyHouse_Hard"
+            },
+            {
+                "name": "Superballing",
+                "image": "HappyHouse"
+            },
+            {
+                "name": "Wall Painting",
+                "image": "HappyHouse"
+            },
+            {
+                "name": "Bunch of Balls",
+                "image": "HappyHouse"
+            },
+            {
+                "name": "Meatshielding",
+                "image": "HappyHouse"
+            },
+            {
+                "name": "Ultimate Paintball",
+                "image": "Ultimate_Paintball"
+            },
+            {
+                "name": "Battler Spamming",
+                "image": "Crossroad"
+            },
+            {
+                "name": "In a Hurry",
+                "image": "Crossroad"
+            },
+            {
+                "name": "Bullet Sponge",
+                "image": "Crossroad"
+            },
+            {
+                "name": "Gravity Falls",
+                "image": "Crossroad"
+            },
+            {
+                "name": "Run n' Gun, Bud",
+                "image": "Crossroad_Hard"
+            },
+            {
+                "name": "Blow it Up",
+                "image": "Crossroad"
+            },
+            {
+                "name": "Bomb Rush",
+                "image": "Crossroad"
+            },
+            {
+                "name": "Team Fortress",
+                "image": "Crossroad"
+            },
+            {
+                "name": "Bullet Hell",
+                "image": "Crossroad"
+            },
+            {
+                "name": "Rocket Arena",
+                "image": "RocketArena"
+            },
+            {
+                "name": "Stop, Hammer Time!",
+                "image": "Glasshouse"
+            },
+            {
+                "name": "Handing Grenades",
+                "image": "Glasshouse"
+            },
+            {
+                "name": "Sledges and Swords",
+                "image": "Glasshouse"
+            },
+            {
+                "name": "Hardheaded",
+                "image": "Glasshouse"
+            },
+            {
+                "name": "TAAAAAANK!",
+                "image": "Glasshouse_Hard"
+            },
+            {
+                "name": "Demolition Site",
+                "image": "Glasshouse"
+            },
+            {
+                "name": "Special Stage",
+                "image": "Glasshouse"
+            },
+            {
+                "name": "Now We're Even",
+                "image": "Glasshouse"
+            },
+            {
+                "name": "Impending Doom",
+                "image": "Glasshouse_SuperHard"
+            },
+            {
+                "name": "Doomspire Brickbattle",
+                "image": "Doomspire_Brickbattle"
+            }
+        ],
+        "Chapter 2": [
+            {
+                "name": "Warm Up",
+                "image": "CH2_First_Stage"
+            },
+            {
+                "name": "Cooler Daniel",
+                "image": "CH2_First_Stage"
+            },
+            {
+                "name": "Sharpshooting",
+                "image": "CH2_First_Stage"
+            },
+            {
+                "name": "Blade Warfare",
+                "image": "CH2_First_Stage"
+            },
+            {
+                "name": "Middle Ages",
+                "image": "CH2_First_Stage_Hard"
+            },
+            {
+                "name": "There Be Treasure",
+                "image": "CH2_First_Stage"
+            },
+            {
+                "name": "I Has Your Bucket",
+                "image": "CH2_First_Stage"
+            },
+            {
+                "name": "Loose Cannon",
+                "image": "CH2_First_Stage"
+            },
+            {
+                "name": "Pirate Invasion",
+                "image": "CH2_First_Stage"
+            },
+            {
+                "name": "Galleons",
+                "image": "CH2_Galleons"
+            },
+            {
+                "name": "War Cry",
+                "image": "CH2_Second_Stage"
+            },
+            {
+                "name": "Lets Rock!",
+                "image": "CH2_Second_Stage"
+            },
+            {
+                "name": "Iron Sight",
+                "image": "CH2_Second_Stage"
+            },
+            {
+                "name": "Bomb Survival",
+                "image": "CH2_Second_Stage"
+            },
+            {
+                "name": "Ayce Buff-et",
+                "image": "CH2_Second_Stage_Hard"
+            },
+            {
+                "name": "Gold Rush",
+                "image": "CH2_Second_Stage"
+            },
+            {
+                "name": "Sonic Speed",
+                "image": "CH2_Second_Stage"
+            },
+            {
+                "name": "Arch Tillery",
+                "image": "CH2_Second_Stage"
+            },
+            {
+                "name": "Offense Defense",
+                "image": "CH2_Second_Stage"
+            },
+            {
+                "name": "Disco Party",
+                "image": "CH2_Disco_Party"
+            },
+            {
+                "name": "Top Gun",
+                "image": "CH2_Third_Stage"
+            },
+            {
+                "name": "Big Catch",
+                "image": "CH2_Third_Stage"
+            },
+            {
+                "name": "Kicking Off",
+                "image": "CH2_Third_Stage"
+            },
+            {
+                "name": "This Is Madness",
+                "image": "CH2_Third_Stage"
+            },
+            {
+                "name": "Red Giants",
+                "image": "CH2_Third_Stage_Hard"
+            },
+            {
+                "name": "Hot Potato",
+                "image": "CH2_Third_Stage"
+            },
+            {
+                "name": "Big Brother",
+                "image": "CH2_Third_Stage"
+            },
+            {
+                "name": "Anger Management",
+                "image": "CH2_Third_Stage"
+            },
+            {
+                "name": "Air Gets Warmer",
+                "image": "CH2_Third_Stage_SuperHard"
+            },
+            {
+                "name": "On The Heights",
+                "image": "Standard_OTH_view1"
+            }
+        ],
+        "Chapter 3": [
+            {
+                "name": "Dark Gallant",
+                "image": "CH3_First_Stage"
+            },
+            {
+                "name": "Sea Of Thieves",
+                "image": "CH3_First_Stage"
+            },
+            {
+                "name": "Explosive Temper",
+                "image": "CH3_First_Stage"
+            },
+            {
+                "name": "Above The Law",
+                "image": "CH3_First_Stage"
+            },
+            {
+                "name": "Old School",
+                "image": "CH3_First_Stage_Hard"
+            },
+            {
+                "name": "Fresh Meat",
+                "image": "CH3_First_Stage"
+            },
+            {
+                "name": "Hospital Nightmare",
+                "image": "CH3_First_Stage_Smoke"
+            },
+            {
+                "name": "Die In A Fire",
+                "image": "CH3_First_Stage_Flare"
+            },
+            {
+                "name": "Science Experiment",
+                "image": "CH3_First_Stage"
+            },
+            {
+                "name": "Haunted Mansion",
+                "image": "CH3_Haunted_Mansion"
+            },
+            {
+                "name": "Jumpscare Marathon",
+                "image": "CH3_Second_Stage"
+            },
+            {
+                "name": "Eye See You",
+                "image": "CH3_Second_Stage"
+            },
+            {
+                "name": "Slow Cook Turkey",
+                "image": "CH3_Second_Stage_Flare"
+            },
+            {
+                "name": "Monkey Zoo",
+                "image": "CH3_Second_Stage"
+            },
+            {
+                "name": "Containment Breach",
+                "image": "CH3_Second_Stage_Hard"
+            },
+            {
+                "name": "Blood Mary",
+                "image": "CH3_Second_Stage_Smoke"
+            },
+            {
+                "name": "Red Revenge",
+                "image": "CH3_Second_Stage_Flare"
+            },
+            {
+                "name": "Sharp Note",
+                "image": "CH3_Second_Stage"
+            },
+            {
+                "name": "Sound Cues",
+                "image": "CH3_Second_Stage_Gloom"
+            },
+            {
+                "name": "Talent Show",
+                "image": "CH3_Talent_Show"
+            },
+            {
+                "name": "File Deletion",
+                "image": "CH3_Third_Stage_Flare"
+            },
+            {
+                "name": "Sensory Perception",
+                "image": "CH3_Third_Stage_Smoke"
+            },
+            {
+                "name": "Inaudible Aimbot",
+                "image": "CH3_Third_Stage_Charge"
+            },
+            {
+                "name": "Ctrl-Alt-Delete",
+                "image": "CH3_Third_Stage"
+            },
+            {
+                "name": "Decompression Bomb",
+                "image": "CH3_Third_Stage_Hard"
+            },
+            {
+                "name": "Scream Spyware",
+                "image": "CH3_Third_Stage_Charge"
+            },
+            {
+                "name": "Pirate Payload",
+                "image": "CH3_Third_Stage"
+            },
+            {
+                "name": "Ring Of Death",
+                "image": "CH3_Third_Stage_Flare"
+            },
+            {
+                "name": "End of The Line",
+                "image": "CH3_Third_Stage_SuperHard"
+            },
+            {
+                "name": "Area 51",
+                "image": "CH3_Area_51"
+            }
+        ],
+        "Chapter 4": [
+            {
+                "name": "Genesis",
+                "image": "CH4_First_Stage"
+            },
+            {
+                "name": "Naughty or Nice",
+                "image": "CH4_First_Stage"
+            },
+            {
+                "name": "Big Sword Collection",
+                "image": "CH4_First_Stage_Smoke"
+            },
+            {
+                "name": "Soaring Skies",
+                "image": "CH4_First_Stage"
+            },
+            {
+                "name": "The Four Horsemen",
+                "image": "CH4_First_Stage_Hard"
+            },
+            {
+                "name": "Paladin Protects",
+                "image": "CH4_First_Stage_Recover"
+            },
+            {
+                "name": "Initiate Combat",
+                "image": "CH4_First_Stage_Charge"
+            },
+            {
+                "name": "Dark Ages",
+                "image": "CH4_First_Stage"
+            },
+            {
+                "name": "Queen of Hearts",
+                "image": "CH4_First_Stage_Recover"
+            },
+            {
+                "name": "Chessmaster",
+                "image": "CH4_Chessmaster"
+            },
+            {
+                "name": "Surprise Ambush",
+                "image": "CH4_Second_Stage_Divinity"
+            },
+            {
+                "name": "Place to Japan",
+                "image": "CH4_Second_Stage_Recover"
+            },
+            {
+                "name": "Get Over Here",
+                "image": "CH4_Second_Stage"
+            },
+            {
+                "name": "Stage Fright",
+                "image": "CH4_Second_Stage"
+            },
+            {
+                "name": "Slice Of Life",
+                "image": "CH4_Second_Stage_Hard"
+            },
+            {
+                "name": "Court In Session",
+                "image": "CH4_Second_Stage"
+            },
+            {
+                "name": "Lightning McQueen",
+                "image": "CH4_Second_Stage_Charge"
+            },
+            {
+                "name": "Storm Surge",
+                "image": "CH4_Second_Stage_Smoke"
+            },
+            {
+                "name": "Bullet Heaven",
+                "image": "CH4_Second_Stage"
+            },
+            {
+                "name": "Bladed Vengeance",
+                "image": "CH4_Bladed_Vengeance"
+            },
+            {
+                "name": "Kill On Sight",
+                "image": "CH4_Third_Stage"
+            },
+            {
+                "name": "Bigger Than Planets",
+                "image": "CH4_Third_Stage"
+            },
+            {
+                "name": "Intervention",
+                "image": "CH4_Third_Stage_Divinity"
+            },
+            {
+                "name": "Unknown Objects",
+                "image": "CH4_Third_Stage_Singular"
+            },
+            {
+                "name": "Tea-Hee Time",
+                "image": "CH4_Third_Stage_Hard"
+            },
+            {
+                "name": "Happy Hour",
+                "image": "CH4_Third_Stage"
+            },
+            {
+                "name": "Breaking Core",
+                "image": "CH4_Third_Stage_Singular"
+            },
+            {
+                "name": "Weird and Strict",
+                "image": "CH4_Third_Stage"
+            },
+            {
+                "name": "Declaring Armageddon",
+                "image": "CH4_Third_Stage_SuperHard"
+            },
+            {
+                "name": "Teapots of Utopia",
+                "image": "CH4_Teapots_Of_Utopia"
+            }
+        ]
+    },
+    "sub": {
+        "Battle Bricks: Classic": [
+            {
+                "name": "Same as Usual",
+                "image": "Classic"
+            },
+            {
+                "name": "Am The Defense",
+                "image": "Classic"
+            },
+            {
+                "name": "Dual or Duel?",
+                "image": "Classic"
+            },
+            {
+                "name": "Lost My Slingshot",
+                "image": "Classic"
+            },
+            {
+                "name": "Bomber, Not Bomb",
+                "image": "Classic"
+            },
+            {
+                "name": "End of Beginning",
+                "image": "ClassicFinal"
+            }
+        ],
+        "Coil Chaos": [
+            {
+                "name": "Into the Canyons",
+                "image": "ChaosCanyon"
+            },
+            {
+                "name": "Late for Work",
+                "image": "ChaosCanyon"
+            },
+            {
+                "name": "Angry Birds",
+                "image": "ChaosCanyon"
+            },
+            {
+                "name": "Delin's Grunt",
+                "image": "ChaosCanyon"
+            },
+            {
+                "name": "Rush Hour",
+                "image": "ChaosCanyon_Hard"
+            },
+            {
+                "name": "Green Thumb",
+                "image": "ChaosCanyon"
+            },
+            {
+                "name": "Lawn Clippings",
+                "image": "ChaosCanyon"
+            },
+            {
+                "name": "Thorned Rose",
+                "image": "ChaosCanyon"
+            },
+            {
+                "name": "Potshots",
+                "image": "ChaosCanyon"
+            },
+            {
+                "name": "Health Insurance",
+                "image": "ChaosCanyon_Hard"
+            },
+            {
+                "name": "Wall Jump",
+                "image": "ChaosCanyon"
+            },
+            {
+                "name": "Earth Day",
+                "image": "ChaosCanyon"
+            },
+            {
+                "name": "Shoot for the Sky",
+                "image": "ChaosCanyon"
+            },
+            {
+                "name": "Red Vs. Blue",
+                "image": "ChaosCanyon"
+            },
+            {
+                "name": "Moon Base",
+                "image": "ChaosCanyon_Hard"
+            },
+            {
+                "name": "Jump Day",
+                "image": "ChaosCanyon"
+            },
+            {
+                "name": "Flower Power",
+                "image": "ChaosCanyon"
+            },
+            {
+                "name": "Team Juggernaut",
+                "image": "ChaosCanyon"
+            },
+            {
+                "name": "Rifles n' Grenades, Brother",
+                "image": "ChaosCanyon_SuperHard"
+            },
+            {
+                "name": "Coilfrontation",
+                "image": "CoilfrontationNormal"
+            }
+        ],
+        "Community Stages #1": [
+            {
+                "name": "Starting Strong",
+                "image": "RocketArena"
+            },
+            {
+                "name": "Cheap Swarm",
+                "image": "HappyHouse"
+            },
+            {
+                "name": "Strength in Numbers",
+                "image": "Crossroad"
+            },
+            {
+                "name": "Green Defense",
+                "image": "Crossroad_Hard"
+            },
+            {
+                "name": "Make It Quick",
+                "image": "HappyHouse_Hard"
+            },
+            {
+                "name": "Enemy Frontiers",
+                "image": "Crossroad"
+            },
+            {
+                "name": "The Constant",
+                "image": "Classic"
+            },
+            {
+                "name": "Build and Bust",
+                "image": "Crossroad"
+            },
+            {
+                "name": "Sh-Heal-D",
+                "image": "Classic"
+            },
+            {
+                "name": "It's Go Time",
+                "image": "Crossroad_Hard"
+            },
+            {
+                "name": "Head Injury",
+                "image": "Crossroad"
+            },
+            {
+                "name": "Moon Landing",
+                "image": "Classic"
+            },
+            {
+                "name": "Ground Pound",
+                "image": "Glasshouse"
+            },
+            {
+                "name": "Think Fast!",
+                "image": "Glasshouse"
+            },
+            {
+                "name": "Death from Above",
+                "image": "Glasshouse_Hard"
+            },
+            {
+                "name": "Backline Breakers",
+                "image": "ChaosCanyon"
+            },
+            {
+                "name": "Catapult Defense",
+                "image": "Crossroad"
+            },
+            {
+                "name": "Go for the Head",
+                "image": "Glasshouse"
+            },
+            {
+                "name": "Brickskrieg",
+                "image": "Ultimate_Paintball"
+            },
+            {
+                "name": "Heavy Rushdown",
+                "image": "ChaosCanyon_SuperHard"
+            }
+        ],
+        "Birthday Bash": [
+            {
+                "name": "Then, to Now",
+                "image": "BirthdayNormal"
+            },
+            {
+                "name": "Slice of Cake",
+                "image": "BirthdayNormal"
+            },
+            {
+                "name": "Sugar Rush",
+                "image": "BirthdayNormal"
+            },
+            {
+                "name": "Make a Cake",
+                "image": "BirthdayNormal"
+            },
+            {
+                "name": "Feed the Noob",
+                "image": "BirthdayHard"
+            },
+            {
+                "name": "What's Inside?",
+                "image": "BirthdayNormal"
+            },
+            {
+                "name": "Giftplosion",
+                "image": "BirthdayNormal"
+            },
+            {
+                "name": "Randomizer",
+                "image": "BirthdayNormal"
+            },
+            {
+                "name": "Reflecting the Past",
+                "image": "BirthdayNormal"
+            },
+            {
+                "name": "Happy Birthday!",
+                "image": "BirthdayHard"
+            }
+        ],
+        "Frozen Legion": [
+            {
+                "name": "Cooling Off",
+                "image": "FLNormal"
+            },
+            {
+                "name": "Snowball Fight",
+                "image": "FLNormal"
+            },
+            {
+                "name": "Ice Cold Drink",
+                "image": "FLNormal"
+            },
+            {
+                "name": "Freeze Tag",
+                "image": "FLNormal"
+            },
+            {
+                "name": "Cold Close Combat",
+                "image": "FLNormalChallenge"
+            },
+            {
+                "name": "Icebreaker",
+                "image": "FLNormal"
+            },
+            {
+                "name": "Breaching Defense",
+                "image": "FLNormal"
+            },
+            {
+                "name": "Breezing Through",
+                "image": "FLNormal"
+            },
+            {
+                "name": "Dead Plant",
+                "image": "FLNormal"
+            },
+            {
+                "name": "You're Blue Now",
+                "image": "FLNormalChallenge"
+            },
+            {
+                "name": "Frozen In Place",
+                "image": "FLNormal"
+            },
+            {
+                "name": "Cold Blizzard",
+                "image": "FLNormal"
+            },
+            {
+                "name": "Freezer Burn",
+                "image": "FLNormal"
+            },
+            {
+                "name": "Stunlocking",
+                "image": "FLNormal"
+            },
+            {
+                "name": "Rock Formation",
+                "image": "FLNormalChallenge"
+            },
+            {
+                "name": "Dumb As Stone",
+                "image": "FLNormal"
+            },
+            {
+                "name": "Hellish Hurricane",
+                "image": "FLNormal"
+            },
+            {
+                "name": "Tundra Titan",
+                "image": "FLNormal"
+            },
+            {
+                "name": "Before The Storm",
+                "image": "FLNormalPenultimate"
+            },
+            {
+                "name": "Treacherous",
+                "image": "FrozenLegionNormalBoss"
+            }
+        ],
+        "Community Stages #2": [
+            {
+                "name": "First Encounters",
+                "image": "HappyHouse"
+            },
+            {
+                "name": "M-Eat-Shielding",
+                "image": "Glasshouse"
+            },
+            {
+                "name": "What's For Dinner?",
+                "image": "BirthdayNormal"
+            },
+            {
+                "name": "Kitchen Nightmare",
+                "image": "BirthdayHard"
+            },
+            {
+                "name": "Get Da Bread!",
+                "image": "CH2_Second_Stage_Hard"
+            },
+            {
+                "name": "Downgrading",
+                "image": "CH2_Third_Stage"
+            },
+            {
+                "name": "Stay Back!",
+                "image": "CH2_Second_Stage"
+            },
+            {
+                "name": "Funny Little Stage",
+                "image": "CH2_First_Stage"
+            },
+            {
+                "name": "Natural Disasters",
+                "image": "ChaosCanyon"
+            },
+            {
+                "name": "Frontal Assault",
+                "image": "CH2_Second_Stage_Hard"
+            },
+            {
+                "name": "Clash Of Clans",
+                "image": "CH2_Second_Stage"
+            },
+            {
+                "name": "Traveler's Heims",
+                "image": "FLNormal"
+            },
+            {
+                "name": "Aerial Defense",
+                "image": "CH2_Galleons"
+            },
+            {
+                "name": "Backliners Will Die",
+                "image": "Crossroad"
+            },
+            {
+                "name": "Opposites Attract",
+                "image": "CH2_Second_Stage_Hard"
+            },
+            {
+                "name": "Here Comes The Boom!",
+                "image": "RocketArena"
+            },
+            {
+                "name": "Raging Forces",
+                "image": "ClassicFinal"
+            },
+            {
+                "name": "Got Too Greedy!",
+                "image": "BirthdayNormal"
+            },
+            {
+                "name": "Winter's Awakening",
+                "image": "FLNormalPenultimate"
+            },
+            {
+                "name": "Hellfire On Ice",
+                "image": "FLNormalBoss"
+            }
+        ],
+        "Uncooked Business": [
+            {
+                "name": "Premature Baking",
+                "image": "Muffin_Kombat_Arena"
+            },
+            {
+                "name": "Muffin Marathon",
+                "image": "Muffin_Kombat_Arena"
+            },
+            {
+                "name": "Dose Of Iron",
+                "image": "Muffin_Kombat_Arena"
+            },
+            {
+                "name": "Guns Blazing",
+                "image": "Muffin_Kombat_Arena_Flare"
+            },
+            {
+                "name": "Complete Breakfast",
+                "image": "Muffin_Kombat_Arena_Hard"
+            },
+            {
+                "name": "Grand Slam",
+                "image": "Muffin_Kombat_Arena"
+            },
+            {
+                "name": "Piece Of Cake",
+                "image": "Muffin_Kombat_Arena"
+            },
+            {
+                "name": "Flavor Explosion",
+                "image": "Muffin_Kombat_Arena"
+            },
+            {
+                "name": "Powdered Sugar",
+                "image": "Muffin_Kombat_Arena_Smoke"
+            },
+            {
+                "name": "Amy's Baking Company",
+                "image": "Muffin_Kombat_Arena_Hard"
+            },
+            {
+                "name": "Top Secret Recipe",
+                "image": "Muffin_Kombat_Arena"
+            },
+            {
+                "name": "Muffin In Black",
+                "image": "Muffin_Kombat_Arena"
+            },
+            {
+                "name": "X-Files",
+                "image": "Muffin_Kombat_Arena"
+            },
+            {
+                "name": "Conspiracy Theory",
+                "image": "Muffin_Kombat_Arena_Charge"
+            },
+            {
+                "name": "Military Madness",
+                "image": "Muffin_Kombat_Arena_Hard"
+            },
+            {
+                "name": "The Horde",
+                "image": "Muffin_Kombat_Arena_Charge"
+            },
+            {
+                "name": "Burnt Pastries",
+                "image": "Muffin_Kombat_Arena_Flare"
+            },
+            {
+                "name": "Tanking Tiramisu",
+                "image": "Muffin_Kombat_Arena_Smoke"
+            },
+            {
+                "name": "Last Muffin Standing",
+                "image": "Muffin_Kombat_Arena_Boss"
+            },
+            {
+                "name": "Final Judgement",
+                "image": "Muffin_Kombat_Arena_Boss"
+            }
+        ],
+        "Red Herring": [
+            {
+                "name": "Recolor Red",
+                "image": "Red_Herring_Arena"
+            },
+            {
+                "name": "Found My Slingshot",
+                "image": "Red_Herring_Arena"
+            },
+            {
+                "name": "Red Ball",
+                "image": "Red_Herring_Arena"
+            },
+            {
+                "name": "Annoying Dog",
+                "image": "Red_Herring_Arena"
+            },
+            {
+                "name": "Three Of Swords",
+                "image": "Red_Herring_Arena_Hard"
+            },
+            {
+                "name": "Brave Fist",
+                "image": "Red_Herring_Arena"
+            },
+            {
+                "name": "Fists Of Steel",
+                "image": "Red_Herring_Arena"
+            },
+            {
+                "name": "Wheel Of Fortune",
+                "image": "Red_Herring_Arena"
+            },
+            {
+                "name": "Spicy Dates",
+                "image": "Red_Herring_Arena"
+            },
+            {
+                "name": "Pitbull Punch",
+                "image": "Red_Herring_Arena_Hard"
+            },
+            {
+                "name": "Interception",
+                "image": "Red_Herring_Arena"
+            },
+            {
+                "name": "Boiling Point",
+                "image": "Red_Herring_Arena"
+            },
+            {
+                "name": "Big Red Dog",
+                "image": "Red_Herring_Arena"
+            },
+            {
+                "name": "Heavy Pocket Medic",
+                "image": "Red_Herring_Arena"
+            },
+            {
+                "name": "Gates Of Flames",
+                "image": "Red_Herring_Arena_Hard"
+            }
+        ],
+        "Black Babatala": [
+            {
+                "name": "Cookie Cutter",
+                "image": "Black_Babatala_Arena"
+            },
+            {
+                "name": "Short Speedrun",
+                "image": "Black_Babatala_Arena"
+            },
+            {
+                "name": "Run, Got A Gun",
+                "image": "Black_Babatala_Arena"
+            },
+            {
+                "name": "Avoiding Conflict",
+                "image": "Black_Babatala_Arena"
+            },
+            {
+                "name": "The Streets",
+                "image": "Black_Babatala_Arena_Hard"
+            },
+            {
+                "name": "Gothic Gal",
+                "image": "Black_Babatala_Arena"
+            },
+            {
+                "name": "Dumpster Fire",
+                "image": "Black_Babatala_Arena_Flare"
+            },
+            {
+                "name": "The Time Is Now",
+                "image": "Black_Babatala_Arena_Smoke"
+            },
+            {
+                "name": "Who Let The Dogs Out",
+                "image": "Black_Babatala_Arena_Flare"
+            },
+            {
+                "name": "Caught On Tape",
+                "image": "Black_Babatala_Arena_Hard"
+            },
+            {
+                "name": "Go To Sleep",
+                "image": "Black_Babatala_Arena"
+            },
+            {
+                "name": "Red Looking Sus",
+                "image": "Black_Babatala_Arena"
+            },
+            {
+                "name": "Lebron James, Scream",
+                "image": "Black_Babatala_Arena"
+            },
+            {
+                "name": "Beaming This Kid",
+                "image": "Black_Babatala_Arena"
+            },
+            {
+                "name": "Devious Licking",
+                "image": "Black_Babatala_Arena_Hard"
+            },
+            {
+                "name": "Uncanny Playhour",
+                "image": "Black_Babatala_Arena_Smoke"
+            },
+            {
+                "name": "Public Restroom Prank",
+                "image": "Black_Babatala_Arena_Flare"
+            },
+            {
+                "name": "Greediness Detected",
+                "image": "Black_Babatala_Arena_Charge"
+            },
+            {
+                "name": "Go Home Lil' Bro",
+                "image": "Black_Babatala_Arena"
+            },
+            {
+                "name": "The Eight Pages",
+                "image": "Black_Babatala_Arena_Hard"
+            }
+        ],
+        "Community Stages #3": [
+            {
+                "name": "One Shot Stop",
+                "image": "CH3_Third_Stage"
+            },
+            {
+                "name": "Over And Under!",
+                "image": "Crossroad"
+            },
+            {
+                "name": "Third Forms",
+                "image": "CH3_Haunted_Mansion"
+            },
+            {
+                "name": "Pit Fighter",
+                "image": "FrozenLegionNormalBoss"
+            },
+            {
+                "name": "Cake Factory",
+                "image": "CH3_Area_51"
+            },
+            {
+                "name": "Cold Hearted",
+                "image": "FLNormal"
+            },
+            {
+                "name": "Brick's Got Talent",
+                "image": "CH3_Second_Stage"
+            },
+            {
+                "name": "In The Middle",
+                "image": "CH3_First_Stage"
+            },
+            {
+                "name": "All In Your Head",
+                "image": "CH3_Second_Stage"
+            },
+            {
+                "name": "Fireside Ghost Story",
+                "image": "CH3_First_Stage_Hard_Gloom"
+            },
+            {
+                "name": "Machine Kombat",
+                "image": "Muffin_Kombat_Arena"
+            },
+            {
+                "name": "Burning Calories",
+                "image": "RocketArena"
+            },
+            {
+                "name": "Instant Respawning",
+                "image": "Classic"
+            },
+            {
+                "name": "Breaking In",
+                "image": "CH3_Third_Stage"
+            },
+            {
+                "name": "Celsius Troubles",
+                "image": "FLNormalChallenge"
+            },
+            {
+                "name": "Open Your Card",
+                "image": "CoilfrontationNormal"
+            },
+            {
+                "name": "Blue Spy In The Base",
+                "image": "CH3_Area_51"
+            },
+            {
+                "name": "YTP Nostalgia",
+                "image": "Red_Herring_Arena"
+            },
+            {
+                "name": "Jigsaw You Tweakin",
+                "image": "Black_Babatala_Arena"
+            },
+            {
+                "name": "No Base?",
+                "image": "Muffin_Kombat_Arena_Boss"
+            }
+        ],
+        "Anniversary With Cheese": [
+            {
+                "name": "So the first stage is never usually that bad",
+                "image": "ClassicFinal"
+            },
+            {
+                "name": "Please enjoy the ballpit",
+                "image": "PleaseEnjoyTheBallPit"
+            },
+            {
+                "name": "Who's the imposter",
+                "image": "WhosTheImposter"
+            },
+            {
+                "name": "Can u wait while i set up a surprise",
+                "image": "CanUWaitWhileISetUpASurprise"
+            },
+            {
+                "name": "Open Your Surprise :)",
+                "image": "OpenYourSurprise"
+            },
+            {
+                "name": "Here's the deal, i want this guy killed",
+                "image": "Classic"
+            },
+            {
+                "name": "The evilnators have taken over the battler kingdom",
+                "image": "TheEvilnatorsHaveTakenOverTheBattlerKingdom"
+            },
+            {
+                "name": "What one your favorite",
+                "image": "Whatoneisyourfavorite"
+            },
+            {
+                "name": "Four of a Kind (EASY)",
+                "image": "HappyHouse_Hard"
+            },
+            {
+                "name": "Happy Birthday, With Cheese",
+                "image": "BirthdayCheese"
+            },
+            {
+                "name": "Base priority",
+                "image": "ClassicFinal"
+            },
+            {
+                "name": "TAAAAAANK! but what new players see.",
+                "image": "Glasshouse_Hard"
+            },
+            {
+                "name": "Mcdonald's playplace",
+                "image": "McdonaldsPlayplace"
+            },
+            {
+                "name": "NOW IT'S TIME TO GET TAXED",
+                "image": "NowItsTimeToGetTaxed"
+            },
+            {
+                "name": "The American Dream",
+                "image": "AmericanDream"
+            },
+            {
+                "name": "Uncanny generator",
+                "image": "UncannyGenerating"
+            },
+            {
+                "name": "The Battle Revenges",
+                "image": "BattleRevenges"
+            },
+            {
+                "name": "Boss rush",
+                "image": "BossRush"
+            },
+            {
+                "name": "HUMAN... I REMEMBER YOU'RE GRINDINGS",
+                "image": "IRememberGrindings"
+            },
+            {
+                "name": "CYBORG FINAL BATTLE",
+                "image": "CYBORGBATTLE"
+            }
+        ],
+        "Crimson Skies": [
+            {
+                "name": "Red Defense",
+                "image": "CrimsonSkies"
+            },
+            {
+                "name": "Hunting Season",
+                "image": "CrimsonSkies"
+            },
+            {
+                "name": "Damnation",
+                "image": "CrimsonSkies"
+            },
+            {
+                "name": "Cross Contaminate",
+                "image": "CrimsonSkies"
+            },
+            {
+                "name": "A Bleeding Fight",
+                "image": "CrimsonSkies_Hard"
+            },
+            {
+                "name": "Arrows in Skies",
+                "image": "CrimsonSkies"
+            },
+            {
+                "name": "Knowledge is Power",
+                "image": "CrimsonSkies"
+            },
+            {
+                "name": "Crimson Magic",
+                "image": "CrimsonSkies"
+            },
+            {
+                "name": "Our Blood Boils",
+                "image": "CrimsonSkies"
+            },
+            {
+                "name": "Blight Storm",
+                "image": "CrimsonSkies_Hard"
+            },
+            {
+                "name": "Blood Energy Casting",
+                "image": "CrimsonSkies"
+            },
+            {
+                "name": "Corpse Party",
+                "image": "CrimsonSkies"
+            },
+            {
+                "name": "Death Disposal",
+                "image": "CrimsonSkies"
+            },
+            {
+                "name": "Catalyst",
+                "image": "CrimsonSkies_SuperHard"
+            },
+            {
+                "name": "Exsanguination",
+                "image": "CrimsonSkies_SuperHard"
+            }
+        ],
+        "Community Stages #4": [
+            {
+                "name": "Job Interview",
+                "image": "CH2_Second_Stage"
+            },
+            {
+                "name": "Electric Boogaloo",
+                "image": "CH3_Third_Stage_Hard"
+            },
+            {
+                "name": "Pi Day",
+                "image": "CH4_First_Stage"
+            },
+            {
+                "name": "Dance Dance Destruction",
+                "image": "CH2_Disco_Party"
+            },
+            {
+                "name": "Role Reversal",
+                "image": "RocketArena"
+            },
+            {
+                "name": "Deity's Gamble",
+                "image": "CH4_Third_Stage"
+            },
+            {
+                "name": "Seven Deadly Sins",
+                "image": "CH2_Third_Stage_Hard"
+            },
+            {
+                "name": "Flares of Damnation",
+                "image": "Red_Herring_Arena"
+            },
+            {
+                "name": "Tough Crowd",
+                "image": "CH2_Galleons"
+            },
+            {
+                "name": "Defenders Palace",
+                "image": "CH4_First_Stage_Hard"
+            },
+            {
+                "name": "Lemon Pie",
+                "image": "CH4_Third_Stage"
+            },
+            {
+                "name": "IMMOLATION",
+                "image": "CH4_Third_Stage"
+            },
+            {
+                "name": "Crosspoint",
+                "image": "CH4_Teapots_Of_Utopia"
+            },
+            {
+                "name": "Japan's Blackout",
+                "image": "CH4_Second_Stage_Gloom"
+            },
+            {
+                "name": "To Live Is To Die",
+                "image": "CH4_Third_Stage_SuperHard"
+            },
+            {
+                "name": "Monochromatic",
+                "image": "CH4_Chessmaster"
+            },
+            {
+                "name": "Year Round",
+                "image": "CH4_Bladed_Vengeance"
+            },
+            {
+                "name": "Speed of Light",
+                "image": "CH4_Third_Stage_SuperHard"
+            },
+            {
+                "name": "GIRLS NIGHT",
+                "image": "BirthdayNormal"
+            },
+            {
+                "name": "Bound By Pain",
+                "image": "CrimsonSkies_Hard"
+            }
+        ]
+    },
+    "thumbnails": {
+        "HappyHouse": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/0/01/HappyHouse.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/0/08/T_HappyHouse.png"
+        },
+        "HappyHouse_Hard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/8/80/HappyHouse_Hard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/1/17/T_HappyHouse_Hard.png"
+        },
+        "Ultimate_Paintball": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/c7/Ultimate_Paintball.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/5/5b/T_UltimatePaintball.png"
+        },
+        "Crossroad": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/0/07/Crossroad.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/c7/T_Crossroad.png"
+        },
+        "Crossroad_Hard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/8/84/Crossroad_Hard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/0/09/T_Crossroad_Hard.png"
+        },
+        "RocketArena": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/cc/RocketArena.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/d/df/T_RocketArena.png"
+        },
+        "Glasshouse": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/3/3d/Glasshouse.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/1/1d/T_GlassHouse.png"
+        },
+        "Glasshouse_Hard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/c3/Glasshouse_Hard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/d/df/T_GlassHouse_Hard.png"
+        },
+        "Glasshouse_SuperHard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/c6/Glasshouse_SuperHard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/2/2b/T_GlassHouse_SuperHard.png"
+        },
+        "Doomspire_Brickbattle": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/8/8b/Doomspire_Brickbattle.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/2/24/T_Doomspire_Brickbattle.png"
+        },
+        "CH2_First_Stage": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/b/b5/CH2_First_Stage.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/f/f2/TCH2_First_Stage.png"
+        },
+        "CH2_First_Stage_Hard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/3/3e/CH2_First_Stage_Hard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/3/34/TCH2_First_Stage_Hard.png"
+        },
+        "CH2_Galleons": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/5/5e/CH2_Galleons.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/2/20/TCH2_Galleons.png"
+        },
+        "CH2_Second_Stage": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/8/86/CH2_Second_Stage.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/b/bc/TCH2_Second_Stage.png"
+        },
+        "CH2_Second_Stage_Hard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/c9/CH2_Second_Stage_Hard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/7/74/TCH2_Second_Stage_Hard.png"
+        },
+        "CH2_Disco_Party": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/e/e7/CH2_Disco_Party.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/b/bb/TCH2_Disco_Party.png"
+        },
+        "CH2_Third_Stage": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/5/57/CH2_Third_Stage.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/d/d9/TCH2_Third_Stage_Real.png"
+        },
+        "CH2_Third_Stage_Hard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/9/93/CH2_Third_Stage_Hard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/c1/TCH2_Third_Stage_Hard.png"
+        },
+        "CH2_Third_Stage_SuperHard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/9/95/CH2_Third_Stage_SuperHard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/7/79/TCH2_Third_Stage_SuperHard.png"
+        },
+        "Standard_OTH_view1": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/2/20/Standard_OTH_view1.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/9/92/TCH2_OTH.png"
+        },
+        "CH3_First_Stage": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/9/9b/CH3_First_Stage.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/9/9c/TCH3_First_Stage.png"
+        },
+        "CH3_First_Stage_Hard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/5/5f/CH3_First_Stage_Hard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/f/f8/TCH3_First_Stage_Hard.png"
+        },
+        "CH3_First_Stage_Smoke": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/1/1e/CH3_First_Stage_Smoke.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/c7/TCH3_First_Stage_Smoke.png"
+        },
+        "CH3_First_Stage_Flare": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/6/6d/CH3_First_Stage_Flare.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/2/21/TCH3_First_Stage_Flare.png"
+        },
+        "CH3_Haunted_Mansion": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/2/28/CH3_Haunted_Mansion.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/d/df/TCH3_Haunted_Mansion.png"
+        },
+        "CH3_Second_Stage": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/5/5f/CH3_Second_Stage.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/a/a1/TCH3_Second_Stage.png"
+        },
+        "CH3_Second_Stage_Flare": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/e/ec/CH3_Second_Stage_Flare.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/3/3f/TCH3_Second_Stage_Flare.png"
+        },
+        "CH3_Second_Stage_Hard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/4/4b/CH3_Second_Stage_Hard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/9/98/TCH3_Second_Stage_Hard.png"
+        },
+        "CH3_Second_Stage_Smoke": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/f/ff/CH3_Second_Stage_Smoke.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/e/e2/TCH3_Second_Stage_Smoke.png"
+        },
+        "CH3_Second_Stage_Gloom": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/7/7e/CH3_Second_Stage_Gloom.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/d/db/TCH3_Second_Stage_Gloom.png"
+        },
+        "CH3_Talent_Show": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/1/15/CH3_Talent_Show.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/b/ba/TCH3_Talent_Show.png"
+        },
+        "CH3_Third_Stage_Flare": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/7/7a/CH3_Third_Stage_Flare.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/e/e3/TCH3_Third_Stage_Flare.png"
+        },
+        "CH3_Third_Stage_Smoke": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/4/40/CH3_Third_Stage_Smoke.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/ce/TCH3_Third_Stage_Smoke.png"
+        },
+        "CH3_Third_Stage_Charge": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/b/be/CH3_Third_Stage_Charge.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/3/31/TCH3_Third_Stage_Charge.png"
+        },
+        "CH3_Third_Stage": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/a/a1/CH3_Third_Stage.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/1/1e/TCH3_Third_Stage.png"
+        },
+        "CH3_Third_Stage_Hard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/c7/CH3_Third_Stage_Hard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/1/1e/TCH3_Third_Stage_Hard.png"
+        },
+        "CH3_Third_Stage_SuperHard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/3/3b/CH3_Third_Stage_SuperHard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/2/28/TCH3_Third_Stage_SuperHard.png"
+        },
+        "CH3_Area_51": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/5/54/CH3_Area_51.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/e/e0/TCH3_Area_51.png"
+        },
+        "CH4_First_Stage": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/5/5c/CH4_First_Stage.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/2/27/TCH4_First_Stage.png"
+        },
+        "CH4_First_Stage_Smoke": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/7/76/CH4_First_Stage_Smoke.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/5/55/TCH4_First_Stage_Smoke.png"
+        },
+        "CH4_First_Stage_Hard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/b/b5/CH4_First_Stage_Hard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/2/23/TCH4_First_Stage_Hard.png"
+        },
+        "CH4_First_Stage_Recover": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/1/11/CH4_First_Stage_Recover.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/3/3b/TCH4_First_Stage_Recover.png"
+        },
+        "CH4_First_Stage_Charge": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/1/11/CH4_First_Stage_Charge.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/b/b5/TCH4_First_Stage_Charge.png"
+        },
+        "CH4_Chessmaster": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/4/4b/CH4_Chessmaster.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/6/6a/TCH4_Chessmaster.png"
+        },
+        "CH4_Second_Stage_Divinity": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/c4/CH4_Second_Stage_Divinity.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/6/61/TCH4_Second_Stage.png"
+        },
+        "CH4_Second_Stage_Recover": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/b/bd/CH4_Second_Stage_Recover.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/0/0a/TCH4_Second_Stage_Recover.png"
+        },
+        "CH4_Second_Stage": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/0/00/CH4_Second_Stage.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/6/61/TCH4_Second_Stage.png"
+        },
+        "CH4_Second_Stage_Hard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/a/af/CH4_Second_Stage_Hard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/4/4c/TCH4_Second_Stage_Hard.png"
+        },
+        "CH4_Second_Stage_Charge": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/c8/CH4_Second_Stage_Charge.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/c5/TCH4_Second_Stage_Charge.png"
+        },
+        "CH4_Second_Stage_Smoke": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/f/f4/CH4_Second_Stage_Smoke.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/b/b5/TCH4_Second_Stage_Smoke.png"
+        },
+        "CH4_Bladed_Vengeance": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/2/25/CH4_Bladed_Vengeance.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/5/5a/TCH4_Bladed_Vengeance.png"
+        },
+        "CH4_Third_Stage": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/3/3f/CH4_Third_Stage.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/1/11/TCH4_Third_Stage.png"
+        },
+        "CH4_Third_Stage_Divinity": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/7/74/CH4_Third_Stage_Divinity.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/2/29/TCH4_Third_Stage_Divinity.png"
+        },
+        "CH4_Third_Stage_Singular": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/0/0d/CH4_Third_Stage_Singular.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/9/90/TCH4_Third_Stage_Singular.png"
+        },
+        "CH4_Third_Stage_Hard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/8/8c/CH4_Third_Stage_Hard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/9/95/TCH4_Third_Stage_Hard.png"
+        },
+        "CH4_Third_Stage_SuperHard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/d/d3/CH4_Third_Stage_SuperHard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/6/6a/TCH4_Third_Stage_SuperHard.png"
+        },
+        "CH4_Teapots_Of_Utopia": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/3/3d/CH4_Teapots_Of_Utopia.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/0/09/TCH4_Teapots_Of_Utopia.png"
+        },
+        "Classic": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/5/57/Classic.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/1/11/TClassic.png"
+        },
+        "ClassicFinal": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/b/bc/ClassicFinal.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/4/44/TClassicFinal.png"
+        },
+        "ChaosCanyon": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/cd/ChaosCanyon.jpg",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/cd/ChaosCanyon.jpg"
+        },
+        "ChaosCanyon_Hard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/8/85/ChaosCanyon_Hard.jpg",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/8/85/ChaosCanyon_Hard.jpg"
+        },
+        "ChaosCanyon_SuperHard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/9/97/ChaosCanyon_SuperHard.jpg",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/9/97/ChaosCanyon_SuperHard.jpg"
+        },
+        "CoilfrontationNormal": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/3/39/CoilfrontationNormal.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/3/39/CoilfrontationNormal.png"
+        },
+        "BirthdayNormal": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/2/20/BirthdayNormal.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/cb/TBirthdayNormal.png"
+        },
+        "BirthdayHard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/8/80/BirthdayHard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/f/f9/TBirthdayHard.png"
+        },
+        "FLNormal": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/ce/FLNormal.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/3/3e/FLTumore.png"
+        },
+        "FLNormalChallenge": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/d/d5/FLNormalChallenge.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/5/5f/FLTumoreChallenge.png"
+        },
+        "FLNormalPenultimate": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/8/82/FLNormalPenultimate.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/9/9d/FLTumorePenultimate.png"
+        },
+        "FrozenLegionNormalBoss": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/5/5b/FrozenLegionNormalBoss.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/b/b5/FrozenLegionTumoreBoss.png"
+        },
+        "FLNormalBoss": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/a/a7/FLNormalBoss.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/b/be/FLTumoreBoss.png"
+        },
+        "Muffin_Kombat_Arena": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/ce/Muffin_Kombat_Arena.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/9/94/T_Muffin_Kombat_Arena.png"
+        },
+        "Muffin_Kombat_Arena_Flare": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/0/0d/Muffin_Kombat_Arena_Flare.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/8/82/T_Muffin_Kombat_Arena_Flare.png"
+        },
+        "Muffin_Kombat_Arena_Hard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/0/0b/Muffin_Kombat_Arena_Hard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/e/e4/T_Muffin_Kombat_Arena_Hard.png"
+        },
+        "Muffin_Kombat_Arena_Smoke": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/9/9e/Muffin_Kombat_Arena_Smoke.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/f/f7/T_Muffin_Kombat_Arena_Smoke.png"
+        },
+        "Muffin_Kombat_Arena_Charge": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/b/b1/Muffin_Kombat_Arena_Charge.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/9/9d/T_Muffin_Kombat_Arena_Charge.png"
+        },
+        "Muffin_Kombat_Arena_Boss": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/1/17/Muffin_Kombat_Arena_Boss.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/5/5f/T_Muffin_Kombat_Arena_Boss.png"
+        },
+        "Red_Herring_Arena": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/a/aa/Red_Herring_Arena.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/4/49/T_Red_Herring_Arena.png"
+        },
+        "Red_Herring_Arena_Hard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/ca/Red_Herring_Arena_Hard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/6/6c/T_Red_Herring_Arena_Hard.png"
+        },
+        "Black_Babatala_Arena": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/b/bb/Black_Babatala_Arena.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/2/2a/T_Black_Babatala_Arena.png"
+        },
+        "Black_Babatala_Arena_Hard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/a/af/Black_Babatala_Arena_Hard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/e/ee/T_Black_Babatala_Arena_Hard.png"
+        },
+        "Black_Babatala_Arena_Flare": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/2/25/Black_Babatala_Arena_Flare.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/3/31/T_Black_Babatala_Arena_Flare.png"
+        },
+        "Black_Babatala_Arena_Smoke": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/d/d5/Black_Babatala_Arena_Smoke.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/5/52/T_Black_Babatala_Arena_Smoke.png"
+        },
+        "Black_Babatala_Arena_Charge": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/c3/Black_Babatala_Arena_Charge.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/9/99/T_Black_Babatala_Arena_Charge.png"
+        },
+        "CH3_First_Stage_Hard_Gloom": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/2/2f/CH3_First_Stage_Hard_Gloom.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/b/bd/TCH3_First_Stage_Gloom.png"
+        },
+        "PleaseEnjoyTheBallPit": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/1/18/PleaseEnjoyTheBallPit.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/9/93/TPleaseEnjoyTheBallPit.png"
+        },
+        "WhosTheImposter": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/c2/WhosTheImposter.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/2/28/TWhosTheImposter.png"
+        },
+        "CanUWaitWhileISetUpASurprise": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/c4/CanUWaitWhileISetUpASurprise.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/0/0f/TCanUWaitWhileISetUpASurprise.png"
+        },
+        "OpenYourSurprise": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/2/29/OpenYourSurprise.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/6/64/TOpenYourSurprise.png"
+        },
+        "TheEvilnatorsHaveTakenOverTheBattlerKingdom": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/4/49/TheEvilnatorsHaveTakenOverTheBattlerKingdom.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/a/a0/TTheEvilnatorsHaveTakenOverTheBattlerKingdom.png"
+        },
+        "Whatoneisyourfavorite": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/b/b0/Whatoneisyourfavorite.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/9/91/What_one_your_favorite.png"
+        },
+        "BirthdayCheese": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/6/64/BirthdayCheese.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/0/08/T_BirthdayCheese.png"
+        },
+        "McdonaldsPlayplace": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/1/1c/McdonaldsPlayplace.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/f/f8/TMcDonaldsPlayplace.png"
+        },
+        "NowItsTimeToGetTaxed": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/4/49/NowItsTimeToGetTaxed.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/6/6c/TNowItsTimeToGetTaxed.png"
+        },
+        "AmericanDream": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/e/e1/AmericanDream.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/b/bd/TAmericanDream.png"
+        },
+        "UncannyGenerating": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/5/57/UncannyGenerating.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/3/31/TUncannyGenerating.png"
+        },
+        "BattleRevenges": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/1/1d/BattleRevenges.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/4/47/T_BattleRevenges.png"
+        },
+        "BossRush": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/8/88/BossRush.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/9/93/TBossRush.png"
+        },
+        "IRememberGrindings": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/a/ae/IRememberGrindings.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/3/34/T_IRememberGrindings.png"
+        },
+        "CYBORGBATTLE": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/c9/CYBORGBATTLE.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/ca/CyborgCrocketMap.png"
+        },
+        "CrimsonSkies": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/5/55/CrimsonSkies.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/1/17/CSTumore.png"
+        },
+        "CrimsonSkies_Hard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/9/90/CrimsonSkies_Hard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/b/bf/CSTumoreChallenge.png"
+        },
+        "CrimsonSkies_SuperHard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/a/a5/CrimsonSkies_SuperHard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/2/2a/CSTumoreStage14%2B15.png"
+        },
+        "CH4_Second_Stage_Gloom": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/a/a7/CH4_Second_Stage_Gloom.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/8/83/TCH4_Second_Stage_Gloom.png"
+        }
+    }
+}

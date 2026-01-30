@@ -14,8 +14,8 @@ module.exports = {
         
         var battlers = battlerData.flat()
 
-        var findBattler = battlers.find(b => b.name.toLowerCase() == battler.toLowerCase().trim()) || ''
+        var findBattler = battlers.find(b => b.name.toLowerCase() == battler.toLowerCase().trim())
 
-        return findBattler.image
+        return findBattler?.image ?? ""
     }
 }
