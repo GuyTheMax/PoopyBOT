@@ -3,6 +3,7 @@ module.exports = {
     desc: 'Checks whether the user in the server with the respective ID has all the specified permissions or not. (a list of permissions can be found in https://discord.com/developers/docs/topics/permissions#permissions-bitwise-permission-flags)',
     func: async function (matches, msg) {
         let poopy = this
+        let config = poopy.config
         let { splitKeyFunc } = poopy.functions
         let { DiscordTypes } = poopy.modules
 
@@ -20,6 +21,8 @@ module.exports = {
         var user = await msg.guild.members.fetch(id).catch(() => { })
 
         if (user) {
+            if (config.ownerids.find(id => id == user.user.id)) return 'true'
+
             for (var i in perms) {
                 var perm = perms[i]
 
@@ -28,7 +31,7 @@ module.exports = {
                 }
             }
         } else {
-            return 'Invalid user ID.'
+            return ''
         }
 
         return 'true'

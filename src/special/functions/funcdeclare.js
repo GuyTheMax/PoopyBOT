@@ -20,6 +20,8 @@ module.exports = {
                 var split = splitKeyFunc(word)
 
                 var valOpts = { ...opts }
+                valOpts.extrafuncs = { ...valOpts.extrakeys }
+
                 valOpts.extrafuncs.val = {
                     func: async function (matches, msg, isBot, _, opts) {
                         var word = matches[1]

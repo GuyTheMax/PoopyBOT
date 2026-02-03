@@ -17,6 +17,8 @@ module.exports = {
         for (var index in array) {
             var val = array[index]
             var valOpts = { ...opts }
+            valOpts.extrakeys = { ...valOpts.extrakeys }
+
             valOpts.extrakeys._val = {
                 func: async () => {
                     return val

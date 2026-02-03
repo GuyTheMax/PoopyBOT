@@ -47,6 +47,9 @@ module.exports = {
                     var content = await getKeywordsFor(m.content ?? '', m, false).catch((e) => console.log(e)) ?? m.content
 
                     var valOpts = { ...opts }
+                    valOpts.extrakeys = { ...valOpts.extrakeys }
+                    valOpts.extrafuncs = { ...valOpts.extrafuncs }
+                    
                     valOpts.extrakeys._msg = {
                         func: async () => {
                             return content

@@ -14,10 +14,12 @@ module.exports = {
 
     return await replaceAsync(phrase, regexp, async (match) => {
       var valOpts = { ...opts }
+      valOpts.extrakeys = { ...valOpts.extrakeys }
+
       valOpts.extrakeys._match = {
-          func: async () => {
-              return match
-          }
+        func: async () => {
+          return match
+        }
       }
 
       var found = await getKeywordsFor(replacement, msg, isBot, valOpts).catch(() => { }) ?? ''

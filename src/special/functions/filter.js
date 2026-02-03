@@ -19,14 +19,16 @@ module.exports = {
         for (var chunk of chunks) {
             var filter = await filterAsync(chunk, async (val) => {
                 var valOpts = { ...opts }
+                valOpts.extrakeys = { ...valOpts.extrakeys }
+
                 valOpts.extrakeys._val = {
                     func: async () => {
-                       return val
+                        return val
                     }
                 }
                 valOpts.extrakeys._index = {
                     func: async () => {
-                       return index
+                        return index
                     }
                 }
 

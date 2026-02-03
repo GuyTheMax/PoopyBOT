@@ -18,6 +18,8 @@ module.exports = {
         for (var chunk of chunks) {
             var find = await findIndexAsync(chunk, async (val) => {
                 var valOpts = { ...opts }
+                valOpts.extrakeys = { ...valOpts.extrakeys }
+                
                 valOpts.extrakeys._val = {
                     func: async () => {
                        return val
