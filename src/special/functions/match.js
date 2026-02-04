@@ -12,5 +12,6 @@ module.exports = {
     var regexp = new RegExp(reg, 'i')
     var match = phrase.match(regexp) ?? []
     return match[0] ?? ''
-  }
+  },
+  parentheses: true
 }
