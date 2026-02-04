@@ -28,5 +28,6 @@ module.exports = {
     }).catch(() => { }) ?? ''
   },
   raw: true,
-  attemptvalue: 2
+  attemptvalue: 2,
+  parentheses: true
 }

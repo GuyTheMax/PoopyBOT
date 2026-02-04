@@ -1,0 +1,62 @@
+var stages = [
+  "Easy Lava Jumps",
+  "Krip Water",
+  "Easy simple jumps",
+  "Jump on Blud",
+  "Pick a Truss",
+  "Bunch of balls",
+  "Choose a Path",
+  "Cart Ride into Giant Blud",
+  "We gotta get out of giant Blud!",
+  "The floor is moving. Gross.",
+  "Who puts lasers in a hallway like this?",
+  "Almost out, jump up with bounciness",
+  "Pick a door (Quiz)",
+  "Climb the Blud Tree",
+  "Who is responsible for putting me through this",
+  "Wrap Around these things",
+  "Costco Double Chunk Chocolate Cookie",
+  "Wedges like cheese but u jump",
+  "Spinner U Turn",
+  "Uncanny Maze",
+  "Guess which one is the right pipe!",
+  "THE BLUD HOUSE (FLOOR 1)",
+  "THE BLUD HOUSE (FLOOR 2)",
+  "THE BLUD HOUSE (FLOOR 3)",
+  "Welcome To Blud's RETRO WORLD!",
+  "Glumbas & Hills",
+  "Blud Cave Defensive",
+  "Over The Hedge",
+  "Ironclad Behemoth",
+  "Guess the Color Cruelty Weapons Quiz!",
+  "Guess the Color Cruelty Weapons Quiz! Part 1.5: The Checkpoint 2/5ths way in the Quiz",
+  "Guess the Color Cruelty Weapons Quiz! Part 2: The Stage Dedicated to one Weapon",
+  "Color Cruelty Weapon Jumps",
+  "Weapon Test but someone got the wrong door.",
+  "Why are they floating?",
+  "Into the Trenches",
+  "Guess the Color Cruelty Weapons Quiz! Part 3: Consumables and Armors",
+  "Trust the Truss",
+  "Welcome to Skibidi",
+  "Thwimp Maze",
+  "Voideye's Research Center",
+  "Simple Easy Walk on this",
+  "Eye of Blud",
+  "The Amazing Magic Carpet Store!",
+  "Not so Simple Easy Walk on this",
+  "The Challenge.",
+  "THE. JUMP.",
+  "big part spam obby while theres also a big lava thing coming at you at .2 speed so better keep running also green = safe zone",
+  "Nevo Wept",
+  "Moving Platforms",
+  "YOU BEATED THE GAME!"
+]
+
+module.exports = {
+    desc: 'RETURNS A RANDOM BLUD OBBY STAGE! 🗣️🔥', func: function () {
+        let poopy = this
+      
+        return stages[Math.floor(Math.random() * stages.length)]
+    },
+    array: stages
+}

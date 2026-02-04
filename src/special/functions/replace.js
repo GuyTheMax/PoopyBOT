@@ -12,5 +12,6 @@ module.exports = {
     var reg = split[2] ?? ''
     var regexp = new RegExp(reg, 'ig')
     return phrase.replace(regexp, replacement)
-  }
+  },
+  parentheses: true
 }
