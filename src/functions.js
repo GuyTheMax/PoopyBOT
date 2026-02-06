@@ -4460,11 +4460,14 @@ functions.getKeywordsFor = async function (string, msg, isBot, { extraKeys = {},
                         change = ''
                     }
 
+                    var replaceAllContent = typeof (change) === 'object' && change[1] === true
+                    change = replaceAllContent ? String(change[0]) : String(change)
+
                     if (vars.currentIpAddress && change.includes(vars.currentIpAddress)) {
-                        change = ""
+                        change = ''
                     }
 
-                    string = typeof (change) === 'object' && change[1] === true ? String(change[0]) : string.replace(keydata.match, String(change).replace(/\$&/g, '$\\&'))
+                    string = replaceAllContent ? change : string.replace(keydata.match, change.replace(/\$&/g, '$\\&'))
                     tempdata[msg.author.id][msg.id].keyAttempts += !data.guildData[msg.guild.id].chaos ? (key.attemptvalue ?? 1) : 0
                     break
 
@@ -4500,11 +4503,14 @@ functions.getKeywordsFor = async function (string, msg, isBot, { extraKeys = {},
                         change = ''
                     }
 
+                    var replaceAllContent = typeof (change) === 'object' && change[1] === true
+                    change = replaceAllContent ? String(change[0]) : String(change)
+
                     if (vars.currentIpAddress && change.includes(vars.currentIpAddress)) {
-                        change = ""
+                        change = ''
                     }
 
-                    string = typeof (change) === 'object' && change[1] === true ? String(change[0]) : string.replace(`${funcName}(${match})`, String(change).replace(/\$&/g, '$\\&'))
+                    string = replaceAllContent ? change : string.replace(`${funcName}(${match})`, change.replace(/\$&/g, '$\\&'))
                     tempdata[msg.author.id][msg.id].keyAttempts += !data.guildData[msg.guild.id].chaos ? (func.attemptvalue ?? 1) : 0
                     break
             }
