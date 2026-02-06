@@ -8,8 +8,6 @@ module.exports = {
 
     var [ url, headers ] = splitKeyFunc(matches[1], { args: 2 })
 
-    if (url.includes("ip")) return "no doxxing for you lmao";
-
     var res = await axios.get(url, { headers: headers ? JSON.parse(headers) : {}, responseType: 'arraybuffer' }).catch(() => { })
 
     if (!res || itob.isBinary(null, res.data)) return url

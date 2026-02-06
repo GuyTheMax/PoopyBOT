@@ -30,11 +30,6 @@ module.exports = {
 
             if (typeof (evalMessage) !== 'string') evalMessage = util.inspect(evalMessage)
 
-            if (config.testing) {
-                var ip = await axios.get('https://api.ipify.org').then(res => res.data)
-                if (evalMessage.toLowerCase().includes(ip)) evalMessage = 'The rot consumes'
-            }
-
             evalMessage = evalMessage.match(/[\s\S]{1,2000}/g) ?? []
 
             if (!msg.nosend) for (var i in evalMessage){

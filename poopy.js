@@ -1907,6 +1907,12 @@ class Poopy {
         console.log(`${bot.user.displayName}: all done, it's actually online now`)
         infoPost(`Reboot ${data.botData.reboots} succeeded, it's up now`)
 
+        var currentIpAddress = await axios.get('https://api.ipify.org').then(res => (res.data ?? "").trim()).catch(() => {})
+        if (currentIpAddress) Object.defineProperty(vars, 'currentIpAddress', {
+            value: currentIpAddress,
+            writable: false
+        })
+
         for (let cronData of data.botData.crons) createCronJob(cronData).catch(() => { })
 
         for (let starboard of data.botData.starboards) {

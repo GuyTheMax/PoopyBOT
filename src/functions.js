@@ -3634,14 +3634,14 @@ functions.correctUrl = async function (url) {
 
         if (youtubeurl) {
             infoPost(`YouTube video URL detected`)
-            return youtubeurl.trim()
+            return (youtubeurl.trim().match(vars.validUrl) ?? [url])[0]
         }
     } else if (url.match(/^https\:\/\/(www|on\.)?soundcloud\.com/)) {
         var soundcloudurl = await execPromise(`yt-dlp "${url}" --get-url`).catch(() => { })
 
         if (soundcloudurl) {
             infoPost(`SoundCloud URL detected`)
-            return soundcloudurl.trim()
+            return (soundcloudurl.trim().match(vars.validUrl) ?? [url])[0]
         }
     } else if (url.match(/^https\:\/\/((www)\.)?(fx)?twitter\.com\/\w{4,15}\/status\/[0-9]+/)) {
         async function getImageUrl(url) {
@@ -4337,6 +4337,7 @@ functions.getDeclaredValue = function (msg, obj, value, globalFirst) {
 functions.getKeywordsFor = async function (string, msg, isBot, { extraKeys = {}, extraFuncs = {}, resetAttempts = false, ownermode = false, declaredOnly = false } = {}) {
     let poopy = this
     let config = poopy.config
+    let vars = poopy.vars
     let special = poopy.special
     let data = poopy.data
     let tempdata = poopy.tempdata
@@ -4459,6 +4460,10 @@ functions.getKeywordsFor = async function (string, msg, isBot, { extraKeys = {},
                         change = ''
                     }
 
+                    if (vars.currentIpAddress && change.includes(vars.currentIpAddress)) {
+                        change = ""
+                    }
+
                     string = typeof (change) === 'object' && change[1] === true ? String(change[0]) : string.replace(keydata.match, String(change).replace(/\$&/g, '$\\&'))
                     tempdata[msg.author.id][msg.id].keyAttempts += !data.guildData[msg.guild.id].chaos ? (key.attemptvalue ?? 1) : 0
                     break
@@ -4493,6 +4498,10 @@ functions.getKeywordsFor = async function (string, msg, isBot, { extraKeys = {},
                     } catch (e) {
                         console.log(e)
                         change = ''
+                    }
+
+                    if (vars.currentIpAddress && change.includes(vars.currentIpAddress)) {
+                        change = ""
                     }
 
                     string = typeof (change) === 'object' && change[1] === true ? String(change[0]) : string.replace(`${funcName}(${match})`, String(change).replace(/\$&/g, '$\\&'))

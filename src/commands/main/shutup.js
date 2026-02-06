@@ -1,5 +1,5 @@
 module.exports = {
-  name: ['shutup'],
+  name: ['shutup', 'shut', 'stfu', 'sybau'],
   args: [{"name":"duration","required":false,"specifarg":false,"orig":"[duration (max 600 (10 minutes))]"}],
   execute: async function (msg, args) {
     let poopy = this
@@ -25,7 +25,7 @@ module.exports = {
     }
   },
   help: {
-    name: 'shutup [duration (max 600 (10 minutes))] (moderator only)',
+    name: 'shutup/shut/stfu/sybau [duration (max 600 (10 minutes))] (moderator only)',
     value: 'he shuts up'
   },
   perms: ['Administrator', 'ManageMessages'],

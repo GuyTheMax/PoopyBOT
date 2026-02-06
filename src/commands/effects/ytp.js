@@ -51,7 +51,9 @@ module.exports = {
             ],
         }
 
-        if (!args.includes('-nodistort')) {
+        var noDistort = args.includes('-nodistort')
+
+        if (!noDistort) {
             filterslist.audio.push(
                 `[a]acrusher=.1:1:64:0:log[2a]`,
                 `[a]aecho=1:1:1000:1,aecho=1:1:1000:1,aecho=1:1:1000:1,aecho=1:1:1000:1,aecho=1:1:1000:1,aecho=1:1:1000:1,aecho=1:1:1000:1,aecho=1:1:1000:1,aecho=1:1:1000:1,aecho=1:1:1000:1,aecho=1:1:1000:1,aecho=1:1:1000:1,aecho=1:1:1000:1,aecho=1:1:1000:1,aecho=1:1:1000:1[2a]`,
@@ -212,7 +214,7 @@ module.exports = {
 
                 await execPromise(`ffmpeg -f concat -i ${filepath}/clips/list.txt -preset ${findpreset(args)} -c:v libx264 -pix_fmt yuv420p ${filepath}/output.mp4`)
                 if (clipsmessage && !msg.isUserApp) clipsmessage.delete().catch(() => { })
-                return await sendFile(msg, filepath, `output.mp4`)
+                return await sendFile(msg, filepath, `output.mp4`, { content: !noDistort ? "# ⚠️ This media is ***LOUD!***" : undefined })
             } else {
                 var fps = fileinfo.info.fps
                 var duration = Number(fileinfo.info.duration)
@@ -375,7 +377,7 @@ module.exports = {
 
             await execPromise(`ffmpeg -f concat -i ${filepath}/clips/list.txt -preset ${findpreset(args)} ${filepath}/output.mp3`)
             if (clipsmessage && !msg.isUserApp) clipsmessage.delete().catch(() => { })
-            return await sendFile(msg, filepath, `output.mp3`)
+            return await sendFile(msg, filepath, `output.mp3`, { content: !noDistort ? "# ⚠️ This media is ***LOUD!***" : undefined })
         } else {
             await msg.reply({
                 content: `Unsupported file: \`${currenturl}\``,

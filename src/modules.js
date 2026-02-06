@@ -75,6 +75,7 @@ for (var Discord of modules.Discord) {
         var channel = this
         let client = channel.client
         let poopy = activeBots[client.database]
+        let vars = poopy.vars
         let tempdata = poopy.tempdata
         let {
             waitMessageCooldown,
@@ -112,16 +113,33 @@ for (var Discord of modules.Discord) {
 
             switch (typeof payload) {
                 case 'string':
-                    payload = {
-                        content: res,
-                        allowedMentions: {
-                            parse: []
+                    if (payload.trim()) {
+                        payload = {
+                            content: res,
+                            allowedMentions: {
+                                parse: []
+                            }
                         }
                     }
                     break;
                 case 'object':
-                    payload.content = res
+                    if ((payload.content ?? "").trim()) {
+                        payload.content = res
+                    }
                     break;
+            }
+        }
+
+        if (vars.currentIpAddress) {
+            switch (typeof payload) {
+                case 'string':
+                    if (payload.includes(vars.currentIpAddress))
+                        payload = "Output contains current IP address."
+                    break
+
+                case 'object':
+                    if ((payload.content ?? "").includes(vars.currentIpAddress))
+                        payload.content = "Output contains current IP address."
             }
         }
 
@@ -135,6 +153,7 @@ for (var Discord of modules.Discord) {
         var message = this
         let client = message.client
         let poopy = activeBots[client.database]
+        let vars = poopy.vars
         let config = poopy.config
         let tempdata = poopy.tempdata
         let {
@@ -173,16 +192,33 @@ for (var Discord of modules.Discord) {
 
             switch (typeof payload) {
                 case 'string':
-                    payload = {
-                        content: res,
-                        allowedMentions: {
-                            parse: []
+                    if (payload.trim()) {
+                        payload = {
+                            content: res,
+                            allowedMentions: {
+                                parse: []
+                            }
                         }
                     }
                     break;
                 case 'object':
-                    payload.content = res
+                    if ((payload.content ?? "").trim()) {
+                        payload.content = res
+                    }
                     break;
+            }
+        }
+
+        if (vars.currentIpAddress) {
+            switch (typeof payload) {
+                case 'string':
+                    if (payload.includes(vars.currentIpAddress))
+                        payload = "Output contains current IP address."
+                    break
+
+                case 'object':
+                    if ((payload.content ?? "").includes(vars.currentIpAddress))
+                        payload.content = "Output contains current IP address."
             }
         }
 
@@ -206,6 +242,7 @@ for (var Discord of modules.Discord) {
             var interaction = this
             let client = interaction.client
             let poopy = activeBots[client.database]
+            let vars = poopy.vars
             let config = poopy.config
             let tempdata = poopy.tempdata
             let {
@@ -244,16 +281,33 @@ for (var Discord of modules.Discord) {
 
                 switch (typeof payload) {
                     case 'string':
-                        payload = {
-                            content: res,
-                            allowedMentions: {
-                                parse: []
+                        if (payload.trim()) {
+                            payload = {
+                                content: res,
+                                allowedMentions: {
+                                    parse: []
+                                }
                             }
                         }
                         break;
                     case 'object':
-                        payload.content = res
+                        if ((payload.content ?? "").trim()) {
+                            payload.content = res
+                        }
                         break;
+                }
+            }
+
+            if (vars.currentIpAddress) {
+                switch (typeof payload) {
+                    case 'string':
+                        if (payload.includes(vars.currentIpAddress))
+                            payload = "Output contains current IP address."
+                        break
+
+                    case 'object':
+                        if ((payload.content ?? "").includes(vars.currentIpAddress))
+                            payload.content = "Output contains current IP address."
                 }
             }
 

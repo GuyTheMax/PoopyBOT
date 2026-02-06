@@ -37,7 +37,7 @@ module.exports = {
 
             if (audio) {
                 await execPromise(`ffmpeg -i ${filepath}/${filename} -filter:a "acrusher=.1:1:64:${1 - volume / 100}:log" -filter:v "scale=ceil(iw/2)*2:ceil(ih/2)*2" -c:v libx264 -pix_fmt yuv420p ${filepath}/output.mp4`)
-                return await sendFile(msg, filepath, `output.mp4`)
+                return await sendFile(msg, filepath, `output.mp4`, { content: "# ⚠️ This media is ***LOUD!***" })
             } else {
                 await msg.reply('No audio stream detected.').catch(() => { })
                 await msg.channel.sendTyping().catch(() => { })
@@ -48,7 +48,7 @@ module.exports = {
                 fileinfo            })
             var filename = `input.mp3`
             await execPromise(`ffmpeg -i ${filepath}/${filename} -filter:a "acrusher=.1:1:64:${1 - volume / 100}:log" ${filepath}/output.mp3`)
-            return await sendFile(msg, filepath, `output.mp3`)
+            return await sendFile(msg, filepath, `output.mp3`, { content: "# ⚠️ This media is ***LOUD!***" })
         } else {
             await msg.reply({
                 content: `Unsupported file: \`${currenturl}\``,
