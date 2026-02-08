@@ -16,7 +16,7 @@ module.exports = {
             if (timeoutFunc) timeoutFunc(null).catch(() => { })
         }
 
-        pedro()
+        pedro().catch(() => { })
 
         if (!msg.nosend) await msg.reply("microbe detected").catch(() => { })
         return "microbe detected"
