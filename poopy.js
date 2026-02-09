@@ -87,10 +87,10 @@ class Poopy {
 
         // we can create thge bot now
         let { Discord, DiscordTypes, Collection, fs, CryptoJS } = modules
-        let { envsExist, configFlagsEnabled, refreshDiscordURLs,
+        let { envsExist, configFlagsEnabled, refreshDiscordURLs, parseKeyword, parseRegExp,
             chunkArray, chunkObject, requireJSON, findCommand, fetchPingPerms,
             dmSupport, sleep, gatherData, deleteMsgData, infoPost, sendWebhook,
-            getKeywordsFor, getUrls, randomChoice, similarity, yesno, chat,
+            getKeywordsFor, getUrls, randomChoice, similarity, yesno, chat, autoModContent,
             regexClean, getOption, getTotalHivemindStatus, cleanContentPreserveEmojis } = functions
 
         let botConfig = {
@@ -343,7 +343,7 @@ class Poopy {
 
             if (command.type === "Owner") {
                 vars.devCmds.push(command.help)
-            } else if (command.type === "JSON Club") {
+            } else if (command.type === "JSON Gang") {
                 vars.jsonCmds.push(command.help)
             } else {
                 if (!vars.helpCmds.find(typeList => typeList.type === command.type)) {
@@ -1623,60 +1623,9 @@ class Poopy {
                                 const actions = automodRule.actions
 
                                 if (automodRule.triggerType == DiscordTypes.AutoModerationRuleTriggerType.Keyword) {
-                                    const keywordFilter = triggerMetadata.keywordFilter.map(keyword => {
-                                        const pattern = keyword
-                                            .replace(/[-/\\^$+?.()|[\]{}]/g, '\\$&')
-                                            .replace(/\*/g, '.*')
+                                    const [broken] = autoModContent(content, triggerMetadata)
 
-                                        return new RegExp(`\\b${pattern}\\b`, 'i')
-                                    })
-
-                                    const regexPatterns = triggerMetadata.regexPatterns.map(pattern => {
-                                        const flags = new Set(['i', 'u'])
-
-                                        const inlineFlagRegex = /^\(\?(-?)([a-z])\)/
-
-                                        let match
-                                        while ((match = pattern.match(inlineFlagRegex)) !== null) {
-                                            const [flag, sign, mods] = match
-
-                                            for (const char of mods) {
-                                                if (sign === '-') {
-                                                    flags.delete(char)
-                                                } else {
-                                                    flags.add(char)
-                                                }
-                                            }
-
-                                            pattern = pattern.replace(flag, '')
-                                        }
-
-                                        if (flags.has('x')) {
-                                            flags.delete('x')
-                                            pattern = pattern
-                                                .replace(/#.*$/gm, "")
-                                                .replace(/\s+/g, "")
-                                        }
-
-                                        return new RegExp(pattern, Array.from(flags).join(''))
-                                    })
-
-                                    let filteredContent = content
-
-                                    triggerMetadata.allowList.forEach(keyword => {
-                                        const pattern = keyword
-                                            .replace(/[-/\\^$+?.()|[\]{}]/g, '\\$&')
-                                            .replace(/\*/g, '.*')
-
-                                        const regexp = new RegExp(`\\b${pattern}\\b`, 'ig')
-
-                                        filteredContent = filteredContent.replace(regexp, "")
-                                    })
-
-                                    if (
-                                        keywordFilter.some(keyword => keyword.test(filteredContent)) ||
-                                        regexPatterns.some(pattern => pattern.test(filteredContent))
-                                    ) {
+                                    if (broken) {
                                         brokenRules.push(automodRule.name)
 
                                         for (const action of actions) {

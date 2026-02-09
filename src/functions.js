@@ -16,6 +16,7 @@ functions.generateSayori = require('./sayorimessagegenerator')
 functions.braille = require('./braille')
 functions.averageColor = require('./averageColor')
 functions.spectrogram = require('./spectrogram')
+functions.randomAddress = require('./randomaddress')
 
 Math.lerp = function lerp(start, end, amt) {
     return (1 - amt) * start + amt * end
@@ -172,6 +173,115 @@ functions.parseString = function (str, validList, {
     if (str == undefined || str === '') return dft
     var query = upper ? str.toUpperCase() : lower ? str.toLowerCase() : str
     return validList.find(q => q == query) || dft
+}
+
+functions.parseKeyword = function (keyword) {
+    const pattern = keyword
+        .replace(/[-/\\^$+?.()|[\]{}]/g, '\\$&')
+        .replace(/\*/g, '\\S*')
+
+    return new RegExp(`\\b${pattern}\\b`, 'i')
+}
+
+functions.parseRegExp = function (pattern, flags = "iu") {
+    flags = new Set(flags.split(""))
+
+    const inlineFlagRegex = /^\(\?(-?)([a-z])\)/
+
+    let match
+    while ((match = pattern.match(inlineFlagRegex)) !== null) {
+        const [flag, sign, mods] = match
+
+        for (const char of mods) {
+            if (sign === '-') {
+                flags.delete(char)
+            } else {
+                flags.add(char)
+            }
+        }
+
+        pattern = pattern.replace(flag, '')
+    }
+
+    if (flags.has('x')) {
+        flags.delete('x')
+        pattern = pattern
+            .replace(/#.*$/gm, "")
+            .replace(/\s+/g, "")
+    }
+
+    return new RegExp(pattern, Array.from(flags).join(''))
+}
+
+functions.getAllMatches = function (regex, content) {
+    const matches = []
+    const r = new RegExp(regex.source, regex.flags.includes("g") ? regex.flags : regex.flags + "g")
+
+    let match
+    while ((match = r.exec(content)) !== null) {
+        matches.push({
+            start: match.index,
+            end: match.index + match[0].length,
+            text: match[0]
+        })
+
+        if (match.index === r.lastIndex) r.lastIndex++
+    }
+
+    return matches
+}
+
+functions.overlapsAllowList = function (match, allowRanges) {
+    return allowRanges.some(allow =>
+        match.start < allow.end && match.end > allow.start
+    )
+}
+
+functions.maskRange = function (str, start, end) {
+    return (
+        str.slice(0, start) +
+        "#".repeat(end - start) +
+        str.slice(end)
+    )
+}
+
+functions.autoModContent = function (content, {
+    keywordFilter = [],
+    regexPatterns = [],
+    allowList = []
+} = {}) {
+    keywordFilter = keywordFilter.map((k) => functions.parseKeyword(k))
+    regexPatterns = regexPatterns.map((r) => functions.parseRegExp(r))
+    allowList = allowList.map((k) => functions.parseKeyword(k))
+
+    let broken = false
+    let maskedContent = content
+
+    const allowRanges = []
+    for (const allow of allowList) {
+        allowRanges.push(...functions.getAllMatches(allow, content))
+    }
+
+    const allMatches = []
+
+    for (const keyword of keywordFilter) {
+        allMatches.push(...functions.getAllMatches(keyword, content))
+    }
+
+    for (const pattern of regexPatterns) {
+        allMatches.push(...functions.getAllMatches(pattern, content))
+    }
+
+    allMatches
+        .sort((a, b) => b.start - a.start)
+        .forEach(match => {
+            if (!functions.overlapsAllowList(match, allowRanges)) {
+                broken = true
+                maskedContent = functions.maskRange(maskedContent, match.start, match.end)
+            }
+        })
+    
+    return [broken, maskedContent]
 }
 
 functions.equalValues = function (arr, val) {

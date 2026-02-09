@@ -3,7 +3,7 @@ module.exports = {
     desc: 'Returns the last index in the phrase that matches the RegExp.',
     func: function (matches) {
         let poopy = this
-        let { splitKeyFunc } = poopy.functions
+        let { splitKeyFunc, parseRegExp } = poopy.functions
 
         function regexLastIndexOf(string, regex, startpos) {
             regex = (regex.global) ? regex : new RegExp(regex.source, "g" + (regex.ignoreCase ? "i" : "") + (regex.multiLine ? "m" : ""));
@@ -26,7 +26,8 @@ module.exports = {
         var split = splitKeyFunc(word, { args: 2 })
         var phrase = split[0] ?? ''
         var reg = split[1] ?? ''
-        var regexp = new RegExp(reg, 'ig')
+        var regexp = parseRegExp(reg, 'ig')
         return regexLastIndexOf(phrase, regexp)
-    }
+    },
+    parentheses: true
 }

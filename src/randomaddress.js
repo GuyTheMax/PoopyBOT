@@ -1,5 +1,3 @@
-const fs = require('fs')
-
 module.exports = function () {
     function randomise(e, t, n) {
         function shuffle(array) {

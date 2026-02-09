@@ -30,7 +30,7 @@ module.exports = {
                 var foundCmds = []
                 for (var i in allCmds) {
                     var cmd = allCmds[i]
-                    if (cmd.type === type && !(cmd.type === 'Owner' || cmd.type === 'JSON Club' || cmd.perms || data.guildData[msg.guild.id].disabled.find(c => c.find(n => n === cmd.name.find(nn => nn === n))))) {
+                    if (cmd.type === type && !(cmd.type === 'Owner' || cmd.type === 'JSON Gang' || cmd.perms || data.guildData[msg.guild.id].disabled.find(c => c.find(n => n === cmd.name.find(nn => nn === n))))) {
                         foundCmds.push(cmd)
                     }
                 }
@@ -42,7 +42,7 @@ module.exports = {
                 return allCmds[Math.floor(Math.random() * allCmds.length)]
             } else {
                 var cmd = allCmds[Math.floor(Math.random() * allCmds.length)]
-                if (cmd.type === 'Owner' || cmd.type === 'JSON Club' || cmd.perms || data.guildData[msg.guild.id].disabled.find(c => c.find(n => n === cmd.name.find(nn => nn === n)))) {
+                if (cmd.type === 'Owner' || cmd.type === 'JSON Gang' || cmd.perms || data.guildData[msg.guild.id].disabled.find(c => c.find(n => n === cmd.name.find(nn => nn === n)))) {
                     return chooseCmd()
                 }
                 return cmd

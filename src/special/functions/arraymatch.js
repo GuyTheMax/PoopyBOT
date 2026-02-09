@@ -3,7 +3,7 @@ module.exports = {
   desc: `Creates a new array by globally matching everything in the phrase by the RegExp. If it already exists, it'll be replaced.`,
   func: function (matches, msg, _, string) {
     let poopy = this
-    let { splitKeyFunc, regexClean } = poopy.functions
+    let { splitKeyFunc, regexClean, parseRegExp } = poopy.functions
     let tempdata = poopy.tempdata
 
     var word = matches[1]
@@ -11,7 +11,7 @@ module.exports = {
     var name = split[0] ?? ''
     var phr = split[1] ?? ''
     var reg = split[2] ?? ''
-    var regexp = new RegExp(reg, 'ig')
+    var regexp = parseRegExp(reg, 'ig')
     var fullword = `${matches[0]}(${matches[1]})`
     var phrase = string.replace(new RegExp(`${regexClean(fullword)}\\s*`, 'i'), '')
     tempdata[msg.author.id][msg.id].arrays[name] = phr.match(regexp)

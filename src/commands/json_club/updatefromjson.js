@@ -1,11 +1,12 @@
 module.exports = {
     name: ['updatefromjson'],
     args: [{
-        "name": "json", "required": true, "specifarg": false, "orig": "<json (funnygif, poop, dmphrases, shitting)>", "autocomplete": [
+        "name": "json", "required": true, "specifarg": false, "orig": "<json (funnygif, poop, dmphrases, shitting, eightball)>", "autocomplete": [
             'funnygif',
             'poop',
             'dmphrases',
             'shitting',
+            'eightball'
         ]
     }],
     execute: async function (msg, args) {
@@ -18,10 +19,10 @@ module.exports = {
 
         var jsonid = config.ownerids.find(id => id == msg.author.id) || config.jsoning.find(id => id == msg.author.id);
         if (jsonid === undefined) {
-            await msg.reply('json club only').catch(() => { })
+            await msg.reply('Sorry... You\'re not in the JSON gang.').catch(() => { })
             return
         } else {
-            var types = ['funnygif', 'poop', 'dmphrases', 'shitting']
+            var types = ['funnygif', 'poop', 'dmphrases', 'shitting', 'eightball']
 
             if (args[1] === undefined) {
                 await msg.reply(`What is the JSON to update?! (Available: ${types.map(t => `**${t}**`).join(', ')})`).catch(() => { })
@@ -48,14 +49,15 @@ module.exports = {
             arrays.poopPhrases = globaldata.poop
             arrays.dmPhrases = globaldata.dmphrases
             arrays.shitting = globaldata.shitting
+            arrays.eightball = globaldata.eightball
 
             return '✅ JSON values updated from existing file.'
         };
     },
     help: {
-        name: 'updatefromjson <json (funnygif, poop, dmphrases, shitting)>',
+        name: 'updatefromjson <json (funnygif, poop, dmphrases, shitting, eightball)>',
         value: "Updates from the bot's existing JSON files like oil or DM phrases."
     },
     cooldown: 2500,
-    type: 'JSON Club'
+    type: 'JSON Gang'
 }

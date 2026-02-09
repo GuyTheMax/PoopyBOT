@@ -194,6 +194,7 @@ var dataGetters = {
             shieldJSON: 'shields',
             doopleyJSON: 'doopley',
             eggphraseJSON: 'eggphrases',
+            autoModJSON: 'automodFilter',
             emojiJSON: require('@jimp/plugin-print/emojis')
         }
 

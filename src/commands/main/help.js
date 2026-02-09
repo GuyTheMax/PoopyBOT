@@ -233,7 +233,7 @@ module.exports = {
         } : undefined, true).then(async () => {
             if (jsonid !== undefined) {
                 var jsoncmdEmbed = {
-                    "title": "JSON Club Commands",
+                    "title": "JSON Gang Commands",
                     "color": 0x472604,
                     "footer": {
                         "icon_url": bot.user.displayAvatarURL({ dynamic: true, size: 1024, extension: 'png' }),
@@ -241,7 +241,7 @@ module.exports = {
                     },
                     "fields": vars.jsonCmds
                 };
-                if (config.textEmbeds) await msg.author.send(`**JSON Club Commands**\n\n${vars.jsonCmds.map(k => `\`${k.name}\`\n> ${k.value}`).join('\n')}`).catch(() => { })
+                if (config.textEmbeds) await msg.author.send(`**JSON Gang Commands**\n\n${vars.jsonCmds.map(k => `\`${k.name}\`\n> ${k.value}`).join('\n')}`).catch(() => { })
                 else await msg.author.send({
                     embeds: [jsoncmdEmbed]
                 }).catch(() => { })

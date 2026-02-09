@@ -212,7 +212,7 @@ vars.categories = {
     'Generation': 'Generate things from an AI or not.',
     'Hex Manipulation': 'Manipulate the file\'s Hex Code to make it shorter, longer, etc.',
     'Inside Joke': 'if you know you know',
-    'JSON Club': 'Exclusive to some people for editing the JSONs used by Poopy.',
+    'JSON Gang': 'Exclusive to some people for editing the JSONs used by Poopy.',
     'Main': 'Poopy\'s main commands.',
     'Memes': 'Integrate an input in many different meme formats.',
     'Mirroring': 'Flip or mirror a file in different axes.',
