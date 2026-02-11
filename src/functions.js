@@ -4548,13 +4548,12 @@ functions.getKeywordsFor = async function (string, msg, isBot, { extraKeys = {},
                 started = true
             }
 
-            if (tempdata[msg.author.id].rateLimited || globaldata.shit.find(id => id === msg.author.id)) {
+            if (
+                tempdata[msg.author.id].rateLimited || globaldata.shit.find(id => id === msg.author.id) || (
+                    tempdata[msg.author.id][msg.id].keyAttempts >= config.keyLimit && !ownermode
+                )
+            ) {
                 return string
-            }
-
-            if (tempdata[msg.author.id][msg.id].keyAttempts >= config.keyLimit && !ownermode) {
-                infoPost(`Keyword attempts value exceeded`)
-                return 'Keyword attempts value exceeded.'
             }
 
             var opts = {
@@ -4650,8 +4649,8 @@ functions.getKeywordsFor = async function (string, msg, isBot, { extraKeys = {},
             if (lastString == string) {
                 noProgressCount++
                 if (noProgressCount >= 5) {
-                    infoPost("Keyword parser made no progress 5 times, aborting to prevent infinite loop.")
-                    return "Keyword parser made no progress 5 times, aborting to prevent infinite loop."
+                    infoPost("Keyword parser made no progress 5 times, aborting to prevent infinite loop")
+                    return string
                 }
             }
         }
