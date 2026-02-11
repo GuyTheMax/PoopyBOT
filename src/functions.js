@@ -6388,13 +6388,13 @@ functions.resolveUser = async function (identifier, guild, mode = "memberOrUser"
     let identifierLower = identifier.toLowerCase()
 
     let cached =
-        (guild && guild.members.cache.find(
-            m => m.displayName.toLowerCase() === identifierLower ||
-                m.user.displayName?.toLowerCase() === identifierLower ||
-                m.user.tag?.toLowerCase() === identifierLower
+        (guild && guild.members?.cache.find(
+            m => m.displayName?.toLowerCase() === identifierLower ||
+                m.user?.displayName?.toLowerCase() === identifierLower ||
+                m.user?.tag?.toLowerCase() === identifierLower
         )) ||
         bot.users.cache.find(
-            u => u.id && (u.displayName.toLowerCase() === identifierLower ||
+            u => u.id && (u.displayName?.toLowerCase() === identifierLower ||
                 u.tag?.toLowerCase() === identifierLower)
         )
     if (cached) return formatResult(cached)
@@ -6410,10 +6410,10 @@ functions.resolveUser = async function (identifier, guild, mode = "memberOrUser"
 
     if (guild) {
         let member =
-            guild.members.cache.find(
+            guild.members?.cache.find(
                 m => m.displayName?.toLowerCase() === identifierLower ||
-                    m.user.displayName?.toLowerCase() === identifierLower ||
-                    m.user.tag?.toLowerCase() === identifierLower
+                    m.user?.displayName?.toLowerCase() === identifierLower ||
+                    m.user?.tag?.toLowerCase() === identifierLower
             ) ||
             await (async () => {
                 let searchResults = await guild.members.search({ query: identifier })
@@ -6421,8 +6421,8 @@ functions.resolveUser = async function (identifier, guild, mode = "memberOrUser"
                     Math.max(
                         similarity(m.user.username, identifier),
                         m.displayName ? similarity(m.displayName, identifier) : 0,
-                        m.user.displayName ? similarity(m.user.displayName, identifier) : 0,
-                        m.user.tag ? similarity(m.user.tag, identifier) : 0
+                        m.user?.displayName ? similarity(m.user.displayName, identifier) : 0,
+                        m.user?.tag ? similarity(m.user.tag, identifier) : 0
                     )
                 )
                 let thresholded = highestSimilarity
