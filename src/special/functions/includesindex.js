@@ -1,14 +1,14 @@
 module.exports = {
     helpf: '(arrayName | val)',
     desc: 'Returns the index of the value if the array includes it.',
-    func: async function (matches, msg, isBot, _, opts) {
+    func: async function (matches, msg) {
         let poopy = this
-        let { splitKeyFunc, getKeywordsFor } = poopy.functions
+        let { splitKeyFunc } = poopy.functions
         let tempdata = poopy.tempdata
 
         var word = matches[1]
         var split = splitKeyFunc(word, { args: 2 })
-        var name = await getKeywordsFor(split[0] ?? '', msg, isBot, opts).catch(() => { }) ?? ''
+        var name = split[0] ?? ''
         var val = split[1] ?? ''
 
         var array = tempdata[msg.author.id][msg.id].arrays[name]
