@@ -10,6 +10,5 @@ module.exports = {
     var message = messages.cache.get(id) ?? await messages.fetch(id).catch(() => { })
 
     return (message?.content ?? '').replace(new RegExp(`${f}\\(([\\s\\S]*?)\\)`, 'ig'), '')
-  },
-  attemptvalue: 5
+  }
 }
