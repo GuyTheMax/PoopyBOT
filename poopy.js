@@ -1294,9 +1294,13 @@ class Poopy {
             infoPost(`Left a server (${bot.guilds.cache.size} in total)`)
         }
 
-        callbacks.reactionCallback = async (reaction) => {
+        callbacks.reactionCallback = async (reaction, user) => {
             const msg = await reaction.message.fetch(false).catch(() => { }) ?? reaction.message
             const emoji = reaction.emoji.toString()
+
+            if (user) tempdata.collectors.filter(
+                c => c.id == msg.id && c.type == "reaction"
+            ).forEach(collector => collector.collect(reaction, user))
 
             reaction = msg.reactions.cache.find(r => r.emoji.toString() == emoji) ?? reaction
 
@@ -1459,14 +1463,17 @@ class Poopy {
                         var commandGroup = findGroup(cmd)
                         var commandSubGroup = subcommand && findGroup(subcommand)
 
-                        if (!commandGroup && findCmd?.subcommands?.find(subcmd => subcmd.name == subcommand)) { // commands with subcommands
+                        if (!commandGroup && findCmd?.subcommands?.find(subcmd => subcmd.name == subcommand)) {
+                            // commands with subcommands
                             cmd += ` ${subcommand}`
                             findCmd = findCmd.subcommands.find(subcmd => subcmd.name == subcommand)
-                        } else if (commandSubGroup) { // commands in groups
+                        } else if (commandSubGroup) {
+                            // commands in groups
                             cmd = subcommand
                             findCmd = findSubCmd
-                        } else if (!findCmd) { // command doesn't exist
-                            await interaction.reply('No.').catch(() => { })
+                        } else if (!findCmd) {
+                            // command doesn't exist
+                            await interaction.respond([]).catch(() => { })
                             return
                         } // regular command
 
@@ -1493,6 +1500,15 @@ class Poopy {
                         await interaction.respond(
                             choices.map(choice => ({ name: String(choice.name ?? choice ?? '(blank)').replace(/\n|\r/g, ' ').substring(0, 100) || '(blank)', value: choice.value ?? choice }))
                         )
+                    }
+                },
+
+                {
+                    type: interaction.type === DiscordTypes.InteractionType.MessageComponent,
+                    execute: async () => {
+                        tempdata.collectors.filter(
+                            c => c.id == interaction.message.id && c.type == "component"
+                        ).forEach(collector => collector.collect(interaction))
                     }
                 },
 
@@ -1851,7 +1867,7 @@ class Poopy {
         console.log(`${bot.user.displayName}: all done, it's actually online now`)
         infoPost(`Reboot ${data.botData.reboots} succeeded, it's up now`)
 
-        var currentIpAddress = await axios.get('https://api.ipify.org').then(res => (res.data ?? "").trim()).catch(() => {})
+        var currentIpAddress = await axios.get('https://api.ipify.org').then(res => (res.data ?? "").trim()).catch(() => { })
         if (currentIpAddress) Object.defineProperty(vars, 'currentIpAddress', {
             value: currentIpAddress,
             writable: false
@@ -1902,8 +1918,8 @@ class Poopy {
             bot.on('messageDeleteBulk', (messages) => messages.forEach((msg) => callbacks.messageDeleteCallback(msg).catch((e) => console.log(e))))
             bot.on('guildCreate', (guild) => callbacks.guildCallback(guild).catch((e) => console.log(e)))
             bot.on('guildDelete', (guild) => callbacks.guildDeleteCallback(guild).catch((e) => console.log(e)))
-            bot.on('messageReactionAdd', (reaction) => callbacks.reactionCallback(reaction).catch((e) => console.log(e)))
-            bot.on('messageReactionRemove', (reaction) => callbacks.reactionCallback(reaction).catch((e) => console.log(e)))
+            bot.on('messageReactionAdd', (reaction, user) => callbacks.reactionCallback(reaction, user).catch((e) => console.log(e)))
+            bot.on('messageReactionRemove', (reaction, user) => callbacks.reactionCallback(reaction, user).catch((e) => console.log(e)))
             bot.on('messageReactionRemoveAll', (_, reactions) => reactions.forEach((reaction) => callbacks.reactionCallback(reaction).catch((e) => console.log(e))))
             bot.on('messageReactionRemoveEmoji', (reaction) => callbacks.reactionCallback(reaction).catch((e) => console.log(e)))
             bot.on('guildDelete', (guild) => callbacks.guildDeleteCallback(guild).catch((e) => console.log(e)))

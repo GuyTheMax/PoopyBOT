@@ -1527,7 +1527,7 @@ functions.yesno = async function (channel, content, who, btdata, reply, keepCont
     let poopy = this
     let bot = poopy.bot
     let config = poopy.config
-    let { chunkArray, dmSupport } = poopy.functions
+    let { chunkArray, dmSupport, createCollector } = poopy.functions
     let { Discord, DiscordTypes } = poopy.modules
 
     return new Promise(async (resolve) => {
@@ -1602,7 +1602,7 @@ functions.yesno = async function (channel, content, who, btdata, reply, keepCont
         }
 
         if (config.useReactions) {
-            var collector = yesnoMsg.createReactionCollector({ time: 30_000 })
+            var collector = createCollector({ id: yesnoMsg.id, type: "reaction", time: 30_000 })
 
             collector.on('collect', (reaction, user) => {
                 dmSupport(reaction)
@@ -1637,7 +1637,7 @@ functions.yesno = async function (channel, content, who, btdata, reply, keepCont
                 collector.resetTimer()
             }
         } else {
-            var collector = yesnoMsg.createMessageComponentCollector({ time: 30_000 })
+            var collector = createCollector({ id: yesnoMsg.id, type: "component", time: 30_000 })
 
             collector.on('collect', (button) => {
                 dmSupport(button)
@@ -1675,7 +1675,7 @@ functions.selectMenu = async function (channel, content, placeholder, options, e
     let poopy = this
     let bot = poopy.bot
     let config = poopy.config
-    let { dmSupport } = poopy.functions
+    let { dmSupport, createCollector } = poopy.functions
     let { Discord } = poopy.modules
 
     return new Promise(async (resolve) => {
@@ -1714,7 +1714,7 @@ functions.selectMenu = async function (channel, content, placeholder, options, e
             return
         }
 
-        var collector = selectMsg.createMessageComponentCollector({ time: 60_000 })
+        var collector = createCollector({ id: selectMsg.id, type: "component", time: 60_000 })
 
         collector.on('collect', (option) => {
             dmSupport(option)
@@ -1748,7 +1748,7 @@ functions.navigateEmbed = async function (channel, pageFunc, results, who, extra
     let bot = poopy.bot
     let config = poopy.config
     let tempdata = poopy.tempdata
-    let { chunkArray, dmSupport, queryPage } = poopy.functions
+    let { chunkArray, dmSupport, queryPage, createCollector } = poopy.functions
     let { Discord } = poopy.modules
 
     page = page ?? 1
@@ -1869,7 +1869,7 @@ functions.navigateEmbed = async function (channel, pageFunc, results, who, extra
     }
 
     if (config.useReactions) {
-        var collector = resultsMsg.createReactionCollector({ time: 300_000 })
+        var collector = createCollector({ id: resultsMsg.id, type: "reaction", time: 300_000 })
         tempdata[who].navigateCollectors.push(collector)
 
         collector.on('collect', async (reaction, user) => {
@@ -1935,7 +1935,7 @@ functions.navigateEmbed = async function (channel, pageFunc, results, who, extra
             await resultsMsg.react(bdata.reactemoji).catch(() => { })
         }
     } else {
-        var collector = resultsMsg.createMessageComponentCollector({ time: 300_000 })
+        var collector = createCollector({ id: resultsMsg.id, type: "component", time: 300_000 })
         tempdata[who].navigateCollectors.push(collector)
 
         collector.on('collect', async (button) => {
@@ -1943,6 +1943,7 @@ functions.navigateEmbed = async function (channel, pageFunc, results, who, extra
 
             if (!(button.user.id === who && ((button.user.id !== bot.user.id && !button.user.bot) || config.allowbotusage)) || usingButton) {
                 button.deferUpdate().catch(() => { })
+                console.log("nope im done")
                 return
             }
 
@@ -1952,12 +1953,15 @@ functions.navigateEmbed = async function (channel, pageFunc, results, who, extra
                 usingButton = true
                 collector.resetTimer()
 
+                console.log("lets see that page function")
                 var newpage = await buttonData.function(page, button, resultsMsg, collector)
                 button.deferUpdate().catch(() => { })
+                console.log("we did it")
 
                 if (buttonData.page) {
                     if (newpage < 1 || newpage > results || newpage == page) {
                         usingButton = false
+                        console.log("nope return again")
                         return
                     }
 
@@ -1967,6 +1971,7 @@ functions.navigateEmbed = async function (channel, pageFunc, results, who, extra
                     var sendObject = {
                         components: components.slice()
                     }
+                    console.log("the page has funced")
 
                     if (selectMenu) {
                         var menuRow = new Discord.ActionRowBuilder()
@@ -1988,6 +1993,7 @@ functions.navigateEmbed = async function (channel, pageFunc, results, who, extra
                     else sendObject.embeds = [resultEmbed]
 
                     resultsMsg.edit(sendObject).catch(() => { })
+                    console.log("editerd")
                 }
                 usingButton = false
             }
@@ -2019,7 +2025,7 @@ functions.rainmaze = async function (channel, who, reply, w = 8, h = 6) {
     let bot = poopy.bot
     let config = poopy.config
     let data = poopy.data
-    let { chunkArray, dmSupport, randomNumber } = poopy.functions
+    let { chunkArray, dmSupport, randomNumber, createCollector } = poopy.functions
     let { Discord, Rainmaze } = poopy.modules
 
     var buttonsData = config.useReactions ? [
@@ -2182,7 +2188,7 @@ functions.rainmaze = async function (channel, who, reply, w = 8, h = 6) {
     }
 
     if (config.useReactions) {
-        var collector = rainMsg.createReactionCollector({ time: 60_000 })
+        var collector = createCollector({ id: rainMsg.id, type: "reaction", time: 60_000 })
 
         collector.on('collect', async (reaction, user) => {
             dmSupport(reaction)
@@ -2220,7 +2226,7 @@ functions.rainmaze = async function (channel, who, reply, w = 8, h = 6) {
             await rainMsg.react(bdata.reactemoji).catch(() => { })
         }
     } else {
-        var collector = rainMsg.createMessageComponentCollector({ time: 60_000 })
+        var collector = createCollector({ id: rainMsg.id, type: "component", time: 60_000 })
 
         collector.on('collect', async (button) => {
             dmSupport(button)
@@ -2261,7 +2267,7 @@ functions.votekick = async function (member, channel, voteGoal, action = "timeou
     let poopy = this
     let tempdata = poopy.tempdata
     let { Discord, DiscordTypes } = poopy.modules
-    let { randomChoice } = poopy.functions
+    let { randomChoice, createCollector } = poopy.functions
 
     const actionNames = {
         timeout: "timed out",
@@ -2299,7 +2305,7 @@ functions.votekick = async function (member, channel, voteGoal, action = "timeou
 
     let votes = new Set()
     let unvotes = new Set()
-    const voteCollector = voteMsg.createMessageComponentCollector({ time: duration })
+    const voteCollector = createCollector({ id: voteMsg.id, type: "component", time: duration })
 
     async function updateVoteEmbed() {
         const updatedEmbed = Discord.EmbedBuilder.from(embed)
@@ -2382,7 +2388,7 @@ functions.displayShops = async function (msg, shopType, shopMsg) {
     let config = poopy.config
     let bot = poopy.bot
     let { displayShop, fetchPingPerms, chunkArray,
-        dmSupport } = poopy.functions
+        dmSupport, createCollector } = poopy.functions
     let { Discord, DiscordTypes } = poopy.modules
 
     let types = ['upgrades', 'buffs', 'items', 'shields']
@@ -2478,9 +2484,9 @@ functions.displayShops = async function (msg, shopType, shopMsg) {
         if (!shopMsg) throw new Error(`Couldn't send shop to channel`)
 
         if (usingReactions)
-            collector = shopMsg.createReactionCollector({ time: 60_000 })
+            collector = createCollector({ id: shopMsg.id, type: "reaction", time: 60_000 })
         else
-            collector = shopMsg.createMessageComponentCollector({ time: 60_000 })
+            collector = createCollector({ id: shopMsg.id, type: "component", time: 60_000 })
 
         collector.on('collect', async (button, user) => {
             dmSupport(button)
@@ -2575,7 +2581,7 @@ functions.displayUpgradesShop = async function (channel, who, reply, shopObject,
     let bot = poopy.bot
     let config = poopy.config
     let { chunkArray, dmSupport, getLevel,
-        displayShops } = poopy.functions
+        displayShops, createCollector } = poopy.functions
     let { Discord, DiscordTypes } = poopy.modules
 
     let shopType = 'upgrades'
@@ -2739,9 +2745,9 @@ functions.displayUpgradesShop = async function (channel, who, reply, shopObject,
     var usingComponents = !usingReactions
 
     if (usingReactions)
-        collector = shopMsg.createReactionCollector({ time: 60_000 })
+        collector = createCollector({ id: shopMsg.id, type: "reaction", time: 60_000 })
     else
-        collector = shopMsg.createMessageComponentCollector({ time: 60_000 })
+        collector = createCollector({ id: shopMsg.id, type: "component", time: 60_000 })
 
     collector.on('collect', async (button, user) => {
         dmSupport(button)
@@ -2848,7 +2854,7 @@ functions.displayShieldsShop = async function (channel, who, reply, shopObject, 
     let bot = poopy.bot
     let config = poopy.config
     let json = poopy.json
-    let { chunkArray, dmSupport, queryPage,
+    let { chunkArray, dmSupport, queryPage, createCollector,
         displayShops, getShieldStatsAsEmbedFields } = poopy.functions
     let { Discord, DiscordTypes } = poopy.modules
 
@@ -3029,9 +3035,9 @@ functions.displayShieldsShop = async function (channel, who, reply, shopObject, 
     var collector
 
     if (usingReactions)
-        collector = shopMsg.createReactionCollector({ time: 60_000 })
+        collector = createCollector({ id: shopMsg.id, type: "reaction", time: 60_000 })
     else
-        collector = shopMsg.createMessageComponentCollector({ time: 60_000 })
+        collector = createCollector({ id: shopMsg.id, type: "component", time: 60_000 })
 
     collector.on('collect', async (button, user) => {
         dmSupport(button)
@@ -3157,6 +3163,40 @@ functions.displayShieldsShop = async function (channel, who, reply, shopObject, 
     }
 
     return instruction
+}
+
+functions.createCollector = function ({
+    id, type,
+    time = Infinity,
+    filter = () => true
+} = {}) {
+    let poopy = this
+    let tempdata = poopy.tempdata
+    let { EventEmitter } = poopy.modules
+
+    const collector = new EventEmitter()
+    collector.id = id
+    collector.type = type
+    collector.collected = []
+    collector.timeout = setTimeout(() => collector.stop("time"), time)
+    collector.resetTimer = collector.timeout.refresh
+
+    collector.collect = (...val) => {
+        if (!filter(val[0])) return null
+        collector.collected.push(...val)
+        collector.emit("collect", ...val)
+    }
+
+    collector.stop = (reason) => {
+        const collectorIndex = tempdata.collectors.findIndex(c => c == collector)
+        if (collectorIndex > -1) tempdata.collectors.splice(collectorIndex, 1)
+        clearTimeout(collector.timeout)
+        collector.emit("end", collector.collected, reason ?? "user")
+    }
+
+    tempdata.collectors.push(collector)
+
+    return collector
 }
 
 functions.cleanContentPreserveEmojis = function (str, channel) {
@@ -4356,10 +4396,10 @@ functions.dmSupport = function (msg) {
     if (!msg.author && msg.user) msg.author = msg.user
     if (!msg.user && msg.author) msg.user = msg.author
 
-    if (
-        (!msg.member && (msg.user || msg.author)) ||
-        msg.member && (!msg.member.displayAvatarURL)
-    ) Object.defineProperty(msg, 'member', {
+    if ((
+        (!msg.member || (msg.member && (!msg.member.displayAvatarURL)))
+        && (msg.user || msg.author)
+    )) Object.defineProperty(msg, 'member', {
         value: (msg.user || msg.author),
         writable: true
     })
@@ -4421,6 +4461,7 @@ functions.dmSupport = function (msg) {
         msg.content = snapshot.content
         msg.attachments = snapshot.attachments
         msg.embeds = snapshot.embeds
+        msg.stickers = snapshot.stickers
     }
 
     msg.isUserApp = !!(

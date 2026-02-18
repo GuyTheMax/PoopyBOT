@@ -8,7 +8,7 @@ module.exports = {
         let json = poopy.json
         let config = poopy.config
         let { getShieldById, getShieldStatsAsEmbedFields, chunkArray,
-            dmSupport, queryPage } = poopy.functions
+            dmSupport, queryPage, createCollector } = poopy.functions
         let { Discord, DiscordTypes } = poopy.modules
 
         var prefix = data.guildData[msg.channel.guild.id].prefix
@@ -188,9 +188,9 @@ module.exports = {
         var collector
         
         if (usingReactions)
-            collector = shieldsMsg.createReactionCollector({ time: 60_000 })
+            collector = createCollector({ id: shieldsMsg.id, type: "reaction", time: 60_000 })
         else
-            collector = shieldsMsg.createMessageComponentCollector({ time: 60_000 })
+            collector = createCollector({ id: shieldsMsg.id, type: "component", time: 60_000 })
 
         collector.on('collect', async (button, user) => {
             dmSupport(button)

@@ -31,6 +31,7 @@ modules.prettyBytes = require('pretty-bytes')
 modules.pluralize = require('pluralize')
 modules.itob = require('istextorbinary')
 modules.os = require('os')
+modules.EventEmitter = require('events')
 modules.Collection = require('@discordjs/collection').Collection
 modules.Rainmaze = require('../lib/rainmaze/Rainmaze')
 modules.DummyMessage = require('./dummyMessage')
