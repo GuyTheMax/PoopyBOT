@@ -3182,12 +3182,15 @@ functions.createCollector = function ({
         collector.emit("end", collector.collected, reason ?? "user")
     }
 
+    collector.resetTimer = () => {
+        if (collector.timeout) collector.timeout.refresh()
+    }
+
     if (time != null) collector.timeout = setTimeout(() => collector.stop("time"), time)
 
     collector.id = id
     collector.type = type
     collector.collected = []
-    collector.resetTimer = time != null ? collector.timeout.refresh : () => { }
 
     tempdata.collectors.push(collector)
 
