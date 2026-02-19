@@ -53,5 +53,5 @@ module.exports = {
         name: 'bludmsgservice/bludmessageservice <topic> {inQuery}',
         value: 'Send a request to Roblox\'s Messaging Service API.'
     },
-    type: 'Owner'
+    type: 'Tumore'
 }

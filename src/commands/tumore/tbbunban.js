@@ -1,5 +1,5 @@
 module.exports = {
-    name: ['tbbban'],
+    name: ['tbbunban'],
     args: [{ "name": "userId", "required": true, "specifarg": false, "orig": "<userId>" }],
     execute: async function (msg, args) {
         let poopy = this
@@ -24,9 +24,7 @@ module.exports = {
             return
         }
         
-        var res = await axios.post(`https://apis.roblox.com/datastores/v1/universes/3913007563/standard-datastores/datastore/entries/entry?datastoreName=${process.env.TBB_DATASTORE}&entryKey=${userId}`, {
-            Banned: true
-        }, {
+        var res = await axios.delete(`https://apis.roblox.com/datastores/v1/universes/3913007563/standard-datastores/datastore/entries/entry?datastoreName=${process.env.TBB_DATASTORE}&entryKey=${userId}`, {
             headers: {
                 "x-api-key": process.env.TBB_ROBLOX_KEY,
                 "content-type": "application/json"
@@ -34,16 +32,16 @@ module.exports = {
         }).catch(() => { })
 
         if (!res) {
-            await msg.reply('Ban request failed.').catch(() => { })
+            await msg.reply('Unban request failed.').catch(() => { })
             return
         }
 
-        await msg.reply('Ban request sent. They\'ll be weeping soon.').catch(() => { })
-        return 'Ban request sent. They\'ll be weeping soon.'
+        await msg.reply('Unban request sent. They\'ll stop weeping soon.').catch(() => { })
+        return 'Unban request sent. They\'ll stop weeping soon.'
     },
     help: {
-        name: 'tbbban <userId>',
-        value: 'Ban someone.'
+        name: 'tbbunban <userId>',
+        value: 'Unban someone.'
     },
-    type: 'Owner'
+    type: 'Tumore'
 }

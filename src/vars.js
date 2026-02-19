@@ -11,11 +11,6 @@ vars.emojiRegex = require('emoji-regex')()
 vars.Catbox = new catbox.Catbox()
 vars.Litterbox = new catbox.Litterbox()
 
-if (process.env.GOOGLE_KEY) vars.youtube = google.youtube({
-    version: 'v3',
-    auth: process.env.GOOGLE_KEY
-})
-
 vars.gifFormats = ['gif', 'apng']
 vars.jimpFormats = ['png', 'jpeg', 'jpg', 'gif', 'bmp', 'tiff']
 
@@ -223,6 +218,7 @@ vars.categories = {
     'Resizing': 'Scale a file in some way.',
     'Settings': 'Manage a server\'s Poopy settings, or your own Poopy settings.',
     'Text': 'Commands that serve text as output.',
+    'Tumore': 'The Blud obby... is too hard.',
     'Unique': 'Commands that resemble unique features to Poopy, keywords for example.',
     'Webhook': 'Webhook commands.'
 }
@@ -447,8 +443,12 @@ vars.globaldataTemplate = {
 vars.tempdataTemplate = {
     discordUrls: {},
     collectors: [],
-    images: [],
     crons: [],
+    
+    images: {
+        google: {},
+        unsplash: {}
+    },
 
     channelvideos: [],
     playlistvideos: [],

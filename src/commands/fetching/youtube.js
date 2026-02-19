@@ -3,9 +3,8 @@ module.exports = {
     args: [{"name":"query","required":true,"specifarg":false,"orig":"<query>"},{"name":"page","required":false,"specifarg":true,"orig":"[-page <number>]"}],
     execute: async function (msg, args) {
         let poopy = this
-        let vars = poopy.vars
         let { unescapeHTML, navigateEmbed, addLastUrl, execPromise } = poopy.functions
-        let { axios, DiscordTypes } = poopy.modules
+        let { axios, DiscordTypes, youtube } = poopy.modules
         let config = poopy.config
 
         await msg.channel.sendTyping().catch(() => { })
@@ -22,7 +21,7 @@ module.exports = {
         }
         var search = args.slice(1).join(" ");
 
-        var body = await vars.youtube.search.list({
+        var body = await youtube.search.list({
             type: 'video',
             q: search,
             part: 'snippet',

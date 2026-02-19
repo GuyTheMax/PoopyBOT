@@ -5357,45 +5357,95 @@ functions.userToken = function (id, token) {
     return userTkn ? decrypt(userTkn) : randomKey(token)
 }
 
-functions.fetchImages = async function (query, unsafe) {
+const googleImgQueue = {
+    active: false,
+    jobs: []
+}
+
+functions.processQueue = async function (queue, interval = 15000) {
+    if (queue.active || queue.jobs.length === 0) return
+    queue.active = true
+
+    const job = queue.jobs.shift()
+    await job()
+
+    setTimeout(() => {
+        queue.active = false
+        functions.processQueue(queue, interval)
+    }, interval)
+}
+
+functions.enqueue = function (queue, fn, interval = 15000) {
+    return new Promise(resolve => {
+        queue.jobs.push(async () => resolve(await fn()))
+        functions.processQueue(queue, interval)
+    })
+}
+
+functions.fetchImages = async function (query, unsafe, provider = "google") {
     let poopy = this
     let tempdata = poopy.tempdata
-    let { gis } = poopy.modules
+    let { gis, axios } = poopy.modules
+    let { enqueue } = poopy.functions
 
-    const urlBlacklist = [
-        "https://www.tiktok.com/api",
-        "https://lookaside.instagram.com/seo",
-        "https://lookaside.fbsbx.com/lookaside/crawler/instagram",
-        "https://lookaside.fbsbx.com/lookaside/crawler/threads",
-        ".svg"
-    ]
+    query = query.toLowerCase().trim()
 
-    if (tempdata.images[query.toLowerCase()]) return tempdata.images[query.toLowerCase()]
+    if (tempdata.images[provider][query]) return tempdata.images[provider][query]
 
-    return new Promise(async (resolve) => {
-        gis({
-            searchTerm: query,
-            queryStringAddition: `&safe=${unsafe ? 'images' : 'active'}`
-        }, async function (error, results) {
-            if (error || !results) {
-                resolve(["https://i.imgur.com/K5kyI8P.png"])
-                return
-            }
+    switch (provider) {
+        case "unsplash": {
+            return axios.get("https://api.unsplash.com/search/photos", {
+                params: {
+                    query,
+                    per_page: 100
+                },
+                headers: {
+                    Authorization: `Client-ID ${process.env.UNSPLASH_ACCESS_KEY}`
+                }
+            }).then(res => {
+                const images = res.data.results.map(img => img.urls.regular)
 
-            var images = results.map(
-                result => result.url.replace(/\\u([a-z0-9]){4}/g, (match) => {
-                    return String.fromCharCode(Number('0x' + match.substring(2, match.length)))
+                tempdata.images[provider][query] = images
+
+                return images
+            })
+        }
+
+        case "google": {
+            const urlBlacklist = [
+                "https://www.tiktok.com/api",
+                "https://lookaside.instagram.com/seo",
+                "https://lookaside.fbsbx.com/lookaside/crawler/instagram",
+                "https://lookaside.fbsbx.com/lookaside/crawler/threads",
+                ".svg"
+            ]
+
+            return enqueue(googleImgQueue, () => new Promise(resolve => {
+                gis({
+                    searchTerm: query,
+                    queryStringAddition: `&safe=${unsafe ? 'images' : 'active'}`
+                }, async function (error, results) {
+                    if (error || !results) {
+                        resolve(["https://i.imgur.com/K5kyI8P.png"])
+                        return
+                    }
+
+                    const images = results.map(
+                        result => result.url.replace(/\\u([a-z0-9]){4}/g, (match) => {
+                            return String.fromCharCode(Number('0x' + match.substring(2, match.length)))
+                        })
+                    ).filter(
+                        (result, i, self) => !urlBlacklist.some(url => result.includes(url))
+                            && self.indexOf(result) == i
+                    )
+
+                    tempdata.images[provider][query] = images
+
+                    resolve(images)
                 })
-            ).filter(
-                (result, i, self) => !urlBlacklist.some(url => result.includes(url))
-                    && self.indexOf(result) == i
-            )
-
-            tempdata.images[query.toLowerCase()] = images
-
-            resolve(images)
-        })
-    })
+            }))
+        }
+    }
 }
 
 functions.downloadFile = async function (url, filename, options) {

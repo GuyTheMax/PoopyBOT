@@ -1,6 +1,6 @@
 module.exports = {
     helpf: '(query | index)',
-    desc: 'Returns a random image out of the search query from Google, if no index is specified.',
+    desc: 'Returns a random image out of the search query, if no index is specified.',
     func: async function (matches, msg) {
         let poopy = this
         let { splitKeyFunc, fetchImages, parseNumber } = poopy.functions

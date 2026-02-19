@@ -68,6 +68,15 @@ modules.DMGuild = class DMGuild {
     }
 }
 
+if (process.env.GOOGLE_KEY) {
+    const google = require('googleapis').google
+
+    modules.youtube = google.youtube({
+        version: 'v3',
+        auth: process.env.GOOGLE_KEY
+    })
+}
+
 for (var Discord of modules.Discord) {
     const Channel = Discord.BaseGuildTextChannel
     const channelSend = Channel.prototype.send
@@ -330,7 +339,5 @@ for (var Discord of modules.Discord) {
         }
     }
 }
-
-if (process.env.GOOGLE_KEY) modules.google = require('googleapis').google
 
 module.exports = modules

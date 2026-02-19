@@ -1,5 +1,5 @@
 module.exports = {
-    name: ['tbbwipe'],
+    name: ['bludunfraud', 'bludtrust'],
     args: [{ "name": "userId", "required": true, "specifarg": false, "orig": "<userId>" }],
     execute: async function (msg, args) {
         let poopy = this
@@ -24,27 +24,29 @@ module.exports = {
             return
         }
 
-        var res = await axios.post(`https://apis.roblox.com/datastores/v1/universes/3913007563/standard-datastores/datastore/entries/entry?datastoreName=${process.env.TBB_DATASTORE}&entryKey=${userId}`, {
-            DeclinedBefore: false,
-            Redemption: false
+        var res = await axios.post(`https://apis.roblox.com/messaging-service/v1/universes/7091645916/topics/${process.env.BLUD_TOPIC}`, {
+            message: JSON.stringify({
+                Topic: "Fraud",
+                Inquery: { PlayerId: Number(userId), Value: false }
+            })
         }, {
             headers: {
-                "x-api-key": process.env.TBB_ROBLOX_KEY,
+                "x-api-key": process.env.BLUD_ROBLOX_KEY,
                 "content-type": "application/json"
             }
         }).catch(() => { })
 
         if (!res) {
-            await msg.reply('Data wipe request failed.').catch(() => { })
+            await msg.reply('Unfraud request failed.').catch(() => { })
             return
         }
 
-        await msg.reply('Data wipe request sent. They\'ll lose everything soon.').catch(() => { })
-        return 'Data wipe request sent. They\'ll lose everything soon.'
+        await msg.reply('Unfraud request sent. They\'ll be trusted soon.').catch(() => { })
+        return 'Unfraud request sent. They\'ll be trusted soon.'
     },
     help: {
-        name: 'tbbwipe <userId>',
-        value: 'Wipe someone\'s data.'
+        name: 'bludunfraud/bludtrust <userId>',
+        value: 'Retrust someone.'
     },
-    type: 'Owner'
+    type: 'Tumore'
 }

@@ -112,6 +112,7 @@ module.exports = {
 
         var jsonid = config.ownerids.find(id => id == msg.author.id) || config.jsoning.find(id => id == msg.author.id);
         var ownerid = config.ownerids.find(id => id == msg.author.id);
+        var tumoreid = config.tumoreTesters.find(id => id == msg.author.id);
 
         var categoryOptions = {}
 
@@ -141,7 +142,9 @@ module.exports = {
             return
         }
 
-        if (bot.user.id == "789189158639501312") {
+        const neckHurts = false
+
+        if (bot.user.id == "789189158639501312" && neckHurts) {
             var idiot = await bot.users.fetch("464438783866175489").catch(() => { })
 
             var thankEmbed = {
@@ -247,6 +250,21 @@ module.exports = {
                 if (config.textEmbeds) await msg.author.send(`**JSON Gang Commands**\n\n${vars.jsonCmds.map(k => `\`${k.name}\`\n> ${k.value}`).join('\n')}`).catch(() => { })
                 else await msg.author.send({
                     embeds: [jsoncmdEmbed]
+                }).catch(() => { })
+            }
+            if (tumoreid !== undefined) {
+                var tumorecmdEmbed = {
+                    "title": "Tumore Commands",
+                    "color": 0x472604,
+                    "footer": {
+                        "icon_url": bot.user.displayAvatarURL({ dynamic: true, size: 1024, extension: 'png' }),
+                        "text": bot.user.displayName
+                    },
+                    "fields": vars.tumoreCmds
+                };
+                if (config.textEmbeds) await msg.author.send(`**Tumore Commands**\n\n${vars.tumoreCmds.map(k => `\`${k.name}\`\n> ${k.value}`).join('\n')}`).catch(() => { })
+                else await msg.author.send({
+                    embeds: [tumorecmdEmbed]
                 }).catch(() => { })
             }
             if (ownerid !== undefined) {

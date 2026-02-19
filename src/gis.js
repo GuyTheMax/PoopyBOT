@@ -7,11 +7,17 @@ const baseURL = "http://images.google.com/search?";
 
 const imageFileExtensions = [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".svg"];
 
+const axiosInstance = axios.create({
+    withCredentials: true,
+    headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:147.0) Gecko/20100101 Firefox/147.0"
+    }
+});
+
 function gis(opts, done) {
     let searchTerm;
     let queryStringAddition;
     let filterOutDomains = ["gstatic.com"];
-    let userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/117.0";
 
     if (typeof opts === "string") {
         searchTerm = opts;
@@ -43,11 +49,7 @@ function gis(opts, done) {
         url += queryStringAddition;
     }
 
-    axios.get(url, {
-        headers: {
-            "User-Agent": userAgent
-        }
-    }).then(response => {
+    axiosInstance.get(url).then(response => {
         const body = response.data;
 
         const $ = cheerio.load(body);

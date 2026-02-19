@@ -334,6 +334,7 @@ class Poopy {
 
         vars.helpCmds = []
         vars.jsonCmds = []
+        vars.tumoreCmds = []
         vars.devCmds = []
         vars.sections = []
         vars.types = ['Local']
@@ -345,6 +346,8 @@ class Poopy {
                 vars.devCmds.push(command.help)
             } else if (command.type === "JSON Gang") {
                 vars.jsonCmds.push(command.help)
+            } else if (command.type === "Tumore") {
+                vars.tumoreCmds.push(command.help)
             } else {
                 if (!vars.helpCmds.find(typeList => typeList.type === command.type)) {
                     vars.helpCmds.push({

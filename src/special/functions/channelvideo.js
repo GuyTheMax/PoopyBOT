@@ -4,7 +4,7 @@ module.exports = {
     func: async function (matches) {
         let poopy = this
         let { splitKeyFunc, parseNumber } = poopy.functions
-        let vars = poopy.vars
+        let { youtube } = poopy.modules
         let tempdata = poopy.tempdata
 
         var word = matches[1]
@@ -14,7 +14,7 @@ module.exports = {
 
         if (!tempdata.channelvideos) tempdata.channelvideos = {}
 
-        var countres = tempdata.channelvideos[id]?.[0] ?? await vars.youtube.search.list({
+        var countres = tempdata.channelvideos[id]?.[0] ?? await youtube.search.list({
             channelId: id,
             type: 'video',
             part: 'snippet',
@@ -40,7 +40,7 @@ module.exports = {
             pagecount++
             page -= 50
 
-            var nres = tempdata.channelvideos[id][pagecount] ?? await vars.youtube.search.list({
+            var nres = tempdata.channelvideos[id][pagecount] ?? await youtube.search.list({
                 channelId: id,
                 type: 'video',
                 part: 'snippet',

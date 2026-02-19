@@ -1,5 +1,5 @@
 module.exports = {
-    name: ['tbbunban'],
+    name: ['bludfraud', 'bluddistrust'],
     args: [{ "name": "userId", "required": true, "specifarg": false, "orig": "<userId>" }],
     execute: async function (msg, args) {
         let poopy = this
@@ -23,25 +23,30 @@ module.exports = {
             await msg.reply('That user ID isn\'t valid.').catch(() => { })
             return
         }
-        
-        var res = await axios.delete(`https://apis.roblox.com/datastores/v1/universes/3913007563/standard-datastores/datastore/entries/entry?datastoreName=${process.env.TBB_DATASTORE}&entryKey=${userId}`, {
+
+        var res = await axios.post(`https://apis.roblox.com/messaging-service/v1/universes/7091645916/topics/${process.env.BLUD_TOPIC}`, {
+            message: JSON.stringify({
+                Topic: "Fraud",
+                Inquery: { PlayerId: Number(userId), Value: true }
+            })
+        }, {
             headers: {
-                "x-api-key": process.env.TBB_ROBLOX_KEY,
+                "x-api-key": process.env.BLUD_ROBLOX_KEY,
                 "content-type": "application/json"
             }
         }).catch(() => { })
 
         if (!res) {
-            await msg.reply('Unban request failed.').catch(() => { })
+            await msg.reply('Fraud request failed.').catch(() => { })
             return
         }
 
-        await msg.reply('Unban request sent. They\'ll stop weeping soon.').catch(() => { })
-        return 'Unban request sent. They\'ll stop weeping soon.'
+        await msg.reply('Fraud request sent. They\'ll be distrusted soon.').catch(() => { })
+        return 'Fraud request sent. They\'ll be distrusted soon.'
     },
     help: {
-        name: 'tbbunban <userId>',
-        value: 'Unban someone.'
+        name: 'bludfraud/bluddistrust <userId>',
+        value: 'Distrust someone.'
     },
-    type: 'Owner'
+    type: 'Tumore'
 }

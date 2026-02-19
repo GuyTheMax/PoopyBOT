@@ -4,13 +4,13 @@ module.exports = {
     func: async function (matches, msg) {
         let poopy = this
         let { splitKeyFunc, parseNumber } = poopy.functions
-        let vars = poopy.vars
+        let { youtube } = poopy.modules
 
         var word = matches[1]
         var split = splitKeyFunc(word, { args: 2 })
         var query = split[0] ?? ''
         var page = split[1] ?? ''
-        var res = await vars.youtube.search.list({
+        var res = await youtube.search.list({
             type: 'video',
             q: query,
             part: 'snippet',
