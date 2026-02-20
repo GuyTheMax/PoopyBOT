@@ -988,6 +988,13 @@ class Poopy {
 
             if (!webhooked) await webhookify().catch((e) => console.log(e))
 
+            if (!collected && msg.type != DiscordTypes.InteractionType.ApplicationCommand) {
+                collected = true
+                tempdata.collectors.filter(
+                    c => c.id.startsWith(msg.channel.id) && c.type == "message"
+                ).forEach(collector => collector.collect(msg))
+            }                
+
             if (
                 origcontent && ((!(msg.author.bot) && msg.author.id != bot.user.id) || config.allowbotusage)
                 && data.guildData[msg.guild?.id]?.read?.some(
