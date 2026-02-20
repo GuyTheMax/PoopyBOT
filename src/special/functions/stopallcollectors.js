@@ -1,5 +1,5 @@
 module.exports = {
-    helpf: '(sendFinishPhrase) (manage messages permission only)',
+    helpf: '(noFinishPhrase) (manage messages permission only)',
     desc: 'Stops all message collectors that are still active in the channel.',
     func: function (matches, msg, isBot) {
         let poopy = this
@@ -13,7 +13,7 @@ module.exports = {
             for (var uid in tempdata[msg.guild.id][msg.channel.id]) {
                 var userdata = tempdata[msg.guild.id][msg.channel.id][uid]
                 if (userdata?.messageCollector?.stop) {
-                    userdata.messageCollector.stop(word ? 'time' : 'user')
+                    userdata.messageCollector.stop(!word ? 'time' : 'user')
                     delete tempdata[msg.guild.id][msg.channel.id][uid].messageCollector
                 }
             }

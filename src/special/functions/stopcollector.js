@@ -1,5 +1,5 @@
 module.exports = {
-  helpf: '(sendFinishPhrase)',
+  helpf: '(noFinishPhrase)',
   desc: 'Stops any message collector you created that is still active in the channel.',
   func: function (matches, msg) {
     let poopy = this
@@ -8,7 +8,7 @@ module.exports = {
     var word = matches[1]
 
     if (tempdata[msg.guild.id][msg.channel.id][msg.author.id]?.messageCollector?.stop) {
-      tempdata[msg.guild.id][msg.channel.id][msg.author.id].messageCollector.stop(word ? 'time' : 'user')
+      tempdata[msg.guild.id][msg.channel.id][msg.author.id].messageCollector.stop(!word ? 'time' : 'user')
       delete tempdata[msg.guild.id][msg.channel.id][msg.author.id].messageCollector
     }
   
