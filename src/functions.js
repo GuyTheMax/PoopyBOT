@@ -1846,6 +1846,7 @@ functions.navigateEmbed = async function (channel, pageFunc, results, who, extra
     }
 
     if (config.textEmbeds) sendObject.content = resultEmbed
+    else if (resultEmbed.embeds) for (let key in resultEmbed) sendObject[key] = resultEmbed[key]
     else sendObject.embeds = [resultEmbed]
 
     var resultsMsg = await (reply ?? channel)[reply ? 'reply' : 'send'](sendObject).catch(() => { })
@@ -1904,6 +1905,7 @@ functions.navigateEmbed = async function (channel, pageFunc, results, who, extra
                     if (allowedMentions) sendObject.allowedMentions = allowedMentions
 
                     if (config.textEmbeds) sendObject.content = resultEmbed
+                    else if (resultEmbed.embeds) for (let key in resultEmbed) sendObject[key] = resultEmbed[key]
                     else sendObject.embeds = [resultEmbed];
 
                     (reply?.isUserApp ? reply.editReply : resultsMsg.edit).call(reply?.isUserApp ? reply : resultsMsg, sendObject).catch(() => { })
@@ -1922,6 +1924,7 @@ functions.navigateEmbed = async function (channel, pageFunc, results, who, extra
             if (allowedMentions) sendObject.allowedMentions = allowedMentions
 
             if (config.textEmbeds) sendObject.content = resultEmbed
+            else if (resultEmbed.embeds) for (let key in resultEmbed) sendObject[key] = resultEmbed[key]
             else sendObject.embeds = [resultEmbed];
 
             (reply?.isUserApp ? reply.editReply : resultsMsg.edit).call(reply?.isUserApp ? reply : resultsMsg, sendObject).catch(() => { })
@@ -1985,6 +1988,7 @@ functions.navigateEmbed = async function (channel, pageFunc, results, who, extra
                     if (allowedMentions) sendObject.allowedMentions = allowedMentions
 
                     if (config.textEmbeds) sendObject.content = resultEmbed
+                    else if (resultEmbed.embeds) for (let key in resultEmbed) sendObject[key] = resultEmbed[key]
                     else sendObject.embeds = [resultEmbed];
 
                     (reply?.isUserApp ? reply.editReply : resultsMsg.edit).call(reply?.isUserApp ? reply : resultsMsg, sendObject).catch(() => { })
@@ -2005,6 +2009,7 @@ functions.navigateEmbed = async function (channel, pageFunc, results, who, extra
             if (allowedMentions) sendObject.allowedMentions = allowedMentions
 
             if (config.textEmbeds) sendObject.content = resultEmbed
+            else if (resultEmbed.embeds) for (let key in resultEmbed) sendObject[key] = resultEmbed[key]
             else sendObject.embeds = [resultEmbed];
 
             (reply?.isUserApp ? reply.editReply : resultsMsg.edit).call(reply?.isUserApp ? reply : resultsMsg, sendObject).catch(() => { })
@@ -5523,7 +5528,8 @@ functions.sendFile = async function (msg, filepath, filename, extraOptions) {
     let vars = poopy.vars
     let {
         validateFileFromPath, execPromise, infoPost,
-        rateLimit, addLastUrl, generateId, fetchPingPerms
+        rateLimit, addLastUrl, generateId, fetchPingPerms,
+        getUploadLimit
     } = poopy.functions
     let { fs, Discord } = poopy.modules
 
@@ -5621,10 +5627,10 @@ functions.sendFile = async function (msg, filepath, filename, extraOptions) {
         filename = extraOptions.name
     }
 
-    var tooLarge = fileBuffer.length > 1024 * 1024 * 10
+    var tooLarge = fileBuffer.length > getUploadLimit(msg)
 
     if (extraOptions.catbox || (tooLarge && !extraOptions.nosend)) {
-        if (!extraOptions.catbox && tooLarge && !extraOptions.nosend) await msg.reply('The output file is too large, so I\'m uploading it to catbox.moe.').catch(() => { })
+        if (!extraOptions.catbox && tooLarge && !extraOptions.nosend) await msg.reply('The output file is too large, so I\'m uploading it to Catbox.moe.').catch(() => { })
         infoPost(`Uploading file to catbox.moe`)
         var fileLink = await vars.Catbox.upload(`${filepath}/${filename}`).catch(() => { })
         if (fileLink) {
@@ -5698,7 +5704,7 @@ functions.sendFile = async function (msg, filepath, filename, extraOptions) {
         var fileMsg = await msg.reply(sendObject).catch(() => { })
 
         if (!fileMsg) {
-            await msg.reply('The output file is too large, so I\'m uploading it to catbox.moe.').catch(() => { })
+            await msg.reply('There was an error sending the file, so I\'m uploading it to Catbox.moe.').catch(() => { })
             infoPost(`Failed to send file to channel, uploading to catbox.moe`)
             var fileLink = await vars.Catbox.upload(`${filepath}/${filename}`).catch(() => { })
             if (fileLink) {
@@ -5727,6 +5733,16 @@ functions.sendFile = async function (msg, filepath, filename, extraOptions) {
 
     fs.rm(filepath, { force: true, recursive: true })
     return returnUrl
+}
+
+functions.getUploadLimit = function (msg) {
+    if (msg.attachmentSizeLimit) return msg.attachmentSizeLimit
+
+    switch (msg.guild.premiumTier) {
+        case 3: return 1024 * 1024 * 100
+        case 2: return 1024 * 1024 * 50
+        default: return 1024 * 1024 * 10
+    }
 }
 
 functions.validateFileFromPath = async function (path, exception, rejectMessages) {

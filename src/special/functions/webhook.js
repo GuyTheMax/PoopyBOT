@@ -3,7 +3,7 @@ module.exports = {
     desc: 'Creates a webhook with the name and avatar specified that will send the desired message.',
     func: async function (matches, msg, isBot, _, opts) {
         let poopy = this
-        let { splitKeyFunc, fetchPingPerms, sendWebhook } = poopy.functions
+        let { splitKeyFunc, fetchPingPerms, sendWebhook, getUploadLimit } = poopy.functions
         let globaldata = poopy.globaldata
         let tempdata = poopy.tempdata
         let data = poopy.data
@@ -103,7 +103,7 @@ module.exports = {
 
         if (keepAttachments) {
             var attachments = msg.attachments
-                .filter(attachment => attachment.size <= 1024 * 1024 * 10)
+                .filter(attachment => attachment.size <= getUploadLimit(msg))
                 .map(attachment => new Discord.AttachmentBuilder(attachment.url, attachment.name))
             var embeds = msg.embeds.filter(embed => embed.data.type === 'rich')
             var stickers = msg.stickers

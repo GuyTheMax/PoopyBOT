@@ -1,6 +1,6 @@
 module.exports = {
     name: ['frames', 'extractframes', 'getframes'],
-    args: [{"name":"file","required":false,"specifarg":false,"orig":"{file}"}],
+    args: [{ "name": "file", "required": false, "specifarg": false, "orig": "{file}" }],
     execute: async function (msg, args) {
         let poopy = this
         let {
@@ -8,7 +8,7 @@ module.exports = {
             execPromise, navigateEmbed, sendFile
         } = poopy.functions
         let vars = poopy.vars
-        let { fs, archiver, DiscordTypes } = poopy.modules
+        let { fs, archiver, Discord, DiscordTypes } = poopy.modules
         let config = poopy.config
         let bot = poopy.bot
 
@@ -33,7 +33,8 @@ module.exports = {
 
         if (type.mime.startsWith('video') || (type.mime.startsWith('image') && vars.gifFormats.find(f => f === type.ext))) {
             var filepath = await downloadFile(currenturl, `input.${fileinfo.shortext}`, {
-                fileinfo            })
+                fileinfo
+            })
             var filename = `input.${fileinfo.shortext}`
             fs.mkdirSync(`${filepath}/frames`)
 
@@ -45,32 +46,30 @@ module.exports = {
                 output.on('finish', async () => {
                     var frames = fs.readdirSync(`${filepath}/frames`)
                     var catboxframes = {}
-    
+
                     if (msg.nosend) {
                         resolve(await sendFile(msg, filepath, `output.zip`))
                         return
                     }
 
                     await navigateEmbed(msg.channel, async (page, ended) => {
-                        var frameurl = ended ? await vars.Catbox.upload(`${filepath}/frames/${frames[page - 1]}`).catch(() => { }) : catboxframes[frames[page - 1]]
-    
-                        if (!frameurl && !ended) {
-                            frameurl = await vars.Litterbox.upload(`${filepath}/frames/${frames[page - 1]}`).catch(() => { }) ?? ''
-                            catboxframes[frames[page - 1]] = frameurl
-                        }
-    
-                        if (config.textEmbeds) return `${frameurl}\n\nFrame ${page}/${frames.length}`
+                        var framepath = `${filepath}/frames/${frames[page - 1]}`
+
+                        if (config.textEmbeds) return `${framepath}\n\nFrame ${page}/${frames.length}`
                         else return {
-                            "title": fileinfo.name,
-                            "url": currenturl,
-                            "color": 0x472604,
-                            "image": {
-                                "url": frameurl
-                            },
-                            "footer": {
-                                "icon_url": bot.user.displayAvatarURL({ dynamic: true, size: 1024, extension: 'png' }),
-                                "text": `Frame ${page}/${frames.length}`
-                            },
+                            embeds: [{
+                                title: fileinfo.name,
+                                url: currenturl,
+                                color: 0x472604,
+                                image: {
+                                    url: `attachment://${frames[page - 1]}`
+                                },
+                                footer: {
+                                    icon_url: bot.user.displayAvatarURL({ dynamic: true, size: 1024, extension: 'png' }),
+                                    text: `Frame ${page}/${frames.length}`
+                                },
+                            }],
+                            files: [new Discord.AttachmentBuilder(framepath)]
                         }
                     }, frames.length, msg.member, [
                         {
@@ -90,7 +89,7 @@ module.exports = {
                     }, msg)
                     resolve(catboxframes[frames[0]])
                 });
-    
+
                 archive.pipe(output)
                 archive.directory(`${filepath}/frames`, false)
                 archive.finalize()
