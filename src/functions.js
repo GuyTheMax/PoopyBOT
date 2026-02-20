@@ -3783,7 +3783,7 @@ functions.correctUrl = async function (url) {
             }
         }
     } else if (url.match(/^https\:\/\/((www|m)\.)?youtube\.com|^https\:\/\/(www\.)?youtu\.be/)) {
-        var youtubeurl = await execPromise(`yt-dlp "${url}" --format 18 --get-url`).catch(() => { })
+        var youtubeurl = await execPromise(`yt-dlp --extractor-args "youtube:player_client=android" -f 18 -g "${url}"`).catch(() => { })
 
         if (youtubeurl) {
             infoPost(`YouTube video URL detected`)
