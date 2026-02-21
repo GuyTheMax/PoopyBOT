@@ -1004,7 +1004,7 @@ class Poopy {
                 var cleanMessage = cleanContentPreserveEmojis(origcontent, msg.channel).replace(/\@/g, '@‌')
 
                 if (
-                    !(cleanMessage.match(vars.badFilter) || cleanMessage.match(vars.scamFilter) || cleanMessage.includes(prefix.toLowerCase())) &&
+                    !(cleanMessage.includes(prefix.toLowerCase())) &&
                     !(tempdata[msg.guild.id].messages.some(message => message.content.toLowerCase() === cleanMessage.toLowerCase()))
                 ) {
                     data.guildData[msg.guild.id].messages.unshift({
@@ -1013,15 +1013,13 @@ class Poopy {
                         content: CryptoJS.AES.encrypt(cleanMessage, process.env.AUTH_TOKEN).toString(),
                         timestamp: Date.now()
                     })
-                    data.guildData[msg.guild.id].messages.splice(50000)
-
+                    
                     tempdata[msg.guild.id].messages.unshift({
                         id: msg.id,
                         author: msg.author.id,
                         content: cleanMessage,
                         timestamp: Date.now()
                     })
-                    tempdata[msg.guild.id].messages.splice(50000)
                 }
             }
 
