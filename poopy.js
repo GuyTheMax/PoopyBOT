@@ -993,7 +993,7 @@ class Poopy {
                 tempdata.collectors.filter(
                     c => c.id.startsWith(msg.channel.id) && c.type == "message"
                 ).forEach(collector => collector.collect(msg))
-            }                
+            }
 
             if (
                 origcontent && ((!(msg.author.bot) && msg.author.id != bot.user.id) || config.allowbotusage)
@@ -1013,7 +1013,7 @@ class Poopy {
                         content: CryptoJS.AES.encrypt(cleanMessage, process.env.AUTH_TOKEN).toString(),
                         timestamp: Date.now()
                     })
-                    
+
                     tempdata[msg.guild.id].messages.unshift({
                         id: msg.id,
                         author: msg.author.id,
@@ -1194,24 +1194,24 @@ class Poopy {
 
             var prefix = data.guildData[msg.guild?.id]?.prefix ?? config.globalPrefix
 
-            if (!messages || !tmpMessages) return
+            if (messages && tmpMessages) {
+                var messageIndex = messages.findIndex(m => m.id == msg.id)
+                if (messageIndex > -1) {
+                    var findMessage = messages[messageIndex]
+                    var findTmpMessage = tmpMessages[messageIndex]
 
-            var messageIndex = messages.findIndex(m => m.id == msg.id)
-            if (messageIndex > -1) {
-                var findMessage = messages[messageIndex]
-                var findTmpMessage = tmpMessages[messageIndex]
+                    var cleanMessage = cleanContentPreserveEmojis(msg.content, msg.channel).replace(/\@/g, '@‌')
 
-                var cleanMessage = cleanContentPreserveEmojis(msg.content, msg.channel).replace(/\@/g, '@‌')
-
-                if (
-                    !(cleanMessage.match(vars.badFilter) || cleanMessage.match(vars.scamFilter) || cleanMessage.includes(prefix.toLowerCase())) &&
-                    !(tmpMessages.find(message => message.content.toLowerCase() === cleanMessage.toLowerCase()))
-                ) {
-                    findMessage.content = CryptoJS.AES.encrypt(cleanMessage, process.env.AUTH_TOKEN).toString()
-                    findTmpMessage.content = cleanMessage
-                } else {
-                    messages.splice(messageIndex, 1)
-                    tmpMessages.splice(messageIndex, 1)
+                    if (
+                        !(cleanMessage.match(vars.badFilter) || cleanMessage.match(vars.scamFilter) || cleanMessage.includes(prefix.toLowerCase())) &&
+                        !(tmpMessages.find(message => message.content.toLowerCase() === cleanMessage.toLowerCase()))
+                    ) {
+                        findMessage.content = CryptoJS.AES.encrypt(cleanMessage, process.env.AUTH_TOKEN).toString()
+                        findTmpMessage.content = cleanMessage
+                    } else {
+                        messages.splice(messageIndex, 1)
+                        tmpMessages.splice(messageIndex, 1)
+                    }
                 }
             }
         }
@@ -1220,12 +1220,30 @@ class Poopy {
             var messages = data.guildData[msg.guild?.id]?.messages
             var tmpMessages = tempdata[msg.guild?.id]?.messages
 
-            if (!messages || !tmpMessages) return
+            if (messages && tmpMessages) {
+                var messageIndex = messages.findIndex(m => m.id == msg.id)
+                if (messageIndex > -1) {
+                    messages.splice(messageIndex, 1)
+                    tmpMessages.splice(messageIndex, 1)
+                }
+            }
 
-            var messageIndex = messages.findIndex(m => m.id == msg.id)
-            if (messageIndex > -1) {
-                messages.splice(messageIndex, 1)
-                tmpMessages.splice(messageIndex, 1)
+            const starboards = data.botData.starboards.filter(
+                s => s.guildId == msg?.guild?.id && s.messages[msg.id] != null && !s.keep
+            )
+
+            for (let starboard of starboards) {
+                const starboardChannel = msg.guild.channels.cache.get(starboard.channelId)
+                    ?? await msg.guild.channels.fetch(starboard.channelId).catch(() => { })
+                const starboardMsgId = starboard.messages[msg.id]
+
+                if (!starboardChannel) continue
+
+                const starboardMsg = starboardChannel.messages.cache.get(starboardMsgId)
+                    ?? await starboardChannel.messages.fetch(starboardMsgId).catch(() => { })
+                if (!starboardMsg) continue
+
+                starboardMsg.delete()
             }
         }
 

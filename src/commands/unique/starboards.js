@@ -59,6 +59,12 @@ module.exports = {
             "required": false,
             "specifarg": false,
             "orig": "{emoji (can also be ANY)}"
+        },
+        {
+            "name": "keep",
+            "required": false,
+            "specifarg": true,
+            "orig": "[-keep]"
         }],
         "description": "Adds a new starboard with the specified threshold and emoji."
     },
@@ -221,6 +227,8 @@ module.exports = {
                     return;
                 }
 
+                var keep = getOption(args, 'keep', { n: 0, splice: true, dft: false })
+
                 let channel = msg.channel;
 
                 let channelMatch = args[1] && args[1].match(/^<#(\d+)>$|^(\d{10,})$/)
@@ -276,9 +284,8 @@ module.exports = {
                     id: starboardId,
                     guildId: msg.guild.id,
                     channelId: channel.id,
-                    threshold,
-                    emoji,
-                    messages: {}
+                    threshold, emoji, keep,
+                    messages: {},
                 };
 
                 data.botData.starboards.push(newStarboard)
@@ -416,7 +423,7 @@ module.exports = {
         if (!args[1]) {
             var instruction = "**list** - Gets a list of starboards set up in the server.\n" +
                 "**info** <starboardId> - Displays the info of the starboard that has been set up with the respective ID.\n" +
-                "**add** [channel] {threshold} {emoji (can also be ANY)} (moderator only) - Sets up a new starboard with the specified threshold and emoji.\n" +
+                "**add** [channel] {threshold} {emoji (can also be ANY)} [-keep] (moderator only) - Sets up a new starboard with the specified threshold and emoji.\n" +
                 "**edit** <starboardId> {threshold} {emoji (can also be ANY)} (moderator only) - Edits the starboard config with the specified ID, if it exists.\n" +
                 "**delete** <starboardId> (moderator only) - Deletes the starboard config from the server, if it exists."
             if (!msg.nosend) {
