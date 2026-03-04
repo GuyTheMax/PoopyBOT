@@ -611,10 +611,17 @@ functions.fetchPingPerms = function (msg) {
         msg.author.id == msg.guild.ownerId
     )
 
+    const rolePings = [...msg.mentions.roles.keys()]
+    const userPings = [...msg.mentions.users.keys()]
+    if (!userPings.includes(msg.author.id)) userPings.push(msg.author.id)
+
     return hasPingPerms ? {
-        parse: ['users', 'everyone', 'roles']
+        parse: ['users', 'everyone', 'roles'],
+        repliedUser: true
     } : {
-        users: [msg.author.id]
+        roles: rolePings,
+        users: userPings,
+        repliedUser: true
     }
 }
 

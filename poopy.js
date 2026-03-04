@@ -556,7 +556,11 @@ class Poopy {
                 }
 
                 if (msg.reference && !msg.messageSnapshots?.size) {
-                    sendObject.content = `> -# Reply to: https://discord.com/channels/${msg.reference.guildId}/${msg.reference.channelId}/${msg.reference.messageId}\n\n${sendObject.content ?? ""}`
+                    const referenceMsg = await msg.fetchReference().catch(() => { })
+                    if (referenceMsg) {
+                        const replyMention = msg.mentions.has(referenceMsg.author.id) ? ` (${referenceMsg.author.toString()})` : ""
+                        sendObject.content = `> -# Reply to: ${referenceMsg.url}${replyMention}\n${sendObject.content ?? ""}`
+                    }
                 }
 
                 if (!data.guildData[msg.guild.id].webhookAttachments) {
@@ -1040,7 +1044,7 @@ class Poopy {
                 }
             } else if (
                 config.allowpingresponses &&
-                msg.mentions.members.find(member => member.user.id === bot.user.id) && (
+                msg.mentions.has(bot.user.id) && (
                     (!msg.author.bot && msg.author.id != bot.user.id) ||
                     config.allowbotusage
                 ) && !executed
@@ -1369,11 +1373,16 @@ class Poopy {
 
                 if (!meetsThreshold && !cachedStarboardMessage) continue
 
-                const msgContent = msg.messageSnapshots?.size ?
-                    `> -# Forwarded\n\n${origMsg.content ?? ""}` :
-                    msg.reference && !msg.messageSnapshots?.size ?
-                        `> -# Reply to: https://discord.com/channels/${msg.reference.guildId}/${msg.reference.channelId}/${msg.reference.messageId}\n\n${origMsg.content ?? ""}` :
-                        origMsg.content
+                let msgContent = origMsg.content
+
+                if (msg.messageSnapshots?.size) msgContent = `> -# Forwarded\n${origMsg.content ?? ""}`
+                else if (msg.reference && !msg.messageSnapshots?.size) {
+                    const referenceMsg = await msg.fetchReference().catch(() => { })
+                    if (referenceMsg) {
+                        const replyMention = msg.mentions.has(referenceMsg.author.id) ? ` (${referenceMsg.author.toString()})` : ""
+                        msgContent = `> -# Reply to: ${referenceMsg.url}${replyMention}\n${origMsg.content ?? ""}`
+                    }
+                }
 
                 const emojiContent = msg.reactions.cache.filter(
                     r => data.botData.starboards.some(
