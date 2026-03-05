@@ -873,7 +873,7 @@ functions.gatherData = async function (msg) {
         data.guildData[msg.guild.id].disabled = config.defaultDisabled
     }
 
-    reconcileDataWithTemplate(data.guildData, vars.dataTemplate.guildData, msg, ["channels", "members", "allMembers"])
+    reconcileDataWithTemplate(data.guildData[msg.guild.id], vars.dataTemplate.guildData.guildId, msg, ["channels", "members", "allMembers"])
 
     var filteredMessages = data.guildData[msg.guild.id].messages.filter(m => now - m.timestamp < 1000 * 60 * 60 * 24 * 30)
 
