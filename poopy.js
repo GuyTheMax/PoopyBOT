@@ -781,7 +781,7 @@ class Poopy {
                             if (isDisabled) {
                                 await msg.reply('This command is disabled in this server.').catch(() => { })
                             } else {
-                                var increaseCount = !(findCmd.execute.toString().includes('sendFile') && msg.nosend)
+                                var increaseCount = !(/sendFile|if \(!msg.nosend\)/.test(findCmd.execute.toString()) && !msg.replied && msg.nosend)
 
                                 if (increaseCount) {
                                     if (
@@ -842,7 +842,7 @@ class Poopy {
                             infoPost(`Command \`${args[0].toLowerCase()}\` used`)
                             var phrase = await getKeywordsFor(findLocalCmd.phrase, msg, true, { resetAttempts: true, ownermode: findLocalCmd.ownermode }).catch((e) => console.log(e)) ?? 'error'
 
-                            var increaseCount = !!phrase.trim()
+                            var increaseCount = !(!!phrase.trim() && !msg.replied && msg.nosend)
 
                             if (increaseCount) {
                                 if (
@@ -887,7 +887,7 @@ class Poopy {
                                             } else return
                                         }
 
-                                        var increaseCount = !(findCmd.execute.toString().includes('sendFile') && msg.nosend)
+                                        var increaseCount = !(/sendFile|if \(!msg.nosend\)/.test(findCmd.execute.toString()) && !msg.replied && msg.nosend)
 
                                         if (increaseCount) {
                                             if (
@@ -946,7 +946,7 @@ class Poopy {
                                     infoPost(`Command \`${similarCmds[0].name}\` used`)
                                     var phrase = findLocalCmd ? (await getKeywordsFor(findLocalCmd.phrase, msg, true, { resetAttempts: true, ownermode: findLocalCmd.ownermode }).catch((e) => console.log(e)) ?? 'error') : 'error'
 
-                                    var increaseCount = !!phrase.trim()
+                                    var increaseCount = !(!!phrase.trim() && !msg.replied && msg.nosend)
 
                                     if (increaseCount) {
                                         if (
@@ -1271,12 +1271,20 @@ class Poopy {
                 var audit = await guild.fetchAuditLogs().catch(() => { })
                 var kickEntry
                 var kickType = 'kicking'
+
                 if (audit) {
                     if (audit.entries.size) {
-                        kickEntry = audit.entries.find(entry => entry.action === 'MEMBER_KICK' || entry.action === 'MEMBER_BAN_ADD' || entry.action === 'MEMBER_BAN_REMOVE')
-                        if (kickEntry ? (kickEntry.action === 'MEMBER_BAN_ADD' || kickEntry.action === 'MEMBER_BAN_REMOVE') : false) {
-                            kickType = 'banning'
-                        }
+                        kickEntry = audit.entries.find(entry => entry.targetId == bot.user.id && (
+                            entry.action == Discord.AuditLogEvent.MemberKick ||
+                            entry.action == Discord.AuditLogEvent.MemberPrune ||
+                            entry.action == Discord.AuditLogEvent.MemberBanAdd ||
+                            entry.action == Discord.AuditLogEvent.MemberBanRemove
+                        ))
+
+                        if (
+                            kickEntry?.action == Discord.AuditLogEvent.MemberBanAdd ||
+                            kickEntry?.action == Discord.AuditLogEvent.MemberBanRemove
+                        ) kickType = 'banning'
                     }
                 }
 

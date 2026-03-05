@@ -90,7 +90,7 @@ module.exports = {
                 }).catch(() => { })
 
                 if (command) {
-                    var increaseCount = !(command.execute.toString().includes('sendFile') && msg.nosend)
+                    var increaseCount = !(/sendFile|if \(!msg.nosend\)/.test(command.execute.toString()) && !msg.replied && msg.nosend)
 
                     if (increaseCount) {
                         if (
