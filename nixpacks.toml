@@ -7,7 +7,8 @@ nixPkgs = [
     'python3',
     'ffmpeg-full',
     'imagemagick',
-    'gmic'
+    'gmic',
+    'libuuid'
 ]
 aptPkgs = [
     '...',
