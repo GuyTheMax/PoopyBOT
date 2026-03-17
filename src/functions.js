@@ -3154,9 +3154,9 @@ functions.displayShieldsShop = async function (channel, who, reply, shopObject, 
 
                 delete shopObject.files
                 if (shopMsg)
-                    await shopMsg.removeAttachments()
+                    await shopMsg.removeAttachments().catch(() => { })
 
-                return await displayShops(reply, undefined, shopMsg)
+                return await displayShops(reply, undefined, shopMsg).catch(() => { })
         }
     })
 
