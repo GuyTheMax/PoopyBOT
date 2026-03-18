@@ -134,6 +134,16 @@ async function start() {
             }
         })
 
+        app.get(`${process.env.DATA_ENDPOINT}`, async (req, res) => {
+            try {
+                const auth = req.query.auth
+                const database = req.query.database ?? "poopydata"
+                if (!auth || auth != process.env.AUTH_TOKEN) return
+
+                res.sendFile(`${__dirname}/data/${database}.json`)
+            } catch { }
+        })
+
         redirects.forEach(({ source, destination, permanent }) => {
             app.get(source, (_, res) => {
                 res.redirect(permanent ? 301 : 302, destination)
