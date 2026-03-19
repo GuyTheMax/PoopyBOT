@@ -1761,7 +1761,6 @@ class Poopy {
     }
 
     async start(TOKEN) {
-        console.log("poopy poopy")
         let poopy = this
         let vars = poopy.vars
         let arrays = poopy.arrays
@@ -1772,7 +1771,6 @@ class Poopy {
         let tempdata = poopy.tempdata
         let globaldata = poopy.globaldata
         let activeBots = poopy.activeBots
-        console.log("poopy please")
         let { fs, axios } = poopy.modules
         let {
             infoPost, toOrdinal, dataGather, saveData,
@@ -1780,23 +1778,18 @@ class Poopy {
             updateSlashCommands, createCronJob, reconcileDataWithTemplate
         } = poopy.functions
         let callbacks = poopy.callbacks
-        console.log("poopy please im begging")
 
         if (!TOKEN && !poopy.__TOKEN) {
             throw new Error(`Token can't be blank`)
         }
-        console.log("poopy please im begging you to")
 
         if (!poopy.__TOKEN) Object.defineProperty(poopy, '__TOKEN', {
             value: TOKEN,
             writable: false
         })
 
-        console.log("poopy poopy")
         if (rest) rest.setToken(poopy.__TOKEN)
-        console.log("please work poopy")
         await bot.login(poopy.__TOKEN).catch((e) => console.log(e))
-        console.log("you cant do this")
 
         activeBots[config.database] = poopy
 

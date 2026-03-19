@@ -120,11 +120,11 @@ module.exports = {
             var filepath = await downloadFile(currenturl, `input.gif`, {
                 fileinfo            })
             var filename = `input.gif`
-            if (width > 1000) {
-                width = 1000
+            if (width > 1500) {
+                width = 1500
             }
-            if (height > 1000) {
-                height = 1000
+            if (height > 1500) {
+                height = 1500
             }
 
             await execPromise(`ffmpeg -i ${filepath}/${filename} -filter_complex "[0:v]scale=${width}:${height}${flag ? `:flags=${flag}` : ''}${keepaspectratio ? `:force_original_aspect_ratio=${keepaspectratio}` : ''},split[pout][ppout];[ppout]palettegen=reserve_transparent=1[palette];[pout][palette]paletteuse=alpha_threshold=128[out]" -map "[out]" -preset ${findpreset(args)} -gifflags -offsetting ${filepath}/output.gif`)

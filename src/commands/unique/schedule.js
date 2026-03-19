@@ -253,9 +253,14 @@ module.exports = {
                         return
                     }
 
-                    var cronTime = matchedText.replace(/\\(?=")/g, "")
-                    if (!cron.validateCronExpression(cronTime)) {
+                    var cronTime = matchedText.replace(/\\(?=")/g, "").trim()
+                    if (cronTime.split(" ").length != 5 || !cron.validateCronExpression(cronTime)) {
                         await msg.reply('Invalid cron.').catch(() => { })
+                        return
+                    }
+
+                    if (data.botData.crons.some(t => t.channelId == channel.id && t.cron == cronTime)) {
+                        await msg.reply('A timer with that cron already exists in the channel.').catch(() => { })
                         return
                     }
 
@@ -333,9 +338,14 @@ module.exports = {
 
                         saidMessage = saidMessage.replace(`"${matchedText}"`, "").trim()
 
-                        var newCron = matchedText
-                        if (!cron.validateCronExpression(newCron)) {
+                        var newCron = matchedText.trim()
+                        if (newCron.split(" ").length != 5 || !cron.validateCronExpression(newCron)) {
                             await msg.reply('Invalid cron.').catch(() => { })
+                            return
+                        }
+
+                        if (data.botData.crons.some(t => t.channelId == timer.channelId && t.cron == newCron)) {
+                            await msg.reply('A timer with that cron already exists in the channel.').catch(() => { })
                             return
                         }
 
@@ -411,25 +421,23 @@ module.exports = {
 
         if (!args[1]) {
             var syntaxOverview = "```\n" +
-                "┌────────────── second (optional)\n" +
-                "│ ┌──────────── minute\n" +
-                "│ │ ┌────────── hour\n" +
-                "│ │ │ ┌──────── day of month\n" +
-                "│ │ │ │ ┌────── month\n" +
-                "│ │ │ │ │ ┌──── day of week\n" +
-                "│ │ │ │ │ │\n" +
-                "* * * * * *\n" +
+                "┌──────────── minute\n" +
+                "│ ┌────────── hour\n" +
+                "│ │ ┌──────── day of month\n" +
+                "│ │ │ ┌────── month\n" +
+                "│ │ │ │ ┌──── day of week\n" +
+                "│ │ │ │ │\n" +
+                "* * * * *\n" +
                 "```\n" +
                 "\n" +
-                "**Allowed values per field**\n" +
-                "`second`: `0-59 (optional)`\n" +
-                "`minute`: `0-59`\n" +
+                "**Allowed values per field**\n"
+            "`minute`: `0-59`\n" +
                 "`hour`: `0-23`\n" +
                 "`day of month`: `1-31`\n" +
                 "`month`: `1-12 (or names, e.g., Jan, Sep)`\n" +
                 "`day of week`: `0-7 (or names, 0 or 7 are Sunday)`\n" +
                 "\n" +
-                "Learn more at https://nodecron.com/cron-syntax.html"
+                "Learn more at http://crontab.org/"
 
             var instruction = "**list** - Gets a list of timers set up in the server.\n" +
                 "**info** <timerId> - Displays the info of the timer that has been set up with the respective ID.\n" +

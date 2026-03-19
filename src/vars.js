@@ -367,6 +367,8 @@ vars.dataTemplate = {
             username: "",
 
             dms: undefined,
+            dmsReceived: {},
+            dmsBlocked: [],
             tokens: {},
 
             death: 0,

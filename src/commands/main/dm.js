@@ -119,9 +119,10 @@ module.exports = {
         if (!data.userData[member.id]) {
             data.userData[member.id] = !config.testing && process.env.MONGODB_URL && await dataGather.userData(config.database, member.id).catch(() => { }) || {}
         }
-        if (!tempdata[member.id]) {
-            tempdata[member.id] = {}
-        }
+
+        data.userData[member.id].dmsReceived ??= {}
+        data.userData[member.id].dmsBlocked ??= []
+        tempdata[member.id] ??= {}
 
         if (data.userData[member.id].dms == undefined && !tempdata[member.id].dmConsent && member.id != msg.author.id) {
             tempdata[msg.author.id].dmConsent = true
@@ -132,7 +133,7 @@ module.exports = {
             if (send !== undefined) {
                 data.userData[member.id].dms = send
                 member.send({
-                    content: `Unrelated DMs from \`dm\` will **${!send ? 'not ' : ''}be sent** to you now. To change this setting, use the \`toggledms\` command.`,
+                    content: `Unrelated DMs from \`dm\` will **${!send ? 'not ' : ''}be sent** to you now. To change this setting, use the \`p:toggledms\` command.`,
                     allowedMentions: fetchPingPerms(msg)
                 }).catch(() => { })
                 if (pending) {
@@ -142,33 +143,36 @@ module.exports = {
                 (msg?.isUserApp ? msg.editReply : pending.edit).call(msg?.isUserApp ? msg : pending, 'Couldn\'t send a message to this user. Make sure they share any of the servers I\'m in, or not have me blocked.').catch(() => { })
             }
         } else {
-            if (data.userData[member.id].dms === false && member.id != msg.author.id && !data.guildData[msg.guild.id].chaos) {
+            if ((data.userData[member.id].dms === false || data.userData[member.id].dmsBlocked.includes(msg.author.id)) && member.id != msg.author.id && !data.guildData[msg.guild.id].chaos) {
                 await msg.reply('I don\'t have the permission to send unrelated DMs to this user.').catch(() => { })
                 return
             }
 
+            data.userData[member.id].dmsReceived[msg.author.id] ??= 0
+
             var infoMessage = !anon && member.id != msg.author.id ? `${msg.author.tag} from ${msg.guild.name}:\n\n` : ''
+            var tipMessage = member.id != msg.author.id && data.userData[member.id].dmsReceived[msg.author.id] == 0 ? `\n\n-# Have no idea who this is? You can block them using \`p:toggledms ${msg.author.tag}\`, or block bot DMs entirely by using \`p:toggledms\` alone.` : ''
 
             var dmChannel = await member.createDM().catch(() => { })
             if (!dmChannel) return
 
-            dmChannel.nsfw = !!data.guildData[dmChannel.id]?.channels?.[dmChannel.id]?.nsfw
-
-            if (!dmChannel.nsfw) saidMessage = saidMessage.replace(/https?:\/\/.*(rule34|e621|xxx|porn|iplogger)([!#$&-;=?-[\]_a-z~]|%[0-9a-fA-F])*/g, 'no')
+            saidMessage = saidMessage.replace(/https?:\/\/.*(rule34|e621|xxx|porn|iplogger)([!#$&-;=?-[\]_a-z~]|%[0-9a-fA-F])*/g, 'no')
 
             var dmMessage = await dmChannel.send({
-                content: `${infoMessage}${saidMessage}`,
+                content: `${infoMessage}${saidMessage}${tipMessage}`,
                 files: attachments
             }).catch(() => { })
 
             if (dmMessage) {
+                data.userData[member.id].dmsReceived[msg.author.id]++
+
                 if (!msg.nosend) {
                     if (msg.type === DiscordTypes.InteractionType.ApplicationCommand && !msg.replied) await msg.reply({
                         content: 'Successfully sent.'
                     }).catch(() => { })
                     else msg.react('✅').catch(() => { })
                 }
-                return `${infoMessage}${saidMessage}`
+                return `${infoMessage}${saidMessage}${tipMessage}`
             } else {
                 await msg.reply(member.id == msg.author.id ? 'unblock me' : 'Couldn\'t send a message to this user. Make sure they share any of the servers I\'m in, or not have me blocked.').catch(() => { })
             }
@@ -176,7 +180,7 @@ module.exports = {
     },
     help: {
         name: 'dm <user> <message>',
-        value: 'Allows Poopy to DM an user the message inside the command.'
+        value: 'Allows Poopy to DM an user the message inside the command, this can be disabled with p:toggledms.'
     },
     type: 'Main'
 }

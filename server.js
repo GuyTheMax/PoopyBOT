@@ -159,7 +159,6 @@ async function start() {
         app.listen(PORT, () => console.log(`Web is up: ${process.env.BOT_WEBSITE}`))
     }
 
-    console.log("Requiring the pooper...")
     const Poopy = require('./poopy')
 
     let tokens = []
@@ -288,11 +287,10 @@ async function start() {
 
         if (!poopy) tokendata.config.quitOnDestroy = true
 
-        console.log("Creating a pooper...")
         let poopoo = new Poopy(tokendata.config)
         if (!poopy) poopy = poopoo
-        console.log("pooper created... startign time")
 
+        console.log("pooper created... startign time")
         poopoo.start(tokendata.TOKEN).then(() => {
             if (poopoo.config.quitOnDestroy) {
                 poopyStarted = true
