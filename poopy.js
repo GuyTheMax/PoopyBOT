@@ -1773,7 +1773,7 @@ class Poopy {
         let activeBots = poopy.activeBots
         let { fs, axios } = poopy.modules
         let {
-            infoPost, toOrdinal, dataGather, saveData,
+            infoPost, toOrdinal, requestData, saveData,
             saveQueue, changeStatus, updateHivemindStatus,
             updateSlashCommands, createCronJob, reconcileDataWithTemplate
         } = poopy.functions
@@ -1792,64 +1792,6 @@ class Poopy {
         await bot.login(poopy.__TOKEN).catch((e) => console.log(e))
 
         activeBots[config.database] = poopy
-
-        var dataLoadError = false
-
-        async function requestData() {
-            var data = {
-                data: {},
-                globaldata: {}
-            }
-
-            if (config.testing || !process.env.MONGODB_URL) {
-                console.log(`${bot.user.displayName}: gathering from json`)
-                if (fs.existsSync(`data/${config.database}.json`)) {
-                    try {
-                        data.data = fs.readJSONSync(`data/${config.database}.json`)
-                    } catch (_) {
-                        dataLoadError = true
-                        config.notSave = true
-                        console.log(`${bot.user.displayName}: ERROR LOADING DATA. disabling saving...`)
-                        data.data = {
-                            botData: {},
-                            userData: {},
-                            guildData: {}
-                        }
-                    }
-                } else {
-                    data.data = {
-                        botData: {},
-                        userData: {},
-                        guildData: {}
-                    }
-                }
-
-                if (Object.keys(globaldata).length <= 0) {
-                    if (fs.existsSync(`data/globaldata.json`)) {
-                        try {
-                            data.globaldata = fs.readJSONSync(`data/globaldata.json`)
-                        } catch (_) {
-                            dataLoadError = true
-                            config.notSave = true
-                            console.log(`${bot.user.displayName}: ERROR LOADING DATA. disabling saving...`)
-                            data.globaldata = {}
-                        }
-                    } else {
-                        data.globaldata = {}
-                    }
-                }
-
-                return data
-            } else {
-                console.log(`${bot.user.displayName}: gathering from mongodb`)
-                data.data.botData = await dataGather.botData(config.database)
-                if (Object.keys(globaldata).length <= 0) {
-                    data.globaldata = await dataGather.globalData()
-                }
-
-                return data
-            }
-        }
 
         console.log(`${bot.user.displayName} is online, RUN`)
         infoPost(`${bot.user.displayName} woke up to ash and dust`)
@@ -1912,13 +1854,6 @@ class Poopy {
 
         vars.filecount = data.botData.filecount || 0
 
-        if (config.testing || !process.env.MONGODB_URL) {
-            if (!fs.existsSync('data')) fs.mkdirSync('data')
-
-            fs.writeJSONSync(`data/${config.database}.json`, data)
-            fs.writeJSONSync(`data/globaldata.json`, globaldata)
-        }
-
         console.log(`${bot.user.displayName}: gathering extra values`)
         vars.languages = await dataGetters.languages().catch(() => { }) ?? []
         vars.codelanguages = await dataGetters.codeLanguages().catch(() => { }) ?? []
@@ -1956,6 +1891,7 @@ class Poopy {
 
         saveData()
         saveQueue()
+
         updateSlashCommands()
 
         changeStatus()
@@ -1969,14 +1905,14 @@ class Poopy {
         if (wakeChannel) {
             wakeChannel.send(!config.stfu ? 'i wake up to ash and dust' : '').catch(() => { })
             wakeChannel.send(!config.stfu ? (
-                config.testing ?
-                'raleigh is testing' :
-                dataLoadError ? 
-                'ERROR LOADING EXISTING DATA. temporarily using new data as fallback...' :
-                `this is the ${toOrdinal(wakecount)} time this happens`) : ''
+                config.dataLoadError ?
+                    'ERROR LOADING EXISTING DATA. temporarily using new data as fallback...' :
+                    config.testing ?
+                        'raleigh is testing' :
+                        `this is the ${toOrdinal(wakecount)} time this happens`) : ''
             ).catch(() => { })
         }
-        
+
         updateHivemindStatus()
         vars.hivemindStatusInterval = setInterval(function () {
             updateHivemindStatus()

@@ -6176,6 +6176,80 @@ functions.saveQueue = async function () {
     }
 }
 
+functions.requestData = async function () {
+    let poopy = this
+    let bot = poopy.bot
+    let config = poopy.config
+    let globaldata = poopy.globaldata
+    let { fs } = poopy.modules
+
+    var data = {
+        data: {},
+        globaldata: {}
+    }
+
+    if (config.testing || !process.env.MONGODB_URL) {
+        console.log(`${bot.user.displayName}: gathering from json`)
+        if (fs.existsSync(`data/${config.database}.json`)) {
+            try {
+                data.data = fs.readJSONSync(`data/${config.database}.json`)
+            } catch (_) {
+                try {
+                    console.log(`${bot.user.displayName}: ERROR LOADING DATA. using backup...`)
+                    data.data = fs.readJSONSync(`data/${config.database}_bak.json`)
+                } catch (_) {
+                    console.log(`${bot.user.displayName}: GENERAL ERROR LOADING DATA. using fallback and disabling saving...`)
+
+                    config.notSave = true
+                    config.dataLoadError = true
+                    data.data = {
+                        botData: {},
+                        userData: {},
+                        guildData: {}
+                    }
+                }
+            }
+        } else {
+            console.log(`${bot.user.displayName}: creating new data`)
+            data.data = {
+                botData: {},
+                userData: {},
+                guildData: {}
+            }
+        }
+
+        if (Object.keys(globaldata).length <= 0) {
+            if (fs.existsSync(`data/globaldata.json`)) {
+                try {
+                    data.globaldata = fs.readJSONSync(`data/globaldata.json`)
+                } catch (_) {
+                    try {
+                        console.log(`${bot.user.displayName}: ERROR LOADING GLOBAL DATA. using backup...`)
+                        data.data = fs.readJSONSync(`data/globaldata_bak.json`)
+                    } catch (_) {
+                        console.log(`${bot.user.displayName}: GENERAL ERROR LOADING GLOBAL DATA. using fallback and disabling saving...`)
+
+                        config.notSave = true
+                        config.dataLoadError = true
+                        data.globaldata = {}
+                    }
+                }
+            } else {
+                console.log(`${bot.user.displayName}: creating global data`)
+                data.globaldata = {}
+            }
+        }
+    } else {
+        console.log(`${bot.user.displayName}: gathering from mongodb`)
+        data.data.botData = await dataGather.botData(config.database)
+        if (Object.keys(globaldata).length <= 0) {
+            data.globaldata = await dataGather.globalData()
+        }
+    }
+
+    return data
+}
+
 functions.saveData = async function () {
     let poopy = this
     let config = poopy.config
@@ -6184,16 +6258,55 @@ functions.saveData = async function () {
     let { infoPost, dataGather } = poopy.functions
     let { fs } = poopy.modules
 
+    if (!fs.existsSync('data')) fs.mkdirSync('data')
+
     if (config.notSave || Object.keys(data).length <= 0 || Object.keys(globaldata).length <= 0) return
 
     infoPost(`Saving data`)
 
-    if (config.testing || !process.env.MONGODB_URL) {
-        fs.writeFileSync(`data/${config.database}.json`, JSON.stringify(data))
-        fs.writeFileSync(`data/globaldata.json`, JSON.stringify(globaldata))
+    const filesToSave = [
+        {
+            path: `data/${config.database}.json`,
+            backupPath: `data/${config.database}_bak.json`,
+            data: data
+        },
+        {
+            path: `data/globaldata.json`,
+            backupPath: `data/globaldata_bak.json`,
+            data: globaldata
+        }
+    ]
+
+    async function saveFileData(fileData) {
+        let dataStats = fs.existsSync(fileData.path)
+            && fs.statSync(fileData.path)
+
+        if (!dataStats) {
+            fs.writeJSONSync(fileData.path, fileData.data)
+            dataStats = fs.existsSync(fileData.path)
+                && fs.statSync(fileData.path)
+        }
+
+        let backupStats = fs.existsSync(fileData.backupPath)
+            && fs.statSync(fileData.backupPath)
+
+        const isBackupLarger = dataStats && backupStats && dataStats.size < backupStats.size
+
+        if (!isBackupLarger) {
+            fs.rmSync(fileData.backupPath, { force: true })
+        }
+
+        if (!isBackupLarger || !backupStats) {
+            fs.renameSync(fileData.path, fileData.backupPath)
+        }
+
+        fs.writeJSONSync(fileData.path, fileData.data)
+    }
+
+    if ((config.testing || !process.env.MONGODB_URL) && !config.notSave) {
+        await Promise.all(filesToSave.map(saveFileData))
     } else {
         const dataObject = { data, globaldata }
-
         await dataGather.update(config.database, dataObject).catch(() => { })
     }
 

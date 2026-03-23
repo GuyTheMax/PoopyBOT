@@ -136,10 +136,13 @@ async function start() {
         app.get(`${process.env.DATA_ENDPOINT}`, async (req, res) => {
             try {
                 const auth = req.query.auth
-                const database = req.query.database ?? "poopydata"
-                if (!auth || auth != process.env.AUTH_TOKEN) return
+                const file = req.query.file ?? `data/${database}.json`
+                if (!auth || auth != process.env.AUTH_TOKEN) {
+                    res.status(404).sendFile(`${__dirname}/html/errorpages/404.html`)
+                    return
+                }
 
-                res.sendFile(`${__dirname}/data/${database}.json`)
+                res.sendFile(`${__dirname}/${file}`)
             } catch { }
         })
 
