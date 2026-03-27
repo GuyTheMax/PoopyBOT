@@ -587,7 +587,7 @@ class Poopy {
                         type == "all"
                             ? allBattlers
                             : poopy.json.battlerJSON[type]
-                    ).filter(b => !b.custom || (b.custom && !b.ignoreCustomBlacklist))
+                    ).filter(b => !b.custom || (b.custom && b.ignoreCustomBlacklist))
 
                     var battler = allBattlers.find(battler => battler.custom && battler.custom.some(id => id == msg.author.id)) ??
                         battlers.reduce((closestBattler, currentBattler) =>
