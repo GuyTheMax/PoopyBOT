@@ -43,5 +43,6 @@ module.exports = {
         name: 'tbbunban <userId>',
         value: 'Unban someone.'
     },
-    type: 'Tumore'
+    type: 'Tumore',
+    envRequired: ['TBB_ROBLOX_KEY']
 }

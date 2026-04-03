@@ -48,5 +48,6 @@ module.exports = {
         name: 'bludunfraud/bludtrust <userId>',
         value: 'Retrust someone.'
     },
-    type: 'Tumore'
+    type: 'Tumore',
+    envRequired: ['BLUD_ROBLOX_KEY']
 }

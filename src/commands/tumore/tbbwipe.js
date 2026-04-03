@@ -46,5 +46,6 @@ module.exports = {
         name: 'tbbwipe <userId>',
         value: 'Wipe someone\'s data.'
     },
-    type: 'Tumore'
+    type: 'Tumore',
+    envRequired: ['TBB_ROBLOX_KEY']
 }

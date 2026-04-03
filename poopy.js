@@ -502,8 +502,8 @@ class Poopy {
             }
 
             var bypassPerms = (
-                msg.channel.permissionsFor(msg.member).has(DiscordTypes.PermissionFlagsBits.ManageGuild) ||
-                msg.channel.permissionsFor(msg.member).has(DiscordTypes.PermissionFlagsBits.ManageMessages) ||
+                msg.channel?.permissionsFor(msg.member)?.has(DiscordTypes.PermissionFlagsBits.ManageGuild) ||
+                msg.channel?.permissionsFor(msg.member)?.has(DiscordTypes.PermissionFlagsBits.ManageMessages) ||
                 msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.Administrator) ||
                 msg.author.id === msg.guild.ownerId ||
                 (config.ownerids.find(id => id == msg.author.id))

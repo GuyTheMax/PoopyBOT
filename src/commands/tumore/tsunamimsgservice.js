@@ -1,5 +1,5 @@
 module.exports = {
-    name: ['bludmsgservice', 'bludmessageservice'],
+    name: ['tsunamimsgservice', 'tsunamimessageservice'],
     args: [
         { "name": "topic", "required": true, "specifarg": false, "orig": "<topic>" },
         { "name": "inquery", "required": true, "specifarg": false, "orig": "{inquery}" },
@@ -29,14 +29,14 @@ module.exports = {
             { PlayerId: parseNumber(inQueryRaw, { min: 1, round: true }) }
         ) : {}
 
-        var res = await axios.post(`https://apis.roblox.com/messaging-service/v1/universes/7091645916/topics/${process.env.BLUD_TOPIC}`, {
+        var res = await axios.post(`https://apis.roblox.com/messaging-service/v1/universes/9857818180/topics/${process.env.TSUNAMI_TOPIC}`, {
             message: JSON.stringify({
                 Topic: topic,
                 Inquery: inQuery
             })
         }, {
             headers: {
-                "x-api-key": process.env.BLUD_ROBLOX_KEY,
+                "x-api-key": process.env.TSUNAMI_ROBLOX_KEY,
                 "content-type": "application/json"
             }
         }).catch(() => { })
@@ -50,9 +50,9 @@ module.exports = {
         return 'Messaging Service API request sent. Something sinister might happen soon...'
     },
     help: {
-        name: 'bludmsgservice/bludmessageservice <topic> {inQuery}',
+        name: 'tsunamimsgservice/tsunamimessageservice <topic> {inQuery}',
         value: 'Send a request to Roblox\'s Messaging Service API.'
     },
     type: 'Tumore',
-    envRequired: ['BLUD_ROBLOX_KEY']
+    envRequired: ['TSUNAMI_ROBLOX_KEY']
 }

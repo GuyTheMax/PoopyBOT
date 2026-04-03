@@ -48,5 +48,6 @@ module.exports = {
         name: 'bludfraud/bluddistrust <userId>',
         value: 'Distrust someone.'
     },
-    type: 'Tumore'
+    type: 'Tumore',
+    envRequired: ['BLUD_ROBLOX_KEY']
 }
