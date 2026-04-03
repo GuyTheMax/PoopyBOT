@@ -75,18 +75,6 @@
         "description": "Beat people up. Yeah."
     },
     {
-        "name": "tumore",
-        "cmds": [
-            "tbbban",
-            "tbbunban",
-            "tbbwipe",
-            "bludfraud",
-            "bludmsgservice",
-            "bludunfraud"
-        ],
-        "description": "I'm gonna have a heart attack!"
-    },
-    {
         "name": "caption",
         "cmds": [
             "caption",
@@ -397,6 +385,21 @@
             "vstretch"
         ],
         "description": "Scale the size of some file."
+    },
+    {
+        "name": "tumore",
+        "cmds": [
+            "tbbban",
+            "tbbunban",
+            "tbbwipe",
+            "bludfraud",
+            "bludmsgservice",
+            "bludunfraud",
+            "tsunamiban",
+            "tsunamiunban",
+            "tsunamimsgservice"
+        ],
+        "description": "I'm gonna have a heart attack!"
     },
     {
         "name": "zoom",
