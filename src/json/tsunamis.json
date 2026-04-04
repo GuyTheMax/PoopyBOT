@@ -1,0 +1,1411 @@
+[
+  {
+    "Name": "Clanker Wave",
+    "CreatorId": [
+      24442377
+    ],
+    "Description": "You may be eligible for an exclusive leak of the next the battle bricks chapter If you are UNDER THE AGE OF 13 then, Ping @DisCat_1 and he will provide you the exclusive leak.",
+    "Severity": 2,
+    "Stats": {
+      "KillOnTouch": false,
+      "Speed": 160,
+      "Float": 0.1
+    }
+  },
+  {
+    "Name": "Fly Wave",
+    "CreatorId": [
+      52025108
+    ],
+    "Description": "Maybe it's the flies!",
+    "Token": 1,
+    "Stats": {
+      "Speed": 80
+    }
+  },
+  {
+    "Name": "Evil Fly Wave",
+    "CreatorId": [
+      52025108,
+      858127355
+    ],
+    "Description": "Maybe it's NOT the flies!",
+    "Token": 11,
+    "Severity": 2.5,
+    "Stats": {
+      "Speed": -80,
+      "Float": 0.4
+    }
+  },
+  {
+    "Name": "Water Wave",
+    "CreatorId": [
+      314064809,
+      24442377
+    ],
+    "Description": "Waves which inflict the status effect of the magic imbued to them, Water Magic infused wave.",
+    "Helpful": true,
+    "Stats": {
+      "Speed": 100,
+      "Float": 0.6,
+      "KillOnTouch": false
+    }
+  },
+  {
+    "Name": "Chicken Wave",
+    "CreatorId": [
+      314064809
+    ],
+    "Description": "Happy Easter! Spawns eggs!",
+    "Token": 2,
+    "Stats": {
+      "Speed": 60,
+      "Float": 0.8
+    }
+  },
+  {
+    "Name": "Lava Wave",
+    "CreatorId": [
+      314064809,
+      24442377
+    ],
+    "Description": "A wave made out of glowing red-orange liquid, it demands a doll that looks a lot like a corvid.",
+    "Severity": 2.5,
+    "Stats": {
+      "Speed": 50,
+      "Float": 0.1,
+      "KillOnTouch": false
+    }
+  },
+  {
+    "Name": "Lucky Wave",
+    "CreatorId": [
+      314064809
+    ],
+    "Description": "This wave has random holes in it! Is able to reach into cubbies and trenches. Watch out!",
+    "Token": 8,
+    "Stats": {
+      "Speed": 30,
+      "Float": 0.5,
+      "CubbyReach": true,
+      "TrenchReach": true,
+      "Gap": true
+    }
+  },
+  {
+    "Name": "Beep Block Wave",
+    "CreatorId": [
+      314064809
+    ],
+    "Description": "Beep Beep Beep bloop! Extends into trenches...",
+    "Token": 4,
+    "Stats": {
+      "Speed": 50,
+      "Float": 0.75,
+      "TrenchReach": true,
+      "Gap": true
+    }
+  },
+  {
+    "Name": "Obby Wave",
+    "CreatorId": [
+      314064809
+    ],
+    "Description": "Welcome to my obstacle course murahahhaahhaha!\nWhere you uh jump over things!",
+    "Token": 6,
+    "Stats": {
+      "Speed": 20,
+      "Float": 0.5,
+      "Damage": 35,
+      "CubbyReach": true
+    }
+  },
+  {
+    "Name": "Electro Wave",
+    "CreatorId": [
+      52025108
+    ],
+    "Description": "Electro wave, open up! What the!? BZZZZT OOOOOOH!",
+    "Token": 2,
+    "Stats": {
+      "Speed": 120,
+      "Float": 0.85
+    }
+  },
+  {
+    "Name": "Allan Wave",
+    "CreatorId": [
+      52025108
+    ],
+    "Description": "I'm a gas man!\nLeaves lingering gas around himself which slowly damages you",
+    "Token": 6,
+    "Stats": {
+      "Speed": 80,
+      "Damage": 15,
+      "Float": 0.5
+    }
+  },
+  {
+    "Name": "Minigun Wave",
+    "CreatorId": [
+      52025108
+    ],
+    "Description": "I'm not going to nerf minigun, no explanation.",
+    "Token": 3,
+    "Stats": {
+      "Speed": 150,
+      "Float": 0.8
+    }
+  },
+  {
+    "Name": "Shield Wave",
+    "CreatorId": [
+      52025108
+    ],
+    "Description": "Hey riot man! It's not me, it's Some's balancing.\nHey riot man, I can knockback and stun anyone.",
+    "Token": 5,
+    "Stats": {
+      "Speed": 80,
+      "Float": 0.5,
+      "Damage": 5,
+      "Knockback": 80,
+      "TrenchReach": true,
+      "CubbyReach": true
+    }
+  },
+  {
+    "Name": "Somedeviser Wave",
+    "CreatorId": [
+      15492911
+    ],
+    "Description": "SOON! A delayed game is eventually good, a rushed game is bad forever. \nExtremely slow, but every now and then he'll reduce his width and let you pass.",
+    "Token": 20,
+    "Severity": 2.5,
+    "Stats": {
+      "Speed": 6,
+      "Float": 0.15,
+      "Gap": true
+    }
+  },
+  {
+    "Name": "Foot Wave",
+    "CreatorId": [
+      99662209
+    ],
+    "Description": "That's back to your plot for you bud!",
+    "Token": 9,
+    "Stats": {
+      "Speed": 256,
+      "Float": 0.5
+    }
+  },
+  {
+    "Name": "Moldy Wave",
+    "CreatorId": [
+      99662209,
+      314520879
+    ],
+    "Description": "Moldy as a wave!\nSpawns another Moldy wave whenever it kills someone!",
+    "Token": 6,
+    "Stats": {
+      "Speed": 60
+    }
+  },
+  {
+    "Name": "Frostbitten Wave",
+    "CreatorId": [
+      99662209,
+      99843550
+    ],
+    "Description": "Grants ice armor that triples your health with no downsides!\n(except you cannot move cuz your encased in yo ice)\nAlso prevents and puts out fires",
+    "Token": 3,
+    "Stats": {
+      "Speed": 40,
+      "Float": 0.6,
+      "KillOnTouch": false,
+      "CubbyReach": true,
+      "FreezeDuration": 8,
+      "HealthBoost": 3
+    }
+  },
+  {
+    "Name": "Pancake Wave",
+    "CreatorId": [
+      52025108
+    ],
+    "Description": "A pelican would really enjoy this feast.",
+    "Token": 8,
+    "Stats": {
+      "Speed": 30,
+      "Float": 0.4,
+      "CubbyReach": false
+    }
+  },
+  {
+    "Name": "Elite Destructful",
+    "CreatorId": [
+      52025108,
+      314520879
+    ],
+    "Description": "He's ticking 50 ticks a second, in one second!\nIf the timer reaches 0, everyone dies!",
+    "Token": 50,
+    "Severity": 2.5,
+    "Stats": {
+      "TimeToTravel": 70,
+      "KillOnTouch": false,
+      "Float": 0.1
+    }
+  },
+  {
+    "Name": "Shoe Bench Wave",
+    "CreatorId": [
+      99843550
+    ],
+    "Description": "Shoe Bench WALTM Himself is here to Bench-Press anyone hiding in trenches. Get out fast!",
+    "Token": 4,
+    "Stats": {
+      "Speed": 200,
+      "Float": 0.6,
+      "TrenchReach": true,
+      "Gap": true
+    }
+  },
+  {
+    "Name": "Troll Wave",
+    "CreatorId": [
+      3199092988
+    ],
+    "Description": "U mad? Trololo!\nWill reach inside of cubbies, hide in a trench instead!",
+    "Token": 5,
+    "Stats": {
+      "Speed": 100,
+      "Float": 0.6
+    }
+  },
+  {
+    "Name": "G-Man",
+    "CreatorId": [
+      52025108
+    ],
+    "Description": "Rules: Click to the beat, do not look away from the screen, and do not stop until G-Man tells you to!",
+    "Token": 25,
+    "Severity": 2.5,
+    "Stats": {
+      "TimeToTravel": 60,
+      "Float": 0.2,
+      "KillOnTouch": false
+    }
+  },
+  {
+    "Name": "Deinx94 Wave",
+    "CreatorId": [
+      99843550,
+      697389035
+    ],
+    "Description": "the emote game guy\nSmall, but spawns at a random position offset from the center of the hall & reaches in trenches",
+    "Token": 2,
+    "Stats": {
+      "Speed": 120,
+      "Spread": 94,
+      "Float": 0.94,
+      "TrenchReach": true,
+      "CubbyReach": true
+    }
+  },
+  {
+    "Name": "Tario Wave",
+    "CreatorId": [
+      287775196
+    ],
+    "Description": "Spawns hostile enemies from Guess The Tario Characters! As it travels, be ready to fight them!",
+    "Token": 30,
+    "Severity": 2.5,
+    "Stats": {
+      "TimeToTravel": 85,
+      "Float": 0.1,
+      "Spread": 80
+    }
+  },
+  {
+    "Name": "The Maze",
+    "CreatorId": [
+      99843550
+    ],
+    "Description": "You have to escape Trickler's maze in order to get any further than you are!",
+    "Token": 20,
+    "Severity": 2.5,
+    "Stats": {
+      "Speed": 3,
+      "Float": 0.1,
+      "LowerDamageArea": true,
+      "KillOnTouch": false,
+      "TrenchReach": true
+    }
+  },
+  {
+    "Name": "Sine Wave",
+    "CreatorId": [
+      858127355
+    ],
+    "Description": "So what if instead of tsunami wave... it was sine wave... get it?",
+    "Token": 2,
+    "Stats": {
+      "Speed": 100,
+      "Float": 0.9
+    }
+  },
+  {
+    "Name": "Fish Wave",
+    "CreatorId": [
+      858127355
+    ],
+    "Description": "Get ready.\nAlso the fishes might fling you for some reason.",
+    "Token": 2,
+    "Stats": {
+      "Speed": 80,
+      "Float": 0.8
+    }
+  },
+  {
+    "Name": "Bricks Wave",
+    "CreatorId": [
+      858127355
+    ],
+    "Description": "Keeps notifying you to claim your bricks. Did you claim your bricks today? It's time to claim bricks.",
+    "Token": 5,
+    "Stats": {
+      "Speed": 110,
+      "Float": 0.65
+    }
+  },
+  {
+    "Name": "Richard Wave",
+    "CreatorId": [
+      858127355
+    ],
+    "Description": "He's probably on the Calculator grind at this exact moment.",
+    "Token": 1,
+    "Stats": {
+      "Speed": 90,
+      "Float": 0.9
+    }
+  },
+  {
+    "Name": "Birt Wave",
+    "CreatorId": [
+      858127355
+    ],
+    "Description": "aaaaaaaaaa!!!!! 🐦‍",
+    "Token": 1,
+    "Stats": {
+      "Speed": 70
+    }
+  },
+  {
+    "Name": "Gubby Wave",
+    "CreatorId": [
+      858127355,
+      337914829
+    ],
+    "Description": "so retro gubby wave that gubbifies everything it kills",
+    "Token": 1,
+    "Stats": {
+      "Speed": 80
+    }
+  },
+  {
+    "Name": "Mr. Krabs Wave",
+    "CreatorId": [
+      3199092988
+    ],
+    "Description": "SPONGEBOB GET OUT HERE!",
+    "Token": 1,
+    "Stats": {
+      "Speed": 50
+    }
+  },
+  {
+    "Name": "Marinara Wave",
+    "CreatorId": [
+      858127355,
+      21249762
+    ],
+    "Description": "when the marinara is extra 😂😂",
+    "Token": 1,
+    "Stats": {
+      "Speed": 60
+    }
+  },
+  {
+    "Name": "Poopy Wave",
+    "CreatorId": [
+      858127355
+    ],
+    "Description": "microbe detected\nYou won't escape Poopy's wrath unless you hide in the trenches.",
+    "Token": 5,
+    "Stats": {
+      "Speed": 100,
+      "Float": 0.5,
+      "CubbyReach": true
+    }
+  },
+  {
+    "Name": "The Frothoring",
+    "CreatorId": [
+      858127355
+    ],
+    "Description": "The frothoring is coming.\nNot lethal, but spreads a BUNCH OF PARTICLES!",
+    "Token": 15,
+    "Stats": {
+      "Speed": 30,
+      "Float": 0.3,
+      "KillOnTouch": false
+    }
+  },
+  {
+    "Name": "Voideye",
+    "CreatorId": [
+      858127355,
+      314064809,
+      24442377,
+      50918109
+    ],
+    "Description": "Welcome to my Research Center!\nGives you a single question to answer when you touch him, failure results in death!",
+    "Token": 10,
+    "Stats": {
+      "Speed": 40,
+      "Float": 0.4,
+      "KillOnTouch": false,
+      "TrenchReach": true,
+      "CubbyReach": true
+    }
+  },
+  {
+    "Name": "Enphoso Wave",
+    "CreatorId": [
+      858127355
+    ],
+    "Description": "Enphoso's wave of-a doom!\nPassively attacks nearby players with Phoso Blasters that rapidly chip damage.",
+    "Token": 10,
+    "Stats": {
+      "Speed": 50,
+      "Float": 0.3
+    }
+  },
+  {
+    "Name": "Kyrgyzstani Alternative Entity",
+    "CreatorId": [
+      858127355
+    ],
+    "Description": "You will not escape",
+    "Token": 12,
+    "Stats": {
+      "Speed": 300,
+      "Float": 0.4
+    }
+  },
+  {
+    "Name": "Freezer Wave",
+    "CreatorId": [
+      858127355
+    ],
+    "Description": "Crashes your game.\n(yes actually)",
+    "Severity": 2.5,
+    "Stats": {
+      "Speed": 20,
+      "Float": 0.125,
+      "Spread": 80,
+      "TrenchReach": true
+    }
+  },
+  {
+    "Name": "Irish Luigi",
+    "CreatorId": [
+      99843550
+    ],
+    "Description": "Happy St. Patricks day! Are you wearing green?\nBy loitering nearby him for a brief moment, he'll vacuum you inwards and kill you!",
+    "Token": 4,
+    "Stats": {
+      "Speed": 20,
+      "Float": 0.75,
+      "Spread": 40,
+      "KillOnTouch": false,
+      "TrenchReach": true,
+      "CubbyReach": true,
+      "Patience": 1.5
+    }
+  },
+  {
+    "Name": "Springtrap",
+    "CreatorId": [
+      99843550,
+      52025108
+    ],
+    "Description": "He always comes back...?\nDo NOT approach him under any circumstances.",
+    "Token": 25,
+    "Severity": 2.5,
+    "Stats": {
+      "Speed": 30,
+      "Float": 0.15,
+      "KillOnTouch": false,
+      "TrenchReach": true,
+      "Patience": 0.5
+    }
+  },
+  {
+    "Name": "RNG Wave",
+    "CreatorId": [
+      52025108
+    ],
+    "Description": "Difficult (+rng)\nWill hit you no matter what, has a 50/50 chance to not kill you and increase your money! Otherwise, you die and lose some.",
+    "Stats": {
+      "Speed": 200,
+      "Float": 0.2,
+      "KillOnTouch": false,
+      "TrenchReach": true,
+      "CubbyReach": true
+    }
+  },
+  {
+    "Name": "Blue Wave",
+    "CreatorId": [
+      52025108
+    ],
+    "Description": "Stop signs are red, so imagine a blue stop sign instead.\nBasically, you gotta stop moving.",
+    "Token": 2,
+    "Stats": {
+      "Speed": 120,
+      "Float": 0.9,
+      "KillOnTouch": false,
+      "TrenchReach": true,
+      "CubbyReach": true
+    }
+  },
+  {
+    "Name": "Orange Wave",
+    "CreatorId": [
+      52025108,
+      858127355
+    ],
+    "Description": "Stop signs are red, so imag- wait that's the other one.\nYou gotta keep moving actually.",
+    "Token": 2,
+    "Stats": {
+      "Speed": 120,
+      "Float": 0.9,
+      "KillOnTouch": false,
+      "TrenchReach": true,
+      "CubbyReach": true
+    }
+  },
+  {
+    "Name": "Genocides Wave",
+    "CreatorId": [
+      52025108
+    ],
+    "Description": "Human... I hope you didn't do genocides during your current life, else you're having a bad time.\nCompletely safe if you're pacifists.",
+    "Token": 15,
+    "Stats": {
+      "Speed": 240,
+      "Float": 0.2,
+      "KillOnTouch": false,
+      "TrenchReach": true,
+      "CubbyReach": true
+    }
+  },
+  {
+    "Name": "Wacky Wave",
+    "CreatorId": [
+      52025108
+    ],
+    "Description": "Feeling waaaaacky! Look at how wacky the wave is!",
+    "Token": 17,
+    "Stats": {
+      "Speed": 60,
+      "Float": 0.25,
+      "TrenchReach": true,
+      "CubbyReach": true,
+      "Gap": true
+    }
+  },
+  {
+    "Name": "Wonky Wave",
+    "Static": true,
+    "CreatorId": [
+      52025108
+    ],
+    "Description": "Feeling wooooonky! Look at how wonky the wave is!",
+    "Token": 9,
+    "Stats": {
+      "Knockback": 100,
+      "Float": 0.5,
+      "Gap": true
+    }
+  },
+  {
+    "Name": "Manny Played With Fire",
+    "CreatorId": [
+      99843550
+    ],
+    "Description": "Serious Comic\nUpon being hit, you will be lit on fire and take damage rapidly while also jumping sparratically until it wears off. Has cubby reach",
+    "Token": 9,
+    "Stats": {
+      "Speed": 225,
+      "Float": 0.4,
+      "KillOnTouch": false,
+      "Damage": 4,
+      "CubbyReach": true,
+      "BurnDuration": 5
+    }
+  },
+  {
+    "Name": "Zomboni",
+    "CreatorId": [
+      99843550
+    ],
+    "Description": "Paves the entire hall behind himself with ice to block off trenches",
+    "Token": 15,
+    "Stats": {
+      "Speed": 40,
+      "Float": 0.25,
+      "ZomboniIceDuration": 30
+    }
+  },
+  {
+    "Name": "The Wind",
+    "CreatorId": [
+      1517953019
+    ],
+    "Description": "That was NOT the wind bro 💔🥀\nCompletely invisible, but emits a loud noise",
+    "Token": 8,
+    "Stats": {
+      "Speed": 80,
+      "Float": 0.4
+    }
+  },
+  {
+    "Name": "Normal Wave",
+    "CreatorId": [
+      356833009
+    ],
+    "Description": "It's just like the real thing.\n\nRandomly changes height for every zone it enters.",
+    "Token": 5,
+    "Stats": {
+      "Speed": 75,
+      "Float": 0.6,
+      "TrenchReach": true,
+      "Gap": true
+    }
+  },
+  {
+    "Name": "Persistent Wave",
+    "CreatorId": [
+      1517953019
+    ],
+    "Description": "You thought you got a good deal for immortality, but you were scammed! Thankfully it wasn't a total waste and your determination to live forever out of spite has been helpful. Your default revive timer is doubled and you can be revived an infinite number of times. More importantly though, you can revive yourself when downed by calling for medic enough times! Due to your persistent nature however, you don't feel the need to wear armor, and thus immediately destroy any that you have equipped! Also, this wave can respawn itself a random amount of times after reaching the end!",
+    "Severity": 2.5,
+    "Stats": {
+      "Speed": 200,
+      "Float": 0.2
+    }
+  },
+  {
+    "Name": "Hole In The Wave",
+    "CreatorId": [
+      356833009
+    ],
+    "Description": "Can you fit in this impossiwave? 0.1% of players beat this one!",
+    "Token": 4,
+    "Stats": {
+      "Speed": 50,
+      "Float": 0.75,
+      "CubbyReach": true,
+      "Gap": true
+    }
+  },
+  {
+    "Name": "Bear5",
+    "Static": true,
+    "CreatorId": [
+      356833009
+    ],
+    "Description": "hey did you see that\n\nwell if you did, it kills everything including NPCs",
+    "Severity": 2.5,
+    "Token": 30,
+    "Stats": {
+      "Speed": 999,
+      "Knockback": 999,
+      "Float": 0.15,
+      "KillOnTouch": false,
+      "TrenchReach": true
+    }
+  },
+  {
+    "Name": "N Wave",
+    "CreatorId": [
+      858127355,
+      21518356
+    ],
+    "Description": "The life of BIRD SHAPED BOX.\nDiscombobulates into a random rotation every beat, it's suggested to hide in the cubbies.",
+    "Token": 5,
+    "Stats": {
+      "Speed": 50,
+      "Float": 0.6,
+      "TrenchReach": true,
+      "Gap": true
+    }
+  },
+  {
+    "Name": "The Roaring Wave",
+    "CreatorId": [
+      858127355
+    ],
+    "Description": "The Roaring Wave appeared.",
+    "Token": 14,
+    "Severity": 2.5,
+    "Stats": {
+      "Speed": 250,
+      "Float": 0.2,
+      "Knockback": 0,
+      "CubbyReach": false,
+      "TrenchReach": true
+    }
+  },
+  {
+    "Name": "Skeleton",
+    "CreatorId": [
+      858127355
+    ],
+    "Description": "👀",
+    "Helpful": true,
+    "Stats": {
+      "TimeToTravel": -2,
+      "Float": 0.1,
+      "KillOnTouch": false
+    }
+  },
+  {
+    "Name": "Baldi Wave",
+    "Static": true,
+    "CreatorId": [
+      52025108
+    ],
+    "Description": "Now it's time for everybody's favorite subject!\nJolts forward every time he smacks the ruler!",
+    "Token": 3,
+    "Stats": {
+      "Float": 0.8,
+      "Knockback": 200
+    }
+  },
+  {
+    "Name": "Boomerang Wave",
+    "Static": true,
+    "CreatorId": [
+      858127355
+    ],
+    "Description": "Boomerang wave!\nTravels to the start and goes back to the end!",
+    "Token": 16,
+    "Stats": {
+      "Float": 0.2,
+      "Knockback": 200
+    }
+  },
+  {
+    "Name": "Bully",
+    "Static": true,
+    "CreatorId": [
+      52025108
+    ],
+    "Description": "Give him something great, or else he won't let you pass.",
+    "Token": 10,
+    "Stats": {
+      "Float": 0.75,
+      "Knockback": 0,
+      "KillOnTouch": false,
+      "TrenchReach": true
+    }
+  },
+  {
+    "Name": "Mari",
+    "CreatorId": [
+      52025108
+    ],
+    "Description": "It's Mari!\nIf you go near her, she heals you! How nice of her.",
+    "Token": 8,
+    "Helpful": true,
+    "Stats": {
+      "Speed": 60,
+      "Float": 0.6,
+      "Damage": -100,
+      "Knockback": 0,
+      "Spread": 80
+    }
+  },
+  {
+    "Name": "Ralsei",
+    "CreatorId": [
+      858127355
+    ],
+    "Description": "The power of fluffy boys shines within you.\nRestores your health if you approach him, how joyous!",
+    "Token": 8,
+    "Helpful": true,
+    "Stats": {
+      "Speed": 60,
+      "Float": 0.6,
+      "Damage": -100,
+      "Knockback": 0,
+      "Spread": 80
+    }
+  },
+  {
+    "Name": "Flex",
+    "CreatorId": [
+      21249762
+    ],
+    "Description": "The most wholesome seal on land.\nHe gives advice on healthy fitness and self confidence, healing anyone close enough to listen.",
+    "Token": 8,
+    "Helpful": true,
+    "Stats": {
+      "Speed": 60,
+      "Float": 0.6,
+      "Damage": -100,
+      "Knockback": 0,
+      "Spread": 80
+    }
+  },
+  {
+    "Name": "Acrid",
+    "CreatorId": [
+      314064809
+    ],
+    "Description": "...And so it left, with a new hunger: to be left alone.\nHe must have a huge stack of bustling fungus, being near him will heal you!",
+    "Token": 8,
+    "Helpful": true,
+    "Stats": {
+      "Speed": 60,
+      "Float": 0.6,
+      "Damage": -100,
+      "Knockback": 0,
+      "Spread": 80
+    }
+  },
+  {
+    "Name": "Retro Wave",
+    "CreatorId": [
+      356833009
+    ],
+    "Description": "I remember the good ol' retro nostalgia days where we had arcade machines, personal computers, studs, cheap fast food, and whatever the hell else is old.\n\nAlso this spawns space invaders.",
+    "Token": 20,
+    "Stats": {
+      "Speed": 45,
+      "Spread": 30,
+      "Float": 0.3
+    }
+  },
+  {
+    "Name": "Bomb Wave",
+    "CreatorId": [
+      356833009
+    ],
+    "Description": "A wave made to blow you away!",
+    "Token": 2,
+    "Stats": {
+      "Speed": 90,
+      "Float": 0.9
+    }
+  },
+  {
+    "Name": "Whohum",
+    "CreatorId": [
+      356833009
+    ],
+    "Description": "An HUMAN entity that's HUMANly human.\nIt must be HUMANly blinded at once with weapons, otherwise when it consumes it'll HUMAN out and sacrifice itself to summon a HUMANlier wave with a lower float.",
+    "Token": 20,
+    "Stats": {
+      "Speed": 15,
+      "Float": 0.45,
+      "CubbyReach": true,
+      "TrenchReach": true,
+      "Gap": true
+    }
+  },
+  {
+    "Name": "Fraud Wave",
+    "CreatorId": [
+      1517953019
+    ],
+    "Description": "INDIA IS NOT REAL! Kills you if you're hiding in either the trenches or a cubby when it passes by.",
+    "Token": 18,
+    "Stats": {
+      "Speed": 150,
+      "Float": 0.2,
+      "TrenchReach": true,
+      "CubbyReach": true,
+      "Gap": true
+    }
+  },
+  {
+    "Name": "Shimmer Wave",
+    "CreatorId": [
+      276191915
+    ],
+    "Description": "A mysterious liquid which lets you phase through the ground.\nOn respawn, turns you into a random outfit you have!... if your inventory is public.",
+    "Token": 2,
+    "Stats": {
+      "Speed": 90,
+      "Float": 0.9,
+      "KillOnTouch": false
+    }
+  },
+  {
+    "Name": "Cartman Wave",
+    "CreatorId": [
+      858127355,
+      314064809
+    ],
+    "Static": true,
+    "Description": "Hey everybody, check out the all new Cartmanland! It's our gra-hand opening! Cartmanland has over a hundred fabulous rides, six rollercoasters, and tons of great surprises! And the best part is... YOU can't come!",
+    "Token": 5,
+    "Stats": {
+      "Float": 0.1,
+      "Gap": true
+    }
+  },
+  {
+    "Name": "Trollge Wave",
+    "CreatorId": [
+      21249762
+    ],
+    "Description": "Do not leave the center. You can continue if you don't leave the center. You live if you do not leave the center. I cannot control the center. You cannot control others.",
+    "Token": 8,
+    "Stats": {
+      "Speed": 100,
+      "Float": 0.4,
+      "CubbyReach": true,
+      "TrenchReach": true,
+      "Gap": true
+    }
+  },
+  {
+    "Name": "Deleted Wave",
+    "Description": "This wave is really cool! Unfortunately for you, it's DELETED!",
+    "Token": 2,
+    "Stats": {
+      "Speed": 105,
+      "Float": 0.9
+    }
+  },
+  {
+    "Name": "Ckywave",
+    "CreatorId": [
+      52025108,
+      16094688
+    ],
+    "Description": "Ah! aaugh-AH It's gettigng closer! AAAAAA! HElp! hEEELP!\nPassively spawns in swarms of fly waves while active!",
+    "Severity": 2.5,
+    "Stats": {
+      "Speed": 40,
+      "Float": 0.2
+    }
+  },
+  {
+    "Name": "Fafa Wave",
+    "Static": true,
+    "CreatorId": [
+      1517953019
+    ],
+    "Description": "HEY.APPLE.WHAT.AMAZING.GRACE.\nKICKS.PLAYER.ON.KILL.",
+    "Severity": 3.3,
+    "Stats": {
+      "Speed": 333,
+      "Float": 0.033
+    }
+  },
+  {
+    "Name": "Giggler Wave",
+    "CreatorId": [
+      858127355
+    ],
+    "Description": "What a joyous occasion!",
+    "Token": 1,
+    "Stats": {
+      "Speed": 75
+    }
+  },
+  {
+    "Name": "Blud Wave",
+    "CreatorId": [
+      1517953019
+    ],
+    "Description": "ARE YOU A REAL BLUDDA? THEN MAYBE DIE TO THIS WAVE! Or not, it's your choice.",
+    "Token": 2,
+    "Stats": {
+      "Speed": 120,
+      "Float": 0.9
+    }
+  },
+  {
+    "Name": "TsunamiGPT",
+    "CreatorId": [
+      858127355
+    ],
+    "Description": "What if in the future, everything was randomly generated...?\nThis thing will keep spawning new waves with random properties every few seconds, WATCH OUT!",
+    "Severity": 2.5,
+    "Stats": {
+      "Speed": 30,
+      "Float": 0.15
+    }
+  },
+  {
+    "Name": "X Wave",
+    "Static": true,
+    "CreatorId": [
+      3199092988,
+      858127355
+    ],
+    "Description": "I want to fight Lord X.\nSpawns from the sides and moves on the X axis instead of the Z axis.",
+    "Token": 4,
+    "Stats": {
+      "Float": 0.8,
+      "CubbyReach": true
+    }
+  },
+  {
+    "Name": "Tidal Wave",
+    "CreatorId": [
+      1517953019
+    ],
+    "Description": "Floatin' like a Tidal Wave! Better hope you're wave carried!",
+    "Token": 10,
+    "Stats": {
+      "Speed": 275,
+      "Float": 0.4
+    }
+  },
+  {
+    "Name": "Birch Tree",
+    "CreatorId": [
+      74415492
+    ],
+    "Description": "What a nice tree. I love trees.\nIf this wave is visible on your screen for some time, you perish. Do not look at it or make eye contact.",
+    "Token": 60,
+    "Severity": 2.5,
+    "Stats": {
+      "Speed": 100,
+      "Knockback": 10000,
+      "Float": 0.2,
+      "Patience": 2
+    }
+  },
+  {
+    "Name": "Elden Ring Boulder",
+    "Static": true,
+    "CreatorId": [
+      74415492
+    ],
+    "Description": "Wait a minute! Thought you were so slick?\nReturns backwards incredibly fast if it detects someone behind it!",
+    "Token": 8,
+    "Stats": {
+      "Spread": 85,
+      "TrenchReach": true,
+      "Float": 0.5,
+      "Knockback": 200,
+      "Patience": 0.25
+    }
+  },
+  {
+    "Name": "Death Cloud",
+    "CreatorId": [
+      74415492
+    ],
+    "Description": "sorry about the anger\nDrops toxic rain on the ground that deals damage.",
+    "Token": 6,
+    "Stats": {
+      "Speed": 10,
+      "Float": 0.7,
+      "Damage": 20,
+      "TrenchReach": true
+    }
+  },
+  {
+    "Name": "Laggy Wave",
+    "CreatorId": [
+      74415492
+    ],
+    "Description": "WHY AM I REACHING YOU FROM THE COORDINATES OF THE ABANDONED SPACE STATION?\n\nThe actual hitbox is delayed behind the wave; the wave model itself does no damage.",
+    "Token": 3,
+    "Stats": {
+      "Speed": 80,
+      "Float": 0.8,
+      "Knockback": -1000
+    }
+  },
+  {
+    "Name": "Greenland",
+    "CreatorId": [
+      1517953019
+    ],
+    "Description": "Despite being called Greenland, it has an artic climate.",
+    "Token": 2,
+    "Stats": {
+      "Speed": 120,
+      "Float": 0.85
+    }
+  },
+  {
+    "Name": "Roblox Wave",
+    "CreatorId": [
+      356833009,
+      3199092988
+    ],
+    "Description": "Strips you of your face.\nIf it knows you're faceless, you perish.",
+    "Token": 3,
+    "Stats": {
+      "Speed": 350,
+      "Float": 0.95,
+      "KillOnTouch": false
+    }
+  },
+  {
+    "Name": "Stray Pixel Wave",
+    "CreatorId": [
+      276191915
+    ],
+    "Description": "It's a perfectly clean wave!.. Except for that one pixel.\nIf you get hit by it, you will meet the same fate.",
+    "Token": 3,
+    "Stats": {
+      "Speed": 125,
+      "Float": 0.85
+    }
+  },
+  {
+    "Name": "Bowling Ball",
+    "CreatorId": [
+      99843550
+    ],
+    "Description": "Bowlning ball. Yeaaah :)\nRolls and bounces on walls. Continues until it runs out of momentum",
+    "Token": 7,
+    "Static": true,
+    "Stats": {
+      "Speed": 500,
+      "Float": 0.7,
+      "Spread": 40,
+      "Lifetime": 60,
+      "MinimumSpeed": 10
+    }
+  },
+  {
+    "Name": "Boombox",
+    "CreatorId": [
+      52025108
+    ],
+    "Description": "MUSIC ALWAYS ON :))\nTHE MUSIC IS ALWAYS BLASTING, SHAKING YOUR SCREEN, AND THERES NO MUTE BUTTON! :))",
+    "Token": 30,
+    "Severity": 2.5,
+    "Stats": {
+      "Speed": 60,
+      "Float": 0.15,
+      "KillOnTouch": false
+    }
+  },
+  {
+    "Name": "Maltigi",
+    "CreatorId": [
+      99843550
+    ],
+    "Description": "HI, I'M MALTIGI! AND I HATE EVERYONE!! I LOVE MEDIA, AND STEALING!!!\nBOUNCES EVERYWHERE AND DESTROYS ALL THE MEDIA (items) HE FINDS ON THE FIELD!",
+    "Static": true,
+    "Severity": 2.5,
+    "Stats": {
+      "Speed": 650,
+      "Float": 0.25,
+      "Spread": 50,
+      "Lifetime": 15
+    }
+  },
+  {
+    "Name": "Blue Fabergé Egg",
+    "CreatorId": [
+      1517953019
+    ],
+    "Description": "It's RARE! Other than that, it literally does nothing else! Have fun collecting them all!\nCan appear if there's no event active.",
+    "Stats": {
+      "Speed": 50,
+      "Float": 0.005
+    }
+  },
+  {
+    "Name": "Pink Fabergé Egg",
+    "CreatorId": [
+      1517953019
+    ],
+    "Description": "It's RARE! Other than that, it literally does nothing else! Have fun collecting them all!\nCan appear if there's an event active.",
+    "Stats": {
+      "Speed": 50,
+      "Float": 0.005
+    }
+  },
+  {
+    "Name": "Reisen Fumo",
+    "CreatorId": [
+      52025108,
+      1517953019
+    ],
+    "Description": "Reisen Fumo! SHE'S (REAL)LY RARE! \nShe's so powerful that ANYTHING that contacts her will explode!",
+    "Token": 999,
+    "Stats": {
+      "Speed": 20,
+      "Float": 0.0005
+    }
+  },
+  {
+    "Name": "Wet Floor Wave",
+    "CreatorId": [
+      276191915
+    ],
+    "Description": "CAUTION: Wet Floor\nIt reaches into the trenches and cubbies so you must jump over it",
+    "Token": 14,
+    "Stats": {
+      "Speed": 65,
+      "Float": 0.3,
+      "CubbyReach": true,
+      "TrenchReach": true
+    }
+  },
+  {
+    "Name": "Snowgrave",
+    "CreatorId": [
+      276191915
+    ],
+    "Description": "Fine. You want to see what happens so bad?\nWatch what happens when I cast a spell I don't know!",
+    "Token": 9,
+    "Static": true,
+    "Stats": {
+      "Speed": 150,
+      "Float": 0.35,
+      "TrenchReach": true,
+      "Knockback": 10
+    }
+  },
+  {
+    "Name": "Wega",
+    "CreatorId": [
+      99843550
+    ],
+    "Description": "This game might become Wega And The-\nDoesn't kill you, but will cover your screen in Wega Media for a while",
+    "Token": 15,
+    "Severity": 2.5,
+    "Stats": {
+      "Speed": 350,
+      "Float": 0.25,
+      "KillOnTouch": false,
+      "TrenchReach": true
+    }
+  },
+  {
+    "Name": "Telewaver",
+    "CreatorId": [
+      52025108
+    ],
+    "Description": "Seems you got Telefragged from the guy in Nullscape!\nTeleports infront of a random player every few seconds.",
+    "Token": 20,
+    "Static": true,
+    "Stats": {
+      "Float": 0.3,
+      "CubbyReach": true,
+      "TrenchReach": true
+    }
+  },
+  {
+    "Name": "Airship",
+    "CreatorId": [
+      52025108,
+      15492911
+    ],
+    "Reward": "Airship",
+    "Description": "The airship has spawned.\nBring your ranged weapons and shoot it down, good luck.",
+    "Boss": true,
+    "Severity": 2.5,
+    "Stats": {
+      "TimeToTravel": 180,
+      "Float": 0.05,
+      "KillOnTouch": false
+    }
+  },
+  {
+    "Name": "Wall of Flesh",
+    "CreatorId": [
+      24442377,
+      314064809
+    ],
+    "Reward": "Relic",
+    "Description": "You have seen something nasty, there is no escape.",
+    "NaturalSpawn": false,
+    "Boss": true,
+    "Static": true,
+    "Stats": {
+      "KillOnTouch": true,
+      "TrenchReach": true,
+      "CubbyReach": true
+    }
+  },
+  {
+    "Name": "Reaper Wave",
+    "NaturalSpawn": false,
+    "CreatorId": [
+      52025108,
+      15492911
+    ],
+    "Description": "These reaper drones were summoned in by the airship.",
+    "Stats": {
+      "Speed": 250
+    }
+  },
+  {
+    "Name": "Glowstick Wave",
+    "CreatorId": [
+      9212846
+    ],
+    "NaturalSpawn": false,
+    "Description": "im john roblox!",
+    "Stats": {
+      "Speed": 321,
+      "Float": 0.21
+    }
+  },
+  {
+    "Name": "Green Fabergé Egg",
+    "CreatorId": [
+      1517953019
+    ],
+    "NaturalSpawn": false,
+    "Description": "It's RARE! Other than that, it literally does nothing else! Have fun collecting them all!\nCan appear if the stinking event is active.",
+    "Stats": {
+      "Speed": 50,
+      "Float": 0.005
+    }
+  },
+  {
+    "Name": "Red Fabergé Egg",
+    "CreatorId": [
+      1517953019
+    ],
+    "NaturalSpawn": false,
+    "Description": "It's RARE! Other than that, it literally does nothing else! Have fun collecting them all!\nCan appear if the blood event is active.",
+    "Stats": {
+      "Speed": 50,
+      "Float": 0.005
+    }
+  },
+  {
+    "Name": "Yellow Fabergé Egg",
+    "CreatorId": [
+      1517953019
+    ],
+    "NaturalSpawn": false,
+    "Description": "It's RARE! Other than that, it literally does nothing else! Have fun collecting them all!\nCan appear if the gold event is active.",
+    "Stats": {
+      "Speed": 50,
+      "Float": 0.005
+    }
+  }
+]
