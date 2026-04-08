@@ -552,7 +552,7 @@ class Poopy {
                     content: origcontent || "",
                     files: data.guildData[msg.guild.id].webhookAttachments ? attachmentsAndStickers : [],
                     embeds: embeds,
-                    allowedMentions: fetchPingPerms(msg)
+                    allowedMentions: msg.author.id == bot.user.id ? { parse: [] } : fetchPingPerms(msg)
                 }
 
                 if (msg.reference && !msg.messageSnapshots?.size) {
