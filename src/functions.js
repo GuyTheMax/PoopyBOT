@@ -4617,7 +4617,8 @@ functions.getKeywordsFor = async function (string, msg, isBot, { extraKeys = {},
             var opts = {
                 extraKeys: extraExecKeys,
                 extraFuncs: extraExecFuncs,
-                ownermode: ownermode
+                ownermode: ownermode,
+                sourceMsg: sourceMsg
             }
 
             switch (keydata.type) {
