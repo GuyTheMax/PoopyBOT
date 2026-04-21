@@ -5682,10 +5682,9 @@ functions.sendFile = async function (msg, filepath, filename, extraOptions) {
     if (extraOptions.catbox || (tooLarge && !extraOptions.nosend)) {
         if (!extraOptions.catbox && tooLarge && !extraOptions.nosend) await msg.reply('The output file is too large, so I\'m uploading it to Catbox or Litterbox.').catch(() => { })
         infoPost(`Uploading file to catbox.moe`)
-        var fileLink = (
-            await vars.Catbox.upload(`${filepath}/${filename}`).catch(() => { }) ||
-            await vars.Litterbox.upload(`${filepath}/${filename}`).catch(() => { })
-        )
+        var fileLink = await vars.Catbox.upload(`${filepath}/${filename}`).catch(() => { })
+
+        if (!vars.validUrl.test(fileLink)) fileLink = await vars.Litterbox.upload(`${filepath}/${filename}`).catch(() => { })
         
         if (fileLink) {
             var isUrl = vars.validUrl.test(fileLink)
@@ -5760,10 +5759,9 @@ functions.sendFile = async function (msg, filepath, filename, extraOptions) {
         if (!fileMsg) {
             await msg.reply('There was an error sending the file, so I\'m uploading it to Catbox or Litterbox.').catch(() => { })
             infoPost(`Failed to send file to channel, uploading to catbox.moe`)
-            var fileLink = (
-                await vars.Catbox.upload(`${filepath}/${filename}`).catch(() => { }) ||
-                await vars.Litterbox.upload(`${filepath}/${filename}`).catch(() => { })
-            )
+            var fileLink = await vars.Catbox.upload(`${filepath}/${filename}`).catch(() => { })
+
+            if (!vars.validUrl.test(fileLink)) fileLink = await vars.Litterbox.upload(`${filepath}/${filename}`).catch(() => { })
 
             if (fileLink) {
                 var isUrl = vars.validUrl.test(fileLink)
