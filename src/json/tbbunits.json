@@ -1041,6 +1041,12 @@
             "joke": true
         },
         {
+            "name": "Tarnished Rocket",
+            "image": "https://cdn.discordapp.com/attachments/1430236703217680436/1499536903496667236/this_stupid_big_fatass_who_takes_up_too_much_space.png",
+            "normal": "Tumored Rocket",
+            "joke": true
+        },
+        {
             "name": "Casual Battler",
             "image": "https://cdn.discordapp.com/attachments/853246754791358495/1460414649538314282/Casual_Battler.png",
             "custom": ["710276888039522316"],
