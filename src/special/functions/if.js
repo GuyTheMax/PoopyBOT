@@ -10,7 +10,7 @@ module.exports = {
     var condition = await getKeywordsFor(split[0] ?? '', msg, isBot, opts).catch(() => { })
     var phrase = split[1] ?? ''
     var elsephrase = split[2] ?? ''
-    return condition ? phrase : elsephrase
+    return condition.trim() ? phrase : elsephrase
   },
   raw: true
 }

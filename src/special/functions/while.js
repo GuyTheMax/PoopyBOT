@@ -12,7 +12,7 @@ module.exports = {
     var condition = split[0] ?? ''
     var func = split[1] ?? ''
 
-    while (await getKeywordsFor(condition, msg, isBot, opts).catch(() => { }) ?? '') {
+    while ((await getKeywordsFor(condition, msg, isBot, opts).catch(() => { }) ?? '').trim()) {
       tempdata[msg.author.id][msg.id].keyAttempts++
       await getKeywordsFor(func, msg, isBot, opts).catch(() => { })
       await sleep()
