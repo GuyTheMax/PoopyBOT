@@ -21,7 +21,7 @@ module.exports = {
 
         return genAi(messages, {
             begin: begin,
-            maxLength: parseNumber(maxLength ?? '', { dft: Math.floor(Math.random() * 280) + 20, min: 1, max: 2000, round: true })
+            maxLength: parseNumber(maxLength ?? '', { dft: Math.floor(Math.random() * 295) + 5, min: 1, max: 2000, round: true })
         })
     },
     cmdconnected: 'genai'

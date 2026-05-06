@@ -15,7 +15,7 @@ module.exports = {
         let config = poopy.config
         let { fs, Discord } = poopy.modules
 
-        var maxLength = getOption(args, 'maxlength', { dft: Math.floor(Math.random() * 280) + 20, splice: true, n: 1, join: true, func: (opt) => parseNumber(opt, { dft: Math.floor(Math.random() * 280) + 20, min: 1, max: 2000, round: true }) })
+        var maxLength = getOption(args, 'maxlength', { dft: Math.floor(Math.random() * 295) + 5, splice: true, n: 1, join: true, func: (opt) => parseNumber(opt, { dft: Math.floor(Math.random() * 295) + 5, min: 1, max: 2000, round: true }) })
         var randomsentences = getOption(args, 'randomsentences', { dft: false, splice: true, n: 0, join: true })
 
         var saidMessage = args.join(' ').substring((args[0] || '').length + 1)
