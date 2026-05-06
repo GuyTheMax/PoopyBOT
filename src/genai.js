@@ -5,8 +5,8 @@ const END = "__end";
 const keepCasePrefixes = ["http:", "https:", "<a:", "<:"];
 
 function wordProcess(word) {
-    for (let i = 0; i < keepCasePrefixes.length; i++) {
-        if (word.startsWith(keepCasePrefixes[i])) return word;
+    if (keepCasePrefixes.some(p => word.startsWith(p))) {
+        return word;
     }
     return word.toLowerCase();
 }
@@ -22,101 +22,84 @@ function buildModel(samples, keySize) {
 
         if (!words.length) continue;
 
-        const stream = [
-            ...Array(keySize).fill(START),
-            ...words,
-            END
-        ];
+        const startContext = Array(keySize).fill(START);
+        const stream = [...startContext, ...words, END];
 
-        let keyArr = stream.slice(0, keySize);
-
-        for (let i = keySize; i < stream.length; i++) {
+        for (let i = 0; i <= stream.length - keySize - 1; i++) {
+            const keyArr = stream.slice(i, i + keySize);
             const key = keyArr.join("|");
-            const next = stream[i];
+            const next = stream[i + keySize];
 
-            let nextMap = model.get(key);
-            if (!nextMap) {
-                nextMap = new Map();
-                model.set(key, nextMap);
-            }
-
-            nextMap.set(next, (nextMap.get(next) || 0) + 1);
-
-            keyArr.shift();
-            keyArr.push(next);
+            if (!model.has(key)) model.set(key, []);
+            model.get(key).push(next);
         }
     }
 
     return model;
 }
 
-function sampleWeighted(map) {
-    let total = 0;
-    for (const count of map.values()) total += count;
-
-    let r = Math.random() * total;
-
-    for (const [word, count] of map) {
-        r -= count;
-        if (r <= 0) return word;
-    }
+function sample(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
 }
 
 function generateText(model, maxLength, keySize, begin = "") {
     let currentKey;
-    const resultWords = [];
+    let result = begin || "";
 
     if (begin.length > 0) {
-        const startWords = begin.split(/\s+/).map(wordProcess);
+        const startWords = begin.split(/\s+/);
 
+        let rawKey;
         if (startWords.length >= keySize) {
-            currentKey = startWords.slice(-keySize);
+            rawKey = startWords.slice(-keySize);
         } else {
-            currentKey = [
+            rawKey = [
                 ...Array(keySize - startWords.length).fill(START),
                 ...startWords
             ];
         }
 
-        resultWords.push(...startWords);
+        currentKey = rawKey.map(wordProcess);
     } else {
         currentKey = Array(keySize).fill(START);
     }
 
-    let currentLength = begin.length;
-
     while (true) {
         const key = currentKey.join("|");
-        const nextMap = model.get(key);
-        if (!nextMap) break;
+        if (!model.has(key)) break;
 
-        const nextWord = sampleWeighted(nextMap);
-        if (!nextWord || nextWord === END) break;
+        const possibilities = model.get(key);
+        if (!possibilities.length) break;
 
-        const extraLen =
-            resultWords.length === 0
-                ? nextWord.length
-                : nextWord.length + 1;
+        const nextWord = sample(possibilities);
+        if (nextWord === END) break;
 
-        if (currentLength + extraLen > maxLength) break;
+        const extraLen = result.length === 0
+            ? nextWord.length
+            : nextWord.length + 1;
 
-        resultWords.push(nextWord);
-        currentLength += extraLen;
+        if (result.length + extraLen > maxLength) break;
+
+        result = result.length === 0
+            ? nextWord
+            : result + " " + nextWord;
 
         currentKey.shift();
         currentKey.push(nextWord);
     }
 
-    return resultWords.join(" ");
+    return result;
 }
 
-function generateFromModel(model, {
+function generate(samples, {
     maxLength = 1500,
     keySize = 1,
     attempts = 5,
     begin = "",
     count = 1
 } = {}) {
+    const model = buildModel(samples, keySize);
+
     function generateAttempt() {
         for (let i = 0; i < attempts; i++) {
             const res = generateText(model, maxLength, keySize, begin);
@@ -134,14 +117,4 @@ function generateFromModel(model, {
     return results;
 }
 
-function generate(samples, options = {}) {
-    const { keySize = 1 } = options;
-    const model = buildModel(samples, keySize);
-    return generateFromModel(model, options);
-}
-
-module.exports = {
-    buildModel,
-    generateFromModel,
-    generate
-};
+module.exports = generate

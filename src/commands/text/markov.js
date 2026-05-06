@@ -7,7 +7,7 @@ module.exports = {
     ],
     execute: async function (msg, args) {
         let poopy = this
-        let { getOption, parseNumber, genAi, fetchPingPerms } = poopy.functions
+        let { getOption, parseNumber, workerTask, fetchPingPerms } = poopy.functions
         let tempdata = poopy.tempdata
         let json = poopy.json
         let arrays = poopy.arrays
@@ -29,7 +29,7 @@ module.exports = {
 
         await msg.channel.sendTyping().catch(() => { })
 
-        var [markovString] = genAi.generate(messages, {
+        var [markovString] = await workerTask("genai", messages, {
             maxLength: maxLength,
             begin: saidMessage
         })

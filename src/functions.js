@@ -1167,6 +1167,24 @@ functions.cleverbot = async function (stim, msg, clear) {
     return response
 }
 
+functions.workerTask = async function (action, ...args) {
+    let poopy = this
+    let vars = poopy.vars
+    let { Worker } = poopy.modules
+
+    return new Promise((resolve, reject) => {
+        const worker = new Worker(`./src/workerTask.js`, {
+            workerData: { action, args }
+        })
+
+        worker.on("message", resolve)
+        worker.on("error", reject)
+        worker.on("exit", code => {
+            if (code !== 0) reject(new Error(`Worker stopped: ${code}`))
+        })
+    })
+}
+
 functions.processTask = async function (data) {
     let poopy = this
     let vars = poopy.vars
@@ -5688,11 +5706,11 @@ functions.sendFile = async function (msg, filepath, filename, extraOptions) {
             await msg.reply('Couldn\'t send file.').catch(() => { })
             infoPost(`Couldn\'t send file`)
             await rateLimit(msg)
-    
+
             if (extraOptions.keep ||
                 filepath == undefined ||
                 filepath.startsWith('tempfiles')) return
-    
+
             fs.rm(filepath, { force: true, recursive: true })
             return
         }
@@ -5716,7 +5734,7 @@ functions.sendFile = async function (msg, filepath, filename, extraOptions) {
         var fileLink = await vars.Catbox.upload(`${filepath}/${filename}`).catch(() => { })
 
         if (!vars.validUrl.test(fileLink)) fileLink = await vars.Litterbox.upload(`${filepath}/${filename}`).catch(() => { })
-        
+
         if (fileLink) {
             var isUrl = vars.validUrl.test(fileLink)
 
@@ -5786,7 +5804,7 @@ functions.sendFile = async function (msg, filepath, filename, extraOptions) {
         if (extraOptions.content) sendObject.content = extraOptions.content
 
         var fileMsg = await msg.reply(sendObject).catch(() => { })
-        
+
         if (!fileMsg) {
             await msg.reply('There was an error sending the file, so I\'m gonna try uploading it to Catbox or Litterbox.').catch(() => { })
             infoPost(`Failed to send file to channel, uploading to catbox.moe`)

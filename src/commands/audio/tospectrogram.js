@@ -3,7 +3,7 @@ module.exports = {
     args: [{"name":"file","required":false,"specifarg":false,"orig":"{file}"},{"name":"duration","required":false,"specifarg":true,"orig":"[-duration <seconds (from 1 to 20)>]"},{"name":"frequency","required":false,"specifarg":true,"orig":"[-frequency <hz (from 20 to 40000)>]"},{"name":"density","required":false,"specifarg":true,"orig":"[-density <number (from 1 to 10)>]"}],
     execute: async function (msg, args) {
         let poopy = this
-        let { lastUrl, validateFile, spectrogram, sendFile, fetchPingPerms } = poopy.functions
+        let { lastUrl, validateFile, workerTask, sendFile, fetchPingPerms } = poopy.functions
         let vars = poopy.vars
         let config = poopy.config
         let { fs } = poopy.modules
@@ -48,7 +48,7 @@ module.exports = {
             var filepath = `temp/${config.database}/file${currentcount}`
             fs.mkdirSync(`${filepath}`)
 
-            var spectrogramData = await spectrogram(currenturl, {
+            var spectrogramData = await workerTask("spectrogram", currenturl, {
                 o_length: duration,
                 o_freq: frequency,
                 o_factor: density
