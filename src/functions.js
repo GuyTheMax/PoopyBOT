@@ -790,7 +790,7 @@ functions.gatherData = async function (msg) {
     let tempdata = poopy.tempdata
     let vars = poopy.vars
 
-    let { dataGather, reconcileDataWithTemplate, decrypt } = poopy.functions
+    let { dataGather, reconcileDataWithTemplate, workerTask } = poopy.functions
 
     var now = Date.now()
     var webhook = msg.webhookId || (msg.author.bot && !msg.author.flags)
@@ -1181,7 +1181,8 @@ functions.workerTask = async function (action, ...args) {
 
     return new Promise((resolve, reject) => {
         const worker = new Worker(`./src/workerTask.js`, {
-            workerData: { action, args }
+            workerData: { action, args },
+            execArgv: ['--no-warnings']
         })
 
         worker.on("message", resolve)
