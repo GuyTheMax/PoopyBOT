@@ -888,7 +888,8 @@ functions.gatherData = async function (msg) {
     }
 
     if (!tempdata[msg.guild.id].messages) {
-        tempdata[msg.guild.id].messages = data.guildData[msg.guild.id].messages.map(m => ({ ...m, content: decrypt(m.content) }))
+        tempdata[msg.guild.id].messages = []
+        tempdata[msg.guild.id].messages = await workerTask("decrypt-messages", data.guildData[msg.guild.id].messages)
     }
 
     if (!tempdata[msg.guild.id][msg.channel.id]) {
