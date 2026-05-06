@@ -29,7 +29,7 @@ module.exports = {
 
         await msg.channel.sendTyping().catch(() => { })
 
-        var [markovString] = genAi(messages, {
+        var [markovString] = genAi.generate(messages, {
             maxLength: maxLength,
             begin: saidMessage
         })
