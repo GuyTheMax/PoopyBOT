@@ -223,44 +223,38 @@ module.exports = {
 
                 var saidMessage = args.slice(1).join(' ')
                 var cleanMessage = cleanContentPreserveEmojis(saidMessage, msg.channel).replace(/\@/g, '@‌')
-                var findMessage = tempdata[msg.guild.id].messages.find(message => message.content.toLowerCase() === cleanMessage.toLowerCase())
 
-                if (findMessage) {
-                    await msg.reply(`That message already exists.`).catch(() => { })
-                    return
-                } else {
-                    var send = true
+                var send = true
 
-                    if (cleanMessage.match(/nigg|fagg|https?\:\/\/.*(rule34|e621|pornhub|hentaihaven|xxx|iplogger|discord\.gg\/[\d\w]+\/?$|discord\.gift)/ig)) {
-                        send = msg.nosend || await yesno(msg.channel, 'That message looks nasty, are you sure about this?', msg.member.id, undefined, msg).catch(() => { })
-                    }
-
-                    if (!send) return
-
-                    data.guildData[msg.guild.id].messages.unshift({
-                        id: null,
-                        author: msg.author.id,
-                        content: CryptoJS.AES.encrypt(cleanMessage, process.env.AUTH_TOKEN).toString(),
-                        timestamp: Number.MAX_SAFE_INTEGER // genius
-                    })
-
-                    tempdata[msg.guild.id].messages.unshift({
-                        id: null,
-                        author: msg.author.id,
-                        content: cleanMessage,
-                        timestamp: Number.MAX_SAFE_INTEGER // genius
-                    })
-
-                    updateGenAiModel(msg, {
-                        sample: cleanMessage
-                    })
-
-                    if (!msg.nosend) await msg.reply({
-                        content: `✅ Added ${cleanMessage}`,
-                        allowedMentions: fetchPingPerms(msg)
-                    }).catch(() => { })
-                    return `✅ Added ${cleanMessage}`
+                if (cleanMessage.match(/nigg|fagg|https?\:\/\/.*(rule34|e621|pornhub|hentaihaven|xxx|iplogger|discord\.gg\/[\d\w]+\/?$|discord\.gift)/ig)) {
+                    send = msg.nosend || await yesno(msg.channel, 'That message looks nasty, are you sure about this?', msg.member.id, undefined, msg).catch(() => { })
                 }
+
+                if (!send) return
+
+                data.guildData[msg.guild.id].messages.unshift({
+                    id: null,
+                    author: msg.author.id,
+                    content: CryptoJS.AES.encrypt(cleanMessage, process.env.AUTH_TOKEN).toString(),
+                    timestamp: Number.MAX_SAFE_INTEGER // genius
+                })
+
+                tempdata[msg.guild.id].messages.unshift({
+                    id: null,
+                    author: msg.author.id,
+                    content: cleanMessage,
+                    timestamp: Number.MAX_SAFE_INTEGER // genius
+                })
+
+                updateGenAiModel(msg, {
+                    sample: cleanMessage
+                })
+
+                if (!msg.nosend) await msg.reply({
+                    content: `✅ Added ${cleanMessage}`,
+                    allowedMentions: fetchPingPerms(msg)
+                }).catch(() => { })
+                return `✅ Added ${cleanMessage}`
             },
 
             delete: async (msg, args) => {

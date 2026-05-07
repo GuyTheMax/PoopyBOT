@@ -1017,27 +1017,23 @@ class Poopy {
             ) {
                 var cleanMessage = cleanContentPreserveEmojis(origcontent, msg.channel).replace(/\@/g, '@‌')
 
-                if (
-                    !(tempdata[msg.guild.id].messages.some(message => message.content.toLowerCase() === cleanMessage.toLowerCase()))
-                ) {
-                    data.guildData[msg.guild.id].messages.unshift({
-                        id: msg.id,
-                        author: msg.author.id,
-                        content: CryptoJS.AES.encrypt(cleanMessage, process.env.AUTH_TOKEN).toString(),
-                        timestamp: Date.now()
-                    })
+                data.guildData[msg.guild.id].messages.unshift({
+                    id: msg.id,
+                    author: msg.author.id,
+                    content: CryptoJS.AES.encrypt(cleanMessage, process.env.AUTH_TOKEN).toString(),
+                    timestamp: Date.now()
+                })
 
-                    tempdata[msg.guild.id].messages.unshift({
-                        id: msg.id,
-                        author: msg.author.id,
-                        content: cleanMessage,
-                        timestamp: Date.now()
-                    })
+                tempdata[msg.guild.id].messages.unshift({
+                    id: msg.id,
+                    author: msg.author.id,
+                    content: cleanMessage,
+                    timestamp: Date.now()
+                })
 
-                    updateGenAiModel(msg, {
-                        sample: cleanMessage
-                    })
-                }
+                updateGenAiModel(msg, {
+                    sample: cleanMessage
+                })
             }
 
             deleteMsgData(msg)
@@ -1964,7 +1960,7 @@ class Poopy {
         if (vars.hivemindStatusInterval !== undefined) {
             clearInterval(vars.hivemindStatusInterval)
         }
-        
+
         vars.started = false
         delete activeBots[config.database]
         bot.destroy()
