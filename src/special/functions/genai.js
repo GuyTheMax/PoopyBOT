@@ -36,7 +36,7 @@ module.exports = {
 
         var [markovString] = genAi.generateFromModel(tempdata[msg.guild.id].messageModel, {
             maxLength: maxLength,
-            begin: saidMessage
+            begin: begin
         })
 
         return markovString
