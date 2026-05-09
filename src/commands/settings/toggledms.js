@@ -22,10 +22,15 @@ module.exports = {
             })
         }
     }],
-    execute: async function (msg, args) {
+    execute: async function (msg, args, opts) {
         let poopy = this
         let data = poopy.data
         let { fetchPingPerms, resolveUser } = poopy.functions
+
+        if (opts.sourceMsg && msg.author.id != opts.sourceMsg.author.id) {
+            await msg.reply("bro").catch(() => { })
+            return
+        }
 
         var userQuery = args.slice(1).join(" ").trim()
 

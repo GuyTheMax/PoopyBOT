@@ -117,7 +117,7 @@ module.exports = {
             })
         }
     }],
-    execute: async function (msg, args) {
+    execute: async function (msg, args, opts) {
         let poopy = this
         let { generateId, navigateEmbed, similarity, fetchPingPerms } = poopy.functions
         let { DiscordTypes } = poopy.modules
@@ -127,6 +127,11 @@ module.exports = {
         let bot = poopy.bot
         let commands = poopy.commands
         let data = poopy.data
+
+        if (opts.sourceMsg && msg.author.id != opts.sourceMsg.author.id) {
+            await msg.reply("bro").catch(() => { })
+            return
+        }
 
         async function createCommand(msg, args) {
             if (!args[1]) {

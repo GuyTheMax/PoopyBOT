@@ -1,11 +1,16 @@
 module.exports = {
     name: ['keyexecution', 'keyexec'],
     args: [{ "name": "mode", "required": true, "specifarg": false, "orig": "<mode (Message, Command or None)>", "autocomplete": ["Message", "Command", "None"] }],
-    execute: async function (msg, args) {
+    execute: async function (msg, args, opts) {
         let poopy = this
         let config = poopy.config
         let data = poopy.data
-    let { DiscordTypes } = poopy.modules
+        let { DiscordTypes } = poopy.modules
+
+        if (opts.sourceMsg && msg.author.id != opts.sourceMsg.author.id) {
+            await msg.reply("bro").catch(() => { })
+            return
+        }
 
         if (msg.channel.permissionsFor(msg.member).has(DiscordTypes.PermissionFlagsBits.ManageGuild) || msg.channel.permissionsFor(msg.member).has(DiscordTypes.PermissionFlagsBits.ManageMessages) || msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.Administrator) || msg.author.id === msg.guild.ownerId || config.ownerids.find(id => id == msg.author.id)) {
             if (args[1] === undefined) {

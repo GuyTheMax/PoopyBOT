@@ -1017,23 +1017,27 @@ class Poopy {
             ) {
                 var cleanMessage = msg.content // cleanContentPreserveEmojis(origcontent, msg.channel).replace(/\@/g, '@‌')
 
-                data.guildData[msg.guild.id].messages.unshift({
-                    id: msg.id,
-                    author: msg.author.id,
-                    content: CryptoJS.AES.encrypt(cleanMessage, process.env.AUTH_TOKEN).toString(),
-                    timestamp: Date.now()
-                })
+                if (
+                    !(tempdata[msg.guild.id].messages.some(message => message.content.toLowerCase() === cleanMessage.toLowerCase()))
+                ) {
+                    data.guildData[msg.guild.id].messages.unshift({
+                        id: msg.id,
+                        author: msg.author.id,
+                        content: CryptoJS.AES.encrypt(cleanMessage, process.env.AUTH_TOKEN).toString(),
+                        timestamp: Date.now()
+                    })
 
-                tempdata[msg.guild.id].messages.unshift({
-                    id: msg.id,
-                    author: msg.author.id,
-                    content: cleanMessage,
-                    timestamp: Date.now()
-                })
+                    tempdata[msg.guild.id].messages.unshift({
+                        id: msg.id,
+                        author: msg.author.id,
+                        content: cleanMessage,
+                        timestamp: Date.now()
+                    })
 
-                updateGenAiModel(msg, {
-                    sample: cleanMessage
-                })
+                    updateGenAiModel(msg, {
+                        sample: cleanMessage
+                    })
+                }
             }
 
             deleteMsgData(msg)
@@ -1201,7 +1205,7 @@ class Poopy {
             }
         }
 
-        callbacks.messageEditCallback = async (msg) => {
+        callbacks.messageEditCallback = async (oldMsg, msg) => {
             var messages = data.guildData[msg.guild?.id]?.messages
             var tmpMessages = tempdata[msg.guild?.id]?.messages
 
@@ -1213,14 +1217,23 @@ class Poopy {
                     var findMessage = messages[messageIndex]
                     var findTmpMessage = tmpMessages[messageIndex]
 
+                    var oldCleanMessage = oldMsg.content // cleanContentPreserveEmojis(oldMsg.content, oldMsg.channel).replace(/\@/g, '@‌')
                     var cleanMessage = msg.content // cleanContentPreserveEmojis(msg.content, msg.channel).replace(/\@/g, '@‌')
 
+                    await updateGenAiModel(oldMsg, {
+                        sample: oldCleanMessage,
+                        remove: true
+                    })
+
                     if (
-                        !(cleanMessage.match(vars.badFilter) || cleanMessage.match(vars.scamFilter) || cleanMessage.includes(prefix.toLowerCase())) &&
                         !(tmpMessages.find(message => message.content.toLowerCase() === cleanMessage.toLowerCase()))
                     ) {
                         findMessage.content = CryptoJS.AES.encrypt(cleanMessage, process.env.AUTH_TOKEN).toString()
                         findTmpMessage.content = cleanMessage
+
+                        updateGenAiModel(msg, {
+                            sample: cleanMessage
+                        })
                     } else {
                         messages.splice(messageIndex, 1)
                         tmpMessages.splice(messageIndex, 1)
@@ -1236,6 +1249,13 @@ class Poopy {
             if (messages && tmpMessages) {
                 var messageIndex = messages.findIndex(m => m.id == msg.id)
                 if (messageIndex > -1) {
+                    var cleanMessage = msg.content // cleanContentPreserveEmojis(msg.content, msg.channel).replace(/\@/g, '@‌')
+
+                    await updateGenAiModel(msg, {
+                        sample: cleanMessage,
+                        remove: true
+                    })
+
                     messages.splice(messageIndex, 1)
                     tmpMessages.splice(messageIndex, 1)
                 }
@@ -1928,7 +1948,7 @@ class Poopy {
 
         if (!config.apiMode) {
             bot.on('messageCreate', (msg) => callbacks.messageCallback(msg).catch((e) => console.log(e)))
-            bot.on('messageUpdate', (_, msg) => callbacks.messageEditCallback(msg).catch((e) => console.log(e)))
+            bot.on('messageUpdate', (oldMsg, msg) => callbacks.messageEditCallback(oldMsg, msg).catch((e) => console.log(e)))
             bot.on('messageDelete', (msg) => callbacks.messageDeleteCallback(msg).catch((e) => console.log(e)))
             bot.on('messageDeleteBulk', (messages) => messages.forEach((msg) => callbacks.messageDeleteCallback(msg).catch((e) => console.log(e))))
             bot.on('guildCreate', (guild) => callbacks.guildCallback(guild).catch((e) => console.log(e)))

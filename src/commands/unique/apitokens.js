@@ -76,7 +76,10 @@ module.exports = {
             }
         }
 
-        if (opts.isBot) return
+        if (opts.sourceMsg && msg.author.id != opts.sourceMsg.author.id) {
+            await msg.reply("bro").catch(() => { })
+            return
+        }
 
         var options = {
             help: async (msg) => {

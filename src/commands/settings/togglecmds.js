@@ -31,7 +31,7 @@ module.exports = {
         }],
         "description": "Disables/enables a command, if it exists."
     }],
-    execute: async function (msg, args) {
+    execute: async function (msg, args, opts) {
         let poopy = this
         let data = poopy.data
         let bot = poopy.bot
@@ -39,6 +39,11 @@ module.exports = {
         let commands = poopy.commands
         let { DiscordTypes } = poopy.modules
         let { fetchPingPerms } = poopy.functions
+
+        if (opts.sourceMsg && msg.author.id != opts.sourceMsg.author.id) {
+            await msg.reply("bro").catch(() => { })
+            return
+        }
 
         var options = {
             list: async (msg) => {

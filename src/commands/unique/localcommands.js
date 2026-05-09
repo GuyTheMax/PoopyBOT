@@ -154,6 +154,11 @@ module.exports = {
         let globaldata = poopy.globaldata
         let commands = poopy.commands
 
+        if (opts.sourceMsg && msg.author.id != opts.sourceMsg.author.id) {
+            await msg.reply("bro").catch(() => { })
+            return
+        }
+
         var options = {
             list: async (msg) => {
                 var localCmdsArray = []

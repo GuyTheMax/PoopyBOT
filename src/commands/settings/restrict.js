@@ -33,13 +33,18 @@ module.exports = {
         }],
         "description": "Restricts/unrestricts bot usage in the channel to moderators only."
     }],
-    execute: async function (msg, args) {
+    execute: async function (msg, args, opts) {
         let poopy = this
         let data = poopy.data
         let bot = poopy.bot
         let config = poopy.config
         let { DiscordTypes, Discord } = poopy.modules
         let { fetchPingPerms } = poopy.functions
+
+        if (opts.sourceMsg && msg.author.id != opts.sourceMsg.author.id) {
+            await msg.reply("bro").catch(() => { })
+            return
+        }
 
         var options = {
             list: async (msg) => {

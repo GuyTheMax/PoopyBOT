@@ -39,13 +39,13 @@ function generateText(model, minLength = 1, maxLength = 2000, keySize = 1, begin
 
     while (true) {
         const key = currentKey.join("|");
-        let possibilities = model.get(key);
+        let possibilities = model.keywords.get(key);
 
         if (!possibilities || !possibilities.length) {
             if (result.length >= minLength) break;
 
             currentKey = Array(keySize).fill(START);
-            possibilities = model.get(currentKey.join("|"));
+            possibilities = model.keywords.get(currentKey.join("|"));
 
             if (!possibilities || !possibilities.length) break;
         }
@@ -54,7 +54,7 @@ function generateText(model, minLength = 1, maxLength = 2000, keySize = 1, begin
 
         if (nextWord === END && result.length < minLength) {
             currentKey = Array(keySize).fill(START);
-            possibilities = model.get(currentKey.join("|"));
+            possibilities = model.keywords.get(currentKey.join("|"));
 
             if (!possibilities || !possibilities.length) break;
 
@@ -93,22 +93,36 @@ function trainSample(sample, model, keySize = 1) {
         .filter(Boolean)
         .map(wordProcess);
 
-    if (!words.length) return;
+    if (!words.length) {
+        return () => { };
+    }
 
     const window = Array(keySize).fill(START);
+
+    const operations = [];
 
     for (let i = 0; i <= words.length; i++) {
         const next = i === words.length ? END : words[i];
 
         const key = window.join("|");
 
-        let arr = model.get(key);
+        let arr = model.keywords.get(key);
+
+        let created = false;
+
         if (arr === undefined) {
             arr = [];
-            model.set(key, arr);
+            model.keywords.set(key, arr);
+            created = true;
         }
 
         arr.push(next);
+
+        operations.push({
+            key,
+            next,
+            created
+        });
 
         for (let j = 0; j < keySize - 1; j++) {
             window[j] = window[j + 1];
@@ -116,13 +130,40 @@ function trainSample(sample, model, keySize = 1) {
 
         window[keySize - 1] = next;
     }
+
+    return operations;
+}
+
+function undoTrainSample(operations, model) {
+    for (let i = operations.length - 1; i >= 0; i--) {
+        const op = operations[i];
+
+        const arr = model.keywords.get(op.key);
+        if (!arr) continue;
+
+        const idx = arr.lastIndexOf(op.next);
+
+        if (idx !== -1) {
+            arr.splice(idx, 1);
+        }
+
+        if (arr.length === 0) {
+            model.keywords.delete(op.key);
+        }
+    }
 }
 
 function buildModel(samples, keySize = 1) {
-    const model = new Map();
+    const model = {
+        keywords: new Map(),
+        undo: []
+    }
 
     for (const sample of samples) {
-        trainSample(sample, model, keySize)
+        model.undo.push({
+            sample,
+            operations: trainSample(sample, model, keySize)
+        })
     }
 
     return model;
@@ -162,5 +203,6 @@ module.exports = {
     generate,
     generateFromModel,
     buildModel,
-    trainSample
+    trainSample,
+    undoTrainSample
 }

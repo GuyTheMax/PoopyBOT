@@ -20,10 +20,15 @@ module.exports = {
             "orig": "[-everyone]"
         }
     ],
-    execute: async function (msg, args) {
+    execute: async function (msg, args, opts) {
         let poopy = this
         let data = poopy.data
         let { fetchPingPerms, getOption } = poopy.functions
+
+        if (opts.sourceMsg && msg.author.id != opts.sourceMsg.author.id) {
+            await msg.reply("bro").catch(() => { })
+            return
+        }
 
         var allowedMentionTypes = {
             users: !!getOption(args, 'users', { dft: false, splice: true, n: 0, join: true }),
@@ -37,8 +42,7 @@ module.exports = {
 
         data.userData[msg.author.id].allowedMentions = allowedMentions
 
-        var mentionInfo = `✅ Allowed mention settings have been updated.\n${
-            Object.entries(allowedMentionTypes)
+        var mentionInfo = `✅ Allowed mention settings have been updated.\n${Object.entries(allowedMentionTypes)
             .map(([mentionType, mentionEnabled]) => `- *${mentionType.toCapperCase()}*: **${mentionEnabled}**`)
             .join("\n")
         }${allowedMentions.length ? "\n-# (remember to disable these later with `p:togglepings` alone, or... well, you might accidentally ping everyone!)" : ""}`
@@ -47,7 +51,8 @@ module.exports = {
         if (!msg.nosend) await msg.reply({
             content: mentionInfo,
             allowedMentions: fetchPingPerms(msg)
-        }).catch((e) => console.log(e))
+        }).catch(() => { })
+
         return mentionInfo
     },
     help: {

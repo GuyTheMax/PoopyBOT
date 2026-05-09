@@ -1,10 +1,15 @@
 module.exports = {
     name: ['webhookattachments', 'toggleattachments'],
     args: [],
-    execute: async function (msg) {
+    execute: async function (msg, _, opts) {
         let poopy = this
         let data = poopy.data
         let { fetchPingPerms } = poopy.functions
+
+        if (opts.sourceMsg && msg.author.id != opts.sourceMsg.author.id) {
+            await msg.reply("bro").catch(() => { })
+            return
+        }
 
         data.guildData[msg.guild.id].webhookAttachments = !data.guildData[msg.guild.id].webhookAttachments
         if (!msg.nosend) await msg.reply({

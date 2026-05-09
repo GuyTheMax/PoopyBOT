@@ -108,7 +108,7 @@ module.exports = {
         "args": [],
         "description": "Toggles whether the bot can read the messages from all channels or not."
     }],
-    execute: async function (msg, args) {
+    execute: async function (msg, args, opts) {
         let poopy = this
         let vars = poopy.vars
         let config = poopy.config
@@ -117,6 +117,11 @@ module.exports = {
         let tempdata = poopy.tempdata
         let { similarity, yesno, fetchPingPerms, resolveUser, cleanContentPreserveEmojis, workerTask, updateGenAiModel } = poopy.functions
         let bot = poopy.bot
+
+        if (opts.sourceMsg && msg.author.id != opts.sourceMsg.author.id) {
+            await msg.reply("bro").catch(() => { })
+            return
+        }
 
         var options = {
             list: async (msg) => {
@@ -223,6 +228,12 @@ module.exports = {
 
                 var saidMessage = args.slice(1).join(' ')
                 var cleanMessage = saidMessage // cleanContentPreserveEmojis(saidMessage, msg.channel).replace(/\@/g, '@‌')
+                var findMessage = tempdata[msg.guild.id].messages.find(message => message.content.toLowerCase() === cleanMessage.toLowerCase())
+
+                if (findMessage) {
+                    await msg.reply(`That message already exists.`).catch(() => { })
+                    return
+                }
 
                 var send = true
 
@@ -268,12 +279,13 @@ module.exports = {
                 var findMessage = tempdata[msg.guild.id].messages.findIndex(message => message.content.toLowerCase() === cleanMessage.toLowerCase())
 
                 if (findMessage > -1) {
+                    await updateGenAiModel(msg, {
+                        sample: cleanMessage,
+                        remove: true
+                    })
+
                     data.guildData[msg.guild.id].messages.splice(findMessage, 1)
                     tempdata[msg.guild.id].messages.splice(findMessage, 1)
-
-                    updateGenAiModel(msg, {
-                        forceRefresh: true
-                    })
 
                     if (!msg.nosend) await msg.reply(`✅ Removed.`).catch(() => { })
                     return `✅ Removed.`
@@ -295,6 +307,7 @@ module.exports = {
 
                         data.guildData[msg.guild.id].messages = []
                         tempdata[msg.guild.id].messages = []
+                        delete tempdata[msg.guild.id].messageModel
 
                         if (!msg.nosend) await msg.reply(`✅ All **${size}** messages from the server's database have been cleared.`).catch(() => { })
                         return `✅ All **${size}** messages from the server's database have been cleared.`

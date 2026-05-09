@@ -108,7 +108,7 @@ module.exports = {
         }],
         "description": "Deletes the timer from the server."
     }],
-    execute: async function (msg, args) {
+    execute: async function (msg, args, opts) {
         var poopy = this
         var data = poopy.data
         var tempdata = poopy.tempdata
@@ -117,6 +117,11 @@ module.exports = {
         var bot = poopy.bot
         var { chunkArray, navigateEmbed, generateId, fetchPingPerms, getOption, createCronJob } = poopy.functions
         var { Discord, DiscordTypes, cron } = poopy.modules
+
+        if (opts.sourceMsg && msg.author.id != opts.sourceMsg.author.id) {
+            await msg.reply("bro").catch(() => { })
+            return
+        }
 
         var options = {
             list: async (msg) => {

@@ -157,23 +157,25 @@ functions.getOption = function (args, name, {
         if (join) option = option.join(' ')
         return n == 0 ? true : isNaN(Number(option)) ? option : Number(option)
     }
-    return dft
+    return (typeof dft == "function" ? dft() : dft)
 }
 
 functions.parseNumber = function (str, {
     dft = undefined, min = -Infinity, max = Infinity, round = false
 } = {}) {
-    if (str === undefined || str === '') return dft
+    if (str === undefined || str === '') return (typeof dft == "function" ? dft() : dft)
     var number = Number(str)
-    return isNaN(number) ? dft : (round ? Math.round(Math.max(Math.min(number, max), min)) : Math.max(Math.min(number, max), min)) ?? dft
+    return isNaN(number) ? (typeof dft == "function" ? dft() : dft)
+        : (round ? Math.round(Math.max(Math.min(number, max), min))
+        : Math.max(Math.min(number, max), min)) ?? (typeof dft == "function" ? dft() : dft)
 }
 
 functions.parseString = function (str, validList, {
     dft = undefined, lower = false, upper = false
 } = {}) {
-    if (str == undefined || str === '') return dft
+    if (str == undefined || str === '') return (typeof dft == "function" ? dft() : dft)
     var query = upper ? str.toUpperCase() : lower ? str.toLowerCase() : str
-    return validList.find(q => q == query) || dft
+    return validList.find(q => q == query) || (typeof dft == "function" ? dft() : dft)
 }
 
 functions.parseKeyword = function (keyword) {
@@ -548,13 +550,13 @@ functions.markovMe = function (markovChain, text = '', options = {}) {
 }
 
 functions.updateGenAiModel = async function (msg, {
-    sample, forceRefresh = false
+    sample, remove = false
 } = {}) {
     let poopy = this
     let tempdata = poopy.tempdata
     let { genAi, workerTask } = poopy.functions
 
-    if (!tempdata[msg.guild.id].messageModel || forceRefresh) {
+    if (!tempdata[msg.guild.id].messageModel) {
         tempdata[msg.guild.id].messageModel = workerTask("genai-model", tempdata[msg.guild.id].messages.map(m => m.content))
     }
 
@@ -562,7 +564,21 @@ functions.updateGenAiModel = async function (msg, {
         tempdata[msg.guild.id].messageModel = await tempdata[msg.guild.id].messageModel
     }
 
-    if (sample) genAi.trainSample(sample, tempdata[msg.guild.id].messageModel)
+    const messageModel = tempdata[msg.guild.id].messageModel
+
+    if (sample) {
+        if (remove) {
+            const findUndo = messageModel.undo.find(u => u.sample.toLowerCase() == sample.toLowerCase())
+            if (findUndo) {
+                genAi.undoTrainSample(findUndo.operations, tempdata[msg.guild.id].messageModel)
+            }
+        } else {
+            tempdata[msg.guild.id].messageModel.undo.push({
+                sample,
+                operations: genAi.trainSample(sample, tempdata[msg.guild.id].messageModel)
+            })
+        }
+    }
 }
 
 functions.findpreset = function (args) {
