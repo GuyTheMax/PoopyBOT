@@ -1772,8 +1772,12 @@ class Poopy {
                         interaction.createReactionCollector =
                             interaction.createMessageComponentCollector = () => new FakeCollector()
 
-                        await callbacks.messageCallback(interaction).catch(() => { })
-
+                        await Promise.all(
+                            callbacks.messageCallbacks.map(
+                                callback => callback(interaction).catch(() => { })
+                            )
+                        ).catch(() => { })
+                        
                         await sleep(1000)
                         if (!interaction.replied) interaction.deleteReply().catch(() => { })
                         else await callbacks.messageCallback(interaction.replied).catch(() => { })
