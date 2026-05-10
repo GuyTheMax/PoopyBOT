@@ -430,7 +430,7 @@ class Poopy {
 
         vars.shelpCmds = vars.sections
 
-        callbacks.messageCallback = async msg => {
+        callbacks.messageCallbacks = [async (msg) => {
             dmSupport(msg)
 
             var origcontent = msg.content
@@ -1203,9 +1203,9 @@ class Poopy {
                     }).catch(() => { })
                 }
             }
-        }
+        }]
 
-        callbacks.messageEditCallback = async (oldMsg, msg) => {
+        callbacks.messageEditCallbacks = [async (oldMsg, msg) => {
             var messages = data.guildData[msg.guild?.id]?.messages
             var tmpMessages = tempdata[msg.guild?.id]?.messages
 
@@ -1240,9 +1240,9 @@ class Poopy {
                     }
                 }
             }
-        }
+        }]
 
-        callbacks.messageDeleteCallback = async (msg) => {
+        callbacks.messageDeleteCallbacks = [async (msg) => {
             var messages = data.guildData[msg.guild?.id]?.messages
             var tmpMessages = tempdata[msg.guild?.id]?.messages
 
@@ -1278,9 +1278,9 @@ class Poopy {
 
                 starboardMsg.delete().catch(() => { })
             }
-        }
+        }]
 
-        callbacks.guildCallback = async guild => {
+        callbacks.guildCallbacks = [async guild => {
             infoPost(`Joined a new server (${bot.guilds.cache.size} in total)`)
 
             var channel = guild.systemChannel || guild.channels.cache.find(c => c.type === Discord.ChannelType.GuildText && (c.name == 'general' || c.name == 'main' || c.name == 'chat'))
@@ -1349,13 +1349,13 @@ class Poopy {
 
                 data.guildData[guild.id].joins++
             }
-        }
+        }]
 
-        callbacks.guildDeleteCallback = async () => {
+        callbacks.guildDeleteCallbacks = [async () => {
             infoPost(`Left a server (${bot.guilds.cache.size} in total)`)
-        }
+        }]
 
-        callbacks.reactionCallback = async (reaction, user) => {
+        callbacks.reactionCallbacks = [async (reaction, user) => {
             const msg = await reaction.message.fetch(false).catch(() => { }) ?? reaction.message
             const emoji = reaction.emoji.toString()
 
@@ -1515,9 +1515,9 @@ class Poopy {
                     }).catch(() => { })
                 }
             }
-        }
+        }]
 
-        callbacks.interactionCallback = async (interaction) => {
+        callbacks.interactionCallbacks = [async (interaction) => {
             dmSupport(interaction)
 
             var interactionFunctions = [
@@ -1783,7 +1783,7 @@ class Poopy {
 
             var interactionFunction = interactionFunctions.find(interaction => interaction.type)
             if (interactionFunction) await interactionFunction.execute().catch(() => { })
-        }
+        }]
     }
 
     async start(TOKEN) {
@@ -1945,18 +1945,21 @@ class Poopy {
         }
 
         if (!config.apiMode) {
-            bot.on('messageCreate', (msg) => callbacks.messageCallback(msg).catch((e) => console.log(e)))
-            bot.on('messageUpdate', (oldMsg, msg) => callbacks.messageEditCallback(oldMsg, msg).catch((e) => console.log(e)))
-            bot.on('messageDelete', (msg) => callbacks.messageDeleteCallback(msg).catch((e) => console.log(e)))
-            bot.on('messageDeleteBulk', (messages) => messages.forEach((msg) => callbacks.messageDeleteCallback(msg).catch((e) => console.log(e))))
-            bot.on('guildCreate', (guild) => callbacks.guildCallback(guild).catch((e) => console.log(e)))
-            bot.on('guildDelete', (guild) => callbacks.guildDeleteCallback(guild).catch((e) => console.log(e)))
-            bot.on('messageReactionAdd', (reaction, user) => callbacks.reactionCallback(reaction, user).catch((e) => console.log(e)))
-            bot.on('messageReactionRemove', (reaction, user) => callbacks.reactionCallback(reaction, user).catch((e) => console.log(e)))
-            bot.on('messageReactionRemoveAll', (_, reactions) => reactions.forEach((reaction) => callbacks.reactionCallback(reaction).catch((e) => console.log(e))))
-            bot.on('messageReactionRemoveEmoji', (reaction) => callbacks.reactionCallback(reaction).catch((e) => console.log(e)))
-            bot.on('guildDelete', (guild) => callbacks.guildDeleteCallback(guild).catch((e) => console.log(e)))
-            bot.on('interactionCreate', (interaction) => callbacks.interactionCallback(interaction).catch((e) => console.log(e)))
+            bot.on('messageCreate', (msg) => callbacks.messageCallbacks.forEach(callback => callback(msg).catch((e) => console.log(e))))
+            
+            bot.on('messageUpdate', (oldMsg, msg) => callbacks.messageEditCallbacks.forEach(callback => callback(oldMsg, msg).catch((e) => console.log(e))))
+            bot.on('messageDelete', (msg) => callbacks.messageDeleteCallbacks.forEach(callback => callback(msg).catch((e) => console.log(e))))
+            bot.on('messageDeleteBulk', (messages) => messages.forEach((msg) => callbacks.messageDeleteCallbacks.forEach(callback => callback(msg).catch((e) => console.log(e)))))
+            
+            bot.on('guildCreate', (guild) => callbacks.guildCallbacks.forEach(callback => callback(guild).catch((e) => console.log(e))))
+            bot.on('guildDelete', (guild) => callbacks.guildDeleteCallbacks.forEach(callback => callback(guild).catch((e) => console.log(e))))
+            
+            bot.on('messageReactionAdd', (reaction, user) => callbacks.reactionCallbacks.forEach(callback => callback(reaction, user).catch((e) => console.log(e))))
+            bot.on('messageReactionRemove', (reaction, user) => callbacks.reactionCallbacks.forEach(callback => callback(reaction, user).catch((e) => console.log(e))))
+            bot.on('messageReactionRemoveAll', (_, reactions) => reactions.forEach((reaction) => callbacks.reactionCallbacks.forEach(callback => callback(reaction).catch((e) => console.log(e)))))
+            bot.on('messageReactionRemoveEmoji', (reaction) => callbacks.reactionCallbacks.forEach(callback => callback(reaction).catch((e) => console.log(e))))
+            
+            bot.on('interactionCreate', (interaction) => callbacks.interactionCallbacks.forEach(callback => callback(interaction).catch((e) => console.log(e))))
 
             bot.on('error', (err) => console.log(err))
         }

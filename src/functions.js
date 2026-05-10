@@ -570,10 +570,10 @@ functions.updateGenAiModel = async function (msg, {
         if (remove) {
             const findUndo = messageModel.undo.find(u => u.sample.toLowerCase() == sample.toLowerCase())
             if (findUndo) {
-                genAi.undoTrainSample(findUndo.operations, tempdata[msg.guild.id].messageModel)
+                genAi.undoTrainSample(findUndo.operations, messageModel)
             }
         } else {
-            genAi.trainSample(sample, tempdata[msg.guild.id].messageModel)
+            genAi.trainSample(sample, messageModel)
         }
     }
 }
