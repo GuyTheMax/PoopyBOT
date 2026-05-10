@@ -4398,7 +4398,7 @@ functions.createCronJob = async function (cronData) {
 
             const evaluatedPhrase = await getKeywordsFor(phrase, dummyMessage, true, { resetAttempts: true }).catch(() => { }) ?? phrase
 
-            cronMessage = await channel.send({
+            if (evaluatedPhrase.trim()) cronMessage = await channel.send({
                 content: evaluatedPhrase,
                 allowedMentions: !allowAnyPings ? fetchPingPerms(dummyMessage) : undefined
             }).catch((err) => {
@@ -4407,7 +4407,7 @@ functions.createCronJob = async function (cronData) {
 
             deleteMsgData(dummyMessage)
 
-            if (cronMessage || abort) break
+            if (!evaluatedPhrase.trim() || cronMessage || abort) break
 
             await sleep(5000)
         }

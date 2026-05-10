@@ -139,16 +139,16 @@ for (var Discord of modules.Discord) {
             }
         }
 
-        if (
-            typeof payload == "string" ?
-            !(payload.trim()) : (
-            !((payload.content ?? "").trim()) &&
-            !payload.files?.length &&
-            !payload.attachments?.length &&
-            !payload.embeds?.length &&
-            !payload.stickers?.length &&
-            !payload.components?.length
-        )) return
+        //if (
+        //    typeof payload == "string" ?
+        //    !(payload.trim()) : (
+        //    !((payload.content ?? "").trim()) &&
+        //    !payload.files?.length &&
+        //    !payload.attachments?.length &&
+        //    !payload.embeds?.length &&
+        //    !payload.stickers?.length &&
+        //    !payload.components?.length
+        //)) throw "Can't send empty message"
 
         if (vars.currentIpAddress) {
             switch (typeof payload) {
@@ -229,16 +229,16 @@ for (var Discord of modules.Discord) {
             }
         }
 
-        if (
-            typeof payload == "string" ?
-            !(payload.trim()) : (
-            !((payload.content ?? "").trim()) &&
-            !payload.files?.length &&
-            !payload.attachments?.length &&
-            !payload.embeds?.length &&
-            !payload.stickers?.length &&
-            !payload.components?.length
-        )) return
+        //if (
+        //    typeof payload == "string" ?
+        //    !(payload.trim()) : (
+        //    !((payload.content ?? "").trim()) &&
+        //    !payload.files?.length &&
+        //    !payload.attachments?.length &&
+        //    !payload.embeds?.length &&
+        //    !payload.stickers?.length &&
+        //    !payload.components?.length
+        //)) throw "Can't send empty message"
 
         if (vars.currentIpAddress) {
             switch (typeof payload) {
@@ -329,16 +329,16 @@ for (var Discord of modules.Discord) {
                 }
             }
 
-            if (
-                typeof payload == "string" ?
-                !(payload.trim()) : (
-                !((payload.content ?? "").trim()) &&
-                !payload.files?.length &&
-                !payload.attachments?.length &&
-                !payload.embeds?.length &&
-                !payload.stickers?.length &&
-                !payload.components?.length
-            )) return
+            //if (
+            //    typeof payload == "string" ?
+            //    !(payload.trim()) : (
+            //    !((payload.content ?? "").trim()) &&
+            //    !payload.files?.length &&
+            //    !payload.attachments?.length &&
+            //    !payload.embeds?.length &&
+            //    !payload.stickers?.length &&
+            //    !payload.components?.length
+            //)) throw "Can't send empty message"
 
             if (vars.currentIpAddress) {
                 switch (typeof payload) {
