@@ -36,7 +36,7 @@ module.exports = {
 
         const modelWorker = tempdata[msg.guild.id].messageModel
 
-        var [markovString] = modelWorker.generate({
+        var [markovString] = await modelWorker.generate({
             minLength: minLength,
             maxLength: maxLength,
             begin: begin
