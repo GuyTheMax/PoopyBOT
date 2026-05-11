@@ -15,6 +15,7 @@ module.exports = {
         if (!array) return ''
 
         var chunks = chunkArray(array, 50)
+        var chunksRead = 0
         for (var chunk of chunks) {
             var find = await findIndexAsync(chunk, async (val) => {
                 var valOpts = { ...opts }
@@ -31,7 +32,8 @@ module.exports = {
                 return found
             }).catch(() => { })
 
-            if (find != -1) return find
+            if (find != -1) return find + chunksRead
+            chunksRead += chunks.length
         }
 
         return -1
