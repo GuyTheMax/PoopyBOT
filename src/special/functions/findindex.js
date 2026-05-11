@@ -31,10 +31,10 @@ module.exports = {
                 return found
             }).catch(() => { })
 
-            if (find != undefined) return find
+            if (find != -1) return find
         }
 
-        return ''
+        return -1
     },
     attemptvalue: 5,
     raw: true
