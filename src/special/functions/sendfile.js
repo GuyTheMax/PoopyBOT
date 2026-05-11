@@ -87,7 +87,8 @@ module.exports = {
         var filepath = await downloadFile(fileinfo.buffer, fileinfo.name, { buffer: true })
         await sendFile(msg, filepath, fileinfo.name, {
             name: name || fileinfo.name,
-            content: message
+            content: message,
+            keep: true
         })
 
         return ''
