@@ -893,7 +893,7 @@ functions.gatherData = async function (msg) {
             data.guildData[msg.guild.id].messages
         )
     }
-    
+
     if (tempdata[msg.guild.id].messages instanceof Promise) {
         tempdata[msg.guild.id].messages = await tempdata[msg.guild.id].messages
     }
@@ -5602,6 +5602,44 @@ functions.downloadFile = async function (url, filename, options) {
     return filepath
 }
 
+functions.uploadToFileHost = async function (filepath, filename) {
+    let poopy = this
+    let vars = poopy.vars
+    let { axios, FormData, fs } = poopy.modules
+
+    const uploadHosts = [
+        async () => vars.Catbox.upload(`${filepath}/${filename}`),
+        async () => {
+            const form = new FormData();
+
+            form.append('file', fs.readFileSync(`${filepath}/${filename}`), filename)
+
+            return axios.post(
+                'https://frisk.page/api/files/upload',
+                form,
+                {
+                    headers: {
+                        ...form.getHeaders()
+                    }
+                }
+            ).then((res) => res.data?.file_url)
+        },
+        async () => vars.Litterbox.upload(`${filepath}/${filename}`)
+    ]
+
+    let lastResponse = "Unable to upload to a file hosting service."
+
+    for (const upload of uploadHosts) {
+        const uploadLink = await upload(link).catch(() => { })
+        if (uploadLink) {
+            if (vars.validUrl.test(uploadLink)) return uploadLink
+            lastResponse = uploadLink
+        }
+    }
+
+    return lastResponse
+}
+
 functions.sendFile = async function (msg, filepath, filename, extraOptions) {
     let poopy = this
     let config = poopy.config
@@ -5735,11 +5773,9 @@ functions.sendFile = async function (msg, filepath, filename, extraOptions) {
     }
 
     if (extraOptions.catbox || (tooLarge && !extraOptions.nosend)) {
-        if (tooLarge && !extraOptions.catbox && !extraOptions.nosend) await msg.reply(`${extraOptions.nocompress ? "Output file too" : "Still"} large${extraOptions.nocompress ? " to be sent to channel" : ""}, guess I\'m gonna try uploading it to Catbox or Litterbox.`).catch(() => { })
-        infoPost(`Uploading file to catbox.moe`)
-        var fileLink = await vars.Catbox.upload(`${filepath}/${filename}`).catch(() => { })
-
-        if (!vars.validUrl.test(fileLink)) fileLink = await vars.Litterbox.upload(`${filepath}/${filename}`).catch(() => { })
+        if (tooLarge && !extraOptions.catbox && !extraOptions.nosend) await msg.reply(`${extraOptions.nocompress ? "Output file too" : "Still"} large${extraOptions.nocompress ? " to be sent to channel" : ""}, guess I\'m gonna try uploading it to a file hosting service.`).catch(() => { })
+        infoPost(`Uploading to a file hosting service`)
+        var fileLink = await uploadToFileHost(filepath, filename).catch(() => { })
 
         if (fileLink) {
             var isUrl = vars.validUrl.test(fileLink)
@@ -5767,7 +5803,7 @@ functions.sendFile = async function (msg, filepath, filename, extraOptions) {
             if (isUrl) returnUrl = fileLink
         } else {
             await msg.reply('Couldn\'t send file.').catch(() => { })
-            infoPost(`Couldn\'t upload catbox.moe file`)
+            infoPost(`Couldn\'t upload file`)
             await rateLimit(msg)
         }
     } else if (extraOptions.nosend) {
@@ -5812,11 +5848,9 @@ functions.sendFile = async function (msg, filepath, filename, extraOptions) {
         var fileMsg = await msg.reply(sendObject).catch(() => { })
 
         if (!fileMsg) {
-            await msg.reply('There was an error sending the file, so I\'m gonna try uploading it to Catbox or Litterbox.').catch(() => { })
-            infoPost(`Failed to send file to channel, uploading to catbox.moe`)
-            var fileLink = await vars.Catbox.upload(`${filepath}/${filename}`).catch(() => { })
-
-            if (!vars.validUrl.test(fileLink)) fileLink = await vars.Litterbox.upload(`${filepath}/${filename}`).catch(() => { })
+            await msg.reply('There was an error sending the file, so I\'m gonna try uploading it to a file hosting service.').catch(() => { })
+            infoPost(`Failed to send file to channel, uploading to a file hosting service`)
+            var fileLink = await uploadToFileHost(filepath, filename).catch(() => { })
 
             if (fileLink) {
                 var isUrl = vars.validUrl.test(fileLink)
@@ -5826,11 +5860,11 @@ functions.sendFile = async function (msg, filepath, filename, extraOptions) {
                 }).catch(() => { })
 
                 if (!isUrl) {
-                    infoPost(`Couldn\'t upload catbox.moe file, reason:\n\`${fileLink.includes('gif larger than 20 MB') ? 'ok so what happened right here is i tried to upload a gif with a size bigger than 20 mb to catbox.moe but apparently you cant do it so uhhhhhh haha no link for you' : fileLink}\``)
+                    infoPost(`Couldn\'t upload file, reason:\n\`${fileLink.includes('gif larger than 20 MB') ? 'ok so what happened right here is i tried to upload a gif with a size bigger than 20 mb to catbox.moe but apparently you cant do it so uhhhhhh haha no link for you' : fileLink}\``)
                 } else returnUrl = fileLink
             } else {
                 await msg.reply('Couldn\'t send file.').catch(() => { })
-                infoPost(`Couldn\'t upload catbox.moe file`)
+                infoPost(`Couldn\'t upload file`)
                 await rateLimit(msg)
             }
         } else returnUrl = fileMsg.attachments.first().url

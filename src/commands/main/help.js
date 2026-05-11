@@ -131,7 +131,16 @@ module.exports = {
             }
         })
 
-        var argumentHelp = "Arguments between \"<>\" are required.\nArguments between \"[]\" are optional.\nArguments between \"{}\" are optional but should normally be supplied.\nMultiple commands can be executed separating them with \"-|-\".\nFile manipulation commands have special options that can be used:\n`-encodingpreset <preset>` - More info in `reencode` command.\n`-filename <name>` - Saves the file with the specified name.\n`-catbox` - Forces the file to be uploaded to Catbox or Litterbox.\n`-nosend` - Does not send anything, useful for executing commands silently and only fetching the output.\n`-nocompress` - Forces the file to not be automatically compressed even when above the channel size limit.\n\n"
+        var argumentHelp = "Arguments between \"<>\" are required.\n" +
+            "Arguments between \"[]\" are optional.\n" +
+            "Arguments between \"{}\" are optional but should normally be supplied.\n" +
+            "Multiple commands can be executed separating them with \"-|-\".\n" +
+            "File manipulation commands have special options that can be used:\n" +
+            "`-encodingpreset <preset>` - More info in `reencode` command.\n" +
+            "`-filename <name>` - Saves the file with the specified name.\n" +
+            "`-catbox` - Forces the file to be uploaded to a file hosting service such as Catbox.\n" +
+            "`-nosend` - Does not send anything, useful for executing commands silently and only fetching the output.\n" +
+            "`-nocompress` - Forces the file to not be automatically compressed even when above the channel size limit.\n\n"
 
         if (msg.nosend) return `**${vars.shelpCmds[page - 1].type} Commands**\n\n` + argumentHelp + vars.shelpCmds[page - 1].commands.map(k => `\`${k.name}\`\n> ${k.value}`).join('\n') + `\n\nPage 1/${vars.shelpCmds.length}`
 
