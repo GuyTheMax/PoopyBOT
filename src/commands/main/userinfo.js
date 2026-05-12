@@ -18,27 +18,36 @@ module.exports = {
                 return { name: memberData[id].username, value: id }
             })
         }
+    },
+    {
+        name: "global",
+        required: false,
+        specifarg: true,
+        orig: "[-global]"
     }],
     execute: async function (msg, args) {
         let poopy = this
         let bot = poopy.bot
         let { DiscordTypes } = poopy.modules
-        let { fetchPingPerms, resolveUser } = poopy.functions
+        let { fetchPingPerms, resolveUser, getOption } = poopy.functions
         let config = poopy.config
+
+        var global = getOption(args, 'global', { n: 0, splice: true, dft: false })
 
         var userQuery = args.slice(1).join(' ')
 
         var member = userQuery ? await resolveUser(userQuery, msg.guild) : msg.member
-        
+
         if (!member) {
             await msg.reply({
                 content: `Invalid user: **${userQuery}**`,
                 allowedMentions: fetchPingPerms(msg)
-            }).catch(() => {})
+            }).catch(() => { })
             return
         }
 
         var user = await (member.user ?? member).fetch(true).catch(() => { })
+        if (global) member = member.user ?? member
 
         var avatar = member.displayAvatarURL({ dynamic: true, size: 1024, extension: 'png' })
         var banner = member.bannerURL({ dynamic: true, size: 1024, extension: 'png' })
@@ -56,6 +65,9 @@ module.exports = {
             thumbnail: {
                 url: avatar
             },
+            image: banner ? {
+                url: banner
+            } : undefined,
             footer: {
                 icon_url: bot.user.displayAvatarURL({ dynamic: true, size: 1024, extension: 'png' }),
                 text: bot.user.displayName
@@ -200,8 +212,8 @@ module.exports = {
         return `${infoEmbed.author.name}\n\n${infoEmbed.description}\n${infoEmbed.fields.map(p => `**${p.name}**: ${p.value}`).join('\n')}`
     },
     help: {
-        name: 'userinfo/whois <user>',
-        value: "Shows a user's info."
+        name: 'userinfo/whois <user> [-global]',
+        value: "Shows a user's server/global info."
     },
     cooldown: 2500,
     type: 'Main'

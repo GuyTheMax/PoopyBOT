@@ -2618,12 +2618,12 @@
         {
             "name": "Warrior",
             "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/9/97/Warrior.png",
-            "alt": "Arbalest"
+            "alt": "Champion"
         },
         {
             "name": "Hunter",
             "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/4/4b/Hunter.png",
-            "alt": "Apostle"
+            "alt": "Arbalest"
         },
         {
             "name": "Damned",
@@ -2653,21 +2653,20 @@
             "alt": "Acolyte"
         },
         {
-            "name": "Champion",
-            "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/d/d7/Champion.png",
-            "alt": "Outcast"
-        },
-        {
-            "name": "Arbalest",
-            "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/f/ff/Arbalest.png",
-            "normal": "Warrior"
-        },
-        {
             "name": "Apostle",
             "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/c2/Apostle.png",
             "alt": "Outcast",
             "boss": true,
-            "finalBoss": true,
+            "finalBoss": true
+        },
+        {
+            "name": "Champion",
+            "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/d/d7/Champion.png",
+            "normal": "Warrior"
+        },
+        {
+            "name": "Arbalest",
+            "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/f/ff/Arbalest.png",
             "normal": "Hunter"
         },
         {

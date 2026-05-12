@@ -77,7 +77,10 @@ module.exports = {
                     value: msg.guild.channels.cache.size.toString(),
                     inline: true
                 },
-            ]
+            ],
+            image: banner ? {
+                url: banner
+            } : undefined,
         }
 
         if (icon) infoEmbed.thumbnail = {
