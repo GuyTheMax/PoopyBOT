@@ -5677,7 +5677,6 @@ functions.uploadToFileHost = async function (file) {
     const filename = path.basename(file)
 
     const uploadHosts = [
-        async () => vars.Catbox.upload(`${filepath}/${filename}`),
         async () => {
             const form = new FormData();
 
@@ -5693,6 +5692,7 @@ functions.uploadToFileHost = async function (file) {
                 }
             ).then((res) => res.data?.file_url)
         },
+        async () => vars.Catbox.upload(`${filepath}/${filename}`),
         async () => vars.Litterbox.upload(`${filepath}/${filename}`)
     ]
 

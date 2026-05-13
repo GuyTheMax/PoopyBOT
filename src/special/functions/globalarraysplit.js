@@ -11,7 +11,7 @@ module.exports = {
     var name = split[0] ?? ''
     var separator = split[1] ?? '|'
     var phr = split[2] ?? ''
-    tempdata[msg.guild.id][msg.channel.id].arrays[name] = splitKeyFunc(phr, { separator: separator })
+    tempdata[msg.guild.id][msg.channel.id].arrays[name] = separator.trim() == "|" ? splitKeyFunc(phr, { separator: separator }) : phr.split(separator)
     return ''
   }
 }

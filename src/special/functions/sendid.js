@@ -69,11 +69,7 @@ module.exports = {
             allowedMentions: fetchPingPerms(msg)
         }).catch(() => { })
 
-        if (message) {
-            return message.id
-        }
-
-        return ''
+        return message?.id ?? ''
     },
     attemptvalue: 10
 }

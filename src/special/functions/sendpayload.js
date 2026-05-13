@@ -97,16 +97,14 @@ module.exports = {
 
                 if (!tempfile) return file
 
-                file.attachment = `tempfiles/${config.mongodatabase}/${tempfile.name}`
+                file.attachment = `tempfiles/${config.database}/${tempfile.name}`
 
                 return file
             })
 
-            var err
-            var m = await msg.channel.send(payload).catch((e) => err = e.message)
-            if (err) return err
+            var m = await (msg.channel?.send ?? msg.reply).call(msg.channel?.send ? msg.channel : msg, payload).catch(() => { })
 
-            return m.id
+            return m?.id ?? ''
         } else {
             return 'You need to have the manage messages permission to execute that!'
         }

@@ -4,7 +4,7 @@ module.exports = {
     func: async function (matches) {
         let poopy = this
         let { uploadToFileHost, validateFile, } = poopy.functions
-        let vars = poopy.config
+        let vars = poopy.vars
 
         var url = matches[1]
         
@@ -15,5 +15,5 @@ module.exports = {
 
         return vars.validUrl.test(fileLink) ? fileLink : ''
     },
-    attemptvalue: 10
+    attemptvalue: 5
 }

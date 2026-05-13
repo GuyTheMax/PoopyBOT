@@ -995,7 +995,13 @@
         {
             "name": "Duck Battler",
             "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1499482739987058708/Duck_Battler_Friendly.png",
-            "alt": "EpikDuck Battler",
+            "alt": "Epikduck Battler",
+            "spoiler": true
+        },
+        {
+            "name": "Epikduck Battler",
+            "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1504121663032393748/Epikduck_Battler_Friendly.png",
+            "normal": "Duck Battler",
             "spoiler": true
         },
         {
@@ -2833,7 +2839,13 @@
         {
             "name": "Duck Battler",
             "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1499482183235014777/Duck_Battler.png",
-            "alt": "EpikDuck Battler",
+            "alt": "Epikduck Battler",
+            "spoiler": true
+        },
+        {
+            "name": "Epikduck Battler",
+            "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1504121662587666472/Epikduck_Battler.png",
+            "normal": "Duck Battler",
             "spoiler": true
         },
         {

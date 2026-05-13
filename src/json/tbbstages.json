@@ -598,88 +598,6 @@
                 "image": "CoilfrontationNormal"
             }
         ],
-        "Community Stages #1": [
-            {
-                "name": "Starting Strong",
-                "image": "RocketArena"
-            },
-            {
-                "name": "Cheap Swarm",
-                "image": "HappyHouse"
-            },
-            {
-                "name": "Strength in Numbers",
-                "image": "Crossroad"
-            },
-            {
-                "name": "Green Defense",
-                "image": "Crossroad_Hard"
-            },
-            {
-                "name": "Make It Quick",
-                "image": "HappyHouse_Hard"
-            },
-            {
-                "name": "Enemy Frontiers",
-                "image": "Crossroad"
-            },
-            {
-                "name": "The Constant",
-                "image": "Classic"
-            },
-            {
-                "name": "Build and Bust",
-                "image": "Crossroad"
-            },
-            {
-                "name": "Sh-Heal-D",
-                "image": "Classic"
-            },
-            {
-                "name": "It's Go Time",
-                "image": "Crossroad_Hard"
-            },
-            {
-                "name": "Head Injury",
-                "image": "Crossroad"
-            },
-            {
-                "name": "Moon Landing",
-                "image": "Classic"
-            },
-            {
-                "name": "Ground Pound",
-                "image": "Glasshouse"
-            },
-            {
-                "name": "Think Fast!",
-                "image": "Glasshouse"
-            },
-            {
-                "name": "Death from Above",
-                "image": "Glasshouse_Hard"
-            },
-            {
-                "name": "Backline Breakers",
-                "image": "ChaosCanyon"
-            },
-            {
-                "name": "Catapult Defense",
-                "image": "Crossroad"
-            },
-            {
-                "name": "Go for the Head",
-                "image": "Glasshouse"
-            },
-            {
-                "name": "Brickskrieg",
-                "image": "Ultimate_Paintball"
-            },
-            {
-                "name": "Heavy Rushdown",
-                "image": "ChaosCanyon_SuperHard"
-            }
-        ],
         "Birthday Bash": [
             {
                 "name": "Then, to Now",
@@ -802,88 +720,6 @@
             {
                 "name": "Treacherous",
                 "image": "FrozenLegionNormalBoss"
-            }
-        ],
-        "Community Stages #2": [
-            {
-                "name": "First Encounters",
-                "image": "HappyHouse"
-            },
-            {
-                "name": "M-Eat-Shielding",
-                "image": "Glasshouse"
-            },
-            {
-                "name": "What's For Dinner?",
-                "image": "BirthdayNormal"
-            },
-            {
-                "name": "Kitchen Nightmare",
-                "image": "BirthdayHard"
-            },
-            {
-                "name": "Get Da Bread!",
-                "image": "CH2_Second_Stage_Hard"
-            },
-            {
-                "name": "Downgrading",
-                "image": "CH2_Third_Stage"
-            },
-            {
-                "name": "Stay Back!",
-                "image": "CH2_Second_Stage"
-            },
-            {
-                "name": "Funny Little Stage",
-                "image": "CH2_First_Stage"
-            },
-            {
-                "name": "Natural Disasters",
-                "image": "ChaosCanyon"
-            },
-            {
-                "name": "Frontal Assault",
-                "image": "CH2_Second_Stage_Hard"
-            },
-            {
-                "name": "Clash Of Clans",
-                "image": "CH2_Second_Stage"
-            },
-            {
-                "name": "Traveler's Heims",
-                "image": "FLNormal"
-            },
-            {
-                "name": "Aerial Defense",
-                "image": "CH2_Galleons"
-            },
-            {
-                "name": "Backliners Will Die",
-                "image": "Crossroad"
-            },
-            {
-                "name": "Opposites Attract",
-                "image": "CH2_Second_Stage_Hard"
-            },
-            {
-                "name": "Here Comes The Boom!",
-                "image": "RocketArena"
-            },
-            {
-                "name": "Raging Forces",
-                "image": "ClassicFinal"
-            },
-            {
-                "name": "Got Too Greedy!",
-                "image": "BirthdayNormal"
-            },
-            {
-                "name": "Winter's Awakening",
-                "image": "FLNormalPenultimate"
-            },
-            {
-                "name": "Hellfire On Ice",
-                "image": "FLNormalBoss"
             }
         ],
         "Uncooked Business": [
@@ -1112,88 +948,6 @@
                 "image": "Black_Babatala_Arena_Hard"
             }
         ],
-        "Community Stages #3": [
-            {
-                "name": "One Shot Stop",
-                "image": "CH3_Third_Stage"
-            },
-            {
-                "name": "Over And Under!",
-                "image": "Crossroad"
-            },
-            {
-                "name": "Third Forms",
-                "image": "CH3_Haunted_Mansion"
-            },
-            {
-                "name": "Pit Fighter",
-                "image": "FrozenLegionNormalBoss"
-            },
-            {
-                "name": "Cake Factory",
-                "image": "CH3_Area_51"
-            },
-            {
-                "name": "Cold Hearted",
-                "image": "FLNormal"
-            },
-            {
-                "name": "Brick's Got Talent",
-                "image": "CH3_Second_Stage"
-            },
-            {
-                "name": "In The Middle",
-                "image": "CH3_First_Stage"
-            },
-            {
-                "name": "All In Your Head",
-                "image": "CH3_Second_Stage"
-            },
-            {
-                "name": "Fireside Ghost Story",
-                "image": "CH3_First_Stage_Hard_Gloom"
-            },
-            {
-                "name": "Machine Kombat",
-                "image": "Muffin_Kombat_Arena"
-            },
-            {
-                "name": "Burning Calories",
-                "image": "RocketArena"
-            },
-            {
-                "name": "Instant Respawning",
-                "image": "Classic"
-            },
-            {
-                "name": "Breaking In",
-                "image": "CH3_Third_Stage"
-            },
-            {
-                "name": "Celsius Troubles",
-                "image": "FLNormalChallenge"
-            },
-            {
-                "name": "Open Your Card",
-                "image": "CoilfrontationNormal"
-            },
-            {
-                "name": "Blue Spy In The Base",
-                "image": "CH3_Area_51"
-            },
-            {
-                "name": "YTP Nostalgia",
-                "image": "Red_Herring_Arena"
-            },
-            {
-                "name": "Jigsaw You Tweakin",
-                "image": "Black_Babatala_Arena"
-            },
-            {
-                "name": "No Base?",
-                "image": "Muffin_Kombat_Arena_Boss"
-            }
-        ],
         "Anniversary With Cheese": [
             {
                 "name": "so the first stage is never usually that bad",
@@ -1336,6 +1090,252 @@
             {
                 "name": "Exsanguination",
                 "image": "CrimsonSkies_SuperHard"
+            }
+        ],
+        "Community Stages #1": [
+            {
+                "name": "Starting Strong",
+                "image": "RocketArena"
+            },
+            {
+                "name": "Cheap Swarm",
+                "image": "HappyHouse"
+            },
+            {
+                "name": "Strength in Numbers",
+                "image": "Crossroad"
+            },
+            {
+                "name": "Green Defense",
+                "image": "Crossroad_Hard"
+            },
+            {
+                "name": "Make It Quick",
+                "image": "HappyHouse_Hard"
+            },
+            {
+                "name": "Enemy Frontiers",
+                "image": "Crossroad"
+            },
+            {
+                "name": "The Constant",
+                "image": "Classic"
+            },
+            {
+                "name": "Build and Bust",
+                "image": "Crossroad"
+            },
+            {
+                "name": "Sh-Heal-D",
+                "image": "Classic"
+            },
+            {
+                "name": "It's Go Time",
+                "image": "Crossroad_Hard"
+            },
+            {
+                "name": "Head Injury",
+                "image": "Crossroad"
+            },
+            {
+                "name": "Moon Landing",
+                "image": "Classic"
+            },
+            {
+                "name": "Ground Pound",
+                "image": "Glasshouse"
+            },
+            {
+                "name": "Think Fast!",
+                "image": "Glasshouse"
+            },
+            {
+                "name": "Death from Above",
+                "image": "Glasshouse_Hard"
+            },
+            {
+                "name": "Backline Breakers",
+                "image": "ChaosCanyon"
+            },
+            {
+                "name": "Catapult Defense",
+                "image": "Crossroad"
+            },
+            {
+                "name": "Go for the Head",
+                "image": "Glasshouse"
+            },
+            {
+                "name": "Brickskrieg",
+                "image": "Ultimate_Paintball"
+            },
+            {
+                "name": "Heavy Rushdown",
+                "image": "ChaosCanyon_SuperHard"
+            }
+        ],
+        "Community Stages #2": [
+            {
+                "name": "First Encounters",
+                "image": "HappyHouse"
+            },
+            {
+                "name": "M-Eat-Shielding",
+                "image": "Glasshouse"
+            },
+            {
+                "name": "What's For Dinner?",
+                "image": "BirthdayNormal"
+            },
+            {
+                "name": "Kitchen Nightmare",
+                "image": "BirthdayHard"
+            },
+            {
+                "name": "Get Da Bread!",
+                "image": "CH2_Second_Stage_Hard"
+            },
+            {
+                "name": "Downgrading",
+                "image": "CH2_Third_Stage"
+            },
+            {
+                "name": "Stay Back!",
+                "image": "CH2_Second_Stage"
+            },
+            {
+                "name": "Funny Little Stage",
+                "image": "CH2_First_Stage"
+            },
+            {
+                "name": "Natural Disasters",
+                "image": "ChaosCanyon"
+            },
+            {
+                "name": "Frontal Assault",
+                "image": "CH2_Second_Stage_Hard"
+            },
+            {
+                "name": "Clash Of Clans",
+                "image": "CH2_Second_Stage"
+            },
+            {
+                "name": "Traveler's Heims",
+                "image": "FLNormal"
+            },
+            {
+                "name": "Aerial Defense",
+                "image": "CH2_Galleons"
+            },
+            {
+                "name": "Backliners Will Die",
+                "image": "Crossroad"
+            },
+            {
+                "name": "Opposites Attract",
+                "image": "CH2_Second_Stage_Hard"
+            },
+            {
+                "name": "Here Comes The Boom!",
+                "image": "RocketArena"
+            },
+            {
+                "name": "Raging Forces",
+                "image": "ClassicFinal"
+            },
+            {
+                "name": "Got Too Greedy!",
+                "image": "BirthdayNormal"
+            },
+            {
+                "name": "Winter's Awakening",
+                "image": "FLNormalPenultimate"
+            },
+            {
+                "name": "Hellfire On Ice",
+                "image": "FLNormalBoss"
+            }
+        ],
+        "Community Stages #3": [
+            {
+                "name": "One Shot Stop",
+                "image": "CH3_Third_Stage"
+            },
+            {
+                "name": "Over And Under!",
+                "image": "Crossroad"
+            },
+            {
+                "name": "Third Forms",
+                "image": "CH3_Haunted_Mansion"
+            },
+            {
+                "name": "Pit Fighter",
+                "image": "FrozenLegionNormalBoss"
+            },
+            {
+                "name": "Cake Factory",
+                "image": "CH3_Area_51"
+            },
+            {
+                "name": "Cold Hearted",
+                "image": "FLNormal"
+            },
+            {
+                "name": "Brick's Got Talent",
+                "image": "CH3_Second_Stage"
+            },
+            {
+                "name": "In The Middle",
+                "image": "CH3_First_Stage"
+            },
+            {
+                "name": "All In Your Head",
+                "image": "CH3_Second_Stage"
+            },
+            {
+                "name": "Fireside Ghost Story",
+                "image": "CH3_First_Stage_Hard_Gloom"
+            },
+            {
+                "name": "Machine Kombat",
+                "image": "Muffin_Kombat_Arena"
+            },
+            {
+                "name": "Burning Calories",
+                "image": "RocketArena"
+            },
+            {
+                "name": "Instant Respawning",
+                "image": "Classic"
+            },
+            {
+                "name": "Breaking In",
+                "image": "CH3_Third_Stage"
+            },
+            {
+                "name": "Celsius Troubles",
+                "image": "FLNormalChallenge"
+            },
+            {
+                "name": "Open Your Card",
+                "image": "CoilfrontationNormal"
+            },
+            {
+                "name": "Blue Spy In The Base",
+                "image": "CH3_Area_51"
+            },
+            {
+                "name": "YTP Nostalgia",
+                "image": "Red_Herring_Arena"
+            },
+            {
+                "name": "Jigsaw You Tweakin",
+                "image": "Black_Babatala_Arena"
+            },
+            {
+                "name": "No Base?",
+                "image": "Muffin_Kombat_Arena_Boss"
             }
         ],
         "Community Stages #4": [

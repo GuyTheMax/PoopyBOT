@@ -83,9 +83,8 @@ module.exports = {
             var m = await msg.reply({
                 embeds: [embed]
             }).catch(() => { })
-            if (!m) return 'Error.'
 
-            return m.id
+            return m?.id ?? ''
         } else {
             return 'You need to have the manage messages permission to execute that!'
         }
