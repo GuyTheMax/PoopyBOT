@@ -1100,6 +1100,12 @@
             "image": "https://cdn.discordapp.com/attachments/1415073653585875004/1499411275636146186/Bazard.png",
             "custom": ["257657151227559937"],
             "joke": true
+        },
+        {
+            "name": "Morph Battler",
+            "image": "https://cdn.discordapp.com/attachments/853246754791358495/1504187556307275856/Morph.png",
+            "custom": ["1282476678429409280"],
+            "joke": true
         }
     ],
     "enemies": [
