@@ -51,8 +51,9 @@ module.exports = {
         var userData = data.userData[member.id]
 
         for (var stat in vars.battleStats) {
+            var statValue = vars.battleStats[stat]
             if (userData[stat] === undefined) {
-                userData[stat] = vars.battleStats[stat]
+                userData[stat] = typeof statValue == "object" ? structuredClone(statValue) : statValue
             }
         }
         if (!userData.battleSprites) userData.battleSprites = {}
