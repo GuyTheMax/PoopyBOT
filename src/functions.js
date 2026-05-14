@@ -806,19 +806,25 @@ functions.reconcileDataWithTemplate = function (data, template, msg, ignoreList 
             continue
 
         var dataProperty = substituteIdPropertyWithActualId(property, msg)
+        var templateValue = template[property]
 
         if (data[dataProperty] === undefined) {
-            if (typeof template[property] == "object" && !Array.isArray(template[property])) {
+            if (Array.isArray(templateValue)) {
+                data[dataProperty] = structuredClone(templateValue)
+            } else if (templateValue != null && typeof templateValue == "object") {
                 data[dataProperty] = {}
-            } else if (Array.isArray(template[property])) {
-                data[dataProperty] = [...template[property]]
             } else {
-                data[dataProperty] = template[property]
+                data[dataProperty] = templateValue
             }
         }
 
-        if ((typeof data[dataProperty]) == "object" && (typeof template[property]) == "object")
-            reconcileDataWithTemplate(data[dataProperty], template[property], msg)
+        var dataValue = data[dataProperty]
+
+        if (
+            dataValue !== null && templateValue !== null &&
+            typeof dataValue === "object" && typeof templateValue === "object" &&
+            !Array.isArray(dataValue) && !Array.isArray(templateValue)
+        ) reconcileDataWithTemplate(dataValue, templateValue, msg, ignoreList)
     }
 }
 
