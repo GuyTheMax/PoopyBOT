@@ -3447,7 +3447,7 @@ functions.refreshDiscordURLs = async function (urls) {
     }
 }
 
-functions.correctUrl = async function (url) {
+functions.correctUrl = async function (url, useYtdlp) {
     let poopy = this
     let { infoPost, execPromise, refreshDiscordURLs } = poopy.functions
     let { axios, cheerio } = poopy.modules
@@ -3866,21 +3866,21 @@ functions.correctUrl = async function (url) {
                 return groupurl
             }
         }
-    } else if (url.match(/^https\:\/\/((www|m)\.)?youtube\.com|^https\:\/\/(www\.)?youtu\.be/)) {
-        var youtubeurl = await execPromise(`yt-dlp --extractor-args "youtube:player_client=android" -f 18 -g "${url}"`).catch(() => { })
+    } else if (url.match(/^https\:\/\/((www|m)\.)?youtube\.com|^https\:\/\/(www\.)?youtu\.be/) && useYtdlp) {
+        var youtubeurl = await execPromise(`yt-dlp -f 18 -g "${url}"`).catch(() => { })
 
         if (youtubeurl) {
             infoPost(`YouTube video URL detected`)
             return (youtubeurl.trim().match(vars.validUrl) ?? [url])[0]
         }
-    } else if (url.match(/^https\:\/\/(www|on\.)?soundcloud\.com/)) {
+    } else if (url.match(/^https\:\/\/(www|on\.)?soundcloud\.com/) && useYtdlp) {
         var soundcloudurl = await execPromise(`yt-dlp "${url}" --get-url`).catch(() => { })
 
         if (soundcloudurl) {
             infoPost(`SoundCloud URL detected`)
             return (soundcloudurl.trim().match(vars.validUrl) ?? [url])[0]
         }
-    } else if (url.match(/^https\:\/\/((www)\.)?(fx)?twitter\.com\/\w{4,15}\/status\/[0-9]+/)) {
+    } else if (url.match(/^https\:\/\/((www)\.)?(fx)?twitter\.com\/\w{4,15}\/status\/[0-9]+/) && useYtdlp) {
         async function getImageUrl(url) {
             var res = await axios.get(url)
             var $ = cheerio.load(res.data)
@@ -5585,61 +5585,6 @@ functions.downloadFile = async function (url, filename, options) {
     return filepath
 }
 
-functions.uploadToFileHost = async function (file) {
-    let poopy = this
-    let vars = poopy.vars
-    let { axios, fs, path, FormData } = poopy.modules
-
-    const filename = path.basename(file)
-
-    const uploadHosts = [
-        async () => {
-            const form = new FormData()
-
-            form.append('file', fs.readFileSync(file), filename)
-
-            return axios.post(
-                'https://frisk.page/api/files/upload',
-                form,
-                {
-                    headers: {
-                        ...form.getHeaders()
-                    }
-                }
-            ).then((res) => res.data?.file_url)
-        },
-        async () => {
-            const form = new FormData()
-
-            form.append('files[]', fs.readFileSync(file), filename)
-
-            return axios.post(
-                'https://uguu.se/upload.php',
-                form,
-                {
-                    headers: {
-                        ...form.getHeaders()
-                    }
-                }
-            ).then((res) => res.data?.files?.[0]?.url)
-        },
-        async () => vars.Catbox.upload(file),
-        async () => vars.Litterbox.upload(file)
-    ]
-
-    let lastResponse = "Unable to upload to a file hosting service."
-
-    for (const upload of uploadHosts) {
-        const uploadLink = await upload().catch(() => { })
-        if (uploadLink) {
-            if (vars.validUrl.test(uploadLink)) return uploadLink
-            lastResponse = uploadLink
-        }
-    }
-
-    return lastResponse
-}
-
 functions.sendFile = async function (msg, filepath, filename, extraOptions) {
     let poopy = this
     let config = poopy.config
@@ -5682,11 +5627,13 @@ functions.sendFile = async function (msg, filepath, filename, extraOptions) {
     extraOptions.catbox = extraOptions.catbox ?? args.includes('-catbox')
     extraOptions.nosend = extraOptions.nosend ?? msg.nosend ?? args.includes('-nosend')
     extraOptions.nocompress = extraOptions.nocompress ?? args.includes('-nocompress')
+    extraOptions.forcecompress = extraOptions.nocompress ?? args.includes('-forcecompress')
 
-    var compress = (tooLarge && !extraOptions.catbox && !extraOptions.nosend) && !extraOptions.nocompress
+    var compress = ((tooLarge && !extraOptions.catbox && !extraOptions.nosend) && !extraOptions.nocompress)
+        || (extraOptions.forcecompress && fileBuffer.length > 1024 * 1024 * 10)
 
     if (compress) {
-        if (!extraOptions.nosend) await msg.reply('Output file too large to be sent to channel, so I\'m gonna try to compress it...\n-# (...unless you didn\'t want this, then you can specify `-nocompress` next time)').catch(() => { })
+        if (!extraOptions.nosend && !extraOptions.forcecompress) await msg.reply('Output file too large to be sent to channel, so I\'m gonna try to compress it...\n-# (...unless you didn\'t want this, then you can specify `-nocompress` next time)').catch(() => { })
         var fileinfo = await validateFileFromPath(`${filepath}/${filename}`, 'very true').catch(() => { })
 
         if (!fileinfo) {
@@ -6055,7 +6002,7 @@ functions.validateFile = async function (url, exception, opts) {
     let vars = poopy.vars
     let tempfiles = poopy.tempfiles
     let tempdata = poopy.tempdata
-    let { infoPost, execPromise, validateFileFromPath, generateId, cleanFileInfoUrl } = poopy.functions
+    let { infoPost, execPromise, validateFileFromPath, generateId, cleanFileInfoUrl, correctUrl } = poopy.functions
     let { fileType, axios, fs } = poopy.modules
 
     return new Promise(async (resolve, reject) => {
@@ -6095,6 +6042,8 @@ functions.validateFile = async function (url, exception, opts) {
         if (validatedFile && (Date.now() - validatedFile.fetchedTime) < revalidationTime) {
             return resolve(validatedFile.fileInfo)
         }
+
+        url = await correctUrl(url, true)
 
         var response = await axios({
             method: 'GET',

@@ -140,7 +140,8 @@ module.exports = {
             "`-filename <name>` - Saves the file with the specified name.\n" +
             "`-catbox` - Forces the file to be uploaded to a file hosting service such as Catbox.\n" +
             "`-nosend` - Does not send anything, useful for executing commands silently and only fetching the output.\n" +
-            "`-nocompress` - Forces the file to not be automatically compressed even when above the channel size limit.\n\n"
+            "`-nocompress` - Forces the file to not be automatically compressed even when above the channel size limit.\n" +
+            "`-forcecompress` - Forces the file to be automatically compressed if it goes above the 10 MB limit.\n\n"
 
         if (msg.nosend) return `**${vars.shelpCmds[page - 1].type} Commands**\n\n` + argumentHelp + vars.shelpCmds[page - 1].commands.map(k => `\`${k.name}\`\n> ${k.value}`).join('\n') + `\n\nPage 1/${vars.shelpCmds.length}`
 

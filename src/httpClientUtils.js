@@ -8,7 +8,11 @@ const path = require("path")
 const queryString = require("querystring")
 const flatten = require("lodash.flatten")
 
-const { validUrl, Catbox, Litterbox } = require("./vars")
+const { Catbox, Litterbox } = require("catbox.moe")
+const { validUrl } = require("./vars")
+
+const catbox = new Catbox()
+const litterbox = new Litterbox()
 
 const clientHeaders = {
     "Accept": "*/*",
@@ -193,7 +197,6 @@ async function ddgs(
     })
 
     if (res.status !== 200) {
-        console.log(res)
         throw new Error(`HTTP ${res.status}`)
     }
 
@@ -415,9 +418,9 @@ async function fetchImages(query, {
                     }).then((results) => {
                         const images = results.map(
                             result => {
-                                const url = result.url.replace(/\\u([a-z0-9]){4}/g, (match) => {
-                                    return String.fromCharCode(Number("0x" + match.substring(2, match.length)))
-                                })
+                                const url = result.url.replace(/\\u([a-z0-9]){4}/g, (match) =>
+                                    String.fromCharCode(Number("0x" + match.substring(2, match.length)))
+                                )
 
                                 return {
                                     title: "Google Image Result",
@@ -474,10 +477,7 @@ async function uploadToFileHost(file) {
                         "Referer": "https://frisk.page/"
                     }
                 }
-            ).then((res) => {
-                console.log(res.data)
-                return res.data?.file_url
-            })
+            ).then((res) => res.data?.file_url)
         },
         async () => {
             const form = new FormData()
@@ -494,13 +494,10 @@ async function uploadToFileHost(file) {
                         "Referer": "https://uguu.se/"
                     }
                 }
-            ).then((res) => {
-                console.log(res.data)
-                return res.data?.files?.[0]?.url
-            })
+            ).then((res) => res.data?.files?.[0]?.url)
         },
-        async () => Catbox.upload(file),
-        async () => Litterbox.upload(file)
+        async () => catbox.upload(file),
+        async () => litterbox.upload(file)
     ]
 
     let lastResponse = "Unable to upload to a file hosting service."
