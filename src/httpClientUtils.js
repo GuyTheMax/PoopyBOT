@@ -1,11 +1,12 @@
 const cuimp = require("cuimp")
-const cheerio = require("cheerio");
+const axios = require("axios")
+const cheerio = require("cheerio")
 const FormData = require("form-data")
 
 const fs = require("fs-extra")
 const path = require("path")
-const queryString = require("querystring");
-const flatten = require("lodash.flatten");
+const queryString = require("querystring")
+const flatten = require("lodash.flatten")
 
 const { validUrl, Catbox, Litterbox } = require("./vars")
 
@@ -43,6 +44,11 @@ const clientImgQueries = Object.fromEntries(providers.map(
 
 const cuimpClient = cuimp.createCuimpHttp({
     cookieJar: true
+})
+
+const axiosClient = axios.create({
+    withCredentials: true,
+    headers: clientHeaders
 })
 
 let providerSearchOrder = ["duckduckgo", "startpage"]
@@ -458,9 +464,9 @@ async function uploadToFileHost(file) {
 
             form.append("file", fs.readFileSync(file), filename)
 
-            return cuimpClient.post(
+            return axiosClient.post(
                 "https://frisk.page/api/files/upload",
-                form.getBuffer(),
+                form,
                 {
                     headers: {
                         ...clientHeaders,
@@ -478,9 +484,9 @@ async function uploadToFileHost(file) {
 
             form.append("files[]", fs.readFileSync(file), filename)
 
-            return cuimpClient.post(
+            return axiosClient.post(
                 "https://uguu.se/upload.php",
-                form.getBuffer(),
+                form,
                 {
                     headers: {
                         ...clientHeaders,
