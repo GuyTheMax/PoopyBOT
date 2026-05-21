@@ -55,6 +55,7 @@ modules.DMGuild = class DMGuild {
                 entries: new modules.Collection()
             }
         }
+        this.search = async () => new modules.Collection()
         this.emojis = {
             cache: new modules.Collection()
         }
