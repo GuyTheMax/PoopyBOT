@@ -47,6 +47,7 @@ module.exports = {
         }
 
         var user = await (member.user ?? member).fetch(true).catch(() => { })
+            ?? (member.user ?? member)
         if (global) member = member.user ?? member
 
         var avatar = member.displayAvatarURL({ dynamic: true, size: 1024, extension: 'png' })
@@ -117,10 +118,10 @@ module.exports = {
             VerifiedDeveloper: `<:VerifiedDeveloper:1055892568099008552>`
         }
 
-        var userFlags = user.flags.toArray()
+        var userFlags = user?.flags ? user.flags.toArray() : []
         var flags = []
 
-        if (user.id == msg.guild.ownerId) flags.push('GuildOwner')
+        if (user?.id == msg.guild.ownerId) flags.push('GuildOwner')
         if (member.premiumSince) {
             flags.push('Nitro')
 
@@ -135,8 +136,8 @@ module.exports = {
                 }
             }
         }
-        if (user.system) flags.push('System')
-        else if (user.bot) {
+        if (user?.system) flags.push('System')
+        else if (user?.bot) {
             var verifiedBot = userFlags.indexOf('VerifiedBot')
             if (verifiedBot > -1) userFlags.splice(verifiedBot, 1)
             flags.push(verifiedBot > -1 ? 'VerifiedBot' : 'Bot')
@@ -145,12 +146,12 @@ module.exports = {
 
         infoEmbed.fields.push({
             name: 'ID',
-            value: `\`${user.id}\``,
+            value: `\`${user?.id}\``,
             inline: true
         })
         infoEmbed.fields.push({
             name: 'Created',
-            value: `<t:${Math.floor(user.createdTimestamp / 1000)}:R>`,
+            value: `<t:${Math.floor((user?.createdTimestamp ?? 0) / 1000)}:R>`,
             inline: true
         })
         if (member.joinedTimestamp) infoEmbed.fields.push({
@@ -171,7 +172,7 @@ module.exports = {
                 inline: true
             })
 
-            if (member.presence.activities && member.presence.activities.length) {
+            if (member.presence.activities?.length) {
                 var emoji
                 var text
 
