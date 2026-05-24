@@ -1001,7 +1001,7 @@ class Poopy {
             if (!collected && msg.type != DiscordTypes.InteractionType.ApplicationCommand) {
                 collected = true
                 tempdata.collectors.filter(
-                    c => c?.id?.startsWith(msg.channel.id) && c?.type == "message"
+                    c => c?.id && c?.id?.startsWith(msg.channel.id) && c?.type == "message"
                 ).forEach(collector => collector.collect(msg))
                 
                 tempdata.collectors.filter(
@@ -1363,7 +1363,7 @@ class Poopy {
             const emoji = reaction.emoji.toString()
 
             if (user) tempdata.collectors.filter(
-                c => c?.id == msg.id && c?.type == "reaction"
+                c => c?.id && c?.id == msg.id && c?.type == "reaction"
             ).forEach(collector => collector.collect(reaction, user))
 
             reaction = msg.reactions.cache.find(r => r.emoji.toString() == emoji) ?? reaction
@@ -1583,7 +1583,7 @@ class Poopy {
                     type: interaction.type === DiscordTypes.InteractionType.MessageComponent,
                     execute: async () => {
                         tempdata.collectors.filter(
-                            c => c?.id == interaction.message.id && c?.type == "component"
+                            c => c?.id && c?.id == interaction.message.id && c?.type == "component"
                         ).forEach(collector => collector.collect(interaction))
                     }
                 },
