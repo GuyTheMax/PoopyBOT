@@ -526,7 +526,7 @@ class APIMessage {
 
 class FakeMessage {
     constructor(data, payload = {}) {
-        let { guild, channel, user, member, poopy } = data
+        let { guild, channel, user, member, id, poopy } = data
 
         let { generateId } = poopy.functions
 
@@ -542,7 +542,7 @@ class FakeMessage {
         this.member = member
         this.user = this.author = member.user ?? member
 
-        this.id = generateId()
+        this.id = id ?? generateId()
         this.type = 0
         this.bot = this.user.bot
         this.mentions = {

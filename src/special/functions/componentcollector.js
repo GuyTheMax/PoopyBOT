@@ -63,6 +63,8 @@ module.exports = {
             collector.on('collect', async (comp) => {
                 var dummyMessage
                 try {
+                    comp.deferUpdate().catch(() => { })
+
                     if (tempdata[msg.guild.id][msg.channel.id].shutUp) return
                     var customId = comp.customId
 
@@ -106,7 +108,7 @@ module.exports = {
                     valOpts.sourceMsg = msg
 
                     dummyMessage = new DummyMessage.Fake({
-                        poopy, guild: msg.guild, channel: msg.channel, member: comp.member
+                        poopy, guild: msg.guild, channel: msg.channel, member: comp.member, id: comp.id
                     })
 
                     var dataError = false
