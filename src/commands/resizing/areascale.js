@@ -99,7 +99,7 @@ module.exports = {
                 height = 2000
             }
 
-            await execPromise(`ffmpeg -i ${filepath}/${filename} -i assets/image/transparent.png -map 0:a? -filter_complex "[1:v]scale=${width}:${height}${keepaspectratio ? `:force_original_aspect_ratio=${keepaspectratio}` : ''}[background];[background][0:v]overlay=x=${originx}:y=${originy}:format=auto,scale=ceil(iw/2)*2:ceil(ih/2)*2[out]" -map "[out]" -preset ${findpreset(args)} -c:v libx264 -pix_fmt yuv420p ${filepath}/output.mp4`)
+            await execPromise(`ffmpeg -i ${filepath}/${filename} -i assets/image/transparent.png -map 0:a? -filter_complex "[1:v]scale=${width}:${height}${keepaspectratio ? `:force_original_aspect_ratio=${keepaspectratio}` : ''}[background];[background][0:v]overlay=x=${originx}:y=${originy}:format=auto,scale=ceil(iw/2)*2:ceil(ih/2)*2[out]" -map "[out]" -aspect ${width}:${height} -preset ${findpreset(args)} -c:v libx264 -pix_fmt yuv420p ${filepath}/output.mp4`)
             return await sendFile(msg, filepath, `output.mp4`)
         } else if (type.mime.startsWith('image') && vars.gifFormats.find(f => f === type.ext)) {
             var filepath = await downloadFile(currenturl, `input.gif`, {
