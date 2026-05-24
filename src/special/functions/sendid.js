@@ -66,7 +66,8 @@ module.exports = {
 
         var message = await msg.reply({
             content: word,
-            allowedMentions: fetchPingPerms(msg)
+            allowedMentions: fetchPingPerms(msg),
+            flags: msg.component ? DiscordTypes.MessageFlags.Ephemeral : undefined
         }).catch(() => { })
 
         return message?.id ?? ''

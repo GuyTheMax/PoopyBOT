@@ -9,7 +9,7 @@ module.exports = {
         '**_collected** - Used when the collector stops running, containing all collected component custom IDs.',
     func: async function (matches, msg, isBot, _, opts) {
         let poopy = this
-        let { splitKeyFunc, parseKeywords, fetchPingPerms, deleteMsgData, createCollector, gatherData } = poopy.functions
+        let { splitKeyFunc, parseKeywords, fetchPingPerms, deleteMsgData, createCollector, gatherData, sleep } = poopy.functions
         let { DiscordTypes, DummyMessage } = poopy.modules
         let config = poopy.config
         let data = poopy.data
@@ -63,10 +63,10 @@ module.exports = {
             collector.on('collect', async (comp) => {
                 var dummyMessage
                 try {
-                    comp.deferUpdate().catch(() => { })
-
                     if (tempdata[msg.guild.id][msg.channel.id].shutUp) return
                     var customId = comp.customId
+
+                    sleep(1000).then(() => comp.deferUpdate().catch(() => { }))
 
                     var valOpts = { ...opts }
                     valOpts.extraKeys = { ...valOpts.extraKeys }
@@ -108,7 +108,7 @@ module.exports = {
                     valOpts.sourceMsg = msg
 
                     dummyMessage = new DummyMessage.Fake({
-                        poopy, guild: msg.guild, channel: msg.channel, member: comp.member, id: comp.id
+                        poopy, guild: msg.guild, channel: msg.channel, member: comp.member, component: comp
                     })
 
                     var dataError = false

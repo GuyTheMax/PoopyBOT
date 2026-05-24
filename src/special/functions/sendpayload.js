@@ -1,6 +1,6 @@
 module.exports = {
     helpf: '(json) (manage messages only)',
-    desc: 'Requiring a TON on knowledge of Discord.JS, allows you to send complex messages with JSON to the channel, including embeds, attachments, and even buttons! Returns the message\'s ID afterwards.',
+    desc: 'Requiring a TON of knowledge of Discord\'s API and Discord.js, allows you to send complex messages with JSON to the channel, including embeds, attachments, and even buttons! Returns the message\'s ID afterwards.',
     func: async function (matches, msg, isBot, _, opts) {
         let poopy = this
         let tempdata = poopy.tempdata
@@ -86,6 +86,7 @@ module.exports = {
             if (!payload) return 'Malformatted payload JSON.'
 
             payload.allowedMentions = fetchPingPerms(msg)
+            payload.flags = msg.component ? DiscordTypes.MessageFlags.Ephemeral : undefined
 
             if (payload.files) payload.files.filter(file => {
                 return file.attachment.match(vars.validUrl) || file.attachment.match(/temp:[a-zA-Z0-9_-]{10}/g)

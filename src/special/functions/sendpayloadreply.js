@@ -1,16 +1,21 @@
 module.exports = {
     helpf: '(json) (manage messages only)',
-    desc: 'Send an embed from JSON to the channel, returns its ID afterwards.',
+    desc: 'Same as sendpayload(), but defaults to a message reply. Returns the message\'s ID afterwards.',
     func: async function (matches, msg, isBot, _, opts) {
         let poopy = this
         let tempdata = poopy.tempdata
-        let { tryJSONparse, fetchPingPerms } = poopy.functions
         let { DiscordTypes } = poopy.modules
+        let { tryJSONparse, parseKeywords, fetchPingPerms } = poopy.functions
         let globaldata = poopy.globaldata
+        let tempfiles = poopy.tempfiles
         let data = poopy.data
+        let vars = poopy.vars
         let config = poopy.config
 
-        var word = matches[1]
+        var jopts = { ...opts }
+        jopts.declaredOnly = true
+
+        var word = await parseKeywords(matches[1], msg, isBot, jopts).catch((e) => console.log(e)) ?? matches[1]
 
         var guildfilter = config.guildfilter
         var channelfilter = config.channelfilter
@@ -77,19 +82,34 @@ module.exports = {
         data.guildData[msg.guild.id].members[msg.author.id].coolDown = (data.guildData[msg.guild.id].members[msg.author.id].coolDown || Date.now()) + 2500 / ((msg.channel.permissionsFor(msg.member).has(DiscordTypes.PermissionFlagsBits.ManageGuild) || msg.channel.permissionsFor(msg.member).has(DiscordTypes.PermissionFlagsBits.ManageMessages) || msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.Administrator) || msg.author.id === msg.guild.ownerId) ? 5 : 1)
 
         if (msg.channel.permissionsFor(msg.member).has(DiscordTypes.PermissionFlagsBits.ManageGuild) || msg.channel.permissionsFor(msg.member).has(DiscordTypes.PermissionFlagsBits.ManageMessages) || msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.Administrator) || msg.author.id === msg.guild.ownerId || config.ownerids.find(id => id == msg.author.id) || isBot) {
-            var embed = tryJSONparse(word)
-            if (!embed) return 'Malformatted embed JSON.'
+            var payload = tryJSONparse(word)
+            if (!payload) return 'Malformatted payload JSON.'
 
-            var m = await msg.reply({
-                embeds: [embed],
-                allowedMentions: fetchPingPerms(msg),
-                flags: msg.component ? DiscordTypes.MessageFlags.Ephemeral : undefined
-            }).catch(() => { })
+            payload.allowedMentions = fetchPingPerms(msg)
+            payload.flags = msg.component ? DiscordTypes.MessageFlags.Ephemeral : undefined
+
+            if (payload.files) payload.files.filter(file => {
+                return file.attachment.match(vars.validUrl) || file.attachment.match(/temp:[a-zA-Z0-9_-]{10}/g)
+            }).map(file => {
+                if (!file.attachment.match(/^temp:[a-zA-Z0-9_-]{10}$/)) return file
+
+                var id = file.attachment.substring(5)
+                var tempfile = tempfiles[id]
+
+                if (!tempfile) return file
+
+                file.attachment = `tempfiles/${config.database}/${tempfile.name}`
+
+                return file
+            })
+
+            var m = await msg.reply(payload).catch(() => { })
 
             return m?.id ?? ''
         } else {
             return 'You need to have the manage messages permission to execute that!'
         }
     },
-    attemptvalue: 10
+    attemptvalue: 20,
+    raw: true
 }

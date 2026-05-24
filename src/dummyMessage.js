@@ -526,7 +526,7 @@ class APIMessage {
 
 class FakeMessage {
     constructor(data, payload = {}) {
-        let { guild, channel, user, member, id, poopy } = data
+        let { guild, channel, user, member, component, poopy } = data
 
         let { generateId } = poopy.functions
 
@@ -542,7 +542,8 @@ class FakeMessage {
         this.member = member
         this.user = this.author = member.user ?? member
 
-        this.id = id ?? generateId()
+        this.component = component
+        this.id = component ? component.id : generateId()
         this.type = 0
         this.bot = this.user.bot
         this.mentions = {
@@ -553,20 +554,26 @@ class FakeMessage {
     }
 
     async reply(payload) {
-        return this.channel.send(payload)
+        return this.component ? this.component.reply.call(this.component, payload).catch(() => this.component.message.reply(payload)) : this.channel.send(payload)
     }
 
     async edit(payload) {
-        return this.channel.send(payload)
+        return this.component ? this.component.editReply.call(this.component, payload).catch(() => this.component.message.edit(payload)) : this.channel.send(payload)
     }
 
-    async delete() { }
+    async delete() {
+        if (this.component) return this.component.deleteReply.call(this.component).catch(() => this.component.message.delete())
+    }
 
     async react() { }
 
-    async fetchReference() { }
+    async fetchReference() {
+        return this.component?.message
+    }
 
-    async fetchWebhook() { }
+    async fetchWebhook() {
+        return this.component?.webhook
+    }
 
     createReactionCollector() {
         return {
