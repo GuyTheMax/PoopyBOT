@@ -103,8 +103,12 @@ module.exports = {
                 return file
             })
 
-            var m = await (msg.channel?.send ?? msg.reply).call(msg.channel?.send ? msg.channel : msg, payload).catch((err) => { console.log(err); console.log(payload) })
+            var doingitwrong = ''
+            var m = await (msg.channel?.send ?? msg.reply).call(msg.channel?.send ? msg.channel : msg, payload).catch((err) => { doingitwrong = err.message })
 
+            if (doingitwrong !== '')
+                return doingitwrong
+            
             return m?.id ?? ''
         } else {
             return 'You need to have the manage messages permission to execute that!'
