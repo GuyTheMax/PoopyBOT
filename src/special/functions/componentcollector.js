@@ -1,7 +1,8 @@
 module.exports = {
     helpf: '(msgID | collectPhrase<_name|resettimer()|stop(sendFinishPhrase)|source(...)> | timeout | finishPhrase<_collected> | name) (manage messages permission only)',
     desc: 'Creates a collector that receives any component interactions (such as buttons) made in the message with the respective ID, within the timeout.\n' +
-        '**_customid** - Keyword used when a message is sent\n' +
+        '**_customid** - Keyword used when a component is interacted with\n' +
+        '**_selectvalues** - For select menus, returns the chosen value(s)\n' +
         '**_authorid** - Returns the ID of who created the message collector\n' +
         "**resettimer()** - Resets the collector's timer\n" +
         "**stop(sendFinishPhrase)** - Stops the collector from running, sends the finishPhrase if sendFinishPhrase isn't blank.\n" +
@@ -77,9 +78,19 @@ module.exports = {
                             return customId
                         }
                     }
+                    valOpts.extraKeys._selectvalues = {
+                        func: async () => {
+                            return comp.values ? comp.values.join(' | ') : ''
+                        }
+                    }
                     valOpts.extraKeys._authorid = {
                         func: async () => {
                             return msg.author.id
+                        }
+                    }
+                    valOpts.extraKeys._collected = {
+                        func: async () => {
+                            return collected.join(' | ')
                         }
                     }
                     valOpts.extraFuncs.resettimer = {
@@ -115,9 +126,9 @@ module.exports = {
                     await gatherData(dummyMessage).catch((err) => dataError = err)
                     if (dataError) return console.log(dataError)
 
-                    var collect = await parseKeywords(collectphrase, dummyMessage, true, valOpts).catch((e) => console.log(e)) ?? ''
-
                     collected.push(customId)
+
+                    var collect = await parseKeywords(collectphrase, dummyMessage, true, valOpts).catch((e) => console.log(e)) ?? ''
 
                     if (collect.trim()) await channel.send({
                         content: collect,
@@ -159,8 +170,8 @@ module.exports = {
     },
     raw: true,
     potential: {
-        keys: { _customid: {}, _authorid: {}, _collected: {} },
-        funcs: { resettimer: {}, stop: {}, source: {} }
+        keys: { _customid: {}, _selectvalues: {}, _authorid: {}, _collected: {} },
+        funcs: { resettimer: {}, stop: {}, source: { raw: true } }
     },
     attemptvalue: 10
 }

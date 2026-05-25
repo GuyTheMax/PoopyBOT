@@ -86,7 +86,7 @@ module.exports = {
             if (!payload) return 'Malformatted payload JSON.'
 
             payload.allowedMentions = fetchPingPerms(msg)
-            payload.flags = msg.component ? DiscordTypes.MessageFlags.Ephemeral : undefined
+            payload.flags ??= (msg.component && !msg.channel?.send) ? DiscordTypes.MessageFlags.Ephemeral : undefined
 
             if (payload.files) payload.files.filter(file => {
                 return file.attachment.match(vars.validUrl) || file.attachment.match(/temp:[a-zA-Z0-9_-]{10}/g)

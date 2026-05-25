@@ -37,5 +37,8 @@ module.exports = {
         return ''
     },
     attemptvalue: 5,
+    potential: {
+        keys: { _val: {} }
+    },
     raw: true
 }

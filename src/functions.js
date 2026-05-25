@@ -4342,12 +4342,14 @@ functions.sendWebhook = async function (msg, payload) {
     if (isThread) payload.threadId = msg.channel.id
 
     var webhookMsg = await webhook.send(payload).catch((e) => err = e)
-    if (err && err.message == "Unknown Webhook") {
-        if (!tempdata[msg.guild.id][channel.id]) tempdata[msg.guild.id][channel.id] = {}
-        tempdata[msg.guild.id][channel.id].webhooks = await channel.fetchWebhooks().then(w => [...w.values()]).catch(() => [])
-
-        webhook = await createWebhook(msg).catch(() => { })
-        if (webhook) webhookMsg = await webhook.send(payload).catch(() => { })
+    if (err) {
+        if (err.message == "Unknown Webhook") {
+            if (!tempdata[msg.guild.id][channel.id]) tempdata[msg.guild.id][channel.id] = {}
+            tempdata[msg.guild.id][channel.id].webhooks = await channel.fetchWebhooks().then(w => [...w.values()]).catch(() => [])
+    
+            webhook = await createWebhook(msg).catch(() => { })
+            if (webhook) webhookMsg = await webhook.send(payload)
+        } else throw err
     }
 
     if (webhookMsg) {

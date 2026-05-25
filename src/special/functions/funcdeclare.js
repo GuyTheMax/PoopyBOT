@@ -40,6 +40,9 @@ module.exports = {
         return [phrase, true]
     },
     raw: true,
+    potential: {
+        funcs: { val: {} }
+    },
     parentheses: true,
     attemptvalue: 5
 }

@@ -29,5 +29,8 @@ module.exports = {
   },
   raw: true,
   attemptvalue: 2,
+  potential: {
+    keys: { _match: {} }
+  },
   parentheses: true
 }

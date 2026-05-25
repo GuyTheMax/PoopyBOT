@@ -1,22 +1,24 @@
 module.exports = {
-    helpf: '(name | avatar | message | keepAttachments) (manage webhooks/messages only)',
-    desc: 'Creates a webhook with the name and avatar specified that will send the desired message.',
+    helpf: '(name | avatar | json) (manage webhooks/messages only)',
+    desc: 'Creates a webhook with the name and avatar specified that will send the desired message, but also allowing you to specify a custom payload.',
     func: async function (matches, msg, isBot, _, opts) {
         let poopy = this
-        let { splitKeyFunc, fetchPingPerms, sendWebhook, getUploadLimit } = poopy.functions
+        let { splitKeyFunc, fetchPingPerms, sendWebhook, parseKeywords, tryJSONparse } = poopy.functions
         let globaldata = poopy.globaldata
         let tempdata = poopy.tempdata
         let data = poopy.data
         let config = poopy.config
         let { DiscordTypes, Discord } = poopy.modules
-        let bot = poopy.bot
+        let tempfiles = poopy.tempfiles
+
+        var jopts = { ...opts }
+        jopts.declaredOnly = true
 
         var word = matches[1]
-        var split = splitKeyFunc(word, { args: 4 })
-        var name = split[0] ?? ''
-        var avatar = split[1] ?? ''
-        var message = split[2] ?? ''
-        var keepAttachments = split[3] ?? ''
+        var split = splitKeyFunc(word, { args: 3 })
+        var name = await parseKeywords(split[0], msg, isBot, opts).catch((e) => console.log(e)) ?? split[0]
+        var avatar = await parseKeywords(split[1], msg, isBot, opts).catch((e) => console.log(e)) ?? split[1]
+        var message = await parseKeywords(split[2], msg, isBot, jopts).catch((e) => console.log(e)) ?? split[2]
         var allBlank = true
 
         var guildfilter = config.guildfilter
@@ -94,39 +96,40 @@ module.exports = {
             return 'Invalid name.'
         }
 
-        var payload = {
-            content: message,
-            username: name,
-            avatarURL: avatar,
-            allowedMentions: fetchPingPerms(msg)
-        }
+        var payload = tryJSONparse(message)
+        if (!payload) return 'Malformatted payload JSON.'
 
-        if (keepAttachments) {
-            var attachments = (msg.attachments ?? [])
-                .filter(attachment => attachment.size <= getUploadLimit(msg))
-                .map(attachment => new Discord.AttachmentBuilder(attachment.url, attachment.name))
-            var embeds = (msg.embeds ?? []).filter(embed => embed.data.type === 'rich')
-            var stickers = (msg.stickers ?? [])
-                .filter(sticker => sticker.format != 3)
-                .map(sticker => new Discord.AttachmentBuilder(`${sticker.url.replace("cdn.discordapp.com", "media.discordapp.net")}?size=160`))
+        payload.username = name
+        payload.avatarURL = avatar
+        payload.allowedMentions = fetchPingPerms(msg)
+    
+        if (payload.files) payload.files.filter(file => {
+            return file.attachment.match(vars.validUrl) || file.attachment.match(/temp:[a-zA-Z0-9_-]{10}/g)
+        }).map(file => {
+            if (!file.attachment.match(/^temp:[a-zA-Z0-9_-]{10}$/)) return file
 
-            var attachmentsAndStickers = attachments.concat(stickers)
+            var id = file.attachment.substring(5)
+            var tempfile = tempfiles[id]
 
-            if (data.guildData[msg.guild.id].webhookAttachments) payload.files = attachmentsAndStickers
-            else payload.content += `\n${attachmentsAndStickers.map(attachment => attachment.attachment).join(" ")}`
+            if (!tempfile) return file
 
-            payload.embeds = embeds
-        }
+            file.attachment = `tempfiles/${config.database}/${tempfile.name}`
 
-        payload.content = payload.content.trim().substring(0, 2000)
+            return file
+        })
 
         if (msg.channel.permissionsFor(msg.member).has(DiscordTypes.PermissionFlagsBits.ManageWebhooks) || msg.channel.permissionsFor(msg.member).has(DiscordTypes.PermissionFlagsBits.ManageMessages) || msg.member.permissions.has(DiscordTypes.PermissionFlagsBits.Administrator) || msg.channel.permissionsFor(msg.member).has(DiscordTypes.PermissionFlagsBits.ManageGuild) || msg.author.id === msg.guild.ownerId || config.ownerids.find(id => id == msg.author.id) || isBot) {
-            await sendWebhook(msg, payload).catch(() => { })
+            var doingitwrong = ''
+            await sendWebhook(msg, payload).catch((err) => { doingitwrong = err.message })
+            
+            if (doingitwrong !== '')
+                return doingitwrong
         } else {
             return 'You need to have the manage webhooks/messages permission to execute that!'
         }
 
         return ''
     },
-    attemptvalue: 10
+    attemptvalue: 20,
+    raw: true
 }

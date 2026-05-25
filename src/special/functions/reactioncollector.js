@@ -86,6 +86,11 @@ module.exports = {
                             return msg.author.id
                         }
                     }
+                    valOpts.extraKeys._collected = {
+                        func: async () => {
+                            return collected.join(' | ')
+                        }
+                    }
                     valOpts.extraFuncs.resettimer = {
                         func: async () => {
                             collector.resetTimer()
@@ -120,10 +125,10 @@ module.exports = {
                     var dataError = false
                     await gatherData(dummyMessage).catch((err) => dataError = err)
                     if (dataError) return console.log(dataError)
-                    
-                    var collect = await parseKeywords(collectphrase, dummyMessage, true, valOpts).catch((e) => console.log(e)) ?? ''
 
                     collected.push(emoji)
+                    
+                    var collect = await parseKeywords(collectphrase, dummyMessage, true, valOpts).catch((e) => console.log(e)) ?? ''
 
                     if (collect.trim()) await channel.send({
                         content: collect,
@@ -166,7 +171,7 @@ module.exports = {
     raw: true,
     potential: {
         keys: { _reaction: {}, _reactcount: {}, _authorid: {}, _collected: {} },
-        funcs: { resettimer: {}, stop: {}, source: {} }
+        funcs: { resettimer: {}, stop: {}, source: { raw: true } }
     },
     attemptvalue: 10
 }
