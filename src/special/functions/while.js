@@ -1,5 +1,5 @@
 module.exports = {
-  helpf: '(condition | function)',
+  helpf: '(condition | function<break(phrase)>)',
   desc: "Repeats the function while the condition is met.",
   func: async function (matches, msg, isBot, _, opts) {
     let poopy = this
@@ -12,15 +12,32 @@ module.exports = {
     var condition = split[0] ?? ''
     var func = split[1] ?? ''
 
+    var breakingBad = false
+
+    var breakOpts = { ...opts }
+    breakOpts.extraFuncs = { ...wopts.extraFuncs }
+    breakOpts.extraFuncs.break = {
+      func: async function (matches, msg) {
+        var word = matches[1]
+        tempdata[msg.author.id][msg.id].returnValue = word
+        return ''
+      }
+    }
+
     while ((await parseKeywords(condition, msg, isBot, opts).catch(() => { }) ?? '').trim()) {
       tempdata[msg.author.id][msg.id].keyAttempts++
-      await parseKeywords(func, msg, isBot, opts).catch(() => { })
+      await parseKeywords(func, msg, isBot, breakOpts).catch(() => { })
+      
+      if (
+        (!opts.ownermode && tempdata[msg.author.id][msg.id].keyAttempts >= config.keyLimit)
+        || breakingBad
+      ) break
       await sleep()
-      if (!opts.ownermode && tempdata[msg.author.id][msg.id].keyAttempts >= config.keyLimit) break
     }
 
     return ''
   },
   raw: true,
-  limit: 5
+  potential: { break: {} },
+  limit: 20
 }
