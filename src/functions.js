@@ -6153,16 +6153,19 @@ functions.validateFile = async function (url, exception, opts) {
 
         url = await correctUrl(url, true)
 
-        var response = await axios({
-            method: 'GET',
-            url,
-            responseType: 'stream',
-            validateStatus: () => true,
-            maxBodyLength: 1024 * 1024 * 200,
-            maxContentLength: 1024 * 1024 * 200
-        }).catch(err => {
-            reject(err.message)
-        })
+        var response
+        try {
+            response = await axios({
+                method: 'GET',
+                url,
+                responseType: 'stream',
+                validateStatus: () => true,
+                maxBodyLength: 1024 * 1024 * 200,
+                maxContentLength: 1024 * 1024 * 200
+            })
+        } catch (err) {
+            return reject(err.message)
+        }
 
         if (!response) return
 
