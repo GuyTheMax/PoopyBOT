@@ -503,7 +503,7 @@ async function uploadToFileHost(file) {
     let lastResponse = "Unable to upload to a file hosting service."
 
     for (const upload of uploadHosts) {
-        const uploadLink = await upload().catch((e) => console.log(e))
+        const uploadLink = await upload().catch(() => { })
         if (uploadLink) {
             if (validUrl.test(uploadLink)) return uploadLink
             lastResponse = uploadLink
