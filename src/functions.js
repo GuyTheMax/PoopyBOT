@@ -1091,10 +1091,10 @@ functions.chat = async function (stim, msg, {
         if (!message) return errorMsg
     }
 
-    var tokenAmount = resp.data.usage.total_tokens
-
-    if (tokenAmount > 200000) ourHistory.slice(1, 1) // what was this for? limits??
-
+    if (ourHistory.length > 10) {
+        ourHistory.splice(1, ourHistory.length - 10)
+    }
+    
     var content = (message.content ?? "").replace(
         /((?:!\[[^\]]*]|\[[^\]]*])\([^)]*\))(?!\s|$)/g,
         '$1 '
