@@ -20,7 +20,7 @@ module.exports = {
             if (messageToEdit.catch) messageToEdit = await messageToEdit.catch(() => { })
 
             if (messageToEdit) {
-                if (messageToEdit.author.id !== bot.user.id) {
+                if (messageToEdit.author?.id !== bot.user.id) {
                     return ''
                 }
 
