@@ -1,7 +1,7 @@
 module.exports = {
   name: ['poopymode', 'hivemindmode'],
   args: [{ name: "state", required: false, specifarg: false, orig: "[state]" }],
-  execute: async function (msg, args, opts) {
+  execute: async function (msg, args, opts = {}) {
     let poopy = this
     let config = poopy.config
     let data = poopy.data

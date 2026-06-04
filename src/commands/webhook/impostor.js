@@ -24,7 +24,7 @@ module.exports = {
             })
         }
     }],
-    execute: async function (msg, args, opts) {
+    execute: async function (msg, args, opts = {}) {
         let poopy = this
         let data = poopy.data
         let config = poopy.config

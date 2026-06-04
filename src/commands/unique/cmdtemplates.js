@@ -117,7 +117,7 @@ module.exports = {
             })
         }
     }],
-    execute: async function (msg, args, opts) {
+    execute: async function (msg, args, opts = {}) {
         let poopy = this
         let { generateId, navigateEmbed, similarity, fetchPingPerms } = poopy.functions
         let { DiscordTypes } = poopy.modules

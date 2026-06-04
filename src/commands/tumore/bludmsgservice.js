@@ -4,7 +4,7 @@ module.exports = {
         { name: "topic", required: true, specifarg: false, orig: "<topic>" },
         { name: "inquery", required: true, specifarg: false, orig: "{inquery}" },
     ],
-    execute: async function (msg, args, opts) {
+    execute: async function (msg, args, opts = {}) {
         let poopy = this
         let config = poopy.config
         let { axios } = poopy.modules

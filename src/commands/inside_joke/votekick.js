@@ -27,7 +27,7 @@ module.exports = {
         { name: "action", required: false, specifarg: true, orig: "[-action <timeout|mute|kick|ban>]", autocomplete: ["timeout", "mute", "kick", "ban"] },
         { name: "duration", required: false, specifarg: true, orig: "[-duration <seconds (default 45)>]" },
     ],
-    execute: async function (msg, args, opts) {
+    execute: async function (msg, args, opts = {}) {
         let poopy = this
         let config = poopy.config
         let data = poopy.data

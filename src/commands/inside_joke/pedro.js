@@ -1,7 +1,7 @@
 module.exports = {
     name: ['pedro'],
     args: [],
-    execute: async function (msg, _, opts) {
+    execute: async function (msg, _, opts = {}) {
         let poopy = this
         let data = poopy.data
         let { sleep, yesno } = poopy.functions

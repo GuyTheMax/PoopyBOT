@@ -33,7 +33,7 @@ module.exports = {
         }],
         description: "Restricts/unrestricts bot usage in the channel to moderators only."
     }],
-    execute: async function (msg, args, opts) {
+    execute: async function (msg, args, opts = {}) {
         let poopy = this
         let data = poopy.data
         let bot = poopy.bot

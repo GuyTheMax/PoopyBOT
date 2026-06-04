@@ -108,7 +108,7 @@ module.exports = {
         args: [],
         description: "Toggles whether the bot can read the messages from all channels or not."
     }],
-    execute: async function (msg, args, opts) {
+    execute: async function (msg, args, opts = {}) {
         let poopy = this
         let vars = poopy.vars
         let config = poopy.config

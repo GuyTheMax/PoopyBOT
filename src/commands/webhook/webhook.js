@@ -44,7 +44,7 @@ module.exports = {
             orig: "[-channelonly]"
         }
     ],
-    execute: async function (msg, args, opts) {
+    execute: async function (msg, args, opts = {}) {
         let poopy = this
         let config = poopy.config
         let vars = poopy.vars

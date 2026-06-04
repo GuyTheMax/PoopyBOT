@@ -31,7 +31,7 @@ module.exports = {
         }],
         description: "Disables/enables a command, if it exists."
     }],
-    execute: async function (msg, args, opts) {
+    execute: async function (msg, args, opts = {}) {
         let poopy = this
         let data = poopy.data
         let bot = poopy.bot

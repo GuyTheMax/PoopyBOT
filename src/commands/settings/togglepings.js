@@ -20,7 +20,7 @@ module.exports = {
             orig: "[-everyone]"
         }
     ],
-    execute: async function (msg, args, opts) {
+    execute: async function (msg, args, opts = {}) {
         let poopy = this
         let data = poopy.data
         let { fetchPingPerms, getOption } = poopy.functions

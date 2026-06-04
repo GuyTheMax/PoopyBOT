@@ -7,7 +7,7 @@ module.exports = {
         'Streaming',
         'Competing'
     ] }, { name: "statusMessage", required: true, specifarg: false, orig: "<statusMessage>" }, { name: "permanent", required: false, specifarg: true, orig: "[-permanent]" }],
-    execute: async function (msg, args, opts) {
+    execute: async function (msg, args, opts = {}) {
         let poopy = this
         let config = poopy.config
         let { getOption, infoPost, fetchPingPerms } = poopy.functions

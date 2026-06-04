@@ -1,7 +1,7 @@
 module.exports = {
     name: ['bludfraud', 'bluddistrust'],
     args: [{ name: "userId", required: true, specifarg: false, orig: "<userId>" }],
-    execute: async function (msg, args, opts) {
+    execute: async function (msg, args, opts = {}) {
         let poopy = this
         let config = poopy.config
         let { axios } = poopy.modules

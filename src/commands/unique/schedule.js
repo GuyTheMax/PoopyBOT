@@ -108,7 +108,7 @@ module.exports = {
         }],
         description: "Deletes the timer from the server."
     }],
-    execute: async function (msg, args, opts) {
+    execute: async function (msg, args, opts = {}) {
         var poopy = this
         var data = poopy.data
         var tempdata = poopy.tempdata

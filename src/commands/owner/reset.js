@@ -1,7 +1,7 @@
 module.exports = {
     name: ['reset', 'restart', 'reboot'],
     args: [],
-    execute: async function (msg, _, opts) {
+    execute: async function (msg, _, opts = {}) {
         let poopy = this
         let config = poopy.config
         let { yesno } = poopy.functions

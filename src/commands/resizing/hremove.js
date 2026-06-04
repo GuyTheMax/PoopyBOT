@@ -1,7 +1,7 @@
 module.exports = {
     name: ['hremove', 'hreversecrop'],
     args: [{ name: "x", required: true, specifarg: false, orig: "<x>" }, { name: "w", required: true, specifarg: false, orig: "<w>" }, { name: "file", required: false, specifarg: false, orig: "{file}" }],
-    execute: async function (msg, args, opts) {
+    execute: async function (msg, args, opts = {}) {
         let poopy = this
         let {
             lastUrl, validateFile, downloadFile, execPromise,

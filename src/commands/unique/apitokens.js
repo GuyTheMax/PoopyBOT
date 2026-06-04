@@ -55,7 +55,7 @@ module.exports = {
         }],
         description: "Removes all of the token's values and resets to the bot's defaults."
     }],
-    execute: async function (msg, args, opts) {
+    execute: async function (msg, args, opts = {}) {
         let poopy = this
         let data = poopy.data
         let bot = poopy.bot

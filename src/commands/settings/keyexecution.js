@@ -1,7 +1,7 @@
 module.exports = {
     name: ['keyexecution', 'keyexec'],
     args: [{ name: "mode", required: true, specifarg: false, orig: "<mode (Message, Command or None)>", autocomplete: ["Message", "Command", "None"] }],
-    execute: async function (msg, args, opts) {
+    execute: async function (msg, args, opts = {}) {
         let poopy = this
         let config = poopy.config
         let data = poopy.data

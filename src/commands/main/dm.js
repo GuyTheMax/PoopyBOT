@@ -36,7 +36,7 @@ module.exports = {
         //    orig: "[-anonymous]"
         //}
     ],
-    execute: async function (msg, args, opts) {
+    execute: async function (msg, args, opts = {}) {
         let poopy = this
         let { shuffle, randomChoice, yesno, dataGather, fetchPingPerms, resolveUser } = poopy.functions
         let { Discord, DiscordTypes } = poopy.modules

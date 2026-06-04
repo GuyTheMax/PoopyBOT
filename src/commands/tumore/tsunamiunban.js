@@ -4,7 +4,7 @@ module.exports = {
         { name: "userId", required: true, specifarg: false, orig: "<userId>" },
         { name: "reason", required: false, specifarg: false, orig: "\"[reason]\"" },
     ],
-    execute: async function (msg, args, opts) {
+    execute: async function (msg, args, opts = {}) {
         let poopy = this
         let config = poopy.config
         let vars = poopy.vars
