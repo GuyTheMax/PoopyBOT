@@ -16,6 +16,7 @@ module.exports = {
         let data = poopy.data
         let bot = poopy.bot
         let tempdata = poopy.tempdata
+        let globaldata = poopy.globaldata
 
         var word = matches[1]
         var split = splitKeyFunc(word, { args: 5 })
@@ -64,7 +65,10 @@ module.exports = {
             collector.on('collect', async (reaction, user) => {
                 var dummyMessage
                 try {
-                    if (tempdata[msg.guild.id][msg.channel.id].shutUp) return
+                    if (
+                        tempdata[msg.guild.id][msg.channel.id].shutUp ||
+                        globaldata.shit.includes(user.id)
+                    ) return
                     var emoji = reaction.emoji.toString()
 
                     var valOpts = { ...opts }
