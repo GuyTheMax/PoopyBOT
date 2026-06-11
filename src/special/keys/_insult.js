@@ -1,7 +1,6 @@
 const insults = [
     'stupid',
     'bastard',
-    'retard',
     'idiot',
     'buffoon',
     'moron',
