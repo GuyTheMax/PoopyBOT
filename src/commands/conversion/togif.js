@@ -65,7 +65,7 @@ module.exports = {
             await execPromise(`ffmpeg -i ${filepath}/${filename} -filter_complex "[0:v]scale='min(800,iw)':min'(800,ih)':force_original_aspect_ratio=decrease,split[pout][ppout];[ppout]palettegen=reserve_transparent=1[palette];[pout][palette]paletteuse=alpha_threshold=128[out]" -map "[out]" -preset ${findpreset(args)} -gifflags -offsetting ${filepath}/output.gif`)
             return await sendFile(msg, filepath, `output.gif`)
         } else if (type.mime.startsWith('image') && type.ext === 'gif') {
-            return await sendFile(msg, path.dirname(fileinfo.path), `output.gif`, { keep: true })
+            return await sendFile(msg, path.dirname(fileinfo.path), path.basename(fileinfo.path), { keep: true, name: `output.gif` })
         } else {
             await msg.reply({
                 content: `Unsupported file: \`${currenturl}\``,

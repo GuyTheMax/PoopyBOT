@@ -71,7 +71,7 @@ module.exports = {
             }
             return await sendFile(msg, filepath, `output.png`)
         } else if (type.mime.startsWith('image') && type.ext === 'apng') {
-            return await sendFile(msg, path.dirname(fileinfo.path), `output.png`, { keep: true })
+            return await sendFile(msg, path.dirname(fileinfo.path), path.basename(fileinfo.path), { keep: true, name: `output.png` })
         } else {
             await msg.reply({
                 content: `Unsupported file: \`${currenturl}\``,

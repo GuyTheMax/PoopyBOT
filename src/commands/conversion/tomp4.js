@@ -35,7 +35,7 @@ module.exports = {
             await execPromise(`ffmpeg -i ${filepath}/${filename} -vf "scale='min(2000,iw)':min'(2000,ih)':force_original_aspect_ratio=decrease,scale=ceil(iw/2)*2:ceil(ih/2)*2" -preset ${findpreset(args)} -c:v libx264 -pix_fmt yuv420p ${filepath}/output.mp4`)
             return await sendFile(msg, filepath, `output.mp4`)
         } else if (type.mime.startsWith('video') && type.ext === 'mp4') {
-            return await sendFile(msg, path.dirname(fileinfo.path), `output.mp4`, { keep: true })
+            return await sendFile(msg, path.dirname(fileinfo.path), path.basename(fileinfo.path), { keep: true, name: `output.mp4` })
         } else {
             await msg.reply({
                 content: `Unsupported file: \`${currenturl}\``,

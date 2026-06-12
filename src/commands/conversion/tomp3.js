@@ -43,7 +43,7 @@ module.exports = {
                 fs.rmSync(`${filepath}`, { force: true, recursive: true })
             }
         } else if (type.mime.startsWith('audio') && type.ext === 'mp3') {
-            return await sendFile(msg, path.dirname(fileinfo.path), `output.mp3`, { keep: true })
+            return await sendFile(msg, path.dirname(fileinfo.path), path.basename(fileinfo.path), { keep: true, name: `output.mp3` })
         } else {
             await msg.reply({
                 content: `Unsupported file: \`${currenturl}\``,

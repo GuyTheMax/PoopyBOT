@@ -5822,11 +5822,6 @@ functions.sendFile = async function (msg, filepath, filename, extraOptions) {
         extraOptions.name = args[nameindex + 1].replace(/[/\\?%*:|"<>]/g, '-').substring(0, 128)
     }
 
-    if (extraOptions.name) {
-        fs.renameSync(`${filepath}/${filename}`, `${filepath}/${extraOptions.name}`)
-        filename = extraOptions.name
-    }
-
     if (extraOptions.catbox || (tooLarge && !extraOptions.nosend)) {
         if (tooLarge && !extraOptions.catbox && !extraOptions.nosend) await msg.reply(`${extraOptions.nocompress ? "Output file too" : "Still"} large${extraOptions.nocompress ? " to be sent to channel" : ""}, guess I\'m gonna try uploading it to a file hosting service.`).catch(() => { })
         infoPost(`Uploading to a file hosting service`)
@@ -5894,7 +5889,7 @@ functions.sendFile = async function (msg, filepath, filename, extraOptions) {
     } else {
         infoPost(`Sending file to channel`)
         var sendObject = {
-            files: [new Discord.AttachmentBuilder(`${filepath}/${filename}`)],
+            files: [new Discord.AttachmentBuilder(`${filepath}/${filename}`, { name: extraOptions?.name ?? undefined })],
             allowedMentions: fetchPingPerms(msg)
         }
 

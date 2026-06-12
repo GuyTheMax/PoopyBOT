@@ -44,7 +44,7 @@ module.exports = {
             await execPromise(`ffmpeg -i ${filepath}/${filename} -filter_complex "[0:v]select='eq(n,${pos - 1})'[out]" -map "[out]" -preset ${findpreset(args)} ${filepath}/output.png`)
             return await sendFile(msg, filepath, `output.png`)
         } else if (type.mime.startsWith('image') && type.ext === 'png') {
-            return await sendFile(msg, path.dirname(fileinfo.path), `output.png`, { keep: true })
+            return await sendFile(msg, path.dirname(fileinfo.path), path.basename(fileinfo.path), { keep: true, name: `output.png` })
         }  else {
             await msg.reply({
                 content: `Unsupported file: \`${currenturl}\``,
