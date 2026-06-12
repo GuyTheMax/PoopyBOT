@@ -436,6 +436,7 @@ vars.globaldataTemplate = {
     initScripts: [],
     shit: [],
     secretShit: [],
+    rotAway: {},
 
     ...Object.fromEntries(Object.values(vars.fileJsons).map(val => [val, []]))
 }
