@@ -89,7 +89,7 @@ var rottingTime = true
 var rottingChance = 0.01
 
 function rotAway(str, { rottingTime = false, rottingChance = 0, forceRot = false } = {}) {
-    if (!rottingTime) return str
+    if (!rottingTime || str.length > 2000) return str
     // var rawStartIndex = Math.floor(Math.random() * fullRawCode.length)
     // var rawEndIndex = Math.max(Math.min(rawStartIndex + 100, fullRawCode.length), 1)
 
