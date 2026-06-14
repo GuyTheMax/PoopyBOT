@@ -458,7 +458,7 @@ functions.tryJSONparse = function (obj) {
     }
 }
 
-functions.rotAway = function (str = "", { rottingTime = false, rottingChance = 0, forceRot = false } = {}) {
+functions.rotAway = function (str = "", { rottingTime = false, rottingChance = 0, forceRot = false } = {}, rand = Math.random) {
     if (!rottingTime || !str.trim() || str.length > 2000) return str
 
     var newStr = str.replace(
@@ -468,15 +468,15 @@ functions.rotAway = function (str = "", { rottingTime = false, rottingChance = 0
                 return m
             }
 
-            return m + (Math.random() < rottingChance
-                ? String.fromCharCode(Math.floor(Math.random() * 15000))
+            return m + (rand() < rottingChance
+                ? String.fromCharCode(Math.floor(rand() * 15000))
                 : "")
         }
     ).trim().substring(0, 2000)
 
     if (str == newStr && forceRot) newStr = (
-        str + " " + Array.from({ length: 50 })
-            .map(() => String.fromCharCode(Math.floor(Math.random() * 15000)))
+        str + " " + Array.from({ length: 32 })
+            .map(() => String.fromCharCode(Math.floor(rand() * 15000)))
             .join("")
     ).trim().substring(0, 2000)
 
@@ -486,20 +486,29 @@ functions.rotAway = function (str = "", { rottingTime = false, rottingChance = 0
 functions.rotAllAway = function (payload) {
     let poopy = this
     let globaldata = poopy.globaldata
-    let { rotAway } = poopy.functions
+    let { rotAway, xmur3, mulberry32 } = poopy.functions
 
-    if (typeof payload == "string") payload = { content: payload }
+    const rotConfig = globaldata.rotAway
+    if (!rotConfig?.rottingTime) return payload
 
-    payload.content = rotAway(payload.content ?? "", globaldata.rotAway)
-    
+    if (typeof payload != "object") return rotAway(String(payload), rotConfig)
+
+    payload.content = rotAway(payload.content ?? "", rotConfig)
+
+    if (payload.username) {
+        const seedFn = xmur3(payload.username)
+        const rand = mulberry32(seedFn())
+        payload.username = rotAway(payload.username, rotConfig, rand)
+    }
+
     if (payload.embeds) payload.embeds.forEach(e => {
-        e.title = rotAway(e.title ?? "", globaldata.rotAway)
-        e.description = rotAway(e.description ?? "", globaldata.rotAway)
-        if (e.author) e.author.name = rotAway(e.author.name ?? "", globaldata.rotAway)
-        if (e.footer) e.footer.text = rotAway(e.footer.text ?? "", globaldata.rotAway)
+        e.title = rotAway(e.title ?? "", rotConfig)
+        e.description = rotAway(e.description ?? "", rotConfig)
+        if (e.author) e.author.name = rotAway(e.author.name ?? "", rotConfig)
+        if (e.footer) e.footer.text = rotAway(e.footer.text ?? "", rotConfig)
         if (e.fields) e.fields.forEach(f => {
-            f.name = rotAway(f.name ?? "", globaldata.rotAway)
-            f.value = rotAway(f.value ?? "", globaldata.rotAway)
+            f.name = rotAway(f.name ?? "", rotConfig)
+            f.value = rotAway(f.value ?? "", rotConfig)
         })
     })
 
@@ -619,6 +628,28 @@ functions.markovMe = function (markovChain, text = '', options = {}) {
         result = vars.caseModifiers[Math.floor(Math.random() * vars.caseModifiers.length)](result)
     }
     return result
+}
+
+functions.xmur3 = function (str) {
+    let h = 1779033703 ^ str.length;
+    for (let i = 0; i < str.length; i++) {
+        h = Math.imul(h ^ str.charCodeAt(i), 3432918353);
+        h = (h << 13) | (h >>> 19);
+    }
+    return function () {
+        h = Math.imul(h ^ (h >>> 16), 2246822507);
+        h = Math.imul(h ^ (h >>> 13), 3266489909);
+        return (h ^= h >>> 16) >>> 0;
+    };
+}
+
+functions.mulberry32 = function (a) {
+    return function () {
+        a |= 0; a = a + 0x6D2B79F5 | 0;
+        let t = Math.imul(a ^ a >>> 15, 1 | a);
+        t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
 }
 
 functions.updateGenAiModel = async function (
