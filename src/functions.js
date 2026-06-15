@@ -483,6 +483,73 @@ functions.rotAway = function (str = "", { rottingTime = false, rottingChance = 0
     return newStr
 }
 
+functions.rotMedia = async function (filepath, filename, rottingChance = 0) {
+    let poopy = this
+    let { validateFileFromPath } = poopy.functions
+
+    if (typeof filepath != "string") return
+
+    var fileinfo = await validateFileFromPath(`${filepath}/${filename}`, 'very true').catch(() => { })
+
+    if (!fileinfo) return
+
+    var originalext = fileinfo.type.ext
+    var scriptext = ""
+    var convertext = ""
+
+    switch (fileinfo.shorttype) {
+        case 'image':
+            if (fileinfo.type.ext == 'jpg' || fileinfo.type.ext == 'jpeg')
+                scriptext = 'jpg'
+            else {
+                scriptext = 'png'
+
+                if (fileinfo.type.ext != 'png')
+                    convertext = 'png'
+            }
+            break;
+        case 'gif':
+            scriptext = 'png'
+
+            if (fileinfo.type.ext != 'apng')
+                convertext = 'apng'
+            break;
+
+        case 'video':
+            scriptext = 'avi'
+
+            if (fileinfo.type.ext != 'avi')
+                convertext = 'avi'
+            break;
+    }
+
+    if (scriptext == "")
+        return
+
+    if (convertext != "") {
+        await execPromise(`ffmpeg -i ${filepath}/${filename} ${filepath}/rot_${filename}.${convertext}`)
+        await execPromise(`ffedit -i ${filepath}/rot_${filename}.${convertext} -s src/rot_${scriptext}.js -sp ${rottingChance} -o ${filepath}/${filename}.${convertext}`)
+        await execPromise(`ffmpeg -i ${filepath}/${filename}.${convertext} ${filepath}/${filename}`)
+    } else {
+        fs.renameSync(`${filepath}/${filename}`, `${filepath}/rot_${filename}`)
+        await execPromise(`ffedit -i ${filepath}/rot_${filename} -s src/rot_${scriptext}.js -sp ${rottingChance} -o ${filepath}/${filename}`)
+    }
+
+    if (convertext != "") {
+        if (fs.existsSync(`${filepath}/rot_${filename}.${convertext}`)) {
+            fs.rmSync(`${filepath}/rot_${filename}.${convertext}`)
+        }
+    }
+
+    if (fs.existsSync(`${filepath}/rot_${filename}`)) {
+        if (fs.existsSync(`${filepath}/${filename}`)) fs.rmSync(`${filepath}/rot_${filename}`)
+        else {
+            fs.renameSync(`${filepath}/rot_${filename}`, `${filepath}/${filename}`)
+            break
+        }
+    }
+}
+
 functions.rotAllAway = function (payload) {
     let poopy = this
     let globaldata = poopy.globaldata
