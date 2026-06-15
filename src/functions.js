@@ -545,7 +545,6 @@ functions.rotMedia = async function (filepath, filename, rottingChance = 0) {
         if (fs.existsSync(`${filepath}/${filename}`)) fs.rmSync(`${filepath}/rot_${filename}`)
         else {
             fs.renameSync(`${filepath}/rot_${filename}`, `${filepath}/${filename}`)
-            break
         }
     }
 }
