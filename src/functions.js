@@ -485,7 +485,7 @@ functions.rotAway = function (str = "", { rottingTime = false, rottingChance = 0
 
 functions.rotMedia = async function (filepath, filename, rottingChance = 0) {
     let poopy = this
-    let { validateFileFromPath } = poopy.functions
+    let { validateFileFromPath, execPromise } = poopy.functions
 
     if (typeof filepath != "string") return
 
@@ -493,7 +493,6 @@ functions.rotMedia = async function (filepath, filename, rottingChance = 0) {
 
     if (!fileinfo) return
 
-    var originalext = fileinfo.type.ext
     var scriptext = ""
     var convertext = ""
 
@@ -527,12 +526,12 @@ functions.rotMedia = async function (filepath, filename, rottingChance = 0) {
         return
 
     if (convertext != "") {
-        await execPromise(`ffmpeg -i ${filepath}/${filename} ${filepath}/rot_${filename}.${convertext}`)
-        await execPromise(`ffedit -i ${filepath}/rot_${filename}.${convertext} -s src/rot_${scriptext}.js -sp ${rottingChance} -o ${filepath}/${filename}.${convertext}`)
-        await execPromise(`ffmpeg -i ${filepath}/${filename}.${convertext} ${filepath}/${filename}`)
+        await execPromise(`ffmpeg -i "${filepath}/${filename}" "${filepath}/rot_${filename}.${convertext}"`)
+        await execPromise(`ffedit -i "${filepath}/rot_${filename}.${convertext}" -s src/rot_${scriptext}.js -o "${filepath}/${filename}.${convertext}"`)
+        await execPromise(`ffmpeg -i "${filepath}/${filename}.${convertext}" "${filepath}/${filename}"`)
     } else {
         fs.renameSync(`${filepath}/${filename}`, `${filepath}/rot_${filename}`)
-        await execPromise(`ffedit -i ${filepath}/rot_${filename} -s src/rot_${scriptext}.js -sp ${rottingChance} -o ${filepath}/${filename}`)
+        await execPromise(`ffedit -i "${filepath}/rot_${filename}" -s src/rot_${scriptext}.js -o "${filepath}/${filename}"`)
     }
 
     if (convertext != "") {
@@ -547,6 +546,8 @@ functions.rotMedia = async function (filepath, filename, rottingChance = 0) {
             fs.renameSync(`${filepath}/rot_${filename}`, `${filepath}/${filename}`)
         }
     }
+
+    console.log('.')
 }
 
 functions.rotAllAway = function (payload) {
