@@ -1,26 +1,26 @@
 /*********************************************************************/
-// Go down to WHERE THE MAGIC HAPPENS to experiment with this script.
+
+const MV_ROW_REVERSAL_CHANCE = 0.01
+const MB_TYPE_ROW_REVERSAL_CHANCE = 0.05
 
 let rottingChance = 0;
 
 /*********************************************************************/
-export function setup(args)
-{
-  // select motion vector feature
-  args.features = [ "mv" ];
+export function setup(args) {
+    // select motion vector feature
+    args.features = ["info", "mv"];
 
-  if (!args.params)
-    throw new Error("WHERE ARE THE PARAMETERS?!?!!?")
+    if (!args.params)
+        throw new Error("WHERE ARE THE PARAMETERS?!?!!?")
 
-  const integer = args.params[0]
-  const decimalDigits = args.params[1]
-  const number = integer / (Math.pow(10, decimalDigits))
+    const integer = args.params[0]
+    const decimalDigits = args.params[1]
+    const number = integer / (Math.pow(10, decimalDigits))
 
-  rottingChance = number
+    rottingChance = number
 }
 
-function glitch_mv(mv, action)
-{
+function glitch_mv(mv, action) {
     switch (action) {
         case 0:
             mv[0] = 0;
@@ -35,43 +35,53 @@ function glitch_mv(mv, action)
             mv[0] = mv[0] * 3
             mv[1] = mv[1] * 3
             break;
-        
+
         case 3:
             mv[0] = Math.pow(mv[1] - mv[0], 2)
             mv[1] = Math.pow(mv[0] - mv[1], 2)
     }
 }
 
-export function glitch_frame(frame)
-{
-  const fwd_mvs = frame.mv?.forward;
-  // bail out if we have no forward motion vectors
-  if ( !fwd_mvs )
-      return;
+export function glitch_frame(frame) {
+    const fwd_mvs = frame.mv?.forward;
+    // bail out if we have no forward motion vectors
+    if (!fwd_mvs)
+        return;
 
-  frame.mv.overflow = "truncate";
+    const mb_type = frame.info?.mb_type
 
-  // clear horizontal element of all motion vectors
-  for ( let i = 0; i < fwd_mvs.length; i++ )
-  {
-    // loop through all rows
-    const row = fwd_mvs[i];
-    const action = Math.floor(Math.random() * 4)
-    for ( let j = 0; j < row.length; j++ )
-    {
-      // loop through all macroblocks
-      const mv = row[j];
-      if (!mv) continue;
+    frame.mv.overflow = "truncate";
 
-      if (Math.random() > rottingChance) continue;
+    // clear horizontal element of all motion vectors
+    for (let i = 0; i < fwd_mvs.length; i++) {
+        // loop through all rows
+        const row = fwd_mvs[i];
+        const action = Math.floor(Math.random() * 4)
+        for (let j = 0; j < row.length; j++) {
+            // loop through all macroblocks
+            const mv = row[j];
+            if (!mv) continue;
 
-      // THIS IS WHERE THE MAGIC HAPPENS
+            if (Math.random() > rottingChance) continue;
 
-      glitch_mv(mv, action)
+            // THIS IS WHERE THE MAGIC HAPPENS
+
+            glitch_mv(mv, action)
+        }
+
+        if (Math.random() < MV_ROW_REVERSAL_CHANCE) {
+            row.reverse();
+        }
     }
 
-    if (Math.random() < 0.01) {
-        row.reverse()
+    if (mb_type) {
+        for (let i = 0; i < mb_type.length; i++) {
+            // loop through all rows
+            const row = mb_type[i];
+
+            if (Math.random() < MB_TYPE_ROW_REVERSAL_CHANCE) {
+                row.reverse();
+            }
+        }
     }
-  }
 }
