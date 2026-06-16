@@ -55,7 +55,7 @@ export function glitch_frame(frame, stream)
     if (Math.random() > rottingChance) continue
 
     let newFilterType = filter_remapping[row[0]]
-    if (Math.random() < RARE_REMAPPING_CHANCE)
+    if (Math.random() < RANDOM_REMAPPING_CHANCE)
       newFilterType = Math.floor(Math.random() * 5);
 
     filterTypesOriginal.push(row[0])
