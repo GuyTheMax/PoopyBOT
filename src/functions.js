@@ -556,8 +556,9 @@ functions.rotMedia = async function (filepath, fileinfo, rottingChance = 0) {
     // console.log(`scriptext:`, scriptext)
     // console.log(`convertext:`, convertext)
 
-    if (scriptext == ""){
-        return}
+    if (scriptext == "") {
+        return
+    }
 
     fs.renameSync(`${dirpath}/${filename}`, `${dirpath}/rot_${filename}`)
 
@@ -619,9 +620,9 @@ functions.rotAllAway = async function (payload) {
         })
     })
 
-    if (rotConfig.rotMedia) {
-        if (payload.files) for (const i in payload.files) {
-            // console.log(`----File ${Number(i) + 1}/${payload.files.length}`)
+    if (rotConfig.rotMedia && payload.files) {
+        for (const i in payload.files) {
+            // console.log(`----File ${i}/${payload.files.length}`)
             const file = payload.files[i]
             // console.log('file:', file)
             const fileinfo = await validateFile(file.attachment).catch(() => { })
