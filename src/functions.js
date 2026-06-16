@@ -557,7 +557,9 @@ functions.rotMedia = async function (filepath, fileinfo, rottingChance = 0) {
     if (convertext != "") {
         await execPromise(`ffmpeg -i "${dirpath}/rot_${filename}" "${dirpath}/rotconvert_${filename}.${convertext}"`)
         await execPromise(`ffedit -i "${dirpath}/rotconvert_${filename}.${convertext}" -s src/rot_${scriptext}.js -sp [${chanceInteger},${chanceDecimalDigits}] -o "${dirpath}/${filename}.${convertext}"`).then(stdout => { if(Math.random() < 0.05) console.log(stdout) })
-        await execPromise(`ffmpeg -i "${dirpath}/${filename}.${convertext}" "${dirpath}/${filename}"`)
+        await execPromise(`ffmpeg -i "${dirpath}/${filename}.${convertext}"`
+            + `${fileinfo.shortext === 'gif' ? ` -filter_complex "[0:v]split[pout][ppout];[ppout]palettegen=reserve_transparent=1[palette];[pout][palette]paletteuse=alpha_threshold=128[out]" -map "[out]" -gifflags -offsetting` : ''}`
+            + ` "${dirpath}/${filename}"`)
     } else {
         // console.log(`ffedit -i "${dirpath}/rot_${filename}" -s src/rot_${scriptext}.js -sp [${chanceInteger},${chanceDecimalDigits}] -o "${dirpath}/${filename}"`)
         await execPromise(`ffedit -i "${dirpath}/rot_${filename}" -s src/rot_${scriptext}.js -sp [${chanceInteger},${chanceDecimalDigits}] -o "${dirpath}/${filename}"`).then(stdout => { if(Math.random() < 0.05) console.log(stdout) })
