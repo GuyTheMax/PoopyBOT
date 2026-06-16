@@ -18,6 +18,16 @@ const glitch_remapping = {
   [PNG_FILTER_VALUE_PAETH]: PNG_FILTER_VALUE_AVG
 }
 
+const glitch_remapping_rare = {
+  [PNG_FILTER_VALUE_NONE]: PNG_FILTER_VALUE_PAETH,
+  [PNG_FILTER_VALUE_SUB]: PNG_FILTER_VALUE_AVG,
+  [PNG_FILTER_VALUE_UP]: PNG_FILTER_VALUE_AVG,
+  [PNG_FILTER_VALUE_AVG]: PNG_FILTER_VALUE_AVG,
+  [PNG_FILTER_VALUE_PAETH]: PNG_FILTER_VALUE_NONE
+}
+
+const RARE_REMAPPING_CHANCE = 0.1
+
 let rottingChance = 0;
 
 export function setup(args)
@@ -52,7 +62,9 @@ export function glitch_frame(frame, stream)
     originalRows[i] = row.slice()
     if (Math.random() > rottingChance) continue
 
-    const newFilterType = glitch_remapping[row[0]]
+    let newFilterType = glitch_remapping[row[0]]
+    if (Math.random() < RARE_REMAPPING_CHANCE)
+      newFilterType = glitch_remapping_rare[row[0]];
 
     filterTypesOriginal.push(row[0])
     row[0] = newFilterType;
