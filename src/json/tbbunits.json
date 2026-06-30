@@ -1692,7 +1692,7 @@
         {
             "name": "Amputator",
             "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/ca/Amputator.png",
-            "alt": "Executioner"
+            "alt": "Necromancer"
         },
         {
             "name": "Mad Scientist",
@@ -1700,9 +1700,16 @@
             "alt": "Crazy Chemist"
         },
         {
+            "name": "Doctor Despair",
+            "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/8/8b/Doctor_Despair.png",
+            "alt": "Mister Mancer",
+            "boss": true
+        },
+        {
             "name": "Doctor Bright",
             "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/3/35/Doctor_Bright.png",
             "alt": "Mister Mancer",
+            "origin": "Doctor Despair",
             "boss": true
         },
         {
@@ -1802,14 +1809,20 @@
             "normal": "Butcher Battler"
         },
         {
+            "name": "Necromancer",
+            "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/5/5d/Necromancer.png",
+            "normal": "Amputator"
+        },
+        {
             "name": "Executioner",
             "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/9/93/Executioner.png",
-            "normal": "Amputator"
+            "normal": "Amputator",
+            "origin": "Necromancer"
         },
         {
             "name": "Skull",
             "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/4/4a/Skull.png",
-            "origin": "Executioner",
+            "origin": "Necromancer",
             "summon": true
         },
         {
@@ -1820,7 +1833,7 @@
         {
             "name": "Mister Mancer",
             "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/e/e0/Mister_Mancer.png",
-            "normal": "Doctor Bright",
+            "normal": "Doctor Despair",
             "boss": true
         },
         {
