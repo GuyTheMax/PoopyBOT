@@ -3,123 +3,123 @@
         "Chapter 1": [
             {
                 "name": "The Battle Begins",
-                "image": "HappyHouse"
+                "image": "CH1_First_Stage"
             },
             {
                 "name": "Building a Wall",
-                "image": "HappyHouse"
+                "image": "CH1_First_Stage"
             },
             {
                 "name": "Sword Fight",
-                "image": "HappyHouse"
+                "image": "CH1_First_Stage"
             },
             {
                 "name": "Slinging Shots",
-                "image": "HappyHouse"
+                "image": "CH1_First_Stage"
             },
             {
                 "name": "Four of a Kind",
-                "image": "HappyHouse_Hard"
+                "image": "CH1_First_Stage_Hard"
             },
             {
                 "name": "Superballing",
-                "image": "HappyHouse"
+                "image": "CH1_First_Stage"
             },
             {
                 "name": "Painting Walls",
-                "image": "HappyHouse"
+                "image": "CH1_First_Stage"
             },
             {
                 "name": "Bunch of Balls",
-                "image": "HappyHouse"
+                "image": "CH1_First_Stage"
             },
             {
                 "name": "Meatshielding",
-                "image": "HappyHouse"
+                "image": "CH1_First_Stage"
             },
             {
                 "name": "Ultimate Paintball",
-                "image": "Ultimate_Paintball"
+                "image": "CH1_Ultimate_Paintball"
             },
             {
                 "name": "Battler Spamming",
-                "image": "Crossroad"
+                "image": "CH1_Second_Stage"
             },
             {
                 "name": "In a Hurry",
-                "image": "Crossroad"
+                "image": "CH1_Second_Stage"
             },
             {
                 "name": "Bullet Sponge",
-                "image": "Crossroad"
+                "image": "CH1_Second_Stage"
             },
             {
                 "name": "Gravity Falls",
-                "image": "Crossroad"
+                "image": "CH1_Second_Stage"
             },
             {
                 "name": "Run n' Gun, Bud",
-                "image": "Crossroad_Hard"
+                "image": "CH1_Second_Stage_Hard"
             },
             {
                 "name": "Blow it Up",
-                "image": "Crossroad"
+                "image": "CH1_Second_Stage"
             },
             {
                 "name": "Bomb Rush",
-                "image": "Crossroad"
+                "image": "CH1_Second_Stage"
             },
             {
                 "name": "Team Fortress",
-                "image": "Crossroad"
+                "image": "CH1_Second_Stage"
             },
             {
                 "name": "Bullet Hell",
-                "image": "Crossroad"
+                "image": "CH1_Second_Stage"
             },
             {
                 "name": "Rocket Arena",
-                "image": "RocketArena"
+                "image": "CH1_Rocket_Arena"
             },
             {
                 "name": "Stop, Hammer Time!",
-                "image": "Glasshouse"
+                "image": "CH1_Third_Stage"
             },
             {
                 "name": "Handing Grenades",
-                "image": "Glasshouse"
+                "image": "CH1_Third_Stage"
             },
             {
                 "name": "Sledges and Swords",
-                "image": "Glasshouse"
+                "image": "CH1_Third_Stage"
             },
             {
                 "name": "Hardheaded",
-                "image": "Glasshouse"
+                "image": "CH1_Third_Stage"
             },
             {
                 "name": "TAAAAAANK!",
-                "image": "Glasshouse_Hard"
+                "image": "CH1_Third_Stage_Hard"
             },
             {
                 "name": "Demolition Site",
-                "image": "Glasshouse"
+                "image": "CH1_Third_Stage"
             },
             {
                 "name": "Special Stage",
-                "image": "Glasshouse"
+                "image": "CH1_Third_Stage"
             },
             {
                 "name": "Now We're Even",
-                "image": "Glasshouse"
+                "image": "CH1_Third_Stage"
             },
             {
                 "name": "Impending Doom",
-                "image": "Glasshouse_SuperHard"
+                "image": "CH1_Third_Stage_SuperHard"
             },
             {
                 "name": "Doomspire Brickbattle",
-                "image": "Doomspire_Brickbattle"
+                "image": "CH1_Doomspire_Brickbattle"
             }
         ],
         "Chapter 2": [
@@ -486,6 +486,128 @@
             {
                 "name": "Teapots of Utopia",
                 "image": "CH4_Teapots_Of_Utopia"
+            }
+        ],
+        "Chapter 5": [
+            {
+                "name": "First in Rise",
+                "image": "CH5_First_Stage"
+            },
+            {
+                "name": "Butcher Shop",
+                "image": "CH5_First_Stage"
+            },
+            {
+                "name": "Hamburger Helper",
+                "image": "CH5_First_Stage_Recover"
+            },
+            {
+                "name": "Bowel Movements",
+                "image": "CH5_First_Stage_Toxin"
+            },
+            {
+                "name": "Build to Survive",
+                "image": "CH5_First_Stage_Hard"
+            },
+            {
+                "name": "Restless Spirit",
+                "image": "CH5_First_Stage_Smoke"
+            },
+            {
+                "name": "Peaceless Protest",
+                "image": "CH5_First_Stage_Singular"
+            },
+            {
+                "name": "It's Pizza Time",
+                "image": "CH5_First_Stage_Charge"
+            },
+            {
+                "name": "Work at a Pizza Place",
+                "image": "CH5_First_Stage"
+            },
+            {
+                "name": "Sarge's Pizzeria",
+                "image": "CH5_Sarges_Pizzeria"
+            },
+            {
+                "name": "Super Monkey Ball",
+                "image": "CH5_Second_Stage"
+            },
+            {
+                "name": "Creepy Clowns",
+                "image": "CH5_Second_Stage"
+            },
+            {
+                "name": "Cheese and Quackers",
+                "image": "CH5_Second_Stage_Toxin"
+            },
+            {
+                "name": "Another Chance",
+                "image": "CH5_Second_Stage_Potent"
+            },
+            {
+                "name": "Survive The Killers",
+                "image": "CH5_Second_Stage_Hard"
+            },
+            {
+                "name": "Monster Mash",
+                "image": "CH5_Second_Stage_Potent"
+            },
+            {
+                "name": "Scary Maze Jumpscare",
+                "image": "CH5_Second_Stage_Gloom"
+            },
+            {
+                "name": "Revolve the Revolt",
+                "image": "CH5_Second_Stage_Potent"
+            },
+            {
+                "name": "Bonus Ducks",
+                "image": "CH5_Second_Stage"
+            },
+            {
+                "name": "Carnival Disaster",
+                "image": "CH5_Carnival_Disaster"
+            },
+            {
+                "name": "Creative Color",
+                "image": "CH5_Third_Stage_Recover"
+            },
+            {
+                "name": "Smile More",
+                "image": "CH5_Third_Stage_Charge"
+            },
+            {
+                "name": "Spamming Tons",
+                "image": "CH5_Third_Stage"
+            },
+            {
+                "name": "Death Whistle",
+                "image": "CH5_Third_Stage_Flare"
+            },
+            {
+                "name": "Oscar Apparition",
+                "image": "CH5_Third_Stage_Hard"
+            },
+            {
+                "name": "Cops and Junk",
+                "image": "CH5_Third_Stage_Defect"
+            },
+            {
+                "name": "Innocence Glitched",
+                "image": "CH5_Third_Stage"
+            },
+            {
+                "name": "Dark Souls",
+                "image": "CH5_Third_Stage_Defect"
+            },
+            {
+                "name": "Left to Deprecate",
+                "image": "CH5_Third_Stage_SuperHard"
+            },
+            {
+                "name": "The Third Tree",
+                "image": "CH5_The_Third_Tree"
             }
         ]
     },
@@ -966,7 +1088,7 @@
                 "image": "CanUWaitWhileISetUpASurprise"
             },
             {
-                "name": "Open Your Surprise ☺︎",
+                "name": "Open Your Surprise :)",
                 "image": "OpenYourSurprise"
             },
             {
@@ -983,7 +1105,7 @@
             },
             {
                 "name": "Four of a Kind (EASY)",
-                "image": "HappyHouse_Hard"
+                "image": "CH1_First_Stage_Hard"
             },
             {
                 "name": "Happy Birthday, With Cheese",
@@ -995,7 +1117,7 @@
             },
             {
                 "name": "TAAAAAANK! but what new players see.",
-                "image": "Glasshouse_Hard"
+                "image": "CH1_Third_Stage_Hard"
             },
             {
                 "name": "mcdonald's playplace",
@@ -1028,6 +1150,88 @@
             {
                 "name": "CYBORG FINAL BATTLE",
                 "image": "CYBORGBATTLE"
+            }
+        ],
+        "Anniversary: Fraud Edition": [
+            {
+                "name": "you have to solve my puzzles one to get in",
+                "image": "CH1_First_Stage_Hard"
+            },
+            {
+                "name": "difficult + rng",
+                "image": "ChaosCanyon"
+            },
+            {
+                "name": "hey, its me! enfosi!",
+                "image": "HeyItsMeEnfosi"
+            },
+            {
+                "name": "can u wait while i set up a surprise",
+                "image": "CanUWaitWhileISetUpASurprise"
+            },
+            {
+                "name": "Open Your Surprise :)",
+                "image": "OpenYourSurpriseNew"
+            },
+            {
+                "name": "here's the deal, i want this guy killed again",
+                "image": "Classic"
+            },
+            {
+                "name": "let me win pls",
+                "image": "ChaosCanyon"
+            },
+            {
+                "name": "Broken Vows",
+                "image": "CH1_Third_Stage"
+            },
+            {
+                "name": "WAR (GUNS ONLY)",
+                "image": "CH1_Rocket_Arena"
+            },
+            {
+                "name": "Pancakes With Loud Music!",
+                "image": "PancakesWithLoudMusic"
+            },
+            {
+                "name": "think fast if it was made in community stage 4",
+                "image": "ThinkFastCS4"
+            },
+            {
+                "name": "god i hate this game can we fire the devs",
+                "image": "CH2_Second_Stage_Hard"
+            },
+            {
+                "name": "can i macro this?",
+                "image": "McdonaldsPlayplace"
+            },
+            {
+                "name": "NvZT2 Hitbox",
+                "image": "NvZT2Hitbox"
+            },
+            {
+                "name": "The American Dream",
+                "image": "AmericanDreamNew"
+            },
+            {
+                "name": "uncanny generator",
+                "image": "UncannyGeneratingNew"
+            },
+            {
+                "name": "The Battle..Reds?",
+                "image": "BattleReds"
+            },
+            {
+                "name": "Instant Respawning X",
+                "image": "InstantRespawningX"
+            },
+            {
+                "name": "CYBORG FINAL BATTLE",
+                "image": "CYBORGBATTLE"
+            },
+            {
+                "name": "DARK PELICAN - FRAUD OF TRUTH",
+                "image": "PelicanOfTruth"
             }
         ],
         "Crimson Skies": [
@@ -1095,27 +1299,27 @@
         "Community Stages #1": [
             {
                 "name": "Starting Strong",
-                "image": "RocketArena"
+                "image": "CH1_Rocket_Arena"
             },
             {
                 "name": "Cheap Swarm",
-                "image": "HappyHouse"
+                "image": "CH1_First_Stage"
             },
             {
                 "name": "Strength in Numbers",
-                "image": "Crossroad"
+                "image": "CH1_Second_Stage"
             },
             {
                 "name": "Green Defense",
-                "image": "Crossroad_Hard"
+                "image": "CH1_Second_Stage_Hard"
             },
             {
                 "name": "Make It Quick",
-                "image": "HappyHouse_Hard"
+                "image": "CH1_First_Stage_Hard"
             },
             {
                 "name": "Enemy Frontiers",
-                "image": "Crossroad"
+                "image": "CH1_Second_Stage"
             },
             {
                 "name": "The Constant",
@@ -1123,7 +1327,7 @@
             },
             {
                 "name": "Build and Bust",
-                "image": "Crossroad"
+                "image": "CH1_Second_Stage"
             },
             {
                 "name": "Sh-Heal-D",
@@ -1131,11 +1335,11 @@
             },
             {
                 "name": "It's Go Time",
-                "image": "Crossroad_Hard"
+                "image": "CH1_Second_Stage_Hard"
             },
             {
                 "name": "Head Injury",
-                "image": "Crossroad"
+                "image": "CH1_Second_Stage"
             },
             {
                 "name": "Moon Landing",
@@ -1143,15 +1347,15 @@
             },
             {
                 "name": "Ground Pound",
-                "image": "Glasshouse"
+                "image": "CH1_Third_Stage"
             },
             {
                 "name": "Think Fast!",
-                "image": "Glasshouse"
+                "image": "CH1_Third_Stage"
             },
             {
                 "name": "Death from Above",
-                "image": "Glasshouse_Hard"
+                "image": "CH1_Third_Stage_Hard"
             },
             {
                 "name": "Backline Breakers",
@@ -1159,11 +1363,11 @@
             },
             {
                 "name": "Catapult Defense",
-                "image": "Crossroad"
+                "image": "CH1_Second_Stage"
             },
             {
                 "name": "Go for the Head",
-                "image": "Glasshouse"
+                "image": "CH1_Third_Stage"
             },
             {
                 "name": "Brickskrieg",
@@ -1177,11 +1381,11 @@
         "Community Stages #2": [
             {
                 "name": "First Encounters",
-                "image": "HappyHouse"
+                "image": "CH1_First_Stage"
             },
             {
                 "name": "M-Eat-Shielding",
-                "image": "Glasshouse"
+                "image": "CH1_Third_Stage"
             },
             {
                 "name": "What's For Dinner?",
@@ -1229,7 +1433,7 @@
             },
             {
                 "name": "Backliners Will Die",
-                "image": "Crossroad"
+                "image": "CH1_Second_Stage"
             },
             {
                 "name": "Opposites Attract",
@@ -1237,7 +1441,7 @@
             },
             {
                 "name": "Here Comes The Boom!",
-                "image": "RocketArena"
+                "image": "CH1_Rocket_Arena"
             },
             {
                 "name": "Raging Forces",
@@ -1263,7 +1467,7 @@
             },
             {
                 "name": "Over And Under!",
-                "image": "Crossroad"
+                "image": "CH1_Second_Stage"
             },
             {
                 "name": "Third Forms",
@@ -1303,7 +1507,7 @@
             },
             {
                 "name": "Burning Calories",
-                "image": "RocketArena"
+                "image": "CH1_Rocket_Arena"
             },
             {
                 "name": "Instant Respawning",
@@ -1357,7 +1561,7 @@
             },
             {
                 "name": "Role Reversal",
-                "image": "RocketArena"
+                "image": "CH1_Rocket_Arena"
             },
             {
                 "name": "Deity's Gamble",
@@ -1422,45 +1626,45 @@
         ]
     },
     "thumbnails": {
-        "HappyHouse": {
-            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/0/01/HappyHouse.png",
-            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/0/08/T_HappyHouse.png"
+        "CH1_First_Stage": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/3/37/CH1_First_Stage.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/d/df/TCH1_First_Stage.png"
         },
-        "HappyHouse_Hard": {
-            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/8/80/HappyHouse_Hard.png",
-            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/1/17/T_HappyHouse_Hard.png"
+        "CH1_First_Stage_Hard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/c8/CH1_First_Stage_Hard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/7/77/TCH1_First_Stage_Hard.png"
         },
-        "Ultimate_Paintball": {
-            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/c7/Ultimate_Paintball.png",
-            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/5/5b/T_UltimatePaintball.png"
+        "CH1_Ultimate_Paintball": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/c5/CH1_Ultimate_Paintball.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/d/d4/TCH1_Ultimate_Paintball.png"
         },
-        "Crossroad": {
-            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/0/07/Crossroad.png",
-            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/c7/T_Crossroad.png"
+        "CH1_Second_Stage": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/7/7f/CH1_Second_Stage.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/1/1e/TCH1_Second_Stage.png"
         },
-        "Crossroad_Hard": {
-            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/8/84/Crossroad_Hard.png",
-            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/0/09/T_Crossroad_Hard.png"
+        "CH1_Second_Stage_Hard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/b/b3/CH1_Second_Stage_Hard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/8/84/TCH1_Second_Stage_Hard.png"
         },
-        "RocketArena": {
-            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/cc/RocketArena.png",
-            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/d/df/T_RocketArena.png"
+        "CH1_Rocket_Arena": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/3/34/CH1_Rocket_Arena.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/2/2c/TCH1_Rocket_Arena.png"
         },
-        "Glasshouse": {
-            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/3/3d/Glasshouse.png",
-            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/1/1d/T_GlassHouse.png"
+        "CH1_Third_Stage": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/7/7b/CH1_Third_Stage.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/5/52/TCH1_Third_Stage.png"
         },
-        "Glasshouse_Hard": {
-            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/c3/Glasshouse_Hard.png",
-            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/d/df/T_GlassHouse_Hard.png"
+        "CH1_Third_Stage_Hard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/2/20/CH1_Third_Stage_Hard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/7/7b/TCH1_Third_Stage_Hard.png"
         },
-        "Glasshouse_SuperHard": {
-            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/c6/Glasshouse_SuperHard.png",
-            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/2/2b/T_GlassHouse_SuperHard.png"
+        "CH1_Third_Stage_SuperHard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/0/02/CH1_Third_Stage_SuperHard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/b/b3/TCH1_Third_Stage_SuperHard.png"
         },
-        "Doomspire_Brickbattle": {
-            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/8/8b/Doomspire_Brickbattle.png",
-            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/2/24/T_Doomspire_Brickbattle.png"
+        "CH1_Doomspire_Brickbattle": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/5/59/CH1_Doomspire_Brickbattle.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/8/85/TCH1_Doomspire_Brickbattle.png"
         },
         "CH2_First_Stage": {
             "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/b/b5/CH2_First_Stage.png",
@@ -1650,6 +1854,86 @@
             "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/3/3d/CH4_Teapots_Of_Utopia.png",
             "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/0/09/TCH4_Teapots_Of_Utopia.png"
         },
+        "CH5_First_Stage": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/4/4e/CH5_First_Stage.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/f/f4/TCH5_First_Stage.png"
+        },
+        "CH5_First_Stage_Recover": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/0/0b/CH5_First_Stage_Recover.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/cd/TCH5_First_Stage_Recover.png"
+        },
+        "CH5_First_Stage_Toxin": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/7/76/CH5_First_Stage_Toxin.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/e/e1/TCH5_First_Stage_Toxin.png"
+        },
+        "CH5_First_Stage_Hard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/9/9a/CH5_First_Stage_Hard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/7/75/TCH5_First_Stage_Challenge.png"
+        },
+        "CH5_First_Stage_Smoke": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/3/37/CH5_First_Stage_Smoke.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/3/30/TCH5_First_Stage_Smoke.png"
+        },
+        "CH5_First_Stage_Singular": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/3/36/CH5_First_Stage_Singular.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/4/45/TCH5_First_Stage_Singular.png"
+        },
+        "CH5_First_Stage_Charge": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/d/d5/CH5_First_Stage_Charge.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/9/9a/TCH5_First_Stage_Charge.png"
+        },
+        "CH5_Sarges_Pizzeria": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/0/00/CH5_Sarge%27s_Pizzeria.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/f/f9/TCH5_Sarge%27s_Pizzeria.png"
+        },
+        "CH5_Second_Stage": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/cd/CH5_Second_Stage.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/2/21/TCH5_Second_Stage.png"
+        },
+        "CH5_Second_Stage_Toxin": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/3/30/CH5_Second_Stage_Toxin.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/0/0d/TCH5_Second_Stage_Toxin.png"
+        },
+        "CH5_Second_Stage_Potent": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/5/5c/CH5_Second_Stage_Potent.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/3/30/TCH5_Second_Stage_Potent.png"
+        },
+        "CH5_Second_Stage_Hard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/8/8a/CH5_Second_Stage_Hard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/4/4b/TCH5_Second_Stage_Challenge.png"
+        },
+        "CH5_Carnival_Disaster": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/7/73/CH5_Carnival_Disaster.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/5/54/TCH5_Carnival_Disaster.png"
+        },
+        "CH5_Third_Stage": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/0/0f/CH5_Third_Stage.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/d/da/TCH5_Third_Stage.png"
+        },
+        "CH5_Third_Stage_Recover": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/f/f0/CH5_Third_Stage_Recover.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/b/b0/TCH5_Third_Stage_Recover.png"
+        },
+        "CH5_Third_Stage_Charge": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/f/f2/CH5_Third_Stage_Charge.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/2/2e/TCH5_Third_Stage_Charge.png"
+        },
+        "CH5_Third_Stage_Flare": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/c6/CH5_Third_Stage_Flare.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/0/0b/TCH5_Third_Stage_Flare.png"
+        },
+        "CH5_Third_Stage_Hard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/4/41/CH5_Third_Stage_Hard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/f/f3/TCH5_Third_Stage_Challenge.png"
+        },
+        "CH5_Third_Stage_Defect": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/cd/CH5_Third_Stage_Defect.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/7/7d/TCH5_Third_Stage_Defect.png"
+        },
+        "CH5_Third_Stage_SuperHard": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/ca/CH5_Third_Stage_SuperHard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/4/40/TCH5_Third_Stage_SuperHard.png"
+        },
         "Classic": {
             "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/5/57/Classic.png",
             "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/1/11/TClassic.png"
@@ -1817,6 +2101,42 @@
         "CYBORGBATTLE": {
             "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/c9/CYBORGBATTLE.png",
             "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/ca/CyborgCrocketMap.png"
+        },
+        "OpenYourSurpriseNew": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/f/f3/Open_Your_Surprise_Normal.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/7/75/Open_Your_Surprise_Tumore.png"
+        },
+        "PancakesWithLoudMusic": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/4/4c/Stage_10_BG.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/ca/Stage_10_BIG_Tumore.png"
+        },
+        "ThinkFastCS4": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/2/20/CH1_Third_Stage_Hard.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/d/d8/TumoreThinkFastIfItWasMadeInCommunityStages4.png"
+        },
+        "NvZT2Hitbox": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/8/8c/NvZT2Hitbox.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/2/23/NvZT2HitboxTumore.png"
+        },
+        "AmericanDreamNew": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/0/0e/The_American_Dream.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/1/15/The_American_Dream_Tumore.png"
+        },
+        "UncannyGeneratingNew": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/7/7f/Uncanny_generator.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/a/ac/Tuncanny_generator.png"
+        },
+        "BattleReds": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/6/6b/TheBattleReds.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/4/44/TClassicFinal.png"
+        },
+        "InstantRespawningX": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/3/3a/InstantRespawningX.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/b/b1/T_InstantRespawningX.png"
+        },
+        "PelicanOfTruth": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/d/d0/DARK_PELICAN_-_FRAUD_OF_TRUTH.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/a/a8/TDARK_PELICAN_-_FRAUD_OF_TRUTH.png"
         },
         "CrimsonSkies": {
             "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/5/55/CrimsonSkies.png",
