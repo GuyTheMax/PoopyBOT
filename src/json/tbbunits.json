@@ -2869,9 +2869,16 @@
             "boss": true
         },
         {
+            "name": "Pancake",
+            "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/6/62/Pancake.png",
+            "alt": "Allan",
+            "boss": true
+        },
+        {
             "name": "McDonald Battler",
             "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/d/d3/McDonald_Battler.png",
             "alt": "Grimace Battler",
+            "origin": "Pancake",
             "boss": true
         },
         {
@@ -2884,6 +2891,12 @@
             "name": "Cyborg Rocket Battle",
             "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/b/b7/Cyborg_Rocket_Battle.png",
             "alt": "Cyborg Crocket Battle",
+            "boss": true
+        },
+        {
+            "name": "Dark Pelican",
+            "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/3/36/Dark_Pelican.png",
+            "alt": "Pancake Pelican Of Truth",
             "boss": true,
             "finalBoss": true
         },
@@ -2894,9 +2907,22 @@
             "boss": true
         },
         {
+            "name": "Allan",
+            "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/0/01/Allan.png",
+            "normal": "Pancake",
+            "boss": true
+        },
+        {
+            "name": "Boombox",
+            "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/1/15/Boombox.png",
+            "origin": "Allan",
+            "summon": true
+        },
+        {
             "name": "Grimace Battler",
             "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/2/2d/Grimace_Battler.png",
             "normal": "McDonald Battler",
+            "origin": "Allan",
             "boss": true
         },
         {
@@ -2915,6 +2941,12 @@
             "name": "Cyborg Crocket Battle",
             "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/7/71/Cyborg_Crocket_Battle.png",
             "normal": "Cyborg Rocket Battle",
+            "boss": true
+        },
+        {
+            "name": "Pancake Pelican Of Truth",
+            "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/0/04/Pancake_Pelican_Of_Truth.png",
+            "normal": "Dark Pelican",
             "boss": true,
             "finalBoss": true
         },
