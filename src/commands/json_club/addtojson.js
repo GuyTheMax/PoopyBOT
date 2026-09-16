@@ -68,7 +68,10 @@ module.exports = {
                 return;
             }
 
-            groupInfo.list.push(saidMessage)
+            if (groupInfo)
+                groupInfo.list.push(saidMessage)
+            else
+                globaldata[type].push(saidMessage)
 
             if (!msg.nosend) await msg.reply({
                 content: '✅ Added ' + saidMessage + soExtra,
