@@ -1514,6 +1514,11 @@
             "alt": "Saxophone Man"
         },
         {
+            "name": "Roadbumper",
+            "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/9/99/Roadbumper.png",
+            "alt": "Speeddemon"
+        },
+        {
             "name": "DJ Radical",
             "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/3/35/DJ_Radical.png",
             "alt": "Rockstar Radical",
@@ -1621,6 +1626,11 @@
             "name": "Saxophone Man",
             "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/1/16/Saxophone_Man.png",
             "normal": "Cymbal Boy"
+        },
+        {
+            "name": "Speeddemon",
+            "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/1/16/Speeddemon.png",
+            "alt": "Roadbumper"
         },
         {
             "name": "Rockstar Radical",
