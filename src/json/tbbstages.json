@@ -1934,6 +1934,10 @@
             "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/c/ca/CH5_Third_Stage_SuperHard.png",
             "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/4/40/TCH5_Third_Stage_SuperHard.png"
         },
+        "CH5_The_Third_Tree": {
+            "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/2/23/CH5_The_Third_Tree.png",
+            "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/a/a6/TCH5_The_Third_Tree_%28Powered%29.png"
+        },
         "Classic": {
             "normal": "https://static.wikia.nocookie.net/the-battle-bricks/images/5/57/Classic.png",
             "tumore": "https://static.wikia.nocookie.net/the-battle-bricks/images/1/11/TClassic.png"

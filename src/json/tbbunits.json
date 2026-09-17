@@ -1068,7 +1068,7 @@
         },
         {
             "name": "Epikduck Battler",
-            "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/2/2f/EpikDuck_Battler.png",
+            "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/f/f6/Epikduck_Battler.png",
             "normal": "Duck Battler"
         },
         {
@@ -3075,11 +3075,11 @@
         {
             "name": "Duck Battler",
             "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/7/72/Duck_Battler_Enemy.png",
-            "alt": "EpikDuck Battler"
+            "alt": "Epikduck Battler"
         },
         {
-            "name": "EpikDuck Battler",
-            "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/f/fd/EpikDuck_Battler_Enemy.png",
+            "name": "Epikduck Battler",
+            "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/b/b5/Epikduck_Battler_Enemy.png",
             "normal": "Duck Battler"
         },
         {
