@@ -150,7 +150,7 @@
             "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/6/67/Mafia_Krip.png",
             "normal": "Krip"
         },
-                {
+        {
             "name": "Grunt",
             "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/5/57/Grunt.png",
             "alt": "Mafia Grunt"
@@ -1178,7 +1178,9 @@
         {
             "name": "Deinx94",
             "image": "https://cdn.discordapp.com/attachments/1050863721238515772/1399092400994914354/Render_Secret_Deinx94.png",
-            "custom": ["613501149282172970"],
+            "custom": [
+                "613501149282172970"
+            ],
             "ignoreCustomBlacklist": true,
             "joke": true
         },
@@ -1202,25 +1204,41 @@
         {
             "name": "Greg",
             "image": "https://cdn.discordapp.com/attachments/1415073653585875004/1460409045331480677/greg.png",
-            "custom": ["732233550006321213"],
+            "custom": [
+                "732233550006321213"
+            ],
             "joke": true
         },
         {
             "name": "Gloober",
             "image": "https://cdn.discordapp.com/attachments/1415073653585875004/1462647495116062720/Gloober.png",
-            "custom": ["1285690452510638080"],
+            "custom": [
+                "1285690452510638080"
+            ],
             "joke": true
         },
         {
             "name": "Bazard",
             "image": "https://cdn.discordapp.com/attachments/1415073653585875004/1499411275636146186/Bazard.png",
-            "custom": ["257657151227559937"],
+            "custom": [
+                "257657151227559937"
+            ],
             "joke": true
         },
         {
             "name": "Morph Battler",
             "image": "https://cdn.discordapp.com/attachments/853246754791358495/1504187556307275856/Morph.png",
-            "custom": ["1282476678429409280"],
+            "custom": [
+                "1282476678429409280"
+            ],
+            "joke": true
+        },
+        {
+            "name": "Springee",
+            "image": "https://cdn.discordapp.com/attachments/853246754791358495/1549363177429536809/Springee.png",
+            "custom": [
+                "408383159357407232"
+            ],
             "joke": true
         }
     ],
@@ -1448,7 +1466,6 @@
             "name": "Sailor Battler",
             "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/8/8f/Sailor_Battler_Enemy.png",
             "alt": "Pirate Battler"
-    
         },
         {
             "name": "Bucket Tagger",
@@ -2951,6 +2968,18 @@
             "finalBoss": true
         },
         {
+            "name": "PanTank",
+            "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/7/72/PanTank.png",
+            "origin": "Pancake Pelican Of Truth",
+            "summon": true
+        },
+        {
+            "name": "PanJet",
+            "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/b/b4/PanJet.png",
+            "origin": "Pancake Pelican Of Truth",
+            "summon": true
+        },
+        {
             "name": "Zombie",
             "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1452947001481232384/Zombie.png",
             "origin": "Venomshank",
@@ -3123,10 +3152,18 @@
             "boss": true
         },
         {
-            "name": "GameK1d",
-            "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/7/78/GameK1d.png",
-            "normal": "FunK1d",
-            "boss": true
+            "name": "TargetK1d",
+            "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1452971817617592419/GOOD_Target.png",
+            "alt": "RetroK1d",
+            "origin": "Funk1d",
+            "summon": true
+        },
+        {
+            "name": "BombK1d",
+            "image": "https://cdn.discordapp.com/attachments/1452946864377696317/1452971818070839477/BAD_Target.png",
+            "alt": "RetroK1d",
+            "origin": "Funk1d",
+            "summon": true
         },
         {
             "name": "BulkK1d",
@@ -3136,9 +3173,15 @@
             "summon": true
         },
         {
+            "name": "GameK1d",
+            "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/7/78/GameK1d.png",
+            "normal": "FunK1d",
+            "boss": true
+        },
+        {
             "name": "RetroK1d",
             "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/e/ee/RetroK1d.png",
-            "normal": "BulkK1d",
+            "normal": "TargetK1d",
             "origin": "GameK1d",
             "summon": true
         },
@@ -3235,13 +3278,17 @@
         {
             "name": "Casual Battler",
             "image": "https://cdn.discordapp.com/attachments/853246754791358495/1460414649538314282/Casual_Battler.png",
-            "custom": ["710276888039522316"],
+            "custom": [
+                "710276888039522316"
+            ],
             "ignoreCustomBlacklist": true
         },
         {
             "name": "Casual EX",
             "image": "https://static.wikia.nocookie.net/the-battle-bricks/images/9/93/Casual_Challenger.png",
-            "custom": ["710276888039522316"],
+            "custom": [
+                "710276888039522316"
+            ],
             "ignoreCustomBlacklist": true
         },
         {
@@ -3286,52 +3333,68 @@
             "name": "Venata",
             "image": "https://cdn.discordapp.com/attachments/1445846961470312592/1463766224797302858/Venata_TBB.png",
             "alt": "Nivara",
-            "custom": ["898556800029302824"],
+            "custom": [
+                "898556800029302824"
+            ],
             "joke": true
         },
         {
             "name": "Nivara",
             "image": "https://cdn.discordapp.com/attachments/1445846961470312592/1463565874412781568/Nivara.png",
             "normal": "Venata",
-            "custom": ["898556800029302824"],
+            "custom": [
+                "898556800029302824"
+            ],
             "joke": true
         },
         {
             "name": "Total",
             "image": "https://cdn.discordapp.com/attachments/1445846961470312592/1463573087374020753/Total.png",
-            "custom": ["468171274489692181"],
+            "custom": [
+                "468171274489692181"
+            ],
             "joke": true
         },
         {
             "name": "Raleigh",
             "image": "https://cdn.discordapp.com/attachments/1445846961470312592/1465351733554446626/raleighed.png",
-            "custom": ["464438783866175489"],
+            "custom": [
+                "464438783866175489"
+            ],
             "joke": true
         },
         {
             "name": "Edgar",
             "image": "https://cdn.discordapp.com/attachments/1445846961470312592/1466537802458988807/Edgar.png",
-            "custom": ["454381953693777922"],
+            "custom": [
+                "454381953693777922"
+            ],
             "joke": true
         },
         {
             "name": "Lauren",
             "image": "https://cdn.discordapp.com/attachments/1445846961470312592/1466540729886183575/Lauren.png",
-            "custom": ["251851887039479808"],
+            "custom": [
+                "251851887039479808"
+            ],
             "joke": true
         },
         {
             "name": "Robert",
             "image": "https://cdn.discordapp.com/attachments/1333220680661074062/1468317829290786837/Robert.png",
             "alt": "Synthwave",
-            "custom": ["201072044278939648"],
+            "custom": [
+                "201072044278939648"
+            ],
             "joke": true
         },
         {
             "name": "Synthwave",
             "image": "https://cdn.discordapp.com/attachments/1415073653585875004/1475216330411217140/Synthwave.png",
             "normal": "Robert",
-            "custom": ["201072044278939648"],
+            "custom": [
+                "201072044278939648"
+            ],
             "joke": true
         }
     ]
